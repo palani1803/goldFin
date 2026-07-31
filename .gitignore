@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 .gemini
 .impeccable
+
+# Environment variables
+.env
+server/.env

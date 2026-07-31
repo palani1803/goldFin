@@ -1,4 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --color-dark-bg: #080b10;
+  --color-dark-card: rgba(18, 24, 36, 0.7);
+  --color-dark-card-hover: rgba(26, 34, 50, 0.8);
+  --color-dark-input: rgba(22, 30, 46, 0.85);
+
+  --color-gold-300: #fde047;
+  --color-gold-400: #facc15;
+  --color-gold-500: #eab308;
+  --color-gold-600: #ca8a04;
+
+  --color-border-dark: rgba(255, 255, 255, 0.08);
+  --color-border-gold: rgba(234, 179, 8, 0.28);
+  --color-border-gold-bright: rgba(250, 204, 21, 0.5);
+
+  --color-text-main: #f8fafc;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+}
 
 :root {
   --bg-main: #080b10;
@@ -8,7 +31,7 @@
   --border-color: rgba(255, 255, 255, 0.08);
   --border-gold: rgba(234, 179, 8, 0.28);
   --border-gold-bright: rgba(250, 204, 21, 0.5);
-  
+
   --gold-300: #fde047;
   --gold-400: #facc15;
   --gold-500: #eab308;
@@ -19,28 +42,6 @@
   --text-main: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
-
-  --green-500: #10b981;
-  --green-bg: rgba(16, 185, 129, 0.14);
-  --red-500: #f43f5e;
-  --red-bg: rgba(244, 63, 94, 0.14);
-
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
-  --radius-full: 9999px;
-
-  --shadow-card: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(234, 179, 8, 0.06);
-  --shadow-gold: 0 6px 30px rgba(234, 179, 8, 0.35);
-  
-  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body {
@@ -54,7 +55,7 @@ body {
   background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 32px 32px;
   background-attachment: fixed;
   color: var(--text-main);
-  font-family: var(--font-family);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
@@ -71,35 +72,37 @@ body {
   flex-direction: column;
 }
 
-/* Common Container */
-.container {
-  width: 100%;
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 0 24px;
+/* Keyframe Animations */
+@keyframes floatGlow {
+  0% { transform: translateX(-50%) translateY(0) scale(1); }
+  50% { transform: translateX(-48%) translateY(25px) scale(1.05); }
+  100% { transform: translateX(-52%) translateY(-15px) scale(0.96); }
 }
 
-@media (max-width: 640px) {
-  .container {
-    padding: 0 16px;
-  }
+.animate-float-glow-top {
+  animation: floatGlow 14s infinite ease-in-out alternate;
 }
 
-/* Scrollbar */
+.animate-float-glow-mid {
+  animation: floatGlow 18s infinite ease-in-out alternate-reverse;
+}
+
+.animate-float-glow-bottom {
+  animation: floatGlow 16s infinite ease-in-out alternate;
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
-
 ::-webkit-scrollbar-track {
   background: var(--bg-main);
 }
-
 ::-webkit-scrollbar-thumb {
   background: rgba(234, 179, 8, 0.25);
   border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: var(--gold-500);
 }
