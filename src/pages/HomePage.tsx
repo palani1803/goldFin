@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import {
-  TrendingUp,
-  TrendingDown,
   Calculator,
   LineChart,
   ArrowUpRight,
@@ -29,22 +27,7 @@ import {
 import heroBg from '../assets/gold_hero_bg.png'
 import goldBullionImg from '../assets/hero_gold_bullion.png'
 
-interface PurityRate {
-  id: string
-  name: string
-  karat: string
-  price: number
-  unit: string
-  change: number
-  isUp: boolean
-}
 
-const PURITY_RATES: PurityRate[] = [
-  { id: '24k', name: 'GOLD 24K', karat: '24K (99.9% Pure)', price: 6245, unit: 'per gram', change: 0.45, isUp: true },
-  { id: '22k', name: 'GOLD 22K', karat: '22K (91.6% Pure)', price: 5720, unit: 'per gram', change: -0.12, isUp: false },
-  { id: '18k', name: 'GOLD 18K', karat: '18K (75.0% Pure)', price: 4680, unit: 'per gram', change: 0.28, isUp: true },
-  { id: 'silver', name: 'SILVER 999', karat: '99.9% Fine Silver', price: 74.5, unit: 'per gram', change: 1.10, isUp: true },
-]
 
 const SIDE_ARTICLES = [
   { id: 1, title: 'Gold vs Digital Assets: Macro Portfolio Allocation in 2024', readTime: '4 MIN READ', date: '2 hours ago' },
@@ -191,24 +174,7 @@ export default function HomePage() {
                 </button>
               </div>
 
-              {/* Mini live rate ticker */}
-              <div className="flex flex-wrap items-center gap-5 pt-2">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Live</span>
-                </div>
-                <div className="flex items-center gap-1.5 text-sm">
-                  <span className="font-bold text-slate-300">24K</span>
-                  <span className="font-extrabold text-white">₹6,245/g</span>
-                  <span className="text-emerald-400 text-xs font-bold flex items-center gap-0.5"><TrendingUp size={12} />+0.45%</span>
-                </div>
-                <div className="w-px h-4 bg-white/10" />
-                <div className="flex items-center gap-1.5 text-sm">
-                  <span className="font-bold text-slate-300">22K</span>
-                  <span className="font-extrabold text-white">₹5,720/g</span>
-                  <span className="text-rose-400 text-xs font-bold flex items-center gap-0.5"><TrendingDown size={12} />-0.12%</span>
-                </div>
-              </div>
+
             </div>
 
             {/* Right Gold Bullion Showcase Image */}
