@@ -22,7 +22,9 @@ import {
   Lightbulb,
   Landmark,
   BarChart3,
-  ArrowRight
+  ArrowRight,
+  TrendingUp,
+  TrendingDown
 } from 'lucide-react'
 import heroBg from '../assets/gold_hero_bg.png'
 import goldBullionImg from '../assets/hero_gold_bullion.png'
@@ -33,6 +35,13 @@ const SIDE_ARTICLES = [
   { id: 1, title: 'Gold vs Digital Assets: Macro Portfolio Allocation in 2024', readTime: '4 MIN READ', date: '2 hours ago' },
   { id: 2, title: 'Impact of Federal Reserve Interest Rate Decisions on Spot Gold', readTime: '6 MIN READ', date: '5 hours ago' },
   { id: 3, title: 'Understanding Sovereign Gold Bond (SGB) Redemption Dynamics', readTime: '5 MIN READ', date: '1 day ago' },
+]
+
+const PURITY_RATES = [
+  { id: '24k', name: '24 KARAT GOLD', price: 6245, karat: '24K', unit: 'per gram', isUp: true, change: 0.32 },
+  { id: '22k', name: '22 KARAT GOLD', price: 5724, karat: '22K', unit: 'per gram', isUp: true, change: 0.28 },
+  { id: '20k', name: '20 KARAT GOLD', price: 5204, karat: '20K', unit: 'per gram', isUp: false, change: -0.15 },
+  { id: '18k', name: '18 KARAT GOLD', price: 4684, karat: '18K', unit: 'per gram', isUp: false, change: -0.21 },
 ]
 
 const FAQ_ITEMS = [
