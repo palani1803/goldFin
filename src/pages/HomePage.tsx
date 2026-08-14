@@ -37,6 +37,13 @@ const SIDE_ARTICLES = [
   { id: 3, title: 'Understanding Sovereign Gold Bond (SGB) Redemption Dynamics', readTime: '5 MIN READ', date: '1 day ago' },
 ]
 
+const PURITY_RATES = [
+  { id: '24k', name: '24 KARAT GOLD', price: 6245, karat: '24K', unit: 'per gram', isUp: true, change: 0.32 },
+  { id: '22k', name: '22 KARAT GOLD', price: 5724, karat: '22K', unit: 'per gram', isUp: true, change: 0.28 },
+  { id: '20k', name: '20 KARAT GOLD', price: 5204, karat: '20K', unit: 'per gram', isUp: false, change: -0.15 },
+  { id: '18k', name: '18 KARAT GOLD', price: 4684, karat: '18K', unit: 'per gram', isUp: false, change: -0.21 },
+]
+
 const FAQ_ITEMS = [
   {
     id: 1,
@@ -58,13 +65,6 @@ const FAQ_ITEMS = [
     question: 'Are the live spot rates updated in real-time?',
     answer: 'Yes, GoldFin feeds real-time spot pricing directly from institutional bullion exchanges with minimal latency.'
   }
-]
-
-const PURITY_RATES = [
-  { id: '24k', name: '24K GOLD', karat: '24 Karat', unit: 'Per Gram', price: 6245, change: 1.2, isUp: true },
-  { id: '22k', name: '22K GOLD', karat: '22 Karat', unit: 'Per Gram', price: 5724, change: 0.9, isUp: true },
-  { id: '20k', name: '20K GOLD', karat: '20 Karat', unit: 'Per Gram', price: 5204, change: 0.7, isUp: true },
-  { id: '18k', name: '18K GOLD', karat: '18 Karat', unit: 'Per Gram', price: 4684, change: -0.3, isUp: false },
 ]
 
 export default function HomePage() {
