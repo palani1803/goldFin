@@ -67,13 +67,6 @@ const FAQ_ITEMS = [
   }
 ]
 
-const PURITY_RATES = [
-  { id: '24k', name: '24K GOLD', karat: '24 Karat', unit: 'Per Gram', price: 6245, change: 1.2, isUp: true },
-  { id: '22k', name: '22K GOLD', karat: '22 Karat', unit: 'Per Gram', price: 5724, change: 0.9, isUp: true },
-  { id: '20k', name: '20K GOLD', karat: '20 Karat', unit: 'Per Gram', price: 5204, change: 0.7, isUp: true },
-  { id: '18k', name: '18K GOLD', karat: '18 Karat', unit: 'Per Gram', price: 4684, change: -0.3, isUp: false },
-]
-
 export default function HomePage() {
   // Modals
   const [showWalletModal, setShowWalletModal] = useState(false)
