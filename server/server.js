@@ -1,12 +1,15 @@
 const express = require('express')
 const cors = require('cors')
 const dotenv = require('dotenv')
+const cron = require('node-cron')
 const connectDB = require('./config/db')
 const errorHandler = require('./middleware/errorHandler')
+const { fetchAndUpdateGoldPrices } = require('./services/goldPriceService')
 
 // Route imports
 const goldRateRoutes = require('./routes/goldRateRoutes')
 const userRoutes = require('./routes/userRoutes')
+const newsRoutes = require('./routes/newsRoutes')
 
 // Load environment variables
 dotenv.config()
@@ -22,6 +25,7 @@ app.use(express.urlencoded({ extended: true }))
 // --------------- API Routes ---------------
 app.use('/api/gold-rates', goldRateRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/news', newsRoutes)
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -47,6 +51,23 @@ const startServer = async () => {
       console.log(`💰 Gold Rates:   http://localhost:${PORT}/api/gold-rates`)
       console.log(`👤 Users:        http://localhost:${PORT}/api/users\n`)
     })
+
+    // --------------- Live Gold Price Cron Job ---------------
+    // Schedule: Every day at 10:00 AM IST (04:30 UTC)
+    // IBJA publishes daily rates around this time
+    cron.schedule('30 4 * * *', async () => {
+      console.log('\n⏰ [CRON] Daily gold price update triggered...')
+      await fetchAndUpdateGoldPrices()
+    }, {
+      timezone: 'Asia/Kolkata',
+    })
+
+    console.log('⏰ Cron job scheduled: Daily gold price update at 10:00 AM IST')
+
+    // Also fetch on server startup (so first load gets fresh data)
+    console.log('\n📡 Fetching latest gold prices on startup...')
+    await fetchAndUpdateGoldPrices()
+
   } catch (error) {
     console.error('❌ Failed to start server:', error.message)
     process.exit(1)

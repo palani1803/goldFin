@@ -22,6 +22,10 @@ const goldRateSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    previousPrice: {
+      type: Number,
+      default: 0,
+    },
     unit: {
       type: String,
       default: 'per gram',
@@ -33,6 +37,10 @@ const goldRateSchema = new mongoose.Schema(
     isUp: {
       type: Boolean,
       default: true,
+    },
+    lastUpdated: {
+      type: Date,
+      default: Date.now,
     },
   },
   {
