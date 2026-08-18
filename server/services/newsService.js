@@ -16,13 +16,13 @@ const CACHE_DURATION_MS = 15 * 60 * 1000 // 15 mins
 const FALLBACK_NEWS = [
   {
     id: 'f1',
-    title: 'Indian Gold Rates Today: 24K and 22K Prices Steady Across Chennai, Mumbai & Delhi Bullion Hubs',
+    title: 'Indian Gold Rates Today: 24K and 22K Prices Steady Across Chennai, Mumbai & Delhi',
     source: 'The Economic Times',
     pubDate: new Date().toISOString(),
     link: '#',
     timeAgo: '1 hour ago',
     readTime: '4 MIN READ',
-    category: 'DOMESTIC RATE',
+    category: 'TODAY RATE',
     snippet: 'India Bullion and Jewellers Association (IBJA) publishes opening rates for 24K pure gold and 22K hallmarked jewelry gold.',
   },
   {
@@ -33,7 +33,7 @@ const FALLBACK_NEWS = [
     link: '#',
     timeAgo: '3 hours ago',
     readTime: '5 MIN READ',
-    category: 'MCX BULLION',
+    category: 'MCX GOLD',
     snippet: 'Multi Commodity Exchange (MCX) gold contracts showed positive momentum supported by retail jewelry buyer inquiries across major states.',
   },
   {
@@ -55,7 +55,7 @@ const FALLBACK_NEWS = [
     link: '#',
     timeAgo: '8 hours ago',
     readTime: '4 MIN READ',
-    category: 'INVESTMENT INSIGHT',
+    category: 'GOLD TIPS',
     snippet: 'Comparing tax benefits, liquidity, making charge savings, and 2.5% semi-annual interest between SGBs and physical 999.9 gold.',
   },
 ]
@@ -85,7 +85,7 @@ function getRelativeTime(pubDateStr) {
 }
 
 /**
- * Fetches live Indian domestic gold and bullion market news from Google News RSS feed
+ * Fetches live Indian domestic gold market news from Google News RSS feed
  */
 const fetchGoldMarketNews = async () => {
   const now = Date.now()
@@ -103,7 +103,7 @@ const fetchGoldMarketNews = async () => {
       return FALLBACK_NEWS
     }
 
-    const categories = ['DOMESTIC RATE', 'MCX BULLION', 'IBJA BENCHMARK', 'JEWELRY DEMAND', 'POLICY UPDATE']
+    const categories = ['TODAY RATE', 'MCX GOLD', 'MARKET RATE', 'JEWELLERY DEMAND', 'POLICY UPDATE']
 
     const formattedArticles = feed.items.slice(0, 10).map((item, index) => {
       let cleanTitle = item.title || ''
@@ -124,7 +124,7 @@ const fetchGoldMarketNews = async () => {
         timeAgo: getRelativeTime(item.pubDate),
         readTime: `${Math.floor(Math.random() * 3) + 4} MIN READ`,
         category: categories[index % categories.length],
-        snippet: item.contentSnippet || item.content || 'Latest Indian domestic gold and bullion spot market updates.',
+        snippet: item.contentSnippet || item.content || 'Latest Indian domestic gold rates and market updates.',
       }
     })
 

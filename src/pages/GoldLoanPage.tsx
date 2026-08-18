@@ -40,6 +40,7 @@ interface GoldLoanPageProps {
   onNavigateAbout?: () => void
   onNavigateLiveRate?: () => void
   onNavigateGoldLoan?: () => void
+  onNavigateContact?: () => void
 }
 
 export default function GoldLoanPage({
@@ -47,6 +48,7 @@ export default function GoldLoanPage({
   onNavigateAbout,
   onNavigateLiveRate,
   onNavigateGoldLoan,
+  onNavigateContact,
 }: GoldLoanPageProps) {
   // Live rates state
   const [liveRates, setLiveRates] = useState<PurityRate[]>([])
@@ -130,29 +132,29 @@ export default function GoldLoanPage({
   // Curated FAQ Items
   const curatedFaqs = [
     {
-      question: 'What is the maximum loan amount I can avail against my gold?',
+      question: 'What is the maximum loan amount I can get against my gold?',
       answer:
-        'You can avail up to 75% of your gold’s exact market value (RBI Maximum Permissible LTV). For institutional or high-net-worth portfolios, loans range from ₹25,000 up to ₹5 Crores with customized treasury disbursals.',
+        'You can get up to 75% of your gold’s exact market value as per RBI rules. Loans range from ₹25,000 up to ₹1 Crore with instant disbursal directly to your bank account.',
     },
     {
-      question: 'How is my pledged gold secured, stored, and insured during the tenure?',
+      question: 'How is my pledged gold secured, stored, and insured?',
       answer:
-        'All pledged gold is stored in bank-grade, triple-tier fortified private vaults with 24/7 CCTV surveillance, dual-biometric custody, and 100% full insurance coverage through Lloyd’s syndicate underwriters at no additional cost to you.',
+        'All pledged gold is stored in high-security bank locker vaults with 24/7 CCTV surveillance and 100% full insurance coverage at zero extra cost to you.',
     },
     {
-      question: 'Can I repay or foreclose my gold loan early without penalty charges?',
+      question: 'Can I repay or close my gold loan early without penalty charges?',
       answer:
-        'Yes, GoldFin offers 100% zero foreclosure and zero prepayment penalties. You can close your loan or make partial principal prepayments at any time to reduce your ongoing monthly interest outflow.',
+        'Yes, GoldFin offers 100% zero foreclosure charges and zero prepayment penalties. You can close your loan or make partial payments at any time to reduce your monthly interest.',
     },
     {
-      question: 'What interest repayment schemes are available (Monthly vs Bullet)?',
+      question: 'What repayment options are available?',
       answer:
-        'We offer three flexible repayment modes: 1) Monthly Interest Servicing (pay interest monthly, principal at end), 2) Bullet Repayment (pay both interest and principal together at maturity), and 3) Standard Structured EMIs.',
+        'We offer three easy repayment modes: 1) Monthly Interest Scheme (pay interest monthly, principal at end), 2) Bullet Repayment (pay both interest and principal together at maturity), and 3) Regular Monthly EMIs.',
     },
   ]
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-[#121212] text-[#E5E5E5] font-sans antialiased selection:bg-[#C89B2A]/30 selection:text-yellow-200 relative">
+    <div className="flex flex-col min-h-screen w-full bg-[#070D1E] text-[#F1F4F9] font-sans antialiased selection:bg-[#C89B2A]/30 selection:text-yellow-200 relative">
       {/* Reusable Gold Luxury Background Component */}
       <GoldBackground textureOpacity={0.08} showGlows={true} />
 
@@ -163,6 +165,7 @@ export default function GoldLoanPage({
         onNavigateAbout={onNavigateAbout}
         onNavigateLiveRate={onNavigateLiveRate}
         onNavigateGoldLoan={onNavigateGoldLoan}
+        onNavigateContact={onNavigateContact}
         onScrollToSection={(sectionId) => {
           if (onNavigateHome) {
             onNavigateHome()
@@ -181,53 +184,53 @@ export default function GoldLoanPage({
         <div className="flex flex-col items-center text-center gap-4 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] text-xs font-bold tracking-wider uppercase">
             <Sparkles size={14} />
-            <span>PRIVATE WEALTH • LIQUIDITY</span>
+            <span>INSTANT CASH AGAINST GOLD • BEST RATES</span>
           </div>
 
           <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-black text-white tracking-tight leading-[1.1]">
-            Institutional <br />
+            Instant <br />
             <span className="bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] bg-clip-text text-transparent">
               Gold Loan Services
             </span>
           </h1>
 
           <p className="text-base md:text-lg text-slate-400 max-w-2xl leading-relaxed">
-            Unlock the hidden value of your physical gold assets with absolute discretion and precision. Experience institutional liquidity backed by your sovereign holdings.
+            Get instant cash against your gold jewellery and coins at the lowest interest rates in India. Fast 15-minute approval, 100% safe bank locker storage, and zero hidden fees.
           </p>
         </div>
 
         {/* Section 2: Experience Private Wealth Management Feature Card */}
-        <div className="p-8 md:p-12 rounded-3xl bg-[#222222]/70 border border-white/10 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.5)] flex flex-col lg:flex-row items-center gap-8 md:gap-12 relative overflow-hidden">
+        <div className="p-8 md:p-12 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] backdrop-blur-xl shadow-[0_20px_60px_rgba(4,8,19,0.6)] flex flex-col lg:flex-row items-center gap-8 md:gap-12 relative overflow-hidden">
           {/* Left Visual Container */}
-          <div className="w-full lg:w-5/12 flex flex-col justify-center items-center p-8 rounded-3xl bg-[#1A1A1A] border border-white/10 shadow-inner relative overflow-hidden group">
+          <div className="w-full lg:w-5/12 flex flex-col justify-center items-center p-8 rounded-3xl bg-[#080E1E] border border-[#1E3159] shadow-inner relative overflow-hidden group">
             <div className="w-20 h-20 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
               <Lock size={38} />
             </div>
             <span className="text-base font-extrabold text-white tracking-tight uppercase text-center">
-              Bank-Grade Vault Custody
+              Bank Locker Storage
             </span>
             <span className="text-xs text-slate-400 text-center mt-1">
-              100% Lloyd's Underwritten Insurance
+              100% Fully Insured Storage
             </span>
 
-            <div className="mt-6 flex items-center gap-2.5 text-xs font-bold text-[#DAAE4D] bg-[#121212] px-4 py-2 rounded-xl border border-white/5">
+            <div className="mt-6 flex items-center gap-2.5 text-xs font-bold text-[#DAAE4D] bg-[#070D1E] px-4 py-2 rounded-xl border border-[#1E3159]/60">
               <ShieldCheck size={16} />
-              <span>0% Risk to Physical Bullion</span>
+              <span>100% Safe & Secure Gold Storage</span>
             </div>
           </div>
 
           {/* Right Feature Details */}
           <div className="w-full lg:w-7/12 flex flex-col gap-5">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] text-xs font-bold tracking-wider w-fit">
-              <span>COMMERCIAL • PRIVATE</span>
+              <span>SAFE • RELIABLE • INSTANT</span>
             </div>
 
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-snug">
-              Experience Private Wealth Management through Gold Loans
+              Get Maximum Value and Instant Cash for Your Gold
             </h2>
 
             <p className="text-sm md:text-base text-slate-400 leading-relaxed font-normal">
-              Access immediate capital backed by your physical gold assets with zero disruption to your portfolio. Enjoy industry-leading valuation rates, customizable repayment schedules, and state-of-the-art vaulting security for your precious assets.
+              Get instant money by pledging your gold jewellery at the best rates in town. We offer maximum loan per gram, lowest monthly interest, flexible repayment, and 100% safe bank locker storage.
             </p>
 
             {/* 3 Diamond Bullet Points */}
@@ -248,30 +251,30 @@ export default function GoldLoanPage({
           </div>
         </div>
 
-        {/* Section 3: Market Intelligence (Live Spot Rates 1g) */}
+        {/* Section 3: Market Rates (Live Rates 1g) */}
         <div className="flex flex-col gap-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
-              <span className="text-xs font-bold tracking-widest text-[#DAAE4D] uppercase">Spot Valuation Benchmark</span>
+              <span className="text-xs font-bold tracking-widest text-[#DAAE4D] uppercase">Live Rates Per 1 Gram</span>
               <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-                Market Intelligence
+                Today's Gold Rates
               </h2>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#222222]/80 border border-white/10 text-xs font-bold text-slate-300 self-start sm:self-auto backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#0D172E]/80 border border-[#1E3159] text-xs font-bold text-slate-300 self-start sm:self-auto backdrop-blur-md">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
               <span>MARKET OPEN • LIVE IST</span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Standard Bullion (22K) Card */}
-            <div className="p-7 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/40 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-4 group">
+            {/* Standard (22K) Card */}
+            <div className="p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/40 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-4 group">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Award size={18} className="text-[#DAAE4D]" />
                   <span className="text-xs font-extrabold uppercase tracking-wider text-slate-300">
-                    Standard Bullion (22K)
+                    22K Hallmarked Jewellery Gold
                   </span>
                 </div>
                 <div className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full text-emerald-400 bg-emerald-500/10 border border-emerald-500/20">
@@ -285,20 +288,20 @@ export default function GoldLoanPage({
                   {loading ? '...' : `₹${price22kPerGram.toLocaleString('en-IN')} / g`}
                 </div>
                 <span className="text-xs text-slate-400 font-medium">
-                  91.6% Pure Gold (Hallmark 916 Benchmark)
+                  91.6% Pure Gold (Hallmark 916)
                 </span>
               </div>
 
-              <div className="w-full h-[1px] bg-white/5 rounded-full" />
+              <div className="w-full h-[1px] bg-[#1E3159]/60 rounded-full" />
             </div>
 
-            {/* Pure Bullion (24K) Card */}
-            <div className="p-7 rounded-3xl bg-[#222222]/70 border border-[#C89B2A]/40 bg-[#222222]/90 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-4 group shadow-[0_10px_30px_rgba(234,179,8,0.1)]">
+            {/* Pure (24K) Card */}
+            <div className="p-7 rounded-3xl bg-[#0D172E]/90 border border-[#C89B2A]/50 bg-[#0E1B38] backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-4 group shadow-[0_10px_30px_rgba(234,179,8,0.12)]">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Sparkles size={18} className="text-[#DAAE4D]" />
                   <span className="text-xs font-extrabold uppercase tracking-wider text-slate-300">
-                    Pure Bullion (24K)
+                    24K Pure Gold (Coins & Bars)
                   </span>
                 </div>
                 <div className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full text-emerald-400 bg-emerald-500/10 border border-emerald-500/20">
@@ -312,11 +315,11 @@ export default function GoldLoanPage({
                   {loading ? '...' : `₹${price24kPerGram.toLocaleString('en-IN')} / g`}
                 </div>
                 <span className="text-xs text-slate-400 font-medium">
-                  99.9% Fine Bullion (Sovereign Investment Grade)
+                  99.9% Pure Gold (24 Karat)
                 </span>
               </div>
 
-              <div className="w-full h-[1px] bg-white/5 rounded-full" />
+              <div className="w-full h-[1px] bg-[#1E3159]/60 rounded-full" />
             </div>
           </div>
 
@@ -324,118 +327,118 @@ export default function GoldLoanPage({
             onClick={onNavigateLiveRate}
             className="flex items-center gap-2 text-xs font-bold text-[#DAAE4D] hover:text-[#F3C55B] transition-colors bg-transparent border-0 p-0 cursor-pointer self-center mt-1"
           >
-            <span>View full live market rate analytics</span>
+            <span>View today's city-wise live gold rates</span>
             <ArrowRight size={14} />
           </button>
         </div>
 
-        {/* Section 4: Privileges of GoldFin Gold Loans (6 Grid Cards) */}
+        {/* Section 4: Why Choose GoldFin (6 Grid Cards) */}
         <div className="flex flex-col gap-8">
           <div className="flex flex-col items-center text-center gap-2">
             <span className="text-xs font-bold tracking-widest text-[#DAAE4D] uppercase">Why Choose GoldFin</span>
             <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-              Privileges of GoldFin Gold Loans
+              Why Choose GoldFin for Your Gold Loan?
             </h2>
             <p className="text-sm text-slate-400 max-w-xl">
-              Engineered for seamless liquidity, rapid access, and complete asset protection.
+              Fastest gold loans with minimum paperwork, instant bank transfer, and 100% safe storage.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Card 1: Instant Approval */}
-            <div className="p-7 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group">
+            <div className="p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group">
               <div className="w-12 h-12 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
                 <Zap size={24} />
               </div>
               <h3 className="text-lg font-bold text-white group-hover:text-[#DAAE4D] transition-colors">
                 Instant Approval
               </h3>
-              <p className="text-sm text-slate-400 leading-relaxed font-normal">
-                Rapid verification with funds disbursed within 15 minutes of non-destructive appraisal.
+              <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                Quick verification and loan amount credited to your bank account within 15 minutes.
               </p>
             </div>
 
             {/* Card 2: Highest Valuation */}
-            <div className="p-7 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group">
+            <div className="p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group">
               <div className="w-12 h-12 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
                 <Scale size={24} />
               </div>
               <h3 className="text-lg font-bold text-white group-hover:text-[#DAAE4D] transition-colors">
-                Highest Valuation
+                Highest Loan Amount
               </h3>
-              <p className="text-sm text-slate-400 leading-relaxed font-normal">
-                Maximum permissible Loan-to-Value (LTV) up to 75% of daily Indian spot gold price.
+              <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                Get maximum loan amount up to 75% of today's market rate (as per RBI guidelines).
               </p>
             </div>
 
             {/* Card 3: Secure Storage */}
-            <div className="p-7 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group">
+            <div className="p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group">
               <div className="w-12 h-12 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
                 <ShieldCheck size={24} />
               </div>
               <h3 className="text-lg font-bold text-white group-hover:text-[#DAAE4D] transition-colors">
-                Secure Storage
+                100% Safe Storage
               </h3>
-              <p className="text-sm text-slate-400 leading-relaxed font-normal">
-                Bank-grade triple-tier fortified vaults with 100% full insurance under Lloyd's syndicate.
+              <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                Bank-grade high security vaults with 100% full insurance coverage for your gold.
               </p>
             </div>
 
             {/* Card 4: Minimal Documentation */}
-            <div className="p-7 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group">
+            <div className="p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group">
               <div className="w-12 h-12 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
                 <FileText size={24} />
               </div>
               <h3 className="text-lg font-bold text-white group-hover:text-[#DAAE4D] transition-colors">
-                Minimal Documentation
+                Simple Paperwork
               </h3>
-              <p className="text-sm text-slate-400 leading-relaxed font-normal">
-                Zero income proof or credit score prerequisites. Instant KYC with Aadhaar & PAN.
+              <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                No salary slip or CIBIL score needed. Just bring your Aadhaar and PAN card for instant approval.
               </p>
             </div>
 
             {/* Card 5: Flexible Repayment */}
-            <div className="p-7 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group">
+            <div className="p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group">
               <div className="w-12 h-12 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
                 <Calendar size={24} />
               </div>
               <h3 className="text-lg font-bold text-white group-hover:text-[#DAAE4D] transition-colors">
                 Flexible Repayment
               </h3>
-              <p className="text-sm text-slate-400 leading-relaxed font-normal">
-                Choose between monthly interest servicing, bullet repayments, or structured EMIs.
+              <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                Easy repayment options: pay monthly interest and principal at end, or pay monthly EMIs.
               </p>
             </div>
 
             {/* Card 6: Quick Disbursal */}
-            <div className="p-7 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group">
+            <div className="p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group">
               <div className="w-12 h-12 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
                 <CreditCard size={24} />
               </div>
               <h3 className="text-lg font-bold text-white group-hover:text-[#DAAE4D] transition-colors">
-                Quick Disbursal
+                Direct Bank Transfer
               </h3>
-              <p className="text-sm text-slate-400 leading-relaxed font-normal">
-                Direct RTGS or IMPS fund transfer straight to your preferred bank account instantly.
+              <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                Instant money transfer directly to your bank account via UPI, IMPS, or NEFT/RTGS.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Section 5: Interactive Loan Eligibility Calculator (Split Card matching HomePage Calculator Style) */}
-        <div className="p-6 md:p-8 rounded-3xl bg-[#222222]/70 border border-white/10 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col lg:flex-row gap-8 items-stretch">
+        {/* Section 5: Interactive Loan Eligibility Calculator */}
+        <div className="p-6 md:p-8 rounded-3xl bg-[#0D172E]/85 border border-[#1E3159] backdrop-blur-xl shadow-[0_20px_50px_rgba(4,8,19,0.6)] flex flex-col lg:flex-row gap-8 items-stretch">
           {/* Left Form Area */}
           <div className="w-full lg:w-7/12 flex flex-col justify-between gap-6">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] text-xs font-bold tracking-wider mb-2">
                 <Calculator size={13} />
-                <span>DYNAMIC VALUATION ENGINE</span>
+                <span>INSTANT GOLD LOAN CALCULATOR</span>
               </div>
               <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-                Loan Eligibility Calculator
+                Gold Loan Calculator
               </h2>
               <p className="text-sm text-slate-400 mt-1">
-                Calculate your maximum sanctioned liquidity based on today's live Indian 1g spot rates.
+                Check how much loan amount you can get against your gold in seconds.
               </p>
             </div>
 
@@ -452,7 +455,7 @@ export default function GoldLoanPage({
                       max={5000}
                       value={weightGrams || ''}
                       onChange={(e) => setWeightGrams(Math.max(1, Number(e.target.value)))}
-                      className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl text-white text-sm font-bold focus:outline-none focus:border-[#DAAE4D]"
+                      className="w-full px-4 py-3 bg-[#080E1E] border border-[#1E3159] rounded-2xl text-white text-sm font-bold focus:outline-none focus:border-[#DAAE4D]"
                       placeholder="e.g. 50"
                     />
                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500">
@@ -467,11 +470,11 @@ export default function GoldLoanPage({
                   <select
                     value={selectedKarat}
                     onChange={(e) => setSelectedKarat(Number(e.target.value))}
-                    className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl text-white text-sm font-bold focus:outline-none focus:border-[#DAAE4D] cursor-pointer"
+                    className="w-full px-4 py-3 bg-[#080E1E] border border-[#1E3159] rounded-2xl text-white text-sm font-bold focus:outline-none focus:border-[#DAAE4D] cursor-pointer"
                   >
-                    <option value={24}>24K (99.9% Pure Bullion)</option>
-                    <option value={22}>22K (91.6% Hallmark 916)</option>
-                    <option value={18}>18K (75.0% Diamond Grade)</option>
+                    <option value={24}>24K (99.9% Pure Gold - Coins & Bars)</option>
+                    <option value={22}>22K (91.6% Hallmarked Jewellery Gold)</option>
+                    <option value={18}>18K (75.0% Diamond & Stone Jewellery)</option>
                   </select>
                 </div>
               </div>
@@ -490,7 +493,7 @@ export default function GoldLoanPage({
                       className={`py-2.5 rounded-2xl text-xs font-bold transition-all border cursor-pointer ${
                         selectedTenureMonths === tenure
                           ? 'bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] text-slate-950 border-transparent shadow-md font-black'
-                          : 'bg-[#1A1A1A] text-slate-400 border-white/10 hover:text-white'
+                          : 'bg-[#080E1E] text-slate-400 border-[#1E3159] hover:text-white'
                       }`}
                     >
                       {tenure}M
@@ -518,17 +521,17 @@ export default function GoldLoanPage({
             </div>
           </div>
 
-          {/* Right Gold Output Box (Solid GoldFin Gold Gradient Card) */}
+          {/* Right Gold Output Box */}
           <div className="w-full lg:w-5/12 rounded-3xl bg-gradient-to-br from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] text-slate-950 p-7 md:p-8 flex flex-col justify-between gap-6 shadow-[0_15px_40px_rgba(234,179,8,0.35)] relative overflow-hidden">
             <div className="flex flex-col gap-1">
               <span className="text-[10px] font-black uppercase tracking-widest text-slate-900/80">
-                ESTIMATED SANCTIONED AMOUNT
+                YOU WILL GET APPROXIMATELY
               </span>
               <div className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-950 tracking-tight">
                 ₹{estimatedLoanAmount.toLocaleString('en-IN')}
               </div>
               <span className="text-xs font-bold text-slate-900/80">
-                Instant Liquidity Disbursal (75% LTV)
+                Maximum Loan Amount (Up to 75% Value)
               </span>
             </div>
 
@@ -538,34 +541,34 @@ export default function GoldLoanPage({
                 <span className="font-black text-slate-950">₹{totalMarketValue.toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="font-bold text-slate-900/80">Sanctioned LTV Ratio:</span>
-                <span className="font-black text-slate-950">75.0% Maximum</span>
+                <span className="font-bold text-slate-900/80">Maximum Loan Limit:</span>
+                <span className="font-black text-slate-950">75.0% of Market Value</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="font-bold text-slate-900/80">Monthly Interest (0.75%):</span>
                 <span className="font-black text-slate-950">₹{monthlyInterest.toLocaleString('en-IN')} / mo</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="font-bold text-slate-900/80">Prepayment / Foreclosure:</span>
-                <span className="font-black text-slate-950">₹0 (Zero Charges)</span>
+                <span className="font-bold text-slate-900/80">Prepayment / Loan Closing Fee:</span>
+                <span className="font-black text-slate-950">₹0 (Free)</span>
               </div>
             </div>
 
             <p className="text-[10px] text-slate-900/80 leading-relaxed font-semibold">
-              * Estimated calculation based on today's official 1g spot rate. Final disbursement subject to physical karatage verification.
+              * Calculated based on today's live gold rate. Final loan amount depends on physical purity check.
             </p>
           </div>
         </div>
 
-        {/* Section 6: Five Steps to Liquidity (Process Stepper) */}
+        {/* Section 6: Five Steps to Gold Loan (Process Stepper) */}
         <div className="flex flex-col gap-8">
           <div className="flex flex-col items-center text-center gap-2">
-            <span className="text-xs font-bold tracking-widest text-[#DAAE4D] uppercase">Execution Workflow</span>
+            <span className="text-xs font-bold tracking-widest text-[#DAAE4D] uppercase">HOW IT WORKS</span>
             <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-              Five Steps to Liquidity
+              5 Simple Steps to Get Your Gold Loan
             </h2>
             <p className="text-sm text-slate-400 max-w-xl">
-              A seamless, confidential process tailored for high-net-worth individuals and retail clients.
+              Quick and simple 5-step process to get cash against your gold in minutes.
             </p>
           </div>
 
@@ -573,33 +576,33 @@ export default function GoldLoanPage({
             {[
               {
                 num: '01',
-                title: 'Application',
-                desc: 'Submit estimated weight and purity online or at our private desk.',
+                title: 'Apply',
+                desc: 'Submit your gold weight and purity online or at our branch.',
               },
               {
                 num: '02',
-                title: 'Appraisal',
-                desc: 'Instant non-destructive spectrometer gold valuation in minutes.',
+                title: 'Purity Check',
+                desc: 'Quick and safe purity check in front of you.',
               },
               {
                 num: '03',
-                title: 'Sanction',
-                desc: 'Approval of loan amount based on maximum 75% LTV spot value.',
+                title: 'Loan Sanction',
+                desc: 'Instant loan sanction at today\'s highest gold rate.',
               },
               {
                 num: '04',
-                title: 'Vaulting',
-                desc: 'Secure biometric sealing inside fortified Lloyd’s insured vaults.',
+                title: 'Safe Locker',
+                desc: 'Your gold is packed and sealed safely in bank locker vaults.',
               },
               {
                 num: '05',
-                title: 'Disbursement',
-                desc: 'Instant RTGS or IMPS fund transfer directly to your bank account.',
+                title: 'Cash Transfer',
+                desc: 'Money is transferred directly to your bank account instantly.',
               },
             ].map((step, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 backdrop-blur-xl transition-all duration-300 flex flex-col gap-3 group"
+                className="p-6 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-3 group"
               >
                 <div className="w-10 h-10 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] text-xs font-black flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
                   {step.num}
@@ -652,7 +655,7 @@ export default function GoldLoanPage({
             ].map((doc, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 backdrop-blur-xl transition-all duration-300 flex flex-col items-center text-center gap-3 group"
+                className="p-6 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col items-center text-center gap-3 group"
               >
                 <div className="w-12 h-12 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:scale-110 transition-transform">
                   {doc.icon}
@@ -668,15 +671,15 @@ export default function GoldLoanPage({
           </div>
         </div>
 
-        {/* Section 8: Curated Queries (FAQ Accordion) */}
+        {/* Section 8: FAQs Section */}
         <div className="flex flex-col gap-8 max-w-3xl mx-auto w-full">
           <div className="flex flex-col items-center text-center gap-2">
             <span className="text-xs font-bold tracking-widest text-[#DAAE4D] uppercase">Got Questions?</span>
             <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-              Curated Queries
+              Frequently Asked Questions
             </h2>
             <p className="text-sm text-slate-400 max-w-xl">
-              Everything you need to know about our institutional gold loan services.
+              Everything you need to know about getting a gold loan with GoldFin.
             </p>
           </div>
 
@@ -687,7 +690,7 @@ export default function GoldLoanPage({
                 <div
                   key={idx}
                   onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                  className="p-6 rounded-2xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 backdrop-blur-xl cursor-pointer transition-all flex flex-col gap-3"
+                  className="p-6 rounded-2xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl cursor-pointer transition-all flex flex-col gap-3"
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-base font-bold text-white">{faq.question}</span>
@@ -698,7 +701,7 @@ export default function GoldLoanPage({
                     )}
                   </div>
                   {isOpen && (
-                    <p className="text-sm text-slate-400 leading-relaxed pt-3 border-t border-white/5">
+                    <p className="text-sm text-slate-400 leading-relaxed pt-3 border-t border-[#1E3159]/60">
                       {faq.answer}
                     </p>
                   )}
@@ -708,31 +711,31 @@ export default function GoldLoanPage({
           </div>
         </div>
 
-        {/* Section 9: Concierge Support (Private Consultation Form) */}
-        <div className="p-8 md:p-12 rounded-3xl bg-[#222222]/70 border border-white/10 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col lg:flex-row gap-10 items-stretch">
+        {/* Section 9: Help & Support (Consultation Form) */}
+        <div className="p-8 md:p-12 rounded-3xl bg-[#0D172E]/85 border border-[#1E3159] backdrop-blur-xl shadow-[0_20px_50px_rgba(4,8,19,0.6)] flex flex-col lg:flex-row gap-10 items-stretch">
           {/* Left Info */}
           <div className="w-full lg:w-5/12 flex flex-col justify-between gap-6">
             <div className="flex flex-col gap-3">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] text-xs font-bold tracking-wider w-fit">
                 <Clock size={13} />
-                <span>24/7 PRIVATE DESK</span>
+                <span>HELP & SUPPORT DESK</span>
               </div>
               <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-                Concierge Support
+                Need Personal Assistance?
               </h3>
-              <p className="text-sm text-slate-400 leading-relaxed font-normal">
-                Prefer a private consultation? Our dedicated bullion advisors are available for confidential doorstep evaluation or private branch consultations.
+              <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                Want doorstep service or personal guidance? Our gold loan advisors can visit your home or assist you directly at our nearest branch.
               </p>
             </div>
 
             <div className="flex flex-col gap-3 text-xs text-slate-300">
-              <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-[#1A1A1A] border border-white/5">
+              <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-[#080E1E] border border-[#1E3159]/60">
                 <Phone size={18} className="text-[#DAAE4D]" />
                 <span className="font-bold text-white">+91 (800) 456-7890 (Toll Free)</span>
               </div>
-              <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-[#1A1A1A] border border-white/5">
+              <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-[#080E1E] border border-[#1E3159]/60">
                 <Mail size={18} className="text-[#DAAE4D]" />
-                <span className="font-bold text-white">concierge@goldfin.in</span>
+                <span className="font-bold text-white">support@goldfin.in</span>
               </div>
             </div>
           </div>
@@ -746,7 +749,7 @@ export default function GoldLoanPage({
                 </div>
                 <h4 className="text-xl font-bold text-white">Consultation Request Received!</h4>
                 <p className="text-sm text-slate-300 max-w-sm">
-                  Our private wealth advisor will contact you at <strong className="text-white">{conciergeForm.phone}</strong> within 30 minutes to coordinate your gold appraisal.
+                  Our gold loan advisor will contact you at <strong className="text-white">{conciergeForm.phone}</strong> within 15 minutes to assist with your gold loan.
                 </p>
                 <button
                   onClick={() => setConsultationSuccess(false)}
@@ -766,7 +769,7 @@ export default function GoldLoanPage({
                       placeholder="e.g. Rahul"
                       value={conciergeForm.firstName}
                       onChange={(e) => setConciergeForm({ ...conciergeForm, firstName: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
+                      className="w-full px-4 py-3 bg-[#080E1E] border border-[#1E3159] rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
@@ -777,7 +780,7 @@ export default function GoldLoanPage({
                       placeholder="e.g. Sharma"
                       value={conciergeForm.lastName}
                       onChange={(e) => setConciergeForm({ ...conciergeForm, lastName: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
+                      className="w-full px-4 py-3 bg-[#080E1E] border border-[#1E3159] rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
                     />
                   </div>
                 </div>
@@ -791,17 +794,17 @@ export default function GoldLoanPage({
                       placeholder="+91 98765 43210"
                       value={conciergeForm.phone}
                       onChange={(e) => setConciergeForm({ ...conciergeForm, phone: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
+                      className="w-full px-4 py-3 bg-[#080E1E] border border-[#1E3159] rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-bold text-slate-300">Estimated Gold Weight</label>
                     <input
                       type="number"
-                      placeholder="e.g. 100 grams"
+                      placeholder="e.g. 50 grams"
                       value={conciergeForm.weight}
                       onChange={(e) => setConciergeForm({ ...conciergeForm, weight: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
+                      className="w-full px-4 py-3 bg-[#080E1E] border border-[#1E3159] rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
                     />
                   </div>
                 </div>
@@ -810,7 +813,7 @@ export default function GoldLoanPage({
                   type="submit"
                   className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] text-slate-950 font-extrabold text-sm hover:brightness-110 active:scale-95 transition-all shadow-[0_6px_30px_rgba(234,179,8,0.35)] border-0 cursor-pointer mt-2"
                 >
-                  Request Private Consultation →
+                  Request Call Back / Doorstep Service →
                 </button>
               </form>
             )}
@@ -824,6 +827,7 @@ export default function GoldLoanPage({
         onNavigateAbout={onNavigateAbout}
         onNavigateLiveRate={onNavigateLiveRate}
         onNavigateGoldLoan={onNavigateGoldLoan}
+        onNavigateContact={onNavigateContact}
         onScrollToSection={(sectionId) => {
           if (onNavigateHome) {
             onNavigateHome()
@@ -842,13 +846,13 @@ export default function GoldLoanPage({
           onClick={() => setApplyModalOpen(false)}
         >
           <div
-            className="bg-[#222222] border border-[#C89B2A]/30 p-7 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative"
+            className="bg-[#0D172E] border border-[#C89B2A]/40 p-7 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+            <div className="flex items-center justify-between pb-3 border-b border-[#1E3159]">
               <div className="flex items-center gap-2 text-white font-bold text-lg">
                 <Zap size={20} className="text-[#DAAE4D]" />
-                <span>Fast Gold Loan Sanction</span>
+                <span>Apply for Instant Gold Loan</span>
               </div>
               <button
                 className="p-1.5 rounded-xl bg-white/5 text-slate-400 hover:text-white border-0 cursor-pointer"
@@ -858,8 +862,8 @@ export default function GoldLoanPage({
               </button>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#1A1A1A] border border-white/10 flex flex-col gap-1 text-xs">
-              <span className="text-slate-400">Sanctioned Amount Estimate</span>
+            <div className="p-4 rounded-2xl bg-[#080E1E] border border-[#192847] flex flex-col gap-1 text-xs">
+              <span className="text-slate-400">Estimated Loan Amount</span>
               <span className="text-3xl font-black text-white">
                 ₹{estimatedLoanAmount.toLocaleString('en-IN')}
               </span>
@@ -871,7 +875,7 @@ export default function GoldLoanPage({
             <form
               onSubmit={(e) => {
                 e.preventDefault()
-                alert('Application Submitted Successfully! Our institutional desk will contact you within 15 minutes for physical pickup or desk appraisal.')
+                alert('Application Submitted Successfully! Our gold loan advisor will call you within 15 minutes to help complete your loan.')
                 setApplyModalOpen(false)
               }}
               className="flex flex-col gap-3.5"
@@ -879,27 +883,27 @@ export default function GoldLoanPage({
               <input
                 type="text"
                 required
-                placeholder="Full Legal Name (as per Aadhaar)"
-                className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
+                placeholder="Full Name (as per Aadhaar)"
+                className="w-full px-4 py-3 bg-[#080E1E] border border-[#1E3159] rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
               />
               <input
                 type="tel"
                 required
                 placeholder="Mobile Number"
-                className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
+                className="w-full px-4 py-3 bg-[#080E1E] border border-[#1E3159] rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
               />
               <input
                 type="text"
                 required
                 placeholder="City / Pincode"
-                className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
+                className="w-full px-4 py-3 bg-[#080E1E] border border-[#1E3159] rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
               />
 
               <button
                 type="submit"
                 className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] text-slate-950 font-extrabold text-sm hover:brightness-110 transition-all border-0 cursor-pointer mt-2 shadow-[0_6px_30px_rgba(234,179,8,0.35)]"
               >
-                Confirm & Request Disbursal
+                Submit Loan Application
               </button>
             </form>
           </div>

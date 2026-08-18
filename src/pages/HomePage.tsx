@@ -5,8 +5,6 @@ import {
   X,
   Sparkles,
   ShieldCheck,
-  Award,
-  Zap,
   Coins,
   CoinsIcon,
   Scale,
@@ -14,8 +12,6 @@ import {
   ChevronUp,
   HelpCircle,
   Building2,
-  Target,
-  Users,
   CheckCircle2,
   Lightbulb,
   Landmark,
@@ -28,7 +24,7 @@ import {
   Newspaper
 } from 'lucide-react'
 import heroBg from '../assets/gold_hero_bg.png'
-import goldBullionImg from '../assets/hero_gold_bullion.png'
+import goldBullionImg from '../assets/hero_gold_broad.jpg'
 import { Navbar, Footer, TrustBanner, GoldBackground } from '../components'
 
 
@@ -62,22 +58,22 @@ const FAQ_ITEMS = [
   {
     id: 1,
     question: 'How is the Gold Calculator price calculated?',
-    answer: 'The calculation uses the live 24K spot bullion rate as a baseline fetched from Indian domestic benchmarks (IBJA / MCX). For lower karats (22K, 20K, 18K), the rate is proportionally derived based on pure gold content (e.g. 22K = 24K Rate × 22/24).'
+    answer: 'The calculation uses today\'s live 24K pure gold rate fetched from Indian domestic benchmarks (IBJA / MCX). For jewellery karats (22K, 20K, 18K), the rate is calculated based on pure gold content (for example, 22K = 24K Rate × 22/24).'
   },
   {
     id: 2,
-    question: 'What is the standard GST tax on gold in India?',
-    answer: 'A standard 3% GST (Goods and Services Tax) is applicable on the total gold purchase amount, plus 5% GST on making charges.'
+    question: 'What is the GST on gold in India?',
+    answer: 'In India, a standard 3% GST (Goods and Services Tax) is applicable on the gold value, plus 5% GST on jeweller making charges.'
   },
   {
     id: 3,
     question: 'What is the difference between 24K and 22K Gold?',
-    answer: '24K gold contains 99.9% pure gold, making it soft and ideal for investment coins and bars. 22K gold contains 91.6% pure gold alloyed with zinc or copper for durable jewelry creation.'
+    answer: '24K gold is 99.9% pure gold, making it soft and ideal for investment coins and bars. 22K gold (916 hallmark) contains 91.6% pure gold mixed with a little copper or silver to make durable, long-lasting jewellery.'
   },
   {
     id: 4,
-    question: 'Are the live spot rates updated in real-time?',
-    answer: 'Yes, GoldFin feeds real-time domestic spot pricing directly from Indian bullion exchange benchmarks (IBJA / MCX). Prices are auto-updated daily at 10:00 AM IST and also refreshed on each server start.'
+    question: 'How often are the live gold rates updated?',
+    answer: 'Yes, GoldFin updates live gold prices directly from Indian market benchmarks (IBJA / MCX). Prices are updated daily around 10:00 AM IST and refreshed regularly throughout the day.'
   }
 ]
 
@@ -86,6 +82,7 @@ interface HomePageProps {
   onNavigateAbout?: () => void
   onNavigateLiveRate?: () => void
   onNavigateGoldLoan?: () => void
+  onNavigateContact?: () => void
 }
 
 export default function HomePage({
@@ -93,6 +90,7 @@ export default function HomePage({
   onNavigateAbout,
   onNavigateLiveRate,
   onNavigateGoldLoan,
+  onNavigateContact,
 }: HomePageProps = {}) {
   // Modals
   const [showWalletModal, setShowWalletModal] = useState(false)
@@ -206,7 +204,7 @@ export default function HomePage({
   }
 
   return (
-    <div className="flex flex-col min-h-screen w-full relative bg-[#121212] text-[#E5E5E5] font-sans antialiased selection:bg-[#C89B2A]/30 selection:text-yellow-200">
+    <div className="flex flex-col min-h-screen w-full relative bg-[#070D1E] text-[#F1F4F9] font-sans antialiased selection:bg-[#C89B2A]/30 selection:text-yellow-200">
       {/* Reusable Gold Luxury Background (Texture + Animated Floating Glows) */}
       <GoldBackground textureOpacity={0.08} showGlows={true} />
 
@@ -217,27 +215,28 @@ export default function HomePage({
         onNavigateAbout={onNavigateAbout}
         onNavigateLiveRate={onNavigateLiveRate}
         onNavigateGoldLoan={onNavigateGoldLoan}
+        onNavigateContact={onNavigateContact}
         onScrollToSection={scrollToSection}
         spotRate24K={spotRate24K}
       />
 
       {/* Hero Section */}
-      <section id="overview" className="relative pt-10 md:pt-14 pb-16 md:pb-24 bg-cover bg-center overflow-hidden border-b border-white/5" style={{ backgroundImage: `url(${heroBg})` }}>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#121212]/92 via-[#121212]/85 to-[#121212]" />
+      <section id="overview" className="relative pt-10 md:pt-14 pb-16 md:pb-24 bg-cover bg-center overflow-hidden border-b border-[#1E3159]/50" style={{ backgroundImage: `url(${heroBg})` }}>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#070D1E]/92 via-[#0A1329]/85 to-[#070D1E]" />
         <div className="max-w-[1320px] mx-auto px-4 md:px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             {/* Left Content */}
-            <div className="lg:col-span-7 flex flex-col gap-7 text-left">
+            <div className="lg:col-span-6 flex flex-col gap-7 text-left">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] text-xs font-bold tracking-wider w-fit">
                 <Sparkles size={14} />
-                <span>INSTITUTIONAL BULLION PLATFORM</span>
+                <span>LIVE GOLD RATES & LOANS</span>
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-black text-white tracking-tight leading-[1.1]">
                 Secure Your Future, <br />
                 <span className="bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] bg-clip-text text-transparent">Invest in Pure Gold</span>
               </h1>
-              <p className="text-base md:text-lg text-slate-400 max-w-xl leading-relaxed">
-                Gold is a timeless asset that protects wealth from inflation and market volatility. Calculate exact gold rate with taxes in seconds, track live market prices, and make smart investment decisions.
+              <p className="text-base md:text-lg text-slate-300 max-w-xl leading-relaxed">
+                Gold is a timeless asset that protects your family savings from inflation. Calculate exact gold prices with GST in seconds, track live city rates, and get instant gold loans with minimum paperwork.
               </p>
 
               {/* CTA Buttons */}
@@ -250,48 +249,69 @@ export default function HomePage({
                   <span>Open Calculator</span>
                 </button>
                 <button
-                  className="px-7 py-3.5 rounded-2xl bg-white/5 border border-white/15 text-white font-bold text-sm hover:bg-white/10 hover:border-[#C89B2A]/40 transition-all cursor-pointer flex items-center gap-2 backdrop-blur-md"
+                  className="px-7 py-3.5 rounded-2xl bg-[#080E1E]/80 border border-[#1E3159] text-white font-bold text-sm hover:bg-[#0D172E] hover:border-[#DAAE4D]/40 transition-all cursor-pointer flex items-center gap-2 backdrop-blur-md shadow-lg"
                   onClick={() => (onNavigateLiveRate ? onNavigateLiveRate() : scrollToSection('rates'))}
                 >
                   <LineChart size={18} />
                   <span>View Live Rates</span>
                 </button>
               </div>
-
-
             </div>
 
-            {/* Right Gold Bullion Showcase Image */}
-            <div className="lg:col-span-5 relative flex flex-col items-center justify-center pt-10 pb-6 px-6 md:px-8 rounded-3xl bg-[#222222]/60 border border-white/[0.08] backdrop-blur-xl shadow-[0_25px_60px_rgba(0,0,0,0.5)] group hover:border-[#C89B2A]/25 transition-all duration-500">
-              {/* Radial gold glow behind the image */}
-              <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] bg-[radial-gradient(circle,rgba(234,179,8,0.12)_0%,rgba(234,179,8,0.04)_50%,transparent_70%)] blur-[30px]" />
+            {/* Right Broad Unboxed Gold Showcase Visual */}
+            <div className="lg:col-span-6 relative flex items-center justify-center py-4 lg:py-0">
+              {/* Expansive Ambient Radial Gold & Sapphire Glow behind the unboxed visual */}
+              <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+                <div className="w-[110%] h-[110%] max-w-[580px] max-h-[580px] bg-[radial-gradient(circle,rgba(243,197,91,0.18)_0%,rgba(30,64,175,0.12)_45%,transparent_72%)] blur-[50px] animate-aura-pulse" />
               </div>
 
-              {/* Top badge */}
-              <div className="absolute -top-3.5 z-20 px-5 py-1.5 rounded-full bg-gradient-to-r from-[#DAAE4D] via-[#C89B2A] to-amber-600 text-slate-950 font-extrabold text-[11px] tracking-wider shadow-[0_4px_20px_rgba(234,179,8,0.4)] flex items-center gap-1.5">
-                <Sparkles size={13} />
-                <span>999.9 FINE GOLD BULLION</span>
+              {/* Floating Badge: Top Left (Purity Verification) */}
+              <div className="absolute -top-3 left-2 sm:left-4 z-20 px-3.5 py-2 rounded-2xl bg-[#080E1E]/90 border border-[#DAAE4D]/40 backdrop-blur-xl shadow-[0_10px_30px_rgba(4,8,19,0.8)] flex items-center gap-2 animate-bounce-subtle">
+                <div className="w-6 h-6 rounded-lg bg-[#C89B2A]/20 flex items-center justify-center text-[#F3C55B]">
+                  <ShieldCheck size={14} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-black text-[#F3C55B] tracking-wider uppercase">BIS 916 & 999</span>
+                  <span className="text-[9px] font-semibold text-slate-400">Certified Pure Gold</span>
+                </div>
               </div>
 
-              {/* Gold bullion image */}
-              <img
-                src={goldBullionImg}
-                alt="Premium Gold Bullion"
-                className="relative z-10 w-full max-w-[420px] h-auto object-contain drop-shadow-[0_25px_50px_rgba(234,179,8,0.2)] transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-              />
+              {/* Floating Badge: Top Right (Live Rate Pulse) */}
+              <div className="absolute top-2 right-2 sm:right-4 z-20 px-3.5 py-2 rounded-2xl bg-[#080E1E]/90 border border-[#1E3159] backdrop-blur-xl shadow-[0_10px_30px_rgba(4,8,19,0.8)] flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                <div className="flex flex-col">
+                  <span className="text-[9px] font-bold text-slate-400 uppercase">Live 24K / Gram</span>
+                  <span className="text-xs font-black text-white">
+                    ₹{spotRate24K > 0 ? spotRate24K.toLocaleString('en-IN') : '13,535'}
+                    {rate24kData && <span className={`ml-1 text-[10px] ${rate24kData.isUp ? 'text-emerald-400' : 'text-rose-400'}`}>{rate24kData.isUp ? '▲' : '▼'}</span>}
+                  </span>
+                </div>
+              </div>
 
-              {/* Bottom info strip */}
-              <div className="relative z-10 mt-5 w-full flex items-center justify-between px-4 py-3 rounded-2xl bg-black/40 border border-white/[0.06] backdrop-blur-md">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck size={16} className="text-[#DAAE4D]" />
-                  <span className="text-[#F3C55B] text-[11px] font-bold tracking-wide">BIS HALLMARK CERTIFIED</span>
+              {/* Broad Unboxed Gold Ingot Visual with Soft Radial Blend */}
+              <div className="relative z-10 w-full max-w-[500px] flex items-center justify-center">
+                <img
+                  src={goldBullionImg}
+                  alt="Pure 24K Gold Bullion Ingot and Sovereign Coins"
+                  className="w-full h-auto object-contain rounded-3xl drop-shadow-[0_25px_60px_rgba(218,174,77,0.22)] transition-transform duration-700 hover:scale-[1.03]"
+                />
+              </div>
+
+              {/* Floating Badge: Bottom Left (Instant Gold Loan) */}
+              <div className="absolute -bottom-3 left-2 sm:left-6 z-20 px-4 py-2 rounded-2xl bg-[#080E1E]/90 border border-[#DAAE4D]/35 backdrop-blur-xl shadow-[0_10px_30px_rgba(4,8,19,0.8)] flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-[#F3C55B] to-[#C89B2A] flex items-center justify-center text-slate-950 font-black text-xs shadow-sm">
+                  ⚡
                 </div>
-                <div className="flex items-center gap-1.5 text-[11px]">
-                  <span className="font-bold text-slate-400">Spot</span>
-                  <span className="font-extrabold text-white">₹{spotRate24K > 0 ? spotRate24K.toLocaleString('en-IN') : '...'}</span>
-                  {rate24kData && <span className={`font-bold ${rate24kData.isUp ? 'text-emerald-400' : 'text-rose-400'}`}>{rate24kData.isUp ? '↑' : '↓'}</span>}
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-black text-white">Instant Gold Loans</span>
+                  <span className="text-[9px] font-semibold text-[#DAAE4D]">Up to 75% RBI Value • 0.75%/mo</span>
                 </div>
+              </div>
+
+              {/* Floating Badge: Bottom Right (Safe Vault) */}
+              <div className="hidden sm:flex absolute -bottom-1 right-2 sm:right-6 z-20 px-3.5 py-1.5 rounded-2xl bg-[#080E1E]/90 border border-[#1E3159] backdrop-blur-xl shadow-[0_10px_30px_rgba(4,8,19,0.8)] items-center gap-2 text-slate-300">
+                <span className="text-xs">🔒</span>
+                <span className="text-[10px] font-bold text-slate-300">100% Insured Bank Locker</span>
               </div>
             </div>
           </div>
@@ -304,19 +324,19 @@ export default function HomePage({
         <section id="calculator">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div className="flex flex-col gap-1">
-              <span className="text-xs font-bold tracking-widest text-[#DAAE4D] uppercase">Real-Time Metal Valuation</span>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Gold Rate Calculator</h2>
+              <span className="text-xs font-bold tracking-widest text-[#DAAE4D] uppercase">Instant Gold Calculator</span>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Gold Rate & Value Calculator</h2>
             </div>
             <div className="inline-flex items-center gap-2 text-xs font-bold text-[#DAAE4D] bg-[#C89B2A]/10 border border-[#C89B2A]/30 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
               <CoinsIcon size={14} />
-              <span>LIVE SPOT RATE: ₹{spotRate24K > 0 ? spotRate24K.toLocaleString('en-IN') : '...'}/g</span>
+              <span>TODAY'S 24K RATE: ₹{spotRate24K > 0 ? spotRate24K.toLocaleString('en-IN') : '...'}/g</span>
             </div>
           </div>
 
           <div className="max-w-3xl mx-auto w-full">
-            <div className="p-6 md:p-8 rounded-3xl bg-[#222222]/80 border border-white/10 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col gap-6">
+            <div className="p-6 md:p-8 rounded-3xl bg-[#0D172E]/85 border border-[#1E3159] backdrop-blur-xl shadow-[0_20px_50px_rgba(4,8,19,0.6)] flex flex-col gap-6">
               {/* Dual Mode Switcher Tabs */}
-              <div className="grid grid-cols-2 p-1.5 bg-[#1A1A1A] rounded-2xl border border-white/5">
+              <div className="grid grid-cols-2 p-1.5 bg-[#080E1E] rounded-2xl border border-[#192847]">
                 <button
                   className={`flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm transition-all cursor-pointer border-0 ${calcMode === 'amount' ? 'bg-gradient-to-r from-[#DAAE4D] to-amber-500 text-slate-950 shadow-md' : 'text-slate-400 hover:text-white bg-transparent'}`}
                   onClick={() => {
@@ -326,7 +346,7 @@ export default function HomePage({
                   }}
                 >
                   <Coins size={18} />
-                  <span>Amount Required</span>
+                  <span>By Investment Amount (₹)</span>
                 </button>
                 <button
                   className={`flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm transition-all cursor-pointer border-0 ${calcMode === 'gold' ? 'bg-gradient-to-r from-[#DAAE4D] to-amber-500 text-slate-950 shadow-md' : 'text-slate-400 hover:text-white bg-transparent'}`}
@@ -337,7 +357,7 @@ export default function HomePage({
                   }}
                 >
                   <Scale size={18} />
-                  <span>Gold in hand</span>
+                  <span>By Weight in Grams (g)</span>
                 </button>
               </div>
 
@@ -348,8 +368,8 @@ export default function HomePage({
                 </span>
                 <input
                   type="number"
-                  className="w-full pl-10 pr-4 py-4 bg-[#1A1A1A] border border-white/10 rounded-2xl text-white font-bold text-lg focus:outline-none focus:border-[#DAAE4D] transition-colors"
-                  placeholder={calcMode === 'amount' ? 'Enter amount (e.g. 50000)' : 'Enter weight in grams (e.g. 10)'}
+                  className="w-full pl-10 pr-4 py-4 bg-[#080E1E] border border-[#1E3159] rounded-2xl text-white font-bold text-lg focus:outline-none focus:border-[#DAAE4D] transition-colors"
+                  placeholder={calcMode === 'amount' ? 'Enter amount in Rupees (e.g. 50000)' : 'Enter weight in grams (e.g. 10)'}
                   value={inputValue}
                   onChange={(e) => {
                     setInputValue(e.target.value)
@@ -371,36 +391,39 @@ export default function HomePage({
                 ) : (
                   <>
                     <button className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-white/5 hover:bg-[#C89B2A]/10 border border-white/10 hover:border-[#C89B2A]/40 text-slate-300 hover:text-[#DAAE4D] transition-all cursor-pointer" onClick={() => handlePresetSelect('5')}>5 Grams</button>
+                    <button className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-white/5 hover:bg-[#C89B2A]/10 border border-white/10 hover:border-[#C89B2A]/40 text-slate-300 hover:text-[#DAAE4D] transition-all cursor-pointer" onClick={() => handlePresetSelect('8')}>8 Grams (1 Pavan)</button>
                     <button className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-white/5 hover:bg-[#C89B2A]/10 border border-white/10 hover:border-[#C89B2A]/40 text-slate-300 hover:text-[#DAAE4D] transition-all cursor-pointer" onClick={() => handlePresetSelect('10')}>10 Grams</button>
                     <button className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-white/5 hover:bg-[#C89B2A]/10 border border-white/10 hover:border-[#C89B2A]/40 text-slate-300 hover:text-[#DAAE4D] transition-all cursor-pointer" onClick={() => handlePresetSelect('11.66')}>1 Tola (11.66g)</button>
                     <button className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-white/5 hover:bg-[#C89B2A]/10 border border-white/10 hover:border-[#C89B2A]/40 text-slate-300 hover:text-[#DAAE4D] transition-all cursor-pointer" onClick={() => handlePresetSelect('50')}>50 Grams</button>
-                    <button className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-white/5 hover:bg-[#C89B2A]/10 border border-white/10 hover:border-[#C89B2A]/40 text-slate-300 hover:text-[#DAAE4D] transition-all cursor-pointer" onClick={() => handlePresetSelect('100')}>100 Grams</button>
                   </>
                 )}
               </div>
 
-              {/* Carat Value Pills Selector */}
+              {/* Karat Value Selector */}
               <div>
-                <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Choose the carat value of your gold</div>
+                <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Select Gold Purity (Karat)</div>
                 <div className="grid grid-cols-6 gap-2">
                   {[18, 19, 20, 21, 22, 24].map((carat) => (
                     <button
                       key={carat}
-                      className={`py-2.5 rounded-xl font-bold text-sm border transition-all cursor-pointer text-center ${selectedCarat === carat ? 'bg-[#C89B2A]/20 border-[#DAAE4D] text-[#F3C55B] shadow-sm' : 'bg-[#1A1A1A] border-white/10 text-slate-400 hover:border-white/20 hover:text-white'}`}
-                      onClick={() => setSelectedCarat(carat)}
+                      className={`py-2.5 rounded-xl font-bold text-sm border transition-all cursor-pointer text-center ${selectedCarat === carat ? 'bg-[#C89B2A]/20 border-[#DAAE4D] text-[#F3C55B] shadow-sm' : 'bg-[#080E1E] border-[#1E3159] text-slate-400 hover:border-[#DAAE4D]/30 hover:text-white'}`}
+                      onClick={() => {
+                        setSelectedCarat(carat)
+                        setIsCalculated(false)
+                      }}
                     >
-                      {carat}
+                      {carat}K
                     </button>
                   ))}
                 </div>
               </div>
 
               {/* Result / Instruction Banner Box */}
-              <div className="p-5 rounded-2xl bg-gradient-to-br from-[#1A1A1A] to-[#222222] border border-[#C89B2A]/20 text-center flex flex-col gap-1">
+              <div className="p-5 rounded-2xl bg-gradient-to-br from-[#080E1E] to-[#0D172E] border border-[#C89B2A]/30 text-center flex flex-col gap-1">
                 {calcMode === 'amount' ? (
                   isCalculated && parsedVal > 0 ? (
                     <>
-                      <div className="text-xs font-bold uppercase tracking-wider text-slate-400">Required Gold Weight:</div>
+                      <div className="text-xs font-bold uppercase tracking-wider text-slate-400">You Can Buy Approximately:</div>
                       <div className="text-2xl md:text-3xl font-black text-[#DAAE4D] tracking-tight">
                         {calculatedGoldWeight} Grams of {selectedCarat}K Gold
                       </div>
@@ -410,13 +433,13 @@ export default function HomePage({
                     </>
                   ) : (
                     <div className="text-sm text-slate-400">
-                      Enter the amount and carat value to see how much gold is required.
+                      Enter your budget amount and karat to see how much gold you can buy.
                     </div>
                   )
                 ) : (
                   isCalculated && parsedVal > 0 ? (
                     <>
-                      <div className="text-xs font-bold uppercase tracking-wider text-slate-400">Estimated Valuation:</div>
+                      <div className="text-xs font-bold uppercase tracking-wider text-slate-400">Total Gold Value:</div>
                       <div className="text-2xl md:text-3xl font-black text-[#DAAE4D] tracking-tight">
                         ₹{calculatedRupees}
                       </div>
@@ -426,7 +449,7 @@ export default function HomePage({
                     </>
                   ) : (
                     <div className="text-sm text-slate-400">
-                      Enter the weight in grams and carat value to calculate your gold valuation.
+                      Enter weight in grams and select karat to calculate your gold's total value.
                     </div>
                   )
                 )}
@@ -434,12 +457,12 @@ export default function HomePage({
 
               {/* Calculate Action Button */}
               <button className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] text-slate-950 font-extrabold text-base hover:brightness-110 transition-all shadow-[0_6px_30px_rgba(234,179,8,0.35)] cursor-pointer border-0" onClick={handleCalculate}>
-                Calculate
+                Calculate Gold Value
               </button>
 
               {/* Note Footer */}
               <div className="text-xs text-slate-500 text-center leading-relaxed">
-                <strong className="text-slate-400">Note:</strong> The displayed amount is an approximate value based on live exchange spot rates. Final value depends on branch appraisal.
+                <strong className="text-slate-400">Note:</strong> Value is calculated based on today's live market rate. Making charges and 3% GST will be extra at jewellery stores.
               </div>
             </div>
           </div>
@@ -449,18 +472,17 @@ export default function HomePage({
         <section id="rates">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div className="flex flex-col gap-1">
-              <span className="text-xs font-bold tracking-widest text-[#DAAE4D] uppercase">Real-Time Bullion Prices</span>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Live Purity Rates</h2>
+              <span className="text-xs font-bold tracking-widest text-[#DAAE4D] uppercase">Today's Gold Rates in India</span>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Live Purity Rates (Per 1 Gram)</h2>
               {lastUpdatedTime && (
                 <span className="text-[10px] text-slate-500 font-medium mt-0.5">Last updated: {lastUpdatedTime}</span>
               )}
             </div>
             <div className="inline-flex items-center gap-2 text-xs font-bold text-[#DAAE4D] bg-[#C89B2A]/10 border border-[#C89B2A]/30 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>LIVE EXCHANGE FEED</span>
+              <span>LIVE MARKET RATES</span>
             </div>
           </div>
-
           {ratesError && (
             <div className="mb-4 px-4 py-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-medium">
               {ratesError}
@@ -470,8 +492,8 @@ export default function HomePage({
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {ratesLoading ? (
               // Loading skeleton cards
-              Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="p-6 rounded-3xl bg-[#222222]/70 border border-white/10 backdrop-blur-xl flex flex-col gap-4 animate-pulse">
+              [1, 2, 3, 4].map((i) => (
+                <div key={i} className="p-6 rounded-3xl bg-[#0D172E]/75 border border-[#1E3159] backdrop-blur-xl flex flex-col gap-4 animate-pulse">
                   <div className="h-4 bg-white/10 rounded-lg w-3/4" />
                   <div className="h-8 bg-white/10 rounded-lg w-1/2" />
                   <div className="h-3 bg-white/5 rounded-lg w-full mt-2" />
@@ -481,10 +503,10 @@ export default function HomePage({
               liveRates
                 .filter((item) => item.purityId !== 'silver')
                 .map((item) => (
-                <div key={item.purityId} className={`p-6 rounded-3xl bg-[#222222]/70 border backdrop-blur-xl flex flex-col gap-4 group transition-all duration-300 ${item.purityId === '24k' ? 'border-[#C89B2A]/40 bg-[#222222]/90 shadow-[0_10px_30px_rgba(234,179,8,0.1)]' : 'border-white/10 hover:border-[#C89B2A]/30'}`}>
+                <div key={item.purityId} className={`p-6 rounded-3xl bg-[#0D172E]/80 border backdrop-blur-xl flex flex-col gap-4 group transition-all duration-300 ${item.purityId === '24k' ? 'border-[#C89B2A]/50 bg-[#0E1B38] shadow-[0_10px_30px_rgba(234,179,8,0.12)]' : 'border-[#1E3159] hover:border-[#C89B2A]/40'}`}>
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-extrabold tracking-wider text-slate-300">{item.name}</span>
-                    {item.purityId === '24k' && <span className="text-[9px] font-black tracking-wider px-2 py-0.5 rounded-full bg-[#C89B2A]/20 border border-[#C89B2A]/40 text-[#F3C55B]">MOST POPULAR</span>}
+                    {item.purityId === '24k' && <span className="text-[9px] font-black tracking-wider px-2 py-0.5 rounded-full bg-[#C89B2A]/20 border border-[#C89B2A]/40 text-[#F3C55B]">24K PURE GOLD</span>}
                   </div>
                   <div className="text-3xl font-black text-white group-hover:text-[#DAAE4D] transition-colors">₹{item.pricePerGram.toLocaleString('en-IN')}</div>
                   <div className="flex items-center justify-between pt-2 border-t border-white/5">
@@ -506,15 +528,15 @@ export default function HomePage({
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs font-bold tracking-widest text-[#DAAE4D] uppercase">Live Bullion & Macro Feed</span>
+                <span className="text-xs font-bold tracking-widest text-[#DAAE4D] uppercase">Live Gold Market Updates</span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Market Analysis & News</h2>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Gold Market News & Daily Trends</h2>
             </div>
             
             <div className="flex items-center gap-3">
               <button
                 onClick={fetchMarketNews}
-                className="px-3.5 py-1.5 rounded-xl bg-white/5 border border-white/10 hover:border-[#DAAE4D]/40 text-xs font-bold text-slate-300 hover:text-white transition-all cursor-pointer flex items-center gap-1.5"
+                className="px-3.5 py-1.5 rounded-xl bg-[#080E1E] border border-[#1E3159] hover:border-[#DAAE4D]/40 text-xs font-bold text-slate-300 hover:text-white transition-all cursor-pointer flex items-center gap-1.5"
                 title="Refresh live news"
               >
                 <RefreshCw size={13} className={newsLoading ? 'animate-spin text-[#DAAE4D]' : 'text-[#DAAE4D]'} />
@@ -527,11 +549,11 @@ export default function HomePage({
             {/* Left Featured Live Article */}
             {marketNews.length > 0 ? (
               <div 
-                className="lg:col-span-7 relative min-h-[360px] rounded-3xl overflow-hidden bg-cover bg-center p-8 flex flex-col justify-end border border-white/10 group cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:border-[#DAAE4D]/40 transition-all"
+                className="lg:col-span-7 relative min-h-[360px] rounded-3xl overflow-hidden bg-cover bg-center p-8 flex flex-col justify-end border border-[#1E3159] group cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:border-[#DAAE4D]/40 transition-all"
                 style={{ backgroundImage: `url('https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=1200&q=80')` }}
                 onClick={() => setSelectedNewsItem(marketNews[0])}
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/70 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#080E1E] via-[#080E1E]/70 to-transparent" />
                 <div className="relative z-10 flex flex-col gap-3">
                   <div className="flex flex-wrap gap-2 items-center">
                     <span className="px-2.5 py-1 rounded-md bg-rose-500/20 border border-rose-500/40 text-rose-400 text-[10px] font-extrabold tracking-wider">
@@ -540,7 +562,7 @@ export default function HomePage({
                     <span className="px-2.5 py-1 rounded-md bg-[#DAAE4D]/20 border border-[#DAAE4D]/40 text-[#F3C55B] text-[10px] font-extrabold tracking-wider">
                       {marketNews[0].source}
                     </span>
-                    <span className="px-2.5 py-1 rounded-md bg-white/10 text-slate-300 text-[10px] font-extrabold tracking-wider">
+                    <span className="px-2.5 py-1 rounded-md bg-[#080E1E]/50 text-slate-300 text-[10px] font-extrabold tracking-wider">
                       {marketNews[0].timeAgo}
                     </span>
                   </div>
@@ -553,7 +575,7 @@ export default function HomePage({
                 </div>
               </div>
             ) : (
-              <div className="lg:col-span-7 h-[360px] rounded-3xl bg-[#222222]/70 border border-white/10 flex items-center justify-center">
+              <div className="lg:col-span-7 h-[360px] rounded-3xl bg-[#0D172E]/75 border border-[#1E3159] flex items-center justify-center">
                 <div className="w-8 h-8 rounded-full border-2 border-[#DAAE4D] border-t-transparent animate-spin" />
               </div>
             )}
@@ -563,7 +585,7 @@ export default function HomePage({
               {marketNews.slice(1, 4).map((art) => (
                 <div 
                   key={art.id} 
-                  className="p-5 rounded-2xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/40 hover:bg-[#222222]/90 transition-all duration-300 backdrop-blur-xl flex flex-col gap-2.5 cursor-pointer group" 
+                  className="p-5 rounded-2xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/40 hover:bg-[#0E1B38] transition-all duration-300 backdrop-blur-xl flex flex-col gap-2.5 cursor-pointer group" 
                   onClick={() => setSelectedNewsItem(art)}
                 >
                   <div className="flex items-center justify-between text-xs">
@@ -599,75 +621,53 @@ export default function HomePage({
             </div>
             <div className="inline-flex items-center gap-2 text-xs font-bold text-[#DAAE4D] bg-[#C89B2A]/10 border border-[#C89B2A]/30 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
               <Building2 size={14} />
-              <span>EST. 2024 • INSTITUTIONAL BULLION</span>
+              <span>EST. 2024 • TRUSTED GOLD PLATFORM</span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-7 p-8 rounded-3xl bg-[#222222]/70 border border-white/10 backdrop-blur-xl flex flex-col gap-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] text-xs font-bold w-fit">
-                <Target size={14} />
-                <span>OUR MISSION & VISION</span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            {/* Mission Card */}
+            <div className="lg:col-span-7 p-8 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] backdrop-blur-xl flex flex-col gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center">
+                <ShieldCheck size={26} />
               </div>
-              <h3 className="text-2xl font-extrabold text-white leading-tight">
-                Democratizing Institutional Precious Metal Intelligence
-              </h3>
+              <h3 className="text-2xl font-bold text-white">100% Honest Market Information</h3>
               <p className="text-sm text-slate-400 leading-relaxed">
-                GoldFin was founded with a singular commitment: to bring institutional-grade spot bullion pricing, real-time purity tracking, and 100% transparent GST calculations to individual investors, jewelers, and financial institutions across India.
+                GoldFin was created with a single purpose: to give Indian households complete clarity on gold rates, purity calculation, and gold loans without hidden jeweller commissions or misleading terms.
               </p>
               <p className="text-sm text-slate-400 leading-relaxed">
-                Whether you are evaluating a family gold purchase, tracking 24K bullion spot movements, or planning long-term Sovereign Gold Bond portfolios, GoldFin delivers real-time bullion exchange feeds with zero delay.
+                Whether you are buying gold jewellery for a family wedding, investing in coins, or looking for urgent cash through a gold loan, we make sure you know the exact value of your gold.
               </p>
-
-              <div className="flex flex-col gap-3 mt-2">
-                <div className="flex items-center gap-3 text-xs font-semibold text-slate-300">
-                  <CheckCircle2 size={18} className="text-[#DAAE4D] shrink-0" />
-                  <span>Direct Integration with MCX & Indian Bullion (IBJA) Benchmarks</span>
-                </div>
-                <div className="flex items-center gap-3 text-xs font-semibold text-slate-300">
-                  <CheckCircle2 size={18} className="text-[#DAAE4D] shrink-0" />
-                  <span>BIS Hallmarked 999.9 Purity Calculation Standard</span>
-                </div>
-                <div className="flex items-center gap-3 text-xs font-semibold text-slate-300">
-                  <CheckCircle2 size={18} className="text-[#DAAE4D] shrink-0" />
-                  <span>Automated Indian GST (3%) & Making Charge Itemization</span>
-                </div>
+              <div className="pt-2">
+                <button
+                  onClick={() => onNavigateAbout && onNavigateAbout()}
+                  className="inline-flex items-center gap-2 text-sm font-bold text-[#DAAE4D] hover:underline bg-transparent border-0 cursor-pointer p-0"
+                >
+                  <span>Read Our Full Story</span>
+                  <ArrowRight size={16} />
+                </button>
               </div>
             </div>
 
-            <div className="lg:col-span-5 p-8 rounded-3xl bg-[#222222]/70 border border-white/10 backdrop-blur-xl flex flex-col gap-6">
-              <h4 className="text-lg font-bold text-white border-b border-white/5 pb-4">Platform Impact & Reach</h4>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-2xl bg-[#1A1A1A]/80 border border-white/5 flex flex-col gap-1">
-                  <div className="w-8 h-8 rounded-lg bg-[#C89B2A]/10 flex items-center justify-center text-[#DAAE4D] mb-1">
-                    <Coins size={20} />
-                  </div>
-                  <div className="text-xl font-black text-white">₹500Cr+</div>
-                  <div className="text-[11px] font-medium text-slate-400">Monthly Valued Bullion</div>
+            {/* Why Choose Us Stats / Highlights */}
+            <div className="lg:col-span-5 p-8 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] backdrop-blur-xl flex flex-col gap-6">
+              <h4 className="text-lg font-bold text-white">Why Families Trust GoldFin</h4>
+              <div className="flex flex-col gap-4">
+                <div className="p-4 rounded-2xl bg-[#080E1E]/80 border border-[#192847] flex flex-col gap-1">
+                  <span className="text-xs text-slate-400 font-semibold">Gold Purity Standard</span>
+                  <span className="text-base font-bold text-white">100% BIS Hallmarked (916 & 999)</span>
                 </div>
-
-                <div className="p-4 rounded-2xl bg-[#1A1A1A]/80 border border-white/5 flex flex-col gap-1">
-                  <div className="w-8 h-8 rounded-lg bg-[#C89B2A]/10 flex items-center justify-center text-[#DAAE4D] mb-1">
-                    <Zap size={20} />
-                  </div>
-                  <div className="text-xl font-black text-white">99.99%</div>
-                  <div className="text-[11px] font-medium text-slate-400">Spot Feed Uptime</div>
+                <div className="p-4 rounded-2xl bg-[#080E1E]/80 border border-[#192847] flex flex-col gap-1">
+                  <span className="text-xs text-slate-400 font-semibold">City Coverage</span>
+                  <span className="text-base font-bold text-white">Daily Live Rates for 15+ Cities</span>
                 </div>
-
-                <div className="p-4 rounded-2xl bg-[#1A1A1A]/80 border border-white/5 flex flex-col gap-1">
-                  <div className="w-8 h-8 rounded-lg bg-[#C89B2A]/10 flex items-center justify-center text-[#DAAE4D] mb-1">
-                    <Users size={20} />
-                  </div>
-                  <div className="text-xl font-black text-white">150,000+</div>
-                  <div className="text-[11px] font-medium text-slate-400">Active Investors</div>
+                <div className="p-4 rounded-2xl bg-[#080E1E]/80 border border-[#192847] flex flex-col gap-1">
+                  <span className="text-xs text-slate-400 font-semibold">Gold Loan Interest</span>
+                  <span className="text-base font-bold text-[#DAAE4D]">Starting from 0.79% per month</span>
                 </div>
-
-                <div className="p-4 rounded-2xl bg-[#1A1A1A]/80 border border-white/5 flex flex-col gap-1">
-                  <div className="w-8 h-8 rounded-lg bg-[#C89B2A]/10 flex items-center justify-center text-[#DAAE4D] mb-1">
-                    <Award size={20} />
-                  </div>
-                  <div className="text-xl font-black text-white">100%</div>
-                  <div className="text-[11px] font-medium text-slate-400">BIS Hallmark Compliant</div>
+                <div className="p-4 rounded-2xl bg-[#080E1E]/80 border border-[#192847] flex flex-col gap-1">
+                  <span className="text-xs text-slate-400 font-semibold">Hidden Charges</span>
+                  <span className="text-base font-bold text-emerald-400">Zero Valuation Fees</span>
                 </div>
               </div>
             </div>
@@ -689,30 +689,30 @@ export default function HomePage({
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Gold Investment Tips Card */}
-            <div className="p-6 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 backdrop-blur-xl transition-all duration-300 flex flex-col gap-5 group">
+            <div className="p-6 rounded-3xl bg-[#0D172E]/75 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-5 group">
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
                   <Lightbulb size={22} />
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-white group-hover:text-[#DAAE4D] transition-colors">Gold Investment Tips</h3>
-                  <span className="text-[10px] font-bold tracking-wider text-slate-500 uppercase">Smart Buying Strategy</span>
+                  <span className="text-[10px] font-bold tracking-wider text-slate-400 uppercase">Smart Buying Strategy</span>
                 </div>
               </div>
               <div className="flex flex-col gap-3">
-                <div className="flex items-start gap-2.5 text-sm text-slate-400 leading-relaxed">
+                <div className="flex items-start gap-2.5 text-sm text-slate-300 leading-relaxed">
                   <CheckCircle2 size={16} className="text-[#DAAE4D] shrink-0 mt-0.5" />
                   <span>Always buy BIS Hallmarked gold — verify the 6-digit HUID number for authenticity and purity assurance.</span>
                 </div>
-                <div className="flex items-start gap-2.5 text-sm text-slate-400 leading-relaxed">
+                <div className="flex items-start gap-2.5 text-sm text-slate-300 leading-relaxed">
                   <CheckCircle2 size={16} className="text-[#DAAE4D] shrink-0 mt-0.5" />
                   <span>Diversify between physical gold (coins/bars), Sovereign Gold Bonds (SGBs), and Gold ETFs for balanced risk.</span>
                 </div>
-                <div className="flex items-start gap-2.5 text-sm text-slate-400 leading-relaxed">
+                <div className="flex items-start gap-2.5 text-sm text-slate-300 leading-relaxed">
                   <CheckCircle2 size={16} className="text-[#DAAE4D] shrink-0 mt-0.5" />
                   <span>Invest in gold during market dips rather than peaks — track historical patterns using our live rate charts.</span>
                 </div>
-                <div className="flex items-start gap-2.5 text-sm text-slate-400 leading-relaxed">
+                <div className="flex items-start gap-2.5 text-sm text-slate-300 leading-relaxed">
                   <CheckCircle2 size={16} className="text-[#DAAE4D] shrink-0 mt-0.5" />
                   <span>Limit gold to 10-15% of your total portfolio to maintain healthy asset allocation.</span>
                 </div>
@@ -724,30 +724,30 @@ export default function HomePage({
             </div>
 
             {/* Gold Loan Tips Card */}
-            <div className="p-6 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 backdrop-blur-xl transition-all duration-300 flex flex-col gap-5 group">
+            <div className="p-6 rounded-3xl bg-[#0D172E]/75 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-5 group">
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
                   <Landmark size={22} />
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-white group-hover:text-[#DAAE4D] transition-colors">Gold Loan Insights</h3>
-                  <span className="text-[10px] font-bold tracking-wider text-slate-500 uppercase">Borrow Against Gold</span>
+                  <span className="text-[10px] font-bold tracking-wider text-slate-400 uppercase">Borrow Against Gold</span>
                 </div>
               </div>
               <div className="flex flex-col gap-3">
-                <div className="flex items-start gap-2.5 text-sm text-slate-400 leading-relaxed">
+                <div className="flex items-start gap-2.5 text-sm text-slate-300 leading-relaxed">
                   <CheckCircle2 size={16} className="text-[#DAAE4D] shrink-0 mt-0.5" />
                   <span>Gold loans offer lower interest rates (7-9% p.a.) compared to personal loans (12-18%) — ideal for short-term needs.</span>
                 </div>
-                <div className="flex items-start gap-2.5 text-sm text-slate-400 leading-relaxed">
+                <div className="flex items-start gap-2.5 text-sm text-slate-300 leading-relaxed">
                   <CheckCircle2 size={16} className="text-[#DAAE4D] shrink-0 mt-0.5" />
                   <span>Banks typically lend 75% of your gold's current market value (LTV ratio) — check live rates before applying.</span>
                 </div>
-                <div className="flex items-start gap-2.5 text-sm text-slate-400 leading-relaxed">
+                <div className="flex items-start gap-2.5 text-sm text-slate-300 leading-relaxed">
                   <CheckCircle2 size={16} className="text-[#DAAE4D] shrink-0 mt-0.5" />
                   <span>Compare gold loan schemes from SBI, HDFC, Muthoot, and Manappuram before committing to one lender.</span>
                 </div>
-                <div className="flex items-start gap-2.5 text-sm text-slate-400 leading-relaxed">
+                <div className="flex items-start gap-2.5 text-sm text-slate-300 leading-relaxed">
                   <CheckCircle2 size={16} className="text-[#DAAE4D] shrink-0 mt-0.5" />
                   <span>Always repay on time — defaulting on a gold loan means permanent loss of your pledged gold assets.</span>
                 </div>
@@ -759,32 +759,32 @@ export default function HomePage({
             </div>
 
             {/* Market Outlook Card */}
-            <div className="p-6 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 backdrop-blur-xl transition-all duration-300 flex flex-col gap-5 group">
+            <div className="p-6 rounded-3xl bg-[#0D172E]/75 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-5 group">
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
                   <BarChart3 size={22} />
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-white group-hover:text-[#DAAE4D] transition-colors">Market Outlook 2026</h3>
-                  <span className="text-[10px] font-bold tracking-wider text-slate-500 uppercase">Macro Trends & Forecast</span>
+                  <span className="text-[10px] font-bold tracking-wider text-slate-400 uppercase">Macro Trends & Forecast</span>
                 </div>
               </div>
               <div className="flex flex-col gap-3">
-                <div className="flex items-start gap-2.5 text-sm text-slate-400 leading-relaxed">
+                <div className="flex items-start gap-2.5 text-sm text-slate-300 leading-relaxed">
                   <CheckCircle2 size={16} className="text-[#DAAE4D] shrink-0 mt-0.5" />
-                  <span>Reserve Bank of India (RBI) and domestic institutions continue steady bullion accumulation to reinforce sovereign reserves.</span>
+                  <span>Reserve Bank of India (RBI) continues buying gold regularly to strengthen national currency reserves.</span>
                 </div>
-                <div className="flex items-start gap-2.5 text-sm text-slate-400 leading-relaxed">
+                <div className="flex items-start gap-2.5 text-sm text-slate-300 leading-relaxed">
                   <CheckCircle2 size={16} className="text-[#DAAE4D] shrink-0 mt-0.5" />
-                  <span>Domestic physical demand and inflation hedging continue to provide a firm floor for Indian gold rates.</span>
+                  <span>Strong wedding season demand and household savings keep gold prices resilient across Indian cities.</span>
                 </div>
-                <div className="flex items-start gap-2.5 text-sm text-slate-400 leading-relaxed">
+                <div className="flex items-start gap-2.5 text-sm text-slate-300 leading-relaxed">
                   <CheckCircle2 size={16} className="text-[#DAAE4D] shrink-0 mt-0.5" />
-                  <span>The Indian wedding season (Oct-Feb) historically pushes domestic gold premiums up by 2-4% over spot.</span>
+                  <span>During the Indian wedding season (October to February), gold jewellery demand peaks across the country.</span>
                 </div>
-                <div className="flex items-start gap-2.5 text-sm text-slate-400 leading-relaxed">
+                <div className="flex items-start gap-2.5 text-sm text-slate-300 leading-relaxed">
                   <CheckCircle2 size={16} className="text-[#DAAE4D] shrink-0 mt-0.5" />
-                  <span>Analysts project healthy long-term domestic appreciation supported by rural savings and jewelry demand.</span>
+                  <span>Experts expect steady long-term growth in gold value driven by household savings and jewellery purchases.</span>
                 </div>
               </div>
               <button className="mt-auto flex items-center gap-1.5 text-xs font-bold text-[#DAAE4D] hover:text-[#F3C55B] transition-colors cursor-pointer bg-transparent border-0 p-0 w-fit" onClick={() => setActiveModalTitle('Full Market Outlook Report')}>
@@ -806,7 +806,7 @@ export default function HomePage({
             {FAQ_ITEMS.map((faq) => (
               <div 
                 key={faq.id} 
-                className="p-6 rounded-2xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 transition-all backdrop-blur-xl cursor-pointer flex flex-col gap-3"
+                className="p-6 rounded-2xl bg-[#0D172E]/75 border border-[#1E3159] hover:border-[#C89B2A]/35 transition-all backdrop-blur-xl cursor-pointer flex flex-col gap-3"
                 onClick={() => setOpenFaqId(openFaqId === faq.id ? null : faq.id)}
               >
                 <div className="flex items-center justify-between">
@@ -818,7 +818,7 @@ export default function HomePage({
                 </div>
 
                 {openFaqId === faq.id && (
-                  <p className="text-sm text-slate-400 leading-relaxed pt-3 border-t border-white/5">{faq.answer}</p>
+                  <p className="text-sm text-slate-400 leading-relaxed pt-3 border-t border-[#1E3159]/60">{faq.answer}</p>
                 )}
               </div>
             ))}
@@ -835,27 +835,28 @@ export default function HomePage({
         onNavigateAbout={onNavigateAbout}
         onNavigateLiveRate={onNavigateLiveRate}
         onNavigateGoldLoan={onNavigateGoldLoan}
+        onNavigateContact={onNavigateContact}
         onScrollToSection={scrollToSection}
       />
 
       {/* Wallet Modal */}
       {showWalletModal && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setShowWalletModal(false)}>
-          <div className="bg-[#222222] border border-[#C89B2A]/30 p-6 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between pb-4 border-b border-white/10">
+          <div className="bg-[#0D172E] border border-[#C89B2A]/40 p-6 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between pb-4 border-b border-[#1E3159]">
               <h3 className="text-xl font-extrabold text-white">My Gold Holdings</h3>
               <button className="p-2 rounded-xl bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition-all border-0 cursor-pointer" onClick={() => setShowWalletModal(false)}>
                 <X size={20} />
               </button>
             </div>
-            <div className="p-6 rounded-2xl bg-[#1A1A1A]">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">TOTAL PORTFOLIO VALUE</span>
+            <div className="p-6 rounded-2xl bg-[#080E1E] border border-[#192847]">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">TOTAL GOLD VALUE</span>
               <h2 className="text-3xl font-black text-[#DAAE4D] my-2">
                 ₹96,797
               </h2>
               <div className="flex justify-between text-sm text-slate-400">
                 <span>Holdings: 15.50 Grams 24K</span>
-                <span className="text-emerald-400 font-bold">+12.4% Profit</span>
+                <span className="text-emerald-400 font-bold">+12.4% Gain</span>
               </div>
             </div>
             <button className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] text-slate-950 font-extrabold text-sm hover:brightness-110 transition-all shadow-[0_6px_30px_rgba(234,179,8,0.35)] cursor-pointer border-0" onClick={() => setShowWalletModal(false)}>
@@ -868,20 +869,20 @@ export default function HomePage({
       {/* Generic Tool / Insight Modal */}
       {activeModalTitle && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setActiveModalTitle(null)}>
-          <div className="bg-[#222222] border border-[#C89B2A]/30 p-6 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between pb-4 border-b border-white/10">
+          <div className="bg-[#0D172E] border border-[#C89B2A]/40 p-6 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between pb-4 border-b border-[#1E3159]">
               <h3 className="text-xl font-extrabold text-white">{activeModalTitle}</h3>
               <button className="p-2 rounded-xl bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition-all border-0 cursor-pointer" onClick={() => setActiveModalTitle(null)}>
                 <X size={20} />
               </button>
             </div>
-            <p className="text-sm text-slate-400 leading-relaxed">
+            <p className="text-sm text-slate-300 leading-relaxed">
               {activeModalTitle.includes('Indices') 
-                ? 'SENSEX and NIFTY 50 reflect the overall Indian equity market sentiment. Historically, gold acts as a hedge: when equities face volatility, gold demand surges.'
-                : `${activeModalTitle} gives you real-time data feeds, institutional market depth, and instant analytics designed for smart precious metal investors.`}
+                ? 'SENSEX and NIFTY 50 reflect the overall Indian stock market. Historically, gold acts as a safe haven: when stock markets fluctuate, gold demand goes up.'
+                : `${activeModalTitle} provides real-time market updates, purity guides, and accurate calculations to help you make smart decisions with your gold.`}
             </p>
             <button className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] text-slate-950 font-extrabold text-sm hover:brightness-110 transition-all shadow-[0_6px_30px_rgba(234,179,8,0.35)] cursor-pointer border-0" onClick={() => setActiveModalTitle(null)}>
-              Close View
+              Close
             </button>
           </div>
         </div>
@@ -890,11 +891,11 @@ export default function HomePage({
       {/* Live Market Article Detail Modal */}
       {selectedNewsItem && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setSelectedNewsItem(null)}>
-          <div className="bg-[#222222] border border-[#C89B2A]/30 p-6 md:p-8 rounded-3xl max-w-lg w-full flex flex-col gap-5 shadow-2xl relative" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between pb-4 border-b border-white/10">
+          <div className="bg-[#0D172E] border border-[#C89B2A]/40 p-6 md:p-8 rounded-3xl max-w-lg w-full flex flex-col gap-5 shadow-2xl relative" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between pb-4 border-b border-[#1E3159]">
               <div className="flex items-center gap-2">
                 <Newspaper size={20} className="text-[#DAAE4D]" />
-                <h3 className="text-lg font-extrabold text-white">Live Market Analysis</h3>
+                <h3 className="text-lg font-extrabold text-white">Market Update</h3>
               </div>
               <button className="p-2 rounded-xl bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition-all border-0 cursor-pointer" onClick={() => setSelectedNewsItem(null)}>
                 <X size={20} />
@@ -909,7 +910,7 @@ export default function HomePage({
                 <span className="px-2.5 py-1 rounded-md bg-[#DAAE4D]/20 border border-[#DAAE4D]/40 text-[#F3C55B] text-[10px] font-extrabold tracking-wider">
                   {selectedNewsItem.source}
                 </span>
-                <span className="text-xs text-slate-500 font-medium">
+                <span className="text-xs text-slate-400 font-medium">
                   Published {selectedNewsItem.timeAgo}
                 </span>
               </div>
@@ -918,7 +919,7 @@ export default function HomePage({
                 {selectedNewsItem.title}
               </h3>
 
-              <p className="text-sm text-slate-300 leading-relaxed bg-[#1A1A1A] p-4 rounded-2xl border border-white/5">
+              <p className="text-sm text-slate-300 leading-relaxed bg-[#080E1E] p-4 rounded-2xl border border-[#192847]">
                 {selectedNewsItem.snippet}
               </p>
             </div>
@@ -936,7 +937,7 @@ export default function HomePage({
                 </a>
               )}
               <button 
-                className="w-full sm:w-auto py-3.5 px-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold text-sm transition-all cursor-pointer"
+                className="w-full sm:w-auto py-3.5 px-6 rounded-2xl bg-[#080E1E] border border-[#1E3159] hover:bg-[#0A1329] text-white font-bold text-sm transition-all cursor-pointer"
                 onClick={() => setSelectedNewsItem(null)}
               >
                 Close
@@ -949,20 +950,20 @@ export default function HomePage({
       {/* Legacy Modal */}
       {showArticleModal && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setShowArticleModal(false)}>
-          <div className="bg-[#222222] border border-[#C89B2A]/30 p-6 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between pb-4 border-b border-white/10">
-              <h3 className="text-xl font-extrabold text-white">Market Insight Report</h3>
+          <div className="bg-[#0D172E] border border-[#C89B2A]/40 p-6 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between pb-4 border-b border-[#1E3159]">
+              <h3 className="text-xl font-extrabold text-white">Market Update</h3>
               <button className="p-2 rounded-xl bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition-all border-0 cursor-pointer" onClick={() => setShowArticleModal(false)}>
                 <X size={20} />
               </button>
             </div>
             <div className="flex flex-col gap-3">
-              <span className="px-2.5 py-1 rounded-md bg-rose-500/20 border border-rose-500/40 text-rose-400 text-[10px] font-extrabold tracking-wider w-fit">MARKET ALERT</span>
+              <span className="px-2.5 py-1 rounded-md bg-rose-500/20 border border-rose-500/40 text-rose-400 text-[10px] font-extrabold tracking-wider w-fit">GOLD NEWS</span>
               <h3 className="text-lg font-extrabold text-white">
                 Why Central Banks are increasing their Gold reserves.
               </h3>
               <p className="text-sm text-slate-400 leading-relaxed">
-                Global central banks added record volumes of physical bullion to official reserves. Diversification away from single-currency concentration and macro inflation risk remain top drivers.
+                Central banks across the world and the Reserve Bank of India (RBI) have been buying record amounts of pure gold to protect national wealth against inflation and market risks.
               </p>
             </div>
             <button className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] text-slate-950 font-extrabold text-sm hover:brightness-110 transition-all shadow-[0_6px_30px_rgba(234,179,8,0.35)] cursor-pointer border-0" onClick={() => setShowArticleModal(false)}>

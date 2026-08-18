@@ -3,7 +3,6 @@ import {
   TrendingUp,
   TrendingDown,
   Clock,
-  Bell,
   Sliders,
   Award,
   RefreshCw,
@@ -11,7 +10,6 @@ import {
   ArrowRight,
   ChevronRight,
   X,
-  CheckCircle2,
   Coins,
   MapPin,
   Building2,
@@ -45,6 +43,7 @@ interface LiveRatePageProps {
   onNavigateHome?: () => void
   onNavigateAbout?: () => void
   onNavigateGoldLoan?: () => void
+  onNavigateContact?: () => void
   onNavigateTo?: (page: string) => void
 }
 
@@ -52,6 +51,7 @@ export default function LiveRatePage({
   onNavigateHome,
   onNavigateAbout,
   onNavigateGoldLoan,
+  onNavigateContact,
   onNavigateTo,
 }: LiveRatePageProps) {
   // Live rates state
@@ -75,10 +75,6 @@ export default function LiveRatePage({
   const [countdownSeconds, setCountdownSeconds] = useState<number>(892)
 
   // Modals state
-  const [alertModalOpen, setAlertModalOpen] = useState(false)
-  const [alertEmail, setAlertEmail] = useState('')
-  const [alertTargetPrice, setAlertTargetPrice] = useState('')
-  const [alertSaved, setAlertSaved] = useState(false)
   const [activeInfoModal, setActiveInfoModal] = useState<{ title: string; content: string; icon: string } | null>(null)
   const [applyModalOpen, setApplyModalOpen] = useState(false)
 
@@ -170,7 +166,7 @@ export default function LiveRatePage({
         id: 'chennai',
         name: 'Chennai',
         state: 'Tamil Nadu',
-        tag: 'MJDMA Benchmark',
+        tag: 'MJDMA Chennai',
         offset: 15,
         change: 0.84,
         isUp: true,
@@ -180,7 +176,7 @@ export default function LiveRatePage({
         id: 'mumbai',
         name: 'Mumbai',
         state: 'Maharashtra',
-        tag: 'IBJA National Spot',
+        tag: 'IBJA Mumbai Rate',
         offset: 0,
         change: 0.81,
         isUp: true,
@@ -190,7 +186,7 @@ export default function LiveRatePage({
         id: 'delhi',
         name: 'Delhi NCR',
         state: 'National Capital',
-        tag: 'DJA Bullion Post',
+        tag: 'DJA Delhi Rate',
         offset: 10,
         change: 0.79,
         isUp: true,
@@ -200,7 +196,7 @@ export default function LiveRatePage({
         id: 'bengaluru',
         name: 'Bengaluru',
         state: 'Karnataka',
-        tag: 'KJMA Association',
+        tag: 'KJMA Bengaluru',
         offset: 12,
         change: 0.82,
         isUp: true,
@@ -210,7 +206,7 @@ export default function LiveRatePage({
         id: 'hyderabad',
         name: 'Hyderabad',
         state: 'Telangana',
-        tag: 'TGJA Bullion Desk',
+        tag: 'TGJA Hyderabad',
         offset: 18,
         change: 0.85,
         isUp: true,
@@ -293,7 +289,7 @@ export default function LiveRatePage({
     : svgPoints[svgPoints.length - 1] || null
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-[#121212] text-[#E5E5E5] font-sans antialiased selection:bg-[#C89B2A]/30 selection:text-yellow-200 relative">
+    <div className="flex flex-col min-h-screen w-full bg-[#070D1E] text-[#F1F4F9] font-sans antialiased selection:bg-[#C89B2A]/30 selection:text-yellow-200 relative">
       {/* Reusable Gold Luxury Background Component */}
       <GoldBackground textureOpacity={0.08} showGlows={true} />
 
@@ -304,6 +300,7 @@ export default function LiveRatePage({
         onNavigateAbout={onNavigateAbout || (() => onNavigateTo && onNavigateTo('about'))}
         onNavigateLiveRate={() => {}}
         onNavigateGoldLoan={onNavigateGoldLoan || (() => onNavigateTo && onNavigateTo('gold-loan'))}
+        onNavigateContact={onNavigateContact || (() => onNavigateTo && onNavigateTo('contact'))}
         onScrollToSection={(sectionId) => {
           if (onNavigateHome) {
             onNavigateHome()
@@ -335,7 +332,7 @@ export default function LiveRatePage({
             <div className="flex flex-col gap-2">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] text-xs font-bold tracking-wider w-fit">
                 <Sparkles size={14} />
-                <span>INSTITUTIONAL BULLION FEED</span>
+                <span>LIVE GOLD MARKET RATES</span>
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-black text-white tracking-tight leading-[1.1]">
                 Today's <br />
@@ -344,14 +341,14 @@ export default function LiveRatePage({
                 </span>
               </h1>
               <p className="text-sm md:text-base text-slate-400 max-w-2xl leading-relaxed">
-                Stay updated with today's official 1 gram gold prices across India. Synchronized live with IBJA and MCX domestic exchange benchmarks.
+                Check today's live 1 gram gold prices across India. Updated daily from official market rates (IBJA & MCX).
               </p>
             </div>
 
             {/* Pure 1 Gram Indicator Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-[#222222]/80 border border-[#C89B2A]/30 text-xs font-bold text-[#DAAE4D] self-start md:self-auto shadow-md backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-[#0D172E]/85 border border-[#C89B2A]/35 text-xs font-bold text-[#DAAE4D] self-start md:self-auto shadow-md backdrop-blur-md">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>OFFICIAL 1 GRAM BULLION BENCHMARK</span>
+              <span>OFFICIAL 1 GRAM GOLD RATE (INDIA)</span>
             </div>
           </div>
         </div>
@@ -359,10 +356,10 @@ export default function LiveRatePage({
         {/* 4 Metric Top Cards Grid (Strictly 1 Gram) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Card 1: 22K PRICE (1g) */}
-          <div className="p-6 md:p-7 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/40 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-lg">
+          <div className="p-6 md:p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/45 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-lg">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
-                22K PRICE (1g)
+                22K JEWELLERY GOLD (1g)
               </span>
               <div className={`inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full ${
                 isUp22k
@@ -379,7 +376,7 @@ export default function LiveRatePage({
                 {loading ? '...' : `₹${price22kPerGram.toLocaleString('en-IN')}`}
               </div>
               <span className="text-xs text-slate-400 font-medium">
-                91.6% Pure Gold • Per 1 Gram
+                91.6% Pure Gold (916 Hallmark) • Per 1 Gram
               </span>
             </div>
 
@@ -387,16 +384,11 @@ export default function LiveRatePage({
           </div>
 
           {/* Card 2: 24K PRICE (1g) */}
-          <div className="p-6 md:p-7 rounded-3xl bg-[#222222]/70 border border-[#C89B2A]/40 bg-[#222222]/90 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_10px_30px_rgba(234,179,8,0.1)]">
+          <div className="p-6 md:p-7 rounded-3xl bg-[#0D172E]/90 border border-[#C89B2A]/50 bg-[#0E1B38] backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_10px_30px_rgba(234,179,8,0.12)]">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
-                  24K PRICE (1g)
-                </span>
-                <span className="text-[9px] font-black tracking-wider px-2 py-0.5 rounded-full bg-[#C89B2A]/20 border border-[#C89B2A]/40 text-[#F3C55B]">
-                  SPOT
-                </span>
-              </div>
+              <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#F3C55B]">
+                24K PURE GOLD (1g)
+              </span>
               <div className={`inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full ${
                 isUp24k
                   ? 'text-emerald-400 bg-emerald-500/10 border border-emerald-500/20'
@@ -407,20 +399,23 @@ export default function LiveRatePage({
               </div>
             </div>
 
-            <div className="my-3">
-              <div className="text-3xl md:text-4xl font-black text-white group-hover:text-[#DAAE4D] transition-colors tracking-tight">
-                {loading ? '...' : `₹${price24kPerGram.toLocaleString('en-IN')}`}
+            <div className="my-4">
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-3xl md:text-4xl font-black text-white tracking-tight">
+                  ₹{price24kPerGram.toLocaleString('en-IN')}
+                </span>
+                <span className="text-xs text-slate-400 font-semibold">/ gram</span>
               </div>
-              <span className="text-xs text-slate-400 font-medium">
-                99.9% Pure Bullion • Per 1 Gram
+              <span className="text-[11px] text-[#DAAE4D] font-medium block mt-1">
+                99.9% Pure • Sovereign Investment Standard
               </span>
             </div>
 
-            <div className="w-2/3 h-[2px] bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-transparent rounded-full mt-1" />
+            <div className="w-1/2 h-[1px] bg-[#DAAE4D]/30 rounded-full mt-1" />
           </div>
 
           {/* Card 3: LAST UPDATED */}
-          <div className="p-6 md:p-7 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/40 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-lg">
+          <div className="p-6 md:p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/40 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-lg">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
               LAST UPDATED
             </span>
@@ -439,7 +434,7 @@ export default function LiveRatePage({
           </div>
 
           {/* Card 4: MARKET STATUS */}
-          <div className="p-6 md:p-7 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/40 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-lg">
+          <div className="p-6 md:p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/40 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-lg">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
               MARKET STATUS
             </span>
@@ -461,20 +456,20 @@ export default function LiveRatePage({
         </div>
 
         {/* Gold Price Movement Section with Accurate Historical Wave Chart */}
-        <div className="p-6 md:p-8 rounded-3xl bg-[#222222]/70 border border-white/10 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col gap-6 relative overflow-hidden">
+        <div className="p-6 md:p-8 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] backdrop-blur-xl shadow-[0_20px_50px_rgba(4,8,19,0.6)] flex flex-col gap-6 relative overflow-hidden">
           {/* Header row */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-2xl font-extrabold text-white tracking-tight">
-                Gold Price Movement
+                Gold Price Trend
               </h2>
               <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
-                HISTORICAL 24K SPOT RATE (₹ / GRAM)
+                24K PURE GOLD RATE TREND (₹ / GRAM)
               </span>
             </div>
 
             {/* Time Filter Tabs */}
-            <div className="inline-flex items-center p-1.5 rounded-2xl bg-[#1A1A1A] border border-white/10">
+            <div className="inline-flex items-center p-1.5 rounded-2xl bg-[#080E1E] border border-[#192847]">
               <button
                 onClick={() => setTimeframe('today')}
                 className={`px-4 py-2 rounded-xl text-xs font-extrabold uppercase tracking-wider transition-all border-0 cursor-pointer ${
@@ -574,7 +569,7 @@ export default function LiveRatePage({
                       className={`transition-all duration-200 ${
                         hoveredPointIndex === idx
                           ? 'fill-[#F3C55B] stroke-white stroke-[2.5px] shadow-lg'
-                          : 'fill-[#121212] stroke-[#DAAE4D] stroke-2 hover:fill-[#F3C55B]'
+                          : 'fill-[#070D1E] stroke-[#DAAE4D] stroke-2 hover:fill-[#F3C55B]'
                       }`}
                       onMouseEnter={() => setHoveredPointIndex(idx)}
                       onMouseLeave={() => setHoveredPointIndex(null)}
@@ -593,7 +588,7 @@ export default function LiveRatePage({
                   top: `${(activePoint.y / 230) * 85}%`,
                 }}
               >
-                <div className="px-4 py-2.5 rounded-2xl bg-[#1A1A1A] border border-[#C89B2A]/50 shadow-[0_8px_30px_rgba(0,0,0,0.85)] backdrop-blur-md flex flex-col gap-0.5 min-w-[130px]">
+                <div className="px-4 py-2.5 rounded-2xl bg-[#080E1E] border border-[#C89B2A]/50 shadow-[0_8px_30px_rgba(0,0,0,0.85)] backdrop-blur-md flex flex-col gap-0.5 min-w-[130px]">
                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider whitespace-nowrap">
                     {activePoint.time}
                   </span>
@@ -637,66 +632,66 @@ export default function LiveRatePage({
 
         {/* 4 Stat / High-Low Grid Boxes (Accurately 1 Gram) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="p-6 rounded-3xl bg-[#222222]/70 border border-white/10 backdrop-blur-xl flex flex-col gap-1.5">
+          <div className="p-6 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] backdrop-blur-xl flex flex-col gap-1.5">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
               {timeframe === 'today' ? "TODAY'S HIGH (1g)" : 'PERIOD HIGH (1g)'}
             </span>
             <div className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
               ₹{highPrice.toLocaleString('en-IN')}
             </div>
-            <span className="text-xs text-slate-400 font-medium">24K Bullion Benchmark</span>
+            <span className="text-xs text-slate-400 font-medium">24K Pure Gold Rate</span>
           </div>
 
-          <div className="p-6 rounded-3xl bg-[#222222]/70 border border-white/10 backdrop-blur-xl flex flex-col gap-1.5">
+          <div className="p-6 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] backdrop-blur-xl flex flex-col gap-1.5">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
               {timeframe === 'today' ? "TODAY'S LOW (1g)" : 'PERIOD LOW (1g)'}
             </span>
             <div className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
               ₹{lowPrice.toLocaleString('en-IN')}
             </div>
-            <span className="text-xs text-slate-400 font-medium">24K Bullion Benchmark</span>
+            <span className="text-xs text-slate-400 font-medium">24K Pure Gold Rate</span>
           </div>
 
-          <div className="p-6 rounded-3xl bg-[#222222]/70 border border-white/10 backdrop-blur-xl flex flex-col gap-1.5">
+          <div className="p-6 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] backdrop-blur-xl flex flex-col gap-1.5">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
               AVERAGE PRICE (1g)
             </span>
             <div className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
               ₹{avgPrice.toLocaleString('en-IN')}
             </div>
-            <span className="text-xs text-slate-400 font-medium">Weighted Mean Valuation</span>
+            <span className="text-xs text-slate-400 font-medium">Average Daily Rate</span>
           </div>
 
-          <div className="p-6 rounded-3xl bg-[#222222]/70 border border-white/10 backdrop-blur-xl flex flex-col gap-1.5">
+          <div className="p-6 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] backdrop-blur-xl flex flex-col gap-1.5">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
               DAILY CHANGE %
             </span>
             <div className={`text-2xl md:text-3xl font-extrabold tracking-tight ${isUp24k ? 'text-emerald-400' : 'text-rose-400'}`}>
               {isUp24k ? `+${change24k}%` : `-${change24k}%`}
             </div>
-            <span className="text-xs text-slate-400 font-medium">vs Previous Close</span>
+            <span className="text-xs text-slate-400 font-medium">vs Yesterday's Rate</span>
           </div>
         </div>
 
         {/* --- Top 5 City-Wise Gold Rates Section --- */}
-        <div className="p-6 md:p-8 rounded-3xl bg-[#222222]/70 border border-white/10 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col gap-6">
+        <div className="p-6 md:p-8 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] backdrop-blur-xl shadow-[0_20px_50px_rgba(4,8,19,0.6)] flex flex-col gap-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] text-[11px] font-bold tracking-wider mb-2">
                 <MapPin size={13} />
-                <span>REGIONAL BULLION HUBS (INDIA)</span>
+                <span>MAJOR INDIAN CITIES</span>
               </div>
               <h2 className="text-2xl font-extrabold text-white tracking-tight">
                 Top 5 City-Wise Gold Rates
               </h2>
               <p className="text-xs md:text-sm text-slate-400 mt-1 font-normal">
-                Compare today's 1 gram 24K, 22K, and 18K gold rates across India's premier precious metal centers.
+                Compare today's 1 gram 24K, 22K, and 18K gold rates across Chennai, Mumbai, Delhi, Bengaluru, and Hyderabad.
               </p>
             </div>
 
-            <div className="inline-flex items-center gap-2 text-xs font-bold text-[#DAAE4D] bg-[#1A1A1A] border border-white/10 px-4 py-2 rounded-2xl self-start sm:self-auto">
+            <div className="inline-flex items-center gap-2 text-xs font-bold text-[#DAAE4D] bg-[#080E1E] border border-[#1E3159] px-4 py-2 rounded-2xl self-start sm:self-auto">
               <Building2 size={15} />
-              <span>5 MAJOR MARKETS</span>
+              <span>5 MAJOR CITIES</span>
             </div>
           </div>
 
@@ -706,11 +701,11 @@ export default function LiveRatePage({
               <thead>
                 <tr className="border-b border-white/10 text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
                   <th className="py-3.5 px-4">City / Region</th>
-                  <th className="py-3.5 px-4">24K Rate (1g)</th>
-                  <th className="py-3.5 px-4">22K Rate (1g)</th>
+                  <th className="py-3.5 px-4">24K Pure Rate (1g)</th>
+                  <th className="py-3.5 px-4">22K Jewellery Rate (1g)</th>
                   <th className="py-3.5 px-4 hidden md:table-cell">18K Rate (1g)</th>
                   <th className="py-3.5 px-4">24h Movement</th>
-                  <th className="py-3.5 px-4 hidden lg:table-cell">Association Benchmark</th>
+                  <th className="py-3.5 px-4 hidden lg:table-cell">Local Jewellers Benchmark</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5 text-xs">
@@ -795,39 +790,15 @@ export default function LiveRatePage({
           </div>
 
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 border-t border-white/5">
-            <span>* Prices are subject to local jeweller making charges and applicable 3% Indian GST.</span>
-            <span className="text-[#DAAE4D] font-semibold">Updated with daily IBJA opening benchmark</span>
+            <span>* Prices are indicative market rates. Jeweller making charges and 3% GST will be charged extra in jewellery shops.</span>
+            <span className="text-[#DAAE4D] font-semibold">Updated with daily official market opening rates</span>
           </div>
-        </div>
-
-        {/* "Never Miss a Price Movement" Alert CTA Banner */}
-        <div className="relative p-8 md:p-12 rounded-3xl bg-[#222222]/70 border border-white/10 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-          <div className="absolute -right-8 -bottom-8 pointer-events-none opacity-[0.05] text-white">
-            <Bell size={240} />
-          </div>
-
-          <div className="flex flex-col gap-2 max-w-xl relative z-10">
-            <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-              Never Miss a Price Movement
-            </h3>
-            <p className="text-xs md:text-sm text-slate-400 leading-relaxed font-normal">
-              Set custom price alerts and receive instant notifications via SMS or Email when the gold rate reaches your target point per gram.
-            </p>
-          </div>
-
-          <button
-            onClick={() => setAlertModalOpen(true)}
-            className="relative z-10 px-7 py-3.5 rounded-2xl bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] text-slate-950 font-extrabold text-sm hover:brightness-110 active:scale-95 transition-all shadow-[0_6px_30px_rgba(234,179,8,0.35)] border-0 cursor-pointer flex items-center gap-2 shrink-0"
-          >
-            <Bell size={18} />
-            <span>Set Price Alert</span>
-          </button>
         </div>
 
         {/* 4 Feature Educational Cards (2x2 Grid) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Card 1: Price Factors */}
-          <div className="p-7 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group">
+          <div className="p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
@@ -837,16 +808,16 @@ export default function LiveRatePage({
                   Price Factors
                 </h4>
               </div>
-              <p className="text-sm text-slate-400 leading-relaxed font-normal">
-                Understand how MCX movements, import duties, and regional bullion association fixes impact the daily gold price in your city.
+              <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                Understand how MCX commodity trading, import customs duty, and city jewellers associations determine today's gold rate.
               </p>
             </div>
             <button
               onClick={() =>
                 setActiveInfoModal({
-                  title: 'Domestic Gold Price Determinants in India',
+                  title: 'How Gold Rates are Decided in India',
                   content:
-                    'Domestic gold rates in India are benchmarked by the India Bullion and Jewellers Association (IBJA) based on MCX domestic trading, basic customs duty (BCD), Agriculture Infrastructure and Development Cess (AIDC), USD/INR exchange rates, and regional bullion association premiums.',
+                    'Domestic gold rates in India are determined by MCX market prices, government customs duty, the US Dollar vs Indian Rupee exchange rate, and local city jewellers association rates.',
                   icon: 'factors',
                 })
               }
@@ -858,7 +829,7 @@ export default function LiveRatePage({
           </div>
 
           {/* Card 2: 22K vs 24K */}
-          <div className="p-7 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group">
+          <div className="p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
@@ -868,8 +839,8 @@ export default function LiveRatePage({
                   22K vs 24K
                 </h4>
               </div>
-              <p className="text-sm text-slate-400 leading-relaxed font-normal">
-                The fundamental differences in purity, durability, and investment value between 22 carat jewelry gold and 24 carat pure gold.
+              <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                Understand the difference between 24K pure gold (best for coins and bars) and 22K hallmarked gold (best for making jewellery).
               </p>
             </div>
             <button
@@ -877,7 +848,7 @@ export default function LiveRatePage({
                 setActiveInfoModal({
                   title: '22 Karat vs 24 Karat Pure Gold',
                   content:
-                    '24 Karat gold is 99.9% pure bullion, making it the supreme choice for investment bars and coins. 22 Karat (91.6% pure) is alloyed with copper or silver to provide durability for crafted jewelry ornaments.',
+                    '24 Karat gold is 99.9% pure gold, making it ideal for investment coins and bars. 22 Karat (91.6% pure / 916 hallmark) is mixed with a little copper or silver to give strength for everyday jewellery.',
                   icon: 'award',
                 })
               }
@@ -889,26 +860,26 @@ export default function LiveRatePage({
           </div>
 
           {/* Card 3: Daily Changes */}
-          <div className="p-7 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group">
+          <div className="p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
                   <RefreshCw size={22} />
                 </div>
                 <h4 className="text-base font-bold text-white group-hover:text-[#DAAE4D] transition-colors">
-                  Daily Changes
+                  Daily Price Updates
                 </h4>
               </div>
-              <p className="text-sm text-slate-400 leading-relaxed font-normal">
+              <p className="text-sm text-slate-300 leading-relaxed font-normal">
                 Why gold prices change twice a day and how to leverage daily fluctuations for better investment timing.
               </p>
             </div>
             <button
               onClick={() =>
                 setActiveInfoModal({
-                  title: 'Daily Bullion Price Fixes',
+                  title: 'Daily Gold Rate Updates',
                   content:
-                    'Bullion associations in India announce benchmark opening rates around 10:00 AM IST and evening rates around 4:30 PM IST. Tracking intra-day movements helps you secure optimal purchase prices.',
+                    'Jewellers and gold associations in India announce opening rates around 10:00 AM IST and closing rates around 4:30 PM IST. Tracking these rates helps you buy or pledge gold at the best time.',
                   icon: 'refresh',
                 })
               }
@@ -920,7 +891,7 @@ export default function LiveRatePage({
           </div>
 
           {/* Card 4: Buying Tips */}
-          <div className="p-7 rounded-3xl bg-[#222222]/70 border border-white/10 hover:border-[#C89B2A]/30 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group">
+          <div className="p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
@@ -930,7 +901,7 @@ export default function LiveRatePage({
                   Buying Tips
                 </h4>
               </div>
-              <p className="text-sm text-slate-400 leading-relaxed font-normal">
+              <p className="text-sm text-slate-300 leading-relaxed font-normal">
                 Expert advice on checking hallmarking, calculating making charges, and verifying the weight before your purchase.
               </p>
             </div>
@@ -939,7 +910,7 @@ export default function LiveRatePage({
                 setActiveInfoModal({
                   title: 'Smart Gold Buying & Hallmarking Guide',
                   content:
-                    'Always check for BIS Hallmark engraving with a 6-digit HUID code. Verify that making charges and 3% Indian GST are itemized clearly on your invoice.',
+                    'Always check for the official BIS Hallmark symbol and the 6-digit HUID code on your jewellery. Ensure your jewellery bill clearly mentions gold weight, making charges, and 3% GST separately.',
                   icon: 'shield',
                 })
               }
@@ -958,6 +929,7 @@ export default function LiveRatePage({
         onNavigateAbout={onNavigateAbout || (() => onNavigateTo && onNavigateTo('about'))}
         onNavigateLiveRate={() => {}}
         onNavigateGoldLoan={onNavigateGoldLoan || (() => onNavigateTo && onNavigateTo('gold-loan'))}
+        onNavigateContact={onNavigateContact || (() => onNavigateTo && onNavigateTo('contact'))}
         onScrollToSection={(sectionId) => {
           if (onNavigateHome) {
             onNavigateHome()
@@ -971,103 +943,17 @@ export default function LiveRatePage({
 
       {/* --- Modals --- */}
 
-      {/* 1. Price Alert Modal (1 Gram Target) */}
-      {alertModalOpen && (
-        <div
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
-          onClick={() => setAlertModalOpen(false)}
-        >
-          <div
-            className="bg-[#222222] border border-[#C89B2A]/30 p-7 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
-              <div className="flex items-center gap-2 text-white font-bold text-lg">
-                <Bell size={20} className="text-[#DAAE4D]" />
-                <span>Set Gold Rate Alert</span>
-              </div>
-              <button
-                className="p-1.5 rounded-xl bg-white/5 text-slate-400 hover:text-white border-0 cursor-pointer"
-                onClick={() => setAlertModalOpen(false)}
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            {alertSaved ? (
-              <div className="py-6 flex flex-col items-center text-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                  <CheckCircle2 size={28} />
-                </div>
-                <h4 className="text-lg font-bold text-white">Alert Configured!</h4>
-                <p className="text-xs text-slate-400">
-                  You will receive an instant notification at <strong className="text-white">{alertEmail}</strong> when gold reaches ₹{alertTargetPrice}/gram.
-                </p>
-                <button
-                  onClick={() => {
-                    setAlertSaved(false)
-                    setAlertModalOpen(false)
-                  }}
-                  className="mt-2 w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] text-slate-950 font-extrabold text-xs uppercase cursor-pointer border-0"
-                >
-                  Done
-                </button>
-              </div>
-            ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  if (alertEmail) setAlertSaved(true)
-                }}
-                className="flex flex-col gap-4"
-              >
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-slate-300">Target Price (₹ per 1 Gram)</label>
-                  <input
-                    type="number"
-                    required
-                    placeholder={`e.g. ${price24kPerGram - 100}`}
-                    value={alertTargetPrice}
-                    onChange={(e) => setAlertTargetPrice(e.target.value)}
-                    className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-slate-300">Email Address</label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="name@example.com"
-                    value={alertEmail}
-                    onChange={(e) => setAlertEmail(e.target.value)}
-                    className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] text-slate-950 font-extrabold text-xs uppercase tracking-wider hover:brightness-110 transition-all border-0 cursor-pointer mt-2"
-                >
-                  Activate Instant Alert
-                </button>
-              </form>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* 2. Educational Detail Modal */}
+      {/* 1. Educational Detail Modal */}
       {activeInfoModal && (
         <div
           className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
           onClick={() => setActiveInfoModal(null)}
         >
           <div
-            className="bg-[#222222] border border-[#C89B2A]/30 p-7 md:p-8 rounded-3xl max-w-lg w-full flex flex-col gap-5 shadow-2xl relative"
+            className="bg-[#0D172E] border border-[#C89B2A]/40 p-7 md:p-8 rounded-3xl max-w-lg w-full flex flex-col gap-5 shadow-2xl relative"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+            <div className="flex items-center justify-between pb-3 border-b border-[#1E3159]">
               <h3 className="text-lg font-bold text-white">{activeInfoModal.title}</h3>
               <button
                 className="p-1.5 rounded-xl bg-white/5 text-slate-400 hover:text-white border-0 cursor-pointer"
@@ -1094,10 +980,10 @@ export default function LiveRatePage({
           onClick={() => setApplyModalOpen(false)}
         >
           <div
-            className="bg-[#222222] border border-[#C89B2A]/30 p-7 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative"
+            className="bg-[#0D172E] border border-[#C89B2A]/40 p-7 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+            <div className="flex items-center justify-between pb-3 border-b border-[#1E3159]">
               <div className="flex items-center gap-2 text-white font-bold text-lg">
                 <Coins size={20} className="text-[#DAAE4D]" />
                 <span>Apply for Gold Loan</span>
@@ -1111,13 +997,13 @@ export default function LiveRatePage({
             </div>
 
             <p className="text-xs text-slate-400 leading-relaxed">
-              Unlock the maximum value from your gold ornaments at institutional interest rates starting at 0.75% per month.
+              Get maximum loan amount against your gold jewellery at low interest rates starting from 0.75% per month (9% p.a.).
             </p>
 
             <form
               onSubmit={(e) => {
                 e.preventDefault()
-                alert('Application submitted! Our institutional representative will contact you shortly.')
+                alert('Application submitted! Our gold loan advisor will call you shortly.')
                 setApplyModalOpen(false)
               }}
               className="flex flex-col gap-3.5"
@@ -1126,19 +1012,19 @@ export default function LiveRatePage({
                 type="text"
                 required
                 placeholder="Full Name"
-                className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
+                className="w-full px-4 py-3 bg-[#080E1E] border border-[#1E3159] rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
               />
               <input
                 type="tel"
                 required
                 placeholder="Phone Number"
-                className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
+                className="w-full px-4 py-3 bg-[#080E1E] border border-[#1E3159] rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
               />
               <input
                 type="number"
                 required
                 placeholder="Estimated Gold Weight (Grams)"
-                className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
+                className="w-full px-4 py-3 bg-[#080E1E] border border-[#1E3159] rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
               />
               <button
                 type="submit"

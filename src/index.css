@@ -4,50 +4,59 @@
 @theme {
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
-  --color-dark-bg: #121212;
-  --color-dark-card: #222222;
-  --color-dark-card-hover: #1A1A1A;
-  --color-dark-input: #1A1A1A;
+  /* Royal Midnight Sapphire Navy & Gold Theme */
+  --color-dark-bg: #070D1E;
+  --color-dark-card: #0D172E;
+  --color-dark-card-hover: #121F3D;
+  --color-dark-input: #080E1E;
+
+  --color-navy-950: #040813;
+  --color-navy-900: #070D1E;
+  --color-navy-850: #0A1329;
+  --color-navy-800: #0D172E;
+  --color-navy-750: #121F3D;
+  --color-navy-700: #182A52;
 
   --color-gold-300: #F3C55B;
   --color-gold-400: #DAAE4D;
   --color-gold-500: #DAAE4D;
   --color-gold-600: #C89B2A;
 
-  --color-border-dark: #323232;
-  --color-border-gold: rgba(218, 174, 77, 0.28);
-  --color-border-gold-bright: rgba(243, 197, 91, 0.5);
+  --color-border-dark: #192847;
+  --color-border-navy: #1E3159;
+  --color-border-gold: rgba(218, 174, 77, 0.32);
+  --color-border-gold-bright: rgba(243, 197, 91, 0.55);
 
-  --color-text-main: #E5E5E5;
-  --color-text-secondary: #A1A1AA;
-  --color-text-muted: #A1A1AA;
+  --color-text-main: #F1F4F9;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
   
-  --color-success: #22C55E;
+  --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-danger: #EF4444;
 }
 
 :root {
-  --bg-main: #121212;
-  --bg-card: #222222;
-  --bg-card-hover: #1A1A1A;
-  --bg-input: #1A1A1A;
-  --border-color: #323232;
-  --border-gold: rgba(218, 174, 77, 0.28);
-  --border-gold-bright: rgba(243, 197, 91, 0.5);
+  --bg-main: #070D1E;
+  --bg-card: #0D172E;
+  --bg-card-hover: #121F3D;
+  --bg-input: #080E1E;
+  --border-color: #192847;
+  --border-gold: rgba(218, 174, 77, 0.32);
+  --border-gold-bright: rgba(243, 197, 91, 0.55);
 
   --gold-300: #F3C55B;
   --gold-400: #DAAE4D;
   --gold-500: #DAAE4D;
   --gold-600: #C89B2A;
   --gold-gradient: linear-gradient(135deg, #F3C55B 0%, #DAAE4D 50%, #C89B2A 100%);
-  --gold-glow: rgba(218, 174, 77, 0.18);
+  --gold-glow: rgba(218, 174, 77, 0.25);
 
-  --text-main: #E5E5E5;
-  --text-secondary: #A1A1AA;
-  --text-muted: #A1A1AA;
+  --text-main: #F1F4F9;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
   
-  --success: #22C55E;
+  --success: #10B981;
   --warning: #F59E0B;
   --danger: #EF4444;
 }
@@ -55,12 +64,12 @@
 body {
   background-color: var(--bg-main);
   background-image: 
-    radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.18) 0px, transparent 50%),
-    radial-gradient(at 100% 25%, rgba(234, 179, 8, 0.15) 0px, transparent 55%),
-    radial-gradient(at 15% 60%, rgba(180, 83, 9, 0.12) 0px, transparent 50%),
-    radial-gradient(at 85% 95%, rgba(30, 58, 138, 0.15) 0px, transparent 55%),
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 32px 32px;
+    radial-gradient(ellipse at 50% -10%, rgba(218, 174, 77, 0.16) 0%, transparent 60%),
+    radial-gradient(ellipse at 90% 20%, rgba(30, 64, 175, 0.22) 0%, transparent 55%),
+    radial-gradient(ellipse at 10% 65%, rgba(243, 197, 91, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 85%, rgba(30, 64, 175, 0.18) 0%, transparent 55%),
+    radial-gradient(circle at 50% 50%, rgba(218, 174, 77, 0.045) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 28px 28px;
   background-attachment: fixed;
   color: var(--text-main);
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -83,8 +92,18 @@ body {
 /* Keyframe Animations */
 @keyframes floatGlow {
   0% { transform: translateX(-50%) translateY(0) scale(1); }
-  50% { transform: translateX(-48%) translateY(25px) scale(1.05); }
-  100% { transform: translateX(-52%) translateY(-15px) scale(0.96); }
+  50% { transform: translateX(-48%) translateY(20px) scale(1.05); }
+  100% { transform: translateX(-52%) translateY(-10px) scale(0.97); }
+}
+
+@keyframes auraPulse {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+
+@keyframes slowOrbit {
+  0% { transform: rotate(0deg) translateX(30px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(30px) rotate(-360deg); }
 }
 
 .animate-float-glow-top {
@@ -99,16 +118,24 @@ body {
   animation: floatGlow 16s infinite ease-in-out alternate;
 }
 
+.animate-aura-pulse {
+  animation: auraPulse 8s infinite ease-in-out;
+}
+
+.animate-slow-orbit {
+  animation: slowOrbit 24s infinite linear;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-main);
+  background: #070D1E;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(234, 179, 8, 0.25);
+  background: rgba(218, 174, 77, 0.35);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
