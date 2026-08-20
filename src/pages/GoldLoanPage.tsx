@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import {
   Zap,
   TrendingUp,
@@ -10,17 +10,13 @@ import {
   ChevronDown,
   ChevronUp,
   ArrowRight,
-  Calculator,
-  Phone,
-  Mail,
-  Lock,
-  Clock,
   Sparkles,
   X,
   Scale,
   Award,
   BadgePercent
 } from 'lucide-react'
+import goldLoanBankHero from '../assets/gold_loan_bank_hero.jpg'
 import { Navbar, Footer, GoldBackground } from '../components'
 
 interface PurityRate {
@@ -54,23 +50,11 @@ export default function GoldLoanPage({
   const [liveRates, setLiveRates] = useState<PurityRate[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
-  // Calculator State
-  const [weightGrams, setWeightGrams] = useState<number>(50)
-  const [selectedKarat, setSelectedKarat] = useState<number>(22)
-  const [selectedTenureMonths, setSelectedTenureMonths] = useState<number>(12)
-
   // FAQ Accordion State
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
 
   // Modals & Application State
   const [applyModalOpen, setApplyModalOpen] = useState<boolean>(false)
-  const [consultationSuccess, setConsultationSuccess] = useState<boolean>(false)
-  const [conciergeForm, setConciergeForm] = useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
-    weight: '',
-  })
 
   // Fetch live rates from backend API
   const fetchRates = useCallback(async () => {
@@ -99,35 +83,6 @@ export default function GoldLoanPage({
 
   const price24kPerGram = rate24k?.pricePerGram || 13535
   const price22kPerGram = rate22k?.pricePerGram || 12407
-
-  // Rate per gram based on selected karat
-  const activeRatePerGram = useMemo(() => {
-    if (selectedKarat === 24) return price24kPerGram
-    if (selectedKarat === 22) return price22kPerGram
-    if (selectedKarat === 18) return Math.round(price24kPerGram * (18 / 24))
-    return Math.round(price24kPerGram * (selectedKarat / 24))
-  }, [selectedKarat, price24kPerGram, price22kPerGram])
-
-  // Dynamic Loan Calculations
-  const totalMarketValue = useMemo(() => {
-    return Math.round(weightGrams * activeRatePerGram)
-  }, [weightGrams, activeRatePerGram])
-
-  // RBI Standard LTV is 75%
-  const estimatedLoanAmount = useMemo(() => {
-    return Math.round(totalMarketValue * 0.75)
-  }, [totalMarketValue])
-
-  // Monthly interest at institutional 0.75% per month (9% p.a.)
-  const monthlyInterest = useMemo(() => {
-    return Math.round(estimatedLoanAmount * 0.0075)
-  }, [estimatedLoanAmount])
-
-  // Handle Concierge Form Submission
-  const handleConciergeSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setConsultationSuccess(true)
-  }
 
   // Curated FAQ Items
   const curatedFaqs = [
@@ -199,34 +154,30 @@ export default function GoldLoanPage({
           </p>
         </div>
 
-        {/* Section 2: Experience Bank Locker Storage Card */}
-        <div className="p-8 md:p-12 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.04)] flex flex-col lg:flex-row items-center gap-8 md:gap-12 relative overflow-hidden">
-          {/* Left Visual Container */}
-          <div className="w-full lg:w-5/12 flex flex-col justify-center items-center p-8 rounded-3xl bg-slate-50 border border-slate-200/80 shadow-inner relative overflow-hidden group">
-            <div className="w-20 h-20 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center mb-4 shadow-md group-hover:scale-110 transition-transform">
-              <Lock size={38} />
-            </div>
-            <span className="text-base font-extrabold text-slate-900 tracking-tight uppercase text-center">
-              Bank Locker Storage
-            </span>
-            <span className="text-xs text-slate-500 text-center mt-1">
-              100% Fully Insured Storage
-            </span>
-
-            <div className="mt-6 flex items-center gap-2.5 text-xs font-bold text-orange-600 bg-white px-4 py-2 rounded-xl border border-orange-200/80 shadow-sm">
-              <ShieldCheck size={16} />
-              <span>100% Safe & Secure Gold Storage</span>
+        {/* Section 2: Maximum Value & Instant Cash Showcase Card (Image Left, Text Right) */}
+        <div className="p-8 md:p-10 lg:p-12 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.04)] flex flex-col lg:flex-row items-center gap-8 md:gap-12 relative overflow-hidden">
+          {/* Left Visual — Gold Loan Bank & Jewelry Image */}
+          <div className="w-full lg:w-5/12 flex items-center justify-center lg:justify-start shrink-0">
+            <div className="relative w-full max-w-[480px] rounded-3xl overflow-hidden shadow-[0_15px_35px_rgba(249,115,22,0.12)] border border-slate-100 group">
+              <img
+                src={goldLoanBankHero}
+                alt="Gold Loan Bank and Jewellery Valuation"
+                className="w-full h-auto object-cover transition-transform duration-700 hover:scale-[1.03]"
+              />
             </div>
           </div>
 
           {/* Right Feature Details */}
-          <div className="w-full lg:w-7/12 flex flex-col gap-5">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider w-fit">
+          <div className="w-full lg:w-7/12 flex flex-col gap-5 text-left">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider w-fit">
               <span>SAFE • RELIABLE • INSTANT</span>
             </div>
 
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-snug">
-              Get Maximum Value and Instant Cash for Your Gold
+              Get Maximum Value and Instant Cash for{' '}
+              <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
+                Your Gold
+              </span>
             </h2>
 
             <p className="text-sm md:text-base text-slate-600 leading-relaxed font-normal">
@@ -425,140 +376,7 @@ export default function GoldLoanPage({
           </div>
         </div>
 
-        {/* Section 5: Interactive Loan Eligibility Calculator */}
-        <div className="p-6 md:p-8 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.04)] flex flex-col lg:flex-row gap-8 items-stretch">
-          {/* Left Form Area */}
-          <div className="w-full lg:w-7/12 flex flex-col justify-between gap-6">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider mb-2">
-                <Calculator size={13} />
-                <span>INSTANT GOLD LOAN CALCULATOR</span>
-              </div>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-                Gold Loan Calculator
-              </h2>
-              <p className="text-sm text-slate-600 mt-1">
-                Check how much loan amount you can get against your gold in seconds.
-              </p>
-            </div>
 
-            <div className="flex flex-col gap-5">
-              {/* Inputs Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Weight Input */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-slate-700">Gold Weight (Grams)</label>
-                  <div className="relative">
-                    <input
-                      type="number"
-                      min={1}
-                      max={5000}
-                      value={weightGrams || ''}
-                      onChange={(e) => setWeightGrams(Math.max(1, Number(e.target.value)))}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm font-bold focus:outline-none focus:border-[#FF6B00]"
-                      placeholder="e.g. 50"
-                    />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500">
-                      GRAMS
-                    </span>
-                  </div>
-                </div>
-
-                {/* Karat Selection */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-slate-700">Gold Purity (Karat)</label>
-                  <select
-                    value={selectedKarat}
-                    onChange={(e) => setSelectedKarat(Number(e.target.value))}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm font-bold focus:outline-none focus:border-[#FF6B00] cursor-pointer"
-                  >
-                    <option value={24}>24K (99.9% Pure Gold - Coins & Bars)</option>
-                    <option value={22}>22K (91.6% Hallmarked Jewellery Gold)</option>
-                    <option value={18}>18K (75.0% Diamond & Stone Jewellery)</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Tenure Selection Buttons */}
-              <div className="flex flex-col gap-2">
-                <div className="flex justify-between items-center text-xs">
-                  <span className="font-bold text-slate-700">Loan Tenure</span>
-                  <span className="text-orange-600 font-bold">{selectedTenureMonths} Months</span>
-                </div>
-                <div className="grid grid-cols-4 gap-2">
-                  {[3, 6, 12, 24].map((tenure) => (
-                    <button
-                      key={tenure}
-                      onClick={() => setSelectedTenureMonths(tenure)}
-                      className={`py-2.5 rounded-2xl text-xs font-bold transition-all border cursor-pointer ${
-                        selectedTenureMonths === tenure
-                          ? 'bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white border-transparent shadow-md font-black'
-                          : 'bg-slate-50 text-slate-600 border-slate-200 hover:text-slate-900 hover:bg-slate-100'
-                      }`}
-                    >
-                      {tenure}M
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <button
-                onClick={() => setApplyModalOpen(true)}
-                className="flex-1 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-sm hover:brightness-110 active:scale-95 transition-all shadow-[0_6px_25px_rgba(249,115,22,0.35)] border-0 cursor-pointer flex items-center justify-center gap-2"
-              >
-                <Zap size={18} />
-                <span>Apply for Gold Loan</span>
-              </button>
-              <button
-                onClick={() => alert(`Sanction Estimate Generated:\nLoan Amount: ₹${estimatedLoanAmount.toLocaleString('en-IN')}\nWeight: ${weightGrams}g (${selectedKarat}K)\nMonthly Interest: ₹${monthlyInterest.toLocaleString('en-IN')}/mo`)}
-                className="py-3.5 px-6 rounded-2xl bg-slate-100 border border-slate-300 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-all cursor-pointer shadow-sm"
-              >
-                Instant Estimate
-              </button>
-            </div>
-          </div>
-
-          {/* Right Gold Output Box */}
-          <div className="w-full lg:w-5/12 rounded-3xl bg-gradient-to-br from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white p-7 md:p-8 flex flex-col justify-between gap-6 shadow-[0_15px_40px_rgba(249,115,22,0.35)] relative overflow-hidden">
-            <div className="flex flex-col gap-1">
-              <span className="text-[10px] font-black uppercase tracking-widest text-white/85">
-                YOU WILL GET APPROXIMATELY
-              </span>
-              <div className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
-                ₹{estimatedLoanAmount.toLocaleString('en-IN')}
-              </div>
-              <span className="text-xs font-bold text-white/90">
-                Maximum Loan Amount (Up to 75% Value)
-              </span>
-            </div>
-
-            <div className="flex flex-col gap-2.5 py-4 border-y border-white/20 text-xs">
-              <div className="flex justify-between items-center">
-                <span className="font-bold text-white/85">Total Gold Market Value:</span>
-                <span className="font-black text-white">₹{totalMarketValue.toLocaleString('en-IN')}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="font-bold text-white/85">Maximum Loan Limit:</span>
-                <span className="font-black text-white">75.0% of Market Value</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="font-bold text-white/85">Monthly Interest (0.75%):</span>
-                <span className="font-black text-white">₹{monthlyInterest.toLocaleString('en-IN')} / mo</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="font-bold text-white/85">Prepayment / Loan Closing Fee:</span>
-                <span className="font-black text-white">₹0 (Free)</span>
-              </div>
-            </div>
-
-            <p className="text-[10px] text-white/80 leading-relaxed font-semibold">
-              * Calculated based on today's live gold rate. Final loan amount depends on physical purity check.
-            </p>
-          </div>
-        </div>
 
         {/* Section 6: Five Steps to Gold Loan (Process Stepper) */}
         <div className="flex flex-col gap-8">
@@ -711,114 +529,7 @@ export default function GoldLoanPage({
           </div>
         </div>
 
-        {/* Section 9: Help & Support (Consultation Form) */}
-        <div className="p-8 md:p-12 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.04)] flex flex-col lg:flex-row gap-10 items-stretch">
-          {/* Left Info */}
-          <div className="w-full lg:w-5/12 flex flex-col justify-between gap-6">
-            <div className="flex flex-col gap-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider w-fit">
-                <Clock size={13} />
-                <span>HELP & SUPPORT DESK</span>
-              </div>
-              <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-                Need Personal Assistance?
-              </h3>
-              <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                Want doorstep service or personal guidance? Our gold loan advisors can visit your home or assist you directly at our nearest branch.
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-3 text-xs text-slate-700">
-              <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                <Phone size={18} className="text-[#FF6B00]" />
-                <span className="font-bold text-slate-900">+91 (800) 456-7890 (Toll Free)</span>
-              </div>
-              <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                <Mail size={18} className="text-[#FF6B00]" />
-                <span className="font-bold text-slate-900">support@goldfin.in</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Form */}
-          <div className="w-full lg:w-7/12">
-            {consultationSuccess ? (
-              <div className="h-full min-h-[260px] p-8 rounded-3xl bg-emerald-50 border border-emerald-200 flex flex-col items-center justify-center text-center gap-3">
-                <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                  <CheckCircle2 size={32} />
-                </div>
-                <h4 className="text-xl font-bold text-slate-900">Consultation Request Received!</h4>
-                <p className="text-sm text-slate-600 max-w-sm">
-                  Our gold loan advisor will contact you at <strong className="text-slate-900">{conciergeForm.phone}</strong> within 15 minutes to assist with your gold loan.
-                </p>
-                <button
-                  onClick={() => setConsultationSuccess(false)}
-                  className="mt-2 px-7 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-xs uppercase cursor-pointer border-0 shadow-md"
-                >
-                  Submit Another Request
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleConciergeSubmit} className="flex flex-col gap-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-slate-700">First Name</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Rahul"
-                      value={conciergeForm.firstName}
-                      onChange={(e) => setConciergeForm({ ...conciergeForm, firstName: e.target.value })}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm focus:outline-none focus:border-[#FF6B00]"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-slate-700">Last Name</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Sharma"
-                      value={conciergeForm.lastName}
-                      onChange={(e) => setConciergeForm({ ...conciergeForm, lastName: e.target.value })}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm focus:outline-none focus:border-[#FF6B00]"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-slate-700">Mobile Number</label>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="+91 98765 43210"
-                      value={conciergeForm.phone}
-                      onChange={(e) => setConciergeForm({ ...conciergeForm, phone: e.target.value })}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm focus:outline-none focus:border-[#FF6B00]"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-slate-700">Estimated Gold Weight</label>
-                    <input
-                      type="number"
-                      placeholder="e.g. 50 grams"
-                      value={conciergeForm.weight}
-                      onChange={(e) => setConciergeForm({ ...conciergeForm, weight: e.target.value })}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm focus:outline-none focus:border-[#FF6B00]"
-                    />
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-sm hover:brightness-110 active:scale-95 transition-all shadow-[0_6px_25px_rgba(249,115,22,0.35)] border-0 cursor-pointer mt-2"
-                >
-                  Request Call Back / Doorstep Service →
-                </button>
-              </form>
-            )}
-          </div>
-        </div>
+        
       </main>
 
       {/* Footer via Reusable Component */}
@@ -863,12 +574,12 @@ export default function GoldLoanPage({
             </div>
 
             <div className="p-4 rounded-2xl bg-orange-50 border border-orange-200/80 flex flex-col gap-1 text-xs">
-              <span className="text-slate-600">Estimated Loan Amount</span>
-              <span className="text-3xl font-black text-slate-900">
-                ₹{estimatedLoanAmount.toLocaleString('en-IN')}
+              <span className="text-slate-600">Gold Loan</span>
+              <span className="text-lg font-black text-slate-900">
+                Get up to 75% of your gold's market value
               </span>
               <span className="text-xs text-orange-600 font-semibold mt-1">
-                For {weightGrams}g ({selectedKarat}K Gold) • 0.75% monthly interest
+                Interest starting from 0.75% per month (9% p.a.)
               </span>
             </div>
 

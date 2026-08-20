@@ -1,4 +1,4 @@
-import { Coins, Mail, ShieldCheck, ArrowUpRight } from 'lucide-react'
+import { Coins, Mail, Phone, ShieldCheck, ArrowUpRight } from 'lucide-react'
 
 export interface FooterProps {
   onNavigateHome?: () => void
@@ -85,9 +85,9 @@ export default function Footer({
               <li>
                 <button
                   className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
-                  onClick={() => handleLinkClick('about')}
+                  onClick={() => handleLinkClick('home')}
                 >
-                  About GoldFin
+                  Home
                 </button>
               </li>
               <li>
@@ -95,7 +95,7 @@ export default function Footer({
                   className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left flex items-center gap-1"
                   onClick={() => handleLinkClick('live-rate')}
                 >
-                  <span>24K & 22K Live Gold Rates</span>
+                  <span>Live Rates</span>
                   <ArrowUpRight size={12} className="text-[#FF6B00]" />
                 </button>
               </li>
@@ -104,15 +104,15 @@ export default function Footer({
                   className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
                   onClick={() => handleLinkClick('gold-loan')}
                 >
-                  Instant Gold Loan
+                  Gold Loan
                 </button>
               </li>
               <li>
                 <button
                   className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
-                  onClick={() => handleLinkClick('calculator')}
+                  onClick={() => handleLinkClick('about')}
                 >
-                  Live Gold Calculator
+                  About Us
                 </button>
               </li>
               <li>
@@ -120,15 +120,7 @@ export default function Footer({
                   className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
                   onClick={() => handleLinkClick('contact')}
                 >
-                  Contact & Advisory Desk
-                </button>
-              </li>
-              <li>
-                <button
-                  className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
-                  onClick={() => handleLinkClick('faq')}
-                >
-                  Frequently Asked Questions
+                  Contact
                 </button>
               </li>
             </ul>
@@ -190,9 +182,13 @@ export default function Footer({
               <Mail size={16} />
               <span>support@goldfin.in</span>
             </a>
-            <span className="text-[11px] text-slate-500 font-medium">
-              Chennai • Mumbai • Delhi • Bengaluru • Hyderabad
-            </span>
+            <a
+              href="tel:+919092548347"
+              className="flex items-center gap-2 text-slate-700 hover:text-[#FF6B00] font-bold text-xs transition-colors no-underline"
+            >
+              <Phone size={16} className="text-[#FF6B00]" />
+              <span>+91 90925 48347</span>
+            </a>
           </div>
         </div>
 

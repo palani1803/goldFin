@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
 import {
-  Calculator,
   LineChart,
   X,
   Sparkles,
@@ -23,8 +22,7 @@ import {
   RefreshCw,
   Newspaper
 } from 'lucide-react'
-import heroBg from '../assets/gold_hero_bg.png'
-import goldBullionImg from '../assets/hero_gold_broad.jpg'
+import goldHeroJewel from '../assets/gold_hero_jewel.jpg'
 import { Navbar, Footer, TrustBanner, GoldBackground } from '../components'
 
 interface MarketNewsItem {
@@ -218,98 +216,105 @@ export default function HomePage({
         spotRate24K={spotRate24K}
       />
 
-      {/* Hero Section */}
-      <section id="overview" className="relative pt-10 md:pt-14 pb-16 md:pb-24 bg-cover bg-center overflow-hidden border-b border-slate-200/80" style={{ backgroundImage: `url(${heroBg})` }}>
-        <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-slate-50/90 to-white" />
-        <div className="max-w-[1320px] mx-auto px-4 md:px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-            {/* Left Content */}
-            <div className="lg:col-span-6 flex flex-col gap-7 text-left">
+      {/* Hero Section — Clean White Background & Vibrant Gold Theme */}
+      <section id="overview" className="relative pt-12 md:pt-16 pb-12 md:pb-16 overflow-hidden bg-white border-b border-slate-200/80">
+        {/* Subtle ambient glow */}
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-50/60 via-white to-amber-50/40 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-[60%] h-full bg-gradient-to-l from-amber-50/40 to-transparent pointer-events-none" />
+
+        <div className="max-w-[1320px] mx-auto px-4 md:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
+            {/* Left Content — Top Left Aligned Spacing */}
+            <div className="lg:col-span-6 flex flex-col gap-6 text-left py-2 lg:py-6">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider w-fit">
                 <Sparkles size={14} />
-                <span>LIVE GOLD RATES & LOANS</span>
+                <span>INDIA'S TRUSTED GOLD PLATFORM</span>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-black text-slate-900 tracking-tight leading-[1.1]">
-                Secure Your Future, <br />
-                <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">Invest in Pure Gold</span>
+
+              <h1 className="text-4xl md:text-5xl lg:text-[3.65rem] xl:text-[4rem] font-serif font-bold text-slate-900 tracking-tight leading-[1.12]">
+                Trusted Gold Rates <br />
+                for{' '}
+                <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent font-serif italic font-bold">
+                  Every Need
+                </span>
               </h1>
-              <p className="text-base md:text-lg text-slate-600 max-w-xl leading-relaxed">
-                Gold is a timeless asset that protects your family savings from inflation. Calculate exact gold prices with GST in seconds, track live city rates, and get instant gold loans with minimum paperwork.
+
+              <p className="text-base md:text-lg text-slate-600 max-w-lg leading-relaxed font-normal">
+                Get the best value for your gold with live rates, instant gold loans, minimal documents, and a transparent process you can trust.
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-wrap items-center gap-4 pt-1">
+              <div className="flex flex-wrap items-center gap-4 pt-2">
                 <button
-                  className="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-sm hover:brightness-110 transition-all shadow-[0_6px_25px_rgba(249,115,22,0.35)] cursor-pointer border-0 flex items-center gap-2"
-                  onClick={() => scrollToSection('calculator')}
+                  className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-sm hover:brightness-110 active:scale-[0.98] transition-all shadow-[0_6px_25px_rgba(249,115,22,0.35)] cursor-pointer border-0 flex items-center gap-2"
+                  onClick={() => onNavigateGoldLoan ? onNavigateGoldLoan() : scrollToSection('calculator')}
                 >
-                  <Calculator size={18} />
-                  <span>Open Calculator</span>
+                  <span>Get Gold Loan</span>
+                  <ArrowRight size={16} />
                 </button>
                 <button
-                  className="px-7 py-3.5 rounded-2xl bg-white border border-slate-300 text-slate-800 font-bold text-sm hover:bg-slate-50 hover:border-orange-500/40 hover:text-[#FF6B00] transition-all cursor-pointer flex items-center gap-2 shadow-sm"
+                  className="px-8 py-3.5 rounded-xl bg-white border border-slate-300 text-slate-800 font-bold text-sm hover:bg-slate-50 hover:border-orange-500/40 hover:text-[#FF6B00] transition-all cursor-pointer flex items-center gap-2 shadow-sm"
                   onClick={() => (onNavigateLiveRate ? onNavigateLiveRate() : scrollToSection('rates'))}
                 >
-                  <LineChart size={18} />
-                  <span>View Live Rates</span>
+                  <LineChart size={16} />
+                  <span>Check Live Rates</span>
                 </button>
               </div>
             </div>
 
-            {/* Right Broad Unboxed Gold Showcase Visual */}
-            <div className="lg:col-span-6 relative flex items-center justify-center py-4 lg:py-0">
-              {/* Expansive Ambient Radial Orange Glow behind visual */}
-              <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-                <div className="w-[110%] h-[110%] max-w-[580px] max-h-[580px] bg-[radial-gradient(circle,rgba(249,115,22,0.15)_0%,rgba(254,215,170,0.2)_45%,transparent_72%)] blur-[50px] animate-aura-pulse" />
-              </div>
-
-              {/* Floating Badge: Top Left (Purity Verification) */}
-              <div className="absolute -top-3 left-2 sm:left-4 z-20 px-3.5 py-2 rounded-2xl bg-white/95 border border-orange-200/80 backdrop-blur-xl shadow-lg flex items-center gap-2 animate-bounce-subtle">
-                <div className="w-6 h-6 rounded-lg bg-orange-50 flex items-center justify-center text-orange-600">
-                  <ShieldCheck size={14} />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-black text-orange-600 tracking-wider uppercase">BIS 916 & 999</span>
-                  <span className="text-[9px] font-semibold text-slate-500">Certified Pure Gold</span>
-                </div>
-              </div>
-
-              {/* Floating Badge: Top Right (Live Rate Pulse) */}
-              <div className="absolute top-2 right-2 sm:right-4 z-20 px-3.5 py-2 rounded-2xl bg-white/95 border border-slate-200 backdrop-blur-xl shadow-lg flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                <div className="flex flex-col">
-                  <span className="text-[9px] font-bold text-slate-500 uppercase">Live 24K / Gram</span>
-                  <span className="text-xs font-black text-slate-900">
-                    ₹{spotRate24K > 0 ? spotRate24K.toLocaleString('en-IN') : '13,535'}
-                    {rate24kData && <span className={`ml-1 text-[10px] ${rate24kData.isUp ? 'text-emerald-600' : 'text-rose-600'}`}>{rate24kData.isUp ? '▲' : '▼'}</span>}
-                  </span>
-                </div>
-              </div>
-
-              {/* Broad Unboxed Gold Ingot Visual */}
-              <div className="relative z-10 w-full max-w-[500px] flex items-center justify-center">
+            {/* Right Image Visual */}
+            <div className="lg:col-span-6 flex items-center justify-center lg:justify-end">
+              <div className="relative w-full max-w-[480px] lg:max-w-[520px]">
                 <img
-                  src={goldBullionImg}
-                  alt="Pure 24K Gold Bullion Ingot and Sovereign Coins"
-                  className="w-full h-auto object-contain rounded-3xl drop-shadow-[0_20px_40px_rgba(249,115,22,0.15)] transition-transform duration-700 hover:scale-[1.03]"
+                  src={goldHeroJewel}
+                  alt="Gold Jewellery on Marble Pedestal"
+                  className="w-full h-auto object-cover rounded-3xl shadow-[0_20px_45px_rgba(249,115,22,0.12)] border border-slate-100 transition-transform duration-700 hover:scale-[1.01]"
                 />
               </div>
+            </div>
+          </div>
 
-              {/* Floating Badge: Bottom Left (Instant Gold Loan) */}
-              <div className="absolute -bottom-3 left-2 sm:left-6 z-20 px-4 py-2 rounded-2xl bg-white/95 border border-orange-200/80 backdrop-blur-xl shadow-lg flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-[#FF6B00] via-[#F97316] to-[#EA580C] flex items-center justify-center text-white font-black text-xs shadow-sm">
-                  ⚡
+          {/* Floating Trust Stats Card */}
+          <div className="mt-10 md:mt-14 rounded-2xl md:rounded-3xl bg-white/95 border border-slate-200/80 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.03)] p-2 md:p-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-slate-100">
+              <div className="flex items-center gap-3.5 py-3 px-4 md:px-6">
+                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200/60 flex items-center justify-center text-orange-600 shrink-0">
+                  <ShieldCheck size={20} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[10px] font-black text-slate-900">Instant Gold Loans</span>
-                  <span className="text-[9px] font-semibold text-orange-600">Up to 75% RBI Value • 0.75%/mo</span>
+                  <span className="text-xs md:text-sm font-bold text-slate-900">High Loan Amount</span>
+                  <span className="text-[11px] text-slate-500 font-medium">Up to 75% of gold value</span>
                 </div>
               </div>
 
-              {/* Floating Badge: Bottom Right (Safe Vault) */}
-              <div className="hidden sm:flex absolute -bottom-1 right-2 sm:right-6 z-20 px-3.5 py-1.5 rounded-2xl bg-white/95 border border-slate-200 backdrop-blur-xl shadow-lg items-center gap-2 text-slate-700">
-                <span className="text-xs">🔒</span>
-                <span className="text-[10px] font-bold text-slate-700">100% Insured Bank Locker</span>
+              <div className="flex items-center gap-3.5 py-3 px-4 md:px-6">
+                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200/60 flex items-center justify-center text-orange-600 shrink-0">
+                  <TrendingDown size={20} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs md:text-sm font-bold text-slate-900">Low Interest Rates</span>
+                  <span className="text-[11px] text-slate-500 font-medium">Starting from 0.75% p.m.</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3.5 py-3 px-4 md:px-6">
+                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200/60 flex items-center justify-center text-orange-600 shrink-0">
+                  <Sparkles size={20} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs md:text-sm font-bold text-slate-900">Quick Disbursal</span>
+                  <span className="text-[11px] text-slate-500 font-medium">In just 30 Minutes</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3.5 py-3 px-4 md:px-6">
+                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200/60 flex items-center justify-center text-orange-600 shrink-0">
+                  <Coins size={20} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs md:text-sm font-bold text-slate-900">100% Safe & Secure</span>
+                  <span className="text-[11px] text-slate-500 font-medium">Your gold is insured</span>
+                </div>
               </div>
             </div>
           </div>
