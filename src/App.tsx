@@ -46,7 +46,7 @@ function App() {
   }
 
   return (
-    <div className="w-full min-h-screen bg-[#070D1E]">
+    <div className="w-full min-h-screen bg-[#F8FAFC]">
       {currentPage === 'contact' ? (
         <ContactPage
           onNavigateHome={() => navigateTo('home')}

@@ -289,9 +289,9 @@ export default function LiveRatePage({
     : svgPoints[svgPoints.length - 1] || null
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-[#070D1E] text-[#F1F4F9] font-sans antialiased selection:bg-[#C89B2A]/30 selection:text-yellow-200 relative">
-      {/* Reusable Gold Luxury Background Component */}
-      <GoldBackground textureOpacity={0.08} showGlows={true} />
+    <div className="flex flex-col min-h-screen w-full bg-[#F8FAFC] text-slate-900 font-sans antialiased selection:bg-orange-500/20 selection:text-orange-900 relative">
+      {/* Reusable White & Orange Ambient Background */}
+      <GoldBackground textureOpacity={0.03} showGlows={true} />
 
       {/* Top Header via Reusable Navbar Component */}
       <Navbar
@@ -317,54 +317,54 @@ export default function LiveRatePage({
       <main className="max-w-[1320px] mx-auto px-4 md:px-6 py-10 md:py-14 relative z-10 w-full flex flex-col gap-10 md:gap-12">
         {/* Breadcrumb & Hero Title */}
         <div className="flex flex-col gap-3">
-          <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
+          <div className="flex items-center gap-2 text-xs text-slate-500 font-medium">
             <button
               onClick={onNavigateHome}
-              className="hover:text-[#DAAE4D] transition-colors bg-transparent border-0 p-0 cursor-pointer text-slate-400"
+              className="hover:text-[#FF6B00] transition-colors bg-transparent border-0 p-0 cursor-pointer text-slate-500"
             >
               Home
             </button>
-            <ChevronRight size={13} className="text-slate-600" />
-            <span className="text-[#DAAE4D] font-bold">Live Gold Rate</span>
+            <ChevronRight size={13} className="text-slate-400" />
+            <span className="text-[#FF6B00] font-bold">Live Gold Rate</span>
           </div>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mt-1">
             <div className="flex flex-col gap-2">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] text-xs font-bold tracking-wider w-fit">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider w-fit">
                 <Sparkles size={14} />
                 <span>LIVE GOLD MARKET RATES</span>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-black text-white tracking-tight leading-[1.1]">
+              <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-black text-slate-900 tracking-tight leading-[1.1]">
                 Today's <br />
-                <span className="bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
                   Live Gold Rate
                 </span>
               </h1>
-              <p className="text-sm md:text-base text-slate-400 max-w-2xl leading-relaxed">
+              <p className="text-sm md:text-base text-slate-600 max-w-2xl leading-relaxed">
                 Check today's live 1 gram gold prices across India. Updated daily from official market rates (IBJA & MCX).
               </p>
             </div>
 
             {/* Pure 1 Gram Indicator Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-[#0D172E]/85 border border-[#C89B2A]/35 text-xs font-bold text-[#DAAE4D] self-start md:self-auto shadow-md backdrop-blur-md">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white border border-orange-300 text-xs font-bold text-orange-600 self-start md:self-auto shadow-sm backdrop-blur-md">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
               <span>OFFICIAL 1 GRAM GOLD RATE (INDIA)</span>
             </div>
           </div>
         </div>
 
-        {/* 4 Metric Top Cards Grid (Strictly 1 Gram) */}
+        {/* 4 Metric Top Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Card 1: 22K PRICE (1g) */}
-          <div className="p-6 md:p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/45 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-lg">
+          <div className="p-6 md:p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/45 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
+              <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
                 22K JEWELLERY GOLD (1g)
               </span>
               <div className={`inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full ${
                 isUp22k
-                  ? 'text-emerald-400 bg-emerald-500/10 border border-emerald-500/20'
-                  : 'text-rose-400 bg-rose-500/10 border border-rose-500/20'
+                  ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
+                  : 'text-rose-700 bg-rose-50 border border-rose-200'
               }`}>
                 {isUp22k ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
                 <span>{isUp22k ? `+${change22k}%` : `-${change22k}%`}</span>
@@ -372,27 +372,27 @@ export default function LiveRatePage({
             </div>
 
             <div className="my-3">
-              <div className="text-3xl md:text-4xl font-black text-white group-hover:text-[#DAAE4D] transition-colors tracking-tight">
+              <div className="text-3xl md:text-4xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors tracking-tight">
                 {loading ? '...' : `₹${price22kPerGram.toLocaleString('en-IN')}`}
               </div>
-              <span className="text-xs text-slate-400 font-medium">
+              <span className="text-xs text-slate-500 font-medium">
                 91.6% Pure Gold (916 Hallmark) • Per 1 Gram
               </span>
             </div>
 
-            <div className="w-2/3 h-[2px] bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-transparent rounded-full mt-1" />
+            <div className="w-2/3 h-[2px] bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-transparent rounded-full mt-1" />
           </div>
 
           {/* Card 2: 24K PRICE (1g) */}
-          <div className="p-6 md:p-7 rounded-3xl bg-[#0D172E]/90 border border-[#C89B2A]/50 bg-[#0E1B38] backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_10px_30px_rgba(234,179,8,0.12)]">
+          <div className="p-6 md:p-7 rounded-3xl bg-white border border-orange-300/80 hover:border-orange-500 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_8px_30px_rgba(249,115,22,0.1)] hover:shadow-[0_12px_35px_rgba(249,115,22,0.18)]">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#F3C55B]">
+              <span className="text-[11px] font-extrabold uppercase tracking-widest text-orange-600">
                 24K PURE GOLD (1g)
               </span>
               <div className={`inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full ${
                 isUp24k
-                  ? 'text-emerald-400 bg-emerald-500/10 border border-emerald-500/20'
-                  : 'text-rose-400 bg-rose-500/10 border border-rose-500/20'
+                  ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
+                  : 'text-rose-700 bg-rose-50 border border-rose-200'
               }`}>
                 {isUp24k ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
                 <span>{isUp24k ? `+${change24k}%` : `-${change24k}%`}</span>
@@ -401,81 +401,81 @@ export default function LiveRatePage({
 
             <div className="my-4">
               <div className="flex items-baseline gap-1.5">
-                <span className="text-3xl md:text-4xl font-black text-white tracking-tight">
+                <span className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
                   ₹{price24kPerGram.toLocaleString('en-IN')}
                 </span>
-                <span className="text-xs text-slate-400 font-semibold">/ gram</span>
+                <span className="text-xs text-slate-500 font-semibold">/ gram</span>
               </div>
-              <span className="text-[11px] text-[#DAAE4D] font-medium block mt-1">
+              <span className="text-[11px] text-orange-600 font-semibold block mt-1">
                 99.9% Pure • Sovereign Investment Standard
               </span>
             </div>
 
-            <div className="w-1/2 h-[1px] bg-[#DAAE4D]/30 rounded-full mt-1" />
+            <div className="w-1/2 h-[1.5px] bg-orange-400 rounded-full mt-1" />
           </div>
 
           {/* Card 3: LAST UPDATED */}
-          <div className="p-6 md:p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/40 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-lg">
-            <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
+          <div className="p-6 md:p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/40 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
+            <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
               LAST UPDATED
             </span>
 
             <div className="my-2">
-              <div className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+              <div className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
                 {lastUpdatedDate}
               </div>
-              <div className="flex items-center gap-1.5 text-xs text-[#DAAE4D] font-bold mt-1">
+              <div className="flex items-center gap-1.5 text-xs text-orange-600 font-bold mt-1">
                 <Clock size={14} />
                 <span>{lastUpdatedTime} IST</span>
               </div>
             </div>
 
-            <div className="w-1/2 h-[1px] bg-white/10 rounded-full mt-1" />
+            <div className="w-1/2 h-[1px] bg-slate-200 rounded-full mt-1" />
           </div>
 
           {/* Card 4: MARKET STATUS */}
-          <div className="p-6 md:p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/40 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-lg">
-            <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
+          <div className="p-6 md:p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/40 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
+            <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
               MARKET STATUS
             </span>
 
             <div className="my-2">
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.8)]" />
-                <span className="text-2xl md:text-3xl font-extrabold text-emerald-400 tracking-tight">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.8)]" />
+                <span className="text-2xl md:text-3xl font-extrabold text-emerald-600 tracking-tight">
                   Market Open
                 </span>
               </div>
-              <div className="text-xs text-slate-400 font-medium mt-1">
-                Next update in <span className="text-[#DAAE4D] font-bold">{formattedCountdown}</span>
+              <div className="text-xs text-slate-500 font-medium mt-1">
+                Next update in <span className="text-orange-600 font-bold">{formattedCountdown}</span>
               </div>
             </div>
 
-            <div className="w-1/2 h-[1px] bg-white/10 rounded-full mt-1" />
+            <div className="w-1/2 h-[1px] bg-slate-200 rounded-full mt-1" />
           </div>
         </div>
 
-        {/* Gold Price Movement Section with Accurate Historical Wave Chart */}
-        <div className="p-6 md:p-8 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] backdrop-blur-xl shadow-[0_20px_50px_rgba(4,8,19,0.6)] flex flex-col gap-6 relative overflow-hidden">
+        {/* Gold Price Movement Section with Historical Wave Chart */}
+        <div className="p-6 md:p-8 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.04)] flex flex-col gap-6 relative overflow-hidden">
           {/* Header row */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-extrabold text-white tracking-tight">
+              <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
                 Gold Price Trend
               </h2>
-              <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+              <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-500">
                 24K PURE GOLD RATE TREND (₹ / GRAM)
               </span>
             </div>
 
             {/* Time Filter Tabs */}
-            <div className="inline-flex items-center p-1.5 rounded-2xl bg-[#080E1E] border border-[#192847]">
+            <div className="inline-flex items-center p-1.5 rounded-2xl bg-slate-100 border border-slate-200">
               <button
                 onClick={() => setTimeframe('today')}
                 className={`px-4 py-2 rounded-xl text-xs font-extrabold uppercase tracking-wider transition-all border-0 cursor-pointer ${
                   timeframe === 'today'
-                    ? 'bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] text-slate-950 shadow-md'
-                    : 'text-slate-400 hover:text-white bg-transparent'
+                    ? 'bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white shadow-md'
+                    : 'text-slate-600 hover:text-slate-900 bg-transparent'
                 }`}
               >
                 Today
@@ -484,8 +484,8 @@ export default function LiveRatePage({
                 onClick={() => setTimeframe('7days')}
                 className={`px-4 py-2 rounded-xl text-xs font-extrabold uppercase tracking-wider transition-all border-0 cursor-pointer ${
                   timeframe === '7days'
-                    ? 'bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] text-slate-950 shadow-md'
-                    : 'text-slate-400 hover:text-white bg-transparent'
+                    ? 'bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white shadow-md'
+                    : 'text-slate-600 hover:text-slate-900 bg-transparent'
                 }`}
               >
                 7 Days
@@ -494,8 +494,8 @@ export default function LiveRatePage({
                 onClick={() => setTimeframe('30days')}
                 className={`px-4 py-2 rounded-xl text-xs font-extrabold uppercase tracking-wider transition-all border-0 cursor-pointer ${
                   timeframe === '30days'
-                    ? 'bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] text-slate-950 shadow-md'
-                    : 'text-slate-400 hover:text-white bg-transparent'
+                    ? 'bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white shadow-md'
+                    : 'text-slate-600 hover:text-slate-900 bg-transparent'
                 }`}
               >
                 30 Days
@@ -506,9 +506,9 @@ export default function LiveRatePage({
           {/* SVG Interactive Chart Area */}
           <div className="relative w-full h-[280px] md:h-[320px] mt-2">
             {/* Dynamic Y-axis labels & horizontal guide lines */}
-            <div className="absolute inset-0 flex flex-col justify-between pointer-events-none text-[11px] text-slate-500 font-semibold select-none">
+            <div className="absolute inset-0 flex flex-col justify-between pointer-events-none text-[11px] text-slate-400 font-semibold select-none">
               {yAxisLevels.map((lvl, idx) => (
-                <div key={idx} className="border-b border-white/[0.04] pb-1 flex justify-between">
+                <div key={idx} className="border-b border-slate-100 pb-1 flex justify-between">
                   <span>₹{lvl.toLocaleString('en-IN')}/g</span>
                 </div>
               ))}
@@ -516,7 +516,7 @@ export default function LiveRatePage({
 
             {historyLoading ? (
               <div className="w-full h-full flex items-center justify-center">
-                <div className="w-8 h-8 rounded-full border-2 border-[#DAAE4D] border-t-transparent animate-spin" />
+                <div className="w-8 h-8 rounded-full border-2 border-[#FF6B00] border-t-transparent animate-spin" />
               </div>
             ) : (
               <svg
@@ -525,15 +525,15 @@ export default function LiveRatePage({
                 preserveAspectRatio="none"
               >
                 <defs>
-                  {/* Gold glowing vertical gradient for fill area under line */}
-                  <linearGradient id="goldGradientFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#DAAE4D" stopOpacity="0.25" />
-                    <stop offset="60%" stopColor="#DAAE4D" stopOpacity="0.05" />
-                    <stop offset="100%" stopColor="#DAAE4D" stopOpacity="0" />
+                  {/* Orange vertical gradient for fill area under line */}
+                  <linearGradient id="orangeGradientFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#FF6B00" stopOpacity="0.22" />
+                    <stop offset="60%" stopColor="#F97316" stopOpacity="0.05" />
+                    <stop offset="100%" stopColor="#EA580C" stopOpacity="0" />
                   </linearGradient>
 
-                  {/* Filter for golden neon glow on the path */}
-                  <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                  {/* Filter for orange neon glow */}
+                  <filter id="glowOrange" x="-20%" y="-20%" width="140%" height="140%">
                     <feGaussianBlur stdDeviation="3" result="blur" />
                     <feComposite in="SourceGraphic" in2="blur" operator="over" />
                   </filter>
@@ -543,7 +543,7 @@ export default function LiveRatePage({
                 {svgPathD && svgPoints.length > 0 && (
                   <path
                     d={`${svgPathD} L ${svgPoints[svgPoints.length - 1].x} 220 L ${svgPoints[0].x} 220 Z`}
-                    fill="url(#goldGradientFill)"
+                    fill="url(#orangeGradientFill)"
                   />
                 )}
 
@@ -552,10 +552,10 @@ export default function LiveRatePage({
                   <path
                     d={svgPathD}
                     fill="none"
-                    stroke="#DAAE4D"
+                    stroke="#FF6B00"
                     strokeWidth="3.5"
                     strokeLinecap="round"
-                    filter="url(#glow)"
+                    filter="url(#glowOrange)"
                   />
                 )}
 
@@ -568,8 +568,8 @@ export default function LiveRatePage({
                       r={hoveredPointIndex === idx ? '7' : '4.5'}
                       className={`transition-all duration-200 ${
                         hoveredPointIndex === idx
-                          ? 'fill-[#F3C55B] stroke-white stroke-[2.5px] shadow-lg'
-                          : 'fill-[#070D1E] stroke-[#DAAE4D] stroke-2 hover:fill-[#F3C55B]'
+                          ? 'fill-[#FF6B00] stroke-white stroke-[2.5px] shadow-lg'
+                          : 'fill-white stroke-[#FF6B00] stroke-2 hover:fill-[#FF6B00]'
                       }`}
                       onMouseEnter={() => setHoveredPointIndex(idx)}
                       onMouseLeave={() => setHoveredPointIndex(null)}
@@ -579,7 +579,7 @@ export default function LiveRatePage({
               </svg>
             )}
 
-            {/* Floating Tooltip Bubble (Positioned over active point) */}
+            {/* Floating Tooltip Bubble */}
             {activePoint && !historyLoading && (
               <div
                 className="absolute z-20 pointer-events-none transition-all duration-200 transform -translate-x-1/2 -translate-y-full"
@@ -588,18 +588,18 @@ export default function LiveRatePage({
                   top: `${(activePoint.y / 230) * 85}%`,
                 }}
               >
-                <div className="px-4 py-2.5 rounded-2xl bg-[#080E1E] border border-[#C89B2A]/50 shadow-[0_8px_30px_rgba(0,0,0,0.85)] backdrop-blur-md flex flex-col gap-0.5 min-w-[130px]">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                <div className="px-4 py-2.5 rounded-2xl bg-white border border-orange-300 shadow-[0_8px_30px_rgba(0,0,0,0.12)] backdrop-blur-md flex flex-col gap-0.5 min-w-[130px]">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap">
                     {activePoint.time}
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className="text-base font-black text-[#F3C55B] whitespace-nowrap">
+                    <span className="text-base font-black text-orange-600 whitespace-nowrap">
                       ₹{activePoint.price.toLocaleString('en-IN')}/g
                     </span>
-                    <span className="text-[10px] font-bold text-slate-400">24K</span>
+                    <span className="text-[10px] font-bold text-slate-500">24K</span>
                   </div>
                   {activePoint.price22k && (
-                    <span className="text-[10px] font-semibold text-slate-400 whitespace-nowrap">
+                    <span className="text-[10px] font-semibold text-slate-600 whitespace-nowrap">
                       22K: ₹{activePoint.price22k.toLocaleString('en-IN')}/g
                     </span>
                   )}
@@ -609,7 +609,7 @@ export default function LiveRatePage({
           </div>
 
           {/* X-axis Date / Time Labels */}
-          <div className="flex justify-between items-center px-2 pt-2 text-[11px] md:text-xs font-semibold text-slate-500 border-t border-white/5 overflow-x-auto gap-2">
+          <div className="flex justify-between items-center px-2 pt-2 text-[11px] md:text-xs font-semibold text-slate-500 border-t border-slate-100 overflow-x-auto gap-2">
             {svgPoints
               .filter((_, idx) => {
                 if (timeframe === '30days') return idx % 5 === 0 || idx === svgPoints.length - 1
@@ -618,7 +618,7 @@ export default function LiveRatePage({
               .map((d, i) => (
                 <span
                   key={i}
-                  className="hover:text-[#DAAE4D] transition-colors cursor-pointer whitespace-nowrap"
+                  className="hover:text-[#FF6B00] transition-colors cursor-pointer whitespace-nowrap"
                   onClick={() => {
                     const originalIdx = svgPoints.findIndex((p) => p.label === d.label)
                     if (originalIdx !== -1) setHoveredPointIndex(originalIdx)
@@ -630,66 +630,66 @@ export default function LiveRatePage({
           </div>
         </div>
 
-        {/* 4 Stat / High-Low Grid Boxes (Accurately 1 Gram) */}
+        {/* 4 Stat / High-Low Grid Boxes */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="p-6 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] backdrop-blur-xl flex flex-col gap-1.5">
-            <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
+          <div className="p-6 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-sm">
+            <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
               {timeframe === 'today' ? "TODAY'S HIGH (1g)" : 'PERIOD HIGH (1g)'}
             </span>
-            <div className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+            <div className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
               ₹{highPrice.toLocaleString('en-IN')}
             </div>
-            <span className="text-xs text-slate-400 font-medium">24K Pure Gold Rate</span>
+            <span className="text-xs text-slate-500 font-medium">24K Pure Gold Rate</span>
           </div>
 
-          <div className="p-6 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] backdrop-blur-xl flex flex-col gap-1.5">
-            <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
+          <div className="p-6 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-sm">
+            <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
               {timeframe === 'today' ? "TODAY'S LOW (1g)" : 'PERIOD LOW (1g)'}
             </span>
-            <div className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+            <div className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
               ₹{lowPrice.toLocaleString('en-IN')}
             </div>
-            <span className="text-xs text-slate-400 font-medium">24K Pure Gold Rate</span>
+            <span className="text-xs text-slate-500 font-medium">24K Pure Gold Rate</span>
           </div>
 
-          <div className="p-6 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] backdrop-blur-xl flex flex-col gap-1.5">
-            <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
+          <div className="p-6 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-sm">
+            <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
               AVERAGE PRICE (1g)
             </span>
-            <div className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+            <div className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
               ₹{avgPrice.toLocaleString('en-IN')}
             </div>
-            <span className="text-xs text-slate-400 font-medium">Average Daily Rate</span>
+            <span className="text-xs text-slate-500 font-medium">Average Daily Rate</span>
           </div>
 
-          <div className="p-6 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] backdrop-blur-xl flex flex-col gap-1.5">
-            <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
+          <div className="p-6 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-sm">
+            <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
               DAILY CHANGE %
             </span>
-            <div className={`text-2xl md:text-3xl font-extrabold tracking-tight ${isUp24k ? 'text-emerald-400' : 'text-rose-400'}`}>
+            <div className={`text-2xl md:text-3xl font-extrabold tracking-tight ${isUp24k ? 'text-emerald-600' : 'text-rose-600'}`}>
               {isUp24k ? `+${change24k}%` : `-${change24k}%`}
             </div>
-            <span className="text-xs text-slate-400 font-medium">vs Yesterday's Rate</span>
+            <span className="text-xs text-slate-500 font-medium">vs Yesterday's Rate</span>
           </div>
         </div>
 
         {/* --- Top 5 City-Wise Gold Rates Section --- */}
-        <div className="p-6 md:p-8 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] backdrop-blur-xl shadow-[0_20px_50px_rgba(4,8,19,0.6)] flex flex-col gap-6">
+        <div className="p-6 md:p-8 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.04)] flex flex-col gap-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] text-[11px] font-bold tracking-wider mb-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-[11px] font-bold tracking-wider mb-2">
                 <MapPin size={13} />
                 <span>MAJOR INDIAN CITIES</span>
               </div>
-              <h2 className="text-2xl font-extrabold text-white tracking-tight">
+              <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
                 Top 5 City-Wise Gold Rates
               </h2>
-              <p className="text-xs md:text-sm text-slate-400 mt-1 font-normal">
+              <p className="text-xs md:text-sm text-slate-600 mt-1 font-normal">
                 Compare today's 1 gram 24K, 22K, and 18K gold rates across Chennai, Mumbai, Delhi, Bengaluru, and Hyderabad.
               </p>
             </div>
 
-            <div className="inline-flex items-center gap-2 text-xs font-bold text-[#DAAE4D] bg-[#080E1E] border border-[#1E3159] px-4 py-2 rounded-2xl self-start sm:self-auto">
+            <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-2 rounded-2xl self-start sm:self-auto">
               <Building2 size={15} />
               <span>5 MAJOR CITIES</span>
             </div>
@@ -699,7 +699,7 @@ export default function LiveRatePage({
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-white/10 text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
+                <tr className="border-b border-slate-200 text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
                   <th className="py-3.5 px-4">City / Region</th>
                   <th className="py-3.5 px-4">24K Pure Rate (1g)</th>
                   <th className="py-3.5 px-4">22K Jewellery Rate (1g)</th>
@@ -708,7 +708,7 @@ export default function LiveRatePage({
                   <th className="py-3.5 px-4 hidden lg:table-cell">Local Jewellers Benchmark</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5 text-xs">
+              <tbody className="divide-y divide-slate-100 text-xs">
                 {topCities.map((city) => {
                   const isSelected = selectedCityId === city.id
                   return (
@@ -717,60 +717,60 @@ export default function LiveRatePage({
                       onClick={() => setSelectedCityId(city.id)}
                       className={`cursor-pointer transition-all duration-200 ${
                         isSelected
-                          ? 'bg-[#C89B2A]/10 border-l-2 border-[#DAAE4D]'
-                          : 'hover:bg-white/[0.03]'
+                          ? 'bg-orange-50/70 border-l-2 border-[#FF6B00]'
+                          : 'hover:bg-slate-50/80'
                       }`}
                     >
                       {/* City Name & State */}
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-3">
                           <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black transition-colors ${
-                            isSelected ? 'bg-gradient-to-br from-[#F3C55B] to-[#C89B2A] text-slate-950 shadow-md' : 'bg-white/5 text-slate-300'
+                            isSelected ? 'bg-gradient-to-br from-[#FF6B00] to-[#EA580C] text-white shadow-md' : 'bg-slate-100 text-slate-700'
                           }`}>
                             {city.name.substring(0, 2).toUpperCase()}
                           </div>
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="font-extrabold text-white text-sm">{city.name}</span>
+                              <span className="font-extrabold text-slate-900 text-sm">{city.name}</span>
                               {city.popular && (
-                                <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-[#C89B2A]/20 text-[#F3C55B] border border-[#C89B2A]/40 flex items-center gap-1">
+                                <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 border border-orange-200 flex items-center gap-1">
                                   <Sparkles size={10} />
                                   <span>Highest Volume</span>
                                 </span>
                               )}
                             </div>
-                            <span className="text-xs text-slate-400 font-medium">{city.state}</span>
+                            <span className="text-xs text-slate-500 font-medium">{city.state}</span>
                           </div>
                         </div>
                       </td>
 
                       {/* 24K Price (1g) */}
                       <td className="py-4 px-4">
-                        <div className="font-black text-[#F3C55B] text-sm md:text-base">
+                        <div className="font-black text-orange-600 text-sm md:text-base">
                           ₹{city.price24k.toLocaleString('en-IN')}
                         </div>
-                        <span className="text-[10px] text-slate-400">999 Pure</span>
+                        <span className="text-[10px] text-slate-500">999 Pure</span>
                       </td>
 
                       {/* 22K Price (1g) */}
                       <td className="py-4 px-4">
-                        <div className="font-bold text-white text-sm md:text-base">
+                        <div className="font-bold text-slate-900 text-sm md:text-base">
                           ₹{city.price22k.toLocaleString('en-IN')}
                         </div>
-                        <span className="text-[10px] text-slate-400">916 Hallmark</span>
+                        <span className="text-[10px] text-slate-500">916 Hallmark</span>
                       </td>
 
                       {/* 18K Price (1g) */}
                       <td className="py-4 px-4 hidden md:table-cell">
-                        <div className="font-semibold text-slate-300 text-sm">
+                        <div className="font-semibold text-slate-700 text-sm">
                           ₹{city.price18k.toLocaleString('en-IN')}
                         </div>
-                        <span className="text-[10px] text-slate-400">750 Pure</span>
+                        <span className="text-[10px] text-slate-500">750 Pure</span>
                       </td>
 
                       {/* 24h Movement */}
                       <td className="py-4 px-4">
-                        <div className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full text-emerald-400 bg-emerald-500/10 border border-emerald-500/20">
+                        <div className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full text-emerald-700 bg-emerald-50 border border-emerald-200">
                           <TrendingUp size={12} />
                           <span>+{city.change}%</span>
                         </div>
@@ -778,7 +778,7 @@ export default function LiveRatePage({
 
                       {/* Association Benchmark */}
                       <td className="py-4 px-4 hidden lg:table-cell">
-                        <span className="text-xs text-slate-300 font-medium px-3 py-1 rounded-xl bg-white/5 border border-white/5">
+                        <span className="text-xs text-slate-600 font-medium px-3 py-1 rounded-xl bg-slate-100 border border-slate-200">
                           {city.tag}
                         </span>
                       </td>
@@ -789,26 +789,26 @@ export default function LiveRatePage({
             </table>
           </div>
 
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 border-t border-white/5">
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 border-t border-slate-100">
             <span>* Prices are indicative market rates. Jeweller making charges and 3% GST will be charged extra in jewellery shops.</span>
-            <span className="text-[#DAAE4D] font-semibold">Updated with daily official market opening rates</span>
+            <span className="text-orange-600 font-semibold">Updated with daily official market opening rates</span>
           </div>
         </div>
 
         {/* 4 Feature Educational Cards (2x2 Grid) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Card 1: Price Factors */}
-          <div className="p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group">
+          <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/35 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group shadow-sm hover:shadow-md">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
+                <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
                   <Sliders size={22} />
                 </div>
-                <h4 className="text-base font-bold text-white group-hover:text-[#DAAE4D] transition-colors">
+                <h4 className="text-base font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
                   Price Factors
                 </h4>
               </div>
-              <p className="text-sm text-slate-300 leading-relaxed font-normal">
+              <p className="text-sm text-slate-600 leading-relaxed font-normal">
                 Understand how MCX commodity trading, import customs duty, and city jewellers associations determine today's gold rate.
               </p>
             </div>
@@ -821,7 +821,7 @@ export default function LiveRatePage({
                   icon: 'factors',
                 })
               }
-              className="flex items-center gap-1.5 text-xs font-bold text-[#DAAE4D] hover:text-[#F3C55B] transition-colors bg-transparent border-0 p-0 cursor-pointer w-fit"
+              className="flex items-center gap-1.5 text-xs font-bold text-[#FF6B00] hover:text-[#EA580C] transition-colors bg-transparent border-0 p-0 cursor-pointer w-fit"
             >
               <span>Learn More</span>
               <ArrowRight size={14} />
@@ -829,17 +829,17 @@ export default function LiveRatePage({
           </div>
 
           {/* Card 2: 22K vs 24K */}
-          <div className="p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group">
+          <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/35 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group shadow-sm hover:shadow-md">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
+                <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
                   <Award size={22} />
                 </div>
-                <h4 className="text-base font-bold text-white group-hover:text-[#DAAE4D] transition-colors">
+                <h4 className="text-base font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
                   22K vs 24K
                 </h4>
               </div>
-              <p className="text-sm text-slate-300 leading-relaxed font-normal">
+              <p className="text-sm text-slate-600 leading-relaxed font-normal">
                 Understand the difference between 24K pure gold (best for coins and bars) and 22K hallmarked gold (best for making jewellery).
               </p>
             </div>
@@ -852,7 +852,7 @@ export default function LiveRatePage({
                   icon: 'award',
                 })
               }
-              className="flex items-center gap-1.5 text-xs font-bold text-[#DAAE4D] hover:text-[#F3C55B] transition-colors bg-transparent border-0 p-0 cursor-pointer w-fit"
+              className="flex items-center gap-1.5 text-xs font-bold text-[#FF6B00] hover:text-[#EA580C] transition-colors bg-transparent border-0 p-0 cursor-pointer w-fit"
             >
               <span>Learn More</span>
               <ArrowRight size={14} />
@@ -860,17 +860,17 @@ export default function LiveRatePage({
           </div>
 
           {/* Card 3: Daily Changes */}
-          <div className="p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group">
+          <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/35 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group shadow-sm hover:shadow-md">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
+                <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
                   <RefreshCw size={22} />
                 </div>
-                <h4 className="text-base font-bold text-white group-hover:text-[#DAAE4D] transition-colors">
+                <h4 className="text-base font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
                   Daily Price Updates
                 </h4>
               </div>
-              <p className="text-sm text-slate-300 leading-relaxed font-normal">
+              <p className="text-sm text-slate-600 leading-relaxed font-normal">
                 Why gold prices change twice a day and how to leverage daily fluctuations for better investment timing.
               </p>
             </div>
@@ -883,7 +883,7 @@ export default function LiveRatePage({
                   icon: 'refresh',
                 })
               }
-              className="flex items-center gap-1.5 text-xs font-bold text-[#DAAE4D] hover:text-[#F3C55B] transition-colors bg-transparent border-0 p-0 cursor-pointer w-fit"
+              className="flex items-center gap-1.5 text-xs font-bold text-[#FF6B00] hover:text-[#EA580C] transition-colors bg-transparent border-0 p-0 cursor-pointer w-fit"
             >
               <span>Learn More</span>
               <ArrowRight size={14} />
@@ -891,17 +891,17 @@ export default function LiveRatePage({
           </div>
 
           {/* Card 4: Buying Tips */}
-          <div className="p-7 rounded-3xl bg-[#0D172E]/80 border border-[#1E3159] hover:border-[#C89B2A]/35 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group">
+          <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/35 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group shadow-sm hover:shadow-md">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D] flex items-center justify-center group-hover:bg-[#DAAE4D] group-hover:text-slate-950 transition-all">
+                <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
                   <ShieldCheck size={22} />
                 </div>
-                <h4 className="text-base font-bold text-white group-hover:text-[#DAAE4D] transition-colors">
+                <h4 className="text-base font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
                   Buying Tips
                 </h4>
               </div>
-              <p className="text-sm text-slate-300 leading-relaxed font-normal">
+              <p className="text-sm text-slate-600 leading-relaxed font-normal">
                 Expert advice on checking hallmarking, calculating making charges, and verifying the weight before your purchase.
               </p>
             </div>
@@ -914,7 +914,7 @@ export default function LiveRatePage({
                   icon: 'shield',
                 })
               }
-              className="flex items-center gap-1.5 text-xs font-bold text-[#DAAE4D] hover:text-[#F3C55B] transition-colors bg-transparent border-0 p-0 cursor-pointer w-fit"
+              className="flex items-center gap-1.5 text-xs font-bold text-[#FF6B00] hover:text-[#EA580C] transition-colors bg-transparent border-0 p-0 cursor-pointer w-fit"
             >
               <span>Learn More</span>
               <ArrowRight size={14} />
@@ -946,26 +946,26 @@ export default function LiveRatePage({
       {/* 1. Educational Detail Modal */}
       {activeInfoModal && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4"
           onClick={() => setActiveInfoModal(null)}
         >
           <div
-            className="bg-[#0D172E] border border-[#C89B2A]/40 p-7 md:p-8 rounded-3xl max-w-lg w-full flex flex-col gap-5 shadow-2xl relative"
+            className="bg-white border border-slate-200 p-7 md:p-8 rounded-3xl max-w-lg w-full flex flex-col gap-5 shadow-2xl relative text-slate-900"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between pb-3 border-b border-[#1E3159]">
-              <h3 className="text-lg font-bold text-white">{activeInfoModal.title}</h3>
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <h3 className="text-lg font-bold text-slate-900">{activeInfoModal.title}</h3>
               <button
-                className="p-1.5 rounded-xl bg-white/5 text-slate-400 hover:text-white border-0 cursor-pointer"
+                className="p-1.5 rounded-xl bg-slate-100 text-slate-500 hover:text-slate-900 border-0 cursor-pointer"
                 onClick={() => setActiveInfoModal(null)}
               >
                 <X size={18} />
               </button>
             </div>
-            <p className="text-sm text-slate-300 leading-relaxed">{activeInfoModal.content}</p>
+            <p className="text-sm text-slate-600 leading-relaxed">{activeInfoModal.content}</p>
             <button
               onClick={() => setActiveInfoModal(null)}
-              className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] text-slate-950 font-extrabold text-xs uppercase cursor-pointer border-0 mt-2"
+              className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-xs uppercase cursor-pointer border-0 mt-2 shadow-[0_6px_25px_rgba(249,115,22,0.35)]"
             >
               Close
             </button>
@@ -976,27 +976,27 @@ export default function LiveRatePage({
       {/* 3. Apply Now Modal */}
       {applyModalOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4"
           onClick={() => setApplyModalOpen(false)}
         >
           <div
-            className="bg-[#0D172E] border border-[#C89B2A]/40 p-7 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative"
+            className="bg-white border border-slate-200 p-7 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative text-slate-900"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between pb-3 border-b border-[#1E3159]">
-              <div className="flex items-center gap-2 text-white font-bold text-lg">
-                <Coins size={20} className="text-[#DAAE4D]" />
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2 text-slate-900 font-bold text-lg">
+                <Coins size={20} className="text-[#FF6B00]" />
                 <span>Apply for Gold Loan</span>
               </div>
               <button
-                className="p-1.5 rounded-xl bg-white/5 text-slate-400 hover:text-white border-0 cursor-pointer"
+                className="p-1.5 rounded-xl bg-slate-100 text-slate-500 hover:text-slate-900 border-0 cursor-pointer"
                 onClick={() => setApplyModalOpen(false)}
               >
                 <X size={18} />
               </button>
             </div>
 
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-slate-600 leading-relaxed">
               Get maximum loan amount against your gold jewellery at low interest rates starting from 0.75% per month (9% p.a.).
             </p>
 
@@ -1012,23 +1012,23 @@ export default function LiveRatePage({
                 type="text"
                 required
                 placeholder="Full Name"
-                className="w-full px-4 py-3 bg-[#080E1E] border border-[#1E3159] rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm focus:outline-none focus:border-[#FF6B00]"
               />
               <input
                 type="tel"
                 required
                 placeholder="Phone Number"
-                className="w-full px-4 py-3 bg-[#080E1E] border border-[#1E3159] rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm focus:outline-none focus:border-[#FF6B00]"
               />
               <input
                 type="number"
                 required
                 placeholder="Estimated Gold Weight (Grams)"
-                className="w-full px-4 py-3 bg-[#080E1E] border border-[#1E3159] rounded-2xl text-white text-sm focus:outline-none focus:border-[#DAAE4D]"
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm focus:outline-none focus:border-[#FF6B00]"
               />
               <button
                 type="submit"
-                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] text-slate-950 font-extrabold text-xs uppercase tracking-wider hover:brightness-110 transition-all border-0 cursor-pointer mt-2"
+                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-xs uppercase tracking-wider hover:brightness-110 transition-all border-0 cursor-pointer mt-2 shadow-[0_6px_25px_rgba(249,115,22,0.35)]"
               >
                 Submit Gold Loan Request
               </button>

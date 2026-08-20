@@ -53,69 +53,69 @@ export default function Navbar({
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#070D1E]/85 backdrop-blur-xl border-b border-[#1E3159]/60">
+    <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
       <div className="max-w-[1320px] mx-auto px-4 md:px-6 flex items-center justify-between h-[78px]">
         {/* Brand Logo (Left Side) */}
         <button
           onClick={() => handleNavClick('home')}
           className="flex items-center gap-3 no-underline cursor-pointer group bg-transparent border-0 p-0 text-left"
         >
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#F3C55B] via-[#DAAE4D] to-[#C89B2A] flex items-center justify-center text-[#070D1E] shadow-[0_6px_30px_rgba(234,179,8,0.35)] group-hover:scale-105 transition-transform shrink-0">
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#FF6B00] via-[#F97316] to-[#EA580C] flex items-center justify-center text-white shadow-[0_4px_20px_rgba(249,115,22,0.35)] group-hover:scale-105 transition-transform shrink-0">
             <Coins size={24} />
           </div>
           <div className="flex flex-col">
-            <span className="text-xl font-extrabold tracking-tight text-white group-hover:text-[#DAAE4D] transition-colors">
+            <span className="text-xl font-extrabold tracking-tight text-slate-900 group-hover:text-[#FF6B00] transition-colors">
               GoldFin
             </span>
-            <span className="text-[10px] font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-[#C89B2A]/10 border border-[#C89B2A]/30 text-[#DAAE4D]">
+            <span className="text-[10px] font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600">
               LIVE GOLD RATES & LOANS
             </span>
           </div>
         </button>
 
-        {/* Desktop Navigation Links (Aligned to the Right Side: Home -> Live Rates -> Gold Loan -> About Us) */}
+        {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-8 ml-auto">
           {/* 1. Home Link */}
           <button
             onClick={() => handleNavClick('home')}
             className={`text-sm font-semibold transition-colors py-2 bg-transparent border-0 cursor-pointer relative ${
-              currentPage === 'home' ? 'text-white font-bold' : 'text-slate-400 hover:text-[#DAAE4D]'
+              currentPage === 'home' ? 'text-[#FF6B00] font-bold' : 'text-slate-600 hover:text-[#FF6B00]'
             }`}
           >
             <span>Home</span>
             {currentPage === 'home' && (
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#F3C55B] to-[#C89B2A] rounded-full shadow-[0_0_8px_rgba(218,174,77,0.8)]" />
+              <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full shadow-[0_0_8px_rgba(249,115,22,0.6)]" />
             )}
           </button>
 
-          {/* 2. Live Rates Tab (Highlighted if active page) */}
+          {/* 2. Live Rates Tab */}
           <button
             onClick={() => handleNavClick('live-rate')}
             className={`text-sm font-semibold transition-colors py-2 bg-transparent border-0 cursor-pointer flex items-center gap-2 relative ${
               currentPage === 'live-rate'
-                ? 'text-[#DAAE4D] font-bold'
-                : 'text-slate-400 hover:text-[#DAAE4D]'
+                ? 'text-[#FF6B00] font-bold'
+                : 'text-slate-600 hover:text-[#FF6B00]'
             }`}
           >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>Live Rates</span>
             {currentPage === 'live-rate' && (
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#F3C55B] to-[#C89B2A] rounded-full shadow-[0_0_8px_rgba(218,174,77,0.8)]" />
+              <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full shadow-[0_0_8px_rgba(249,115,22,0.6)]" />
             )}
           </button>
 
-          {/* 3. Gold Loan Tab (Highlighted if active page) */}
+          {/* 3. Gold Loan Tab */}
           <button
             onClick={() => handleNavClick('gold-loan')}
             className={`text-sm font-semibold transition-colors py-2 bg-transparent border-0 cursor-pointer flex items-center gap-2 relative ${
               currentPage === 'gold-loan'
-                ? 'text-[#DAAE4D] font-bold'
-                : 'text-slate-400 hover:text-[#DAAE4D]'
+                ? 'text-[#FF6B00] font-bold'
+                : 'text-slate-600 hover:text-[#FF6B00]'
             }`}
           >
             <span>Gold Loan</span>
             {currentPage === 'gold-loan' && (
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#F3C55B] to-[#C89B2A] rounded-full shadow-[0_0_8px_rgba(218,174,77,0.8)]" />
+              <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full shadow-[0_0_8px_rgba(249,115,22,0.6)]" />
             )}
           </button>
 
@@ -124,13 +124,13 @@ export default function Navbar({
             onClick={() => handleNavClick('about')}
             className={`text-sm font-semibold transition-colors py-2 bg-transparent border-0 cursor-pointer relative ${
               currentPage === 'about'
-                ? 'text-[#DAAE4D] font-bold'
-                : 'text-slate-400 hover:text-[#DAAE4D]'
+                ? 'text-[#FF6B00] font-bold'
+                : 'text-slate-600 hover:text-[#FF6B00]'
             }`}
           >
             <span>About Us</span>
             {currentPage === 'about' && (
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#F3C55B] to-[#C89B2A] rounded-full shadow-[0_0_8px_rgba(218,174,77,0.8)]" />
+              <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full shadow-[0_0_8px_rgba(249,115,22,0.6)]" />
             )}
           </button>
 
@@ -139,13 +139,13 @@ export default function Navbar({
             onClick={() => handleNavClick('contact')}
             className={`text-sm font-semibold transition-colors py-2 bg-transparent border-0 cursor-pointer relative ${
               currentPage === 'contact'
-                ? 'text-[#DAAE4D] font-bold'
-                : 'text-slate-400 hover:text-[#DAAE4D]'
+                ? 'text-[#FF6B00] font-bold'
+                : 'text-slate-600 hover:text-[#FF6B00]'
             }`}
           >
             <span>Contact</span>
             {currentPage === 'contact' && (
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#F3C55B] to-[#C89B2A] rounded-full shadow-[0_0_8px_rgba(218,174,77,0.8)]" />
+              <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full shadow-[0_0_8px_rgba(249,115,22,0.6)]" />
             )}
           </button>
         </nav>
@@ -153,7 +153,7 @@ export default function Navbar({
         {/* Mobile Hamburger Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 rounded-xl bg-white/5 text-slate-400 hover:text-white border-0 cursor-pointer ml-auto"
+          className="md:hidden p-2 rounded-xl bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 cursor-pointer ml-auto"
           aria-label="Toggle menu"
         >
           {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -162,35 +162,45 @@ export default function Navbar({
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#0A1329] border-b border-[#1E3159] px-6 py-5 flex flex-col gap-4 animate-in slide-in-from-top-2">
+        <div className="md:hidden bg-white border-b border-slate-200 px-6 py-5 flex flex-col gap-3 shadow-xl animate-in slide-in-from-top-2">
           <button
             onClick={() => handleNavClick('home')}
-            className="text-left text-sm font-semibold text-slate-300 hover:text-[#DAAE4D] py-1 bg-transparent border-0 cursor-pointer"
+            className={`text-left text-sm font-semibold py-2 px-3 rounded-lg bg-transparent border-0 cursor-pointer ${
+              currentPage === 'home' ? 'text-[#FF6B00] font-bold bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
+            }`}
           >
             Home
           </button>
           <button
             onClick={() => handleNavClick('live-rate')}
-            className="text-left text-sm font-bold text-[#DAAE4D] py-1 bg-transparent border-0 cursor-pointer flex items-center gap-2"
+            className={`text-left text-sm font-bold py-2 px-3 rounded-lg bg-transparent border-0 cursor-pointer flex items-center gap-2 ${
+              currentPage === 'live-rate' ? 'text-[#FF6B00] bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
+            }`}
           >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>Live Rates</span>
           </button>
           <button
             onClick={() => handleNavClick('gold-loan')}
-            className="text-left text-sm font-bold text-[#DAAE4D] py-1 bg-transparent border-0 cursor-pointer"
+            className={`text-left text-sm font-semibold py-2 px-3 rounded-lg bg-transparent border-0 cursor-pointer ${
+              currentPage === 'gold-loan' ? 'text-[#FF6B00] font-bold bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
+            }`}
           >
             Gold Loan
           </button>
           <button
             onClick={() => handleNavClick('about')}
-            className="text-left text-sm font-bold text-[#DAAE4D] py-1 bg-transparent border-0 cursor-pointer"
+            className={`text-left text-sm font-semibold py-2 px-3 rounded-lg bg-transparent border-0 cursor-pointer ${
+              currentPage === 'about' ? 'text-[#FF6B00] font-bold bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
+            }`}
           >
             About Us
           </button>
           <button
             onClick={() => handleNavClick('contact')}
-            className="text-left text-sm font-bold text-[#DAAE4D] py-1 bg-transparent border-0 cursor-pointer"
+            className={`text-left text-sm font-semibold py-2 px-3 rounded-lg bg-transparent border-0 cursor-pointer ${
+              currentPage === 'contact' ? 'text-[#FF6B00] font-bold bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
+            }`}
           >
             Contact
           </button>
