@@ -36,6 +36,7 @@ interface GoldLoanPageProps {
   onNavigateAbout?: () => void
   onNavigateLiveRate?: () => void
   onNavigateGoldLoan?: () => void
+  onNavigateBranches?: () => void
   onNavigateContact?: () => void
 }
 
@@ -44,6 +45,7 @@ export default function GoldLoanPage({
   onNavigateAbout,
   onNavigateLiveRate,
   onNavigateGoldLoan,
+  onNavigateBranches,
   onNavigateContact,
 }: GoldLoanPageProps) {
   // Live rates state
@@ -120,6 +122,7 @@ export default function GoldLoanPage({
         onNavigateAbout={onNavigateAbout}
         onNavigateLiveRate={onNavigateLiveRate}
         onNavigateGoldLoan={onNavigateGoldLoan}
+        onNavigateBranches={onNavigateBranches}
         onNavigateContact={onNavigateContact}
         onScrollToSection={(sectionId) => {
           if (onNavigateHome) {
@@ -538,6 +541,7 @@ export default function GoldLoanPage({
         onNavigateAbout={onNavigateAbout}
         onNavigateLiveRate={onNavigateLiveRate}
         onNavigateGoldLoan={onNavigateGoldLoan}
+        onNavigateBranches={onNavigateBranches}
         onNavigateContact={onNavigateContact}
         onScrollToSection={(sectionId) => {
           if (onNavigateHome) {

@@ -2,11 +2,12 @@ import { useState } from 'react'
 import { Coins, Menu, X } from 'lucide-react'
 
 export interface NavbarProps {
-  currentPage?: 'home' | 'live-rate' | 'gold-loan' | 'about' | 'contact'
+  currentPage?: 'home' | 'live-rate' | 'gold-loan' | 'branches' | 'about' | 'contact'
   onNavigateHome?: () => void
   onNavigateAbout?: () => void
   onNavigateLiveRate?: () => void
   onNavigateGoldLoan?: () => void
+  onNavigateBranches?: () => void
   onNavigateContact?: () => void
   onScrollToSection?: (sectionId: string) => void
   spotRate24K?: number
@@ -18,12 +19,13 @@ export default function Navbar({
   onNavigateAbout,
   onNavigateLiveRate,
   onNavigateGoldLoan,
+  onNavigateBranches,
   onNavigateContact,
   onScrollToSection,
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  const handleNavClick = (action: 'home' | 'about' | 'live-rate' | 'gold-loan' | 'contact' | string) => {
+  const handleNavClick = (action: 'home' | 'about' | 'live-rate' | 'gold-loan' | 'branches' | 'contact' | string) => {
     setMobileMenuOpen(false)
     if (action === 'home') {
       if (onNavigateHome) onNavigateHome()
@@ -34,6 +36,9 @@ export default function Navbar({
     } else if (action === 'gold-loan') {
       if (onNavigateGoldLoan) onNavigateGoldLoan()
       else window.location.hash = '#gold-loan'
+    } else if (action === 'branches') {
+      if (onNavigateBranches) onNavigateBranches()
+      else window.location.hash = '#branches'
     } else if (action === 'about') {
       if (onNavigateAbout) onNavigateAbout()
       else window.location.hash = '#about'
@@ -119,7 +124,22 @@ export default function Navbar({
             )}
           </button>
 
-          {/* 4. About Us Tab */}
+          {/* 4. Branches Tab (Positioned immediately after Gold Loan) */}
+          <button
+            onClick={() => handleNavClick('branches')}
+            className={`text-sm font-semibold transition-colors py-2 bg-transparent border-0 cursor-pointer relative ${
+              currentPage === 'branches'
+                ? 'text-[#FF6B00] font-bold'
+                : 'text-slate-600 hover:text-[#FF6B00]'
+            }`}
+          >
+            <span>Branches</span>
+            {currentPage === 'branches' && (
+              <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full shadow-[0_0_8px_rgba(249,115,22,0.6)]" />
+            )}
+          </button>
+
+          {/* 5. About Us Tab */}
           <button
             onClick={() => handleNavClick('about')}
             className={`text-sm font-semibold transition-colors py-2 bg-transparent border-0 cursor-pointer relative ${
@@ -134,7 +154,7 @@ export default function Navbar({
             )}
           </button>
 
-          {/* 5. Contact Tab */}
+          {/* 6. Contact Tab */}
           <button
             onClick={() => handleNavClick('contact')}
             className={`text-sm font-semibold transition-colors py-2 bg-transparent border-0 cursor-pointer relative ${
@@ -187,6 +207,14 @@ export default function Navbar({
             }`}
           >
             Gold Loan
+          </button>
+          <button
+            onClick={() => handleNavClick('branches')}
+            className={`text-left text-sm font-semibold py-2 px-3 rounded-lg bg-transparent border-0 cursor-pointer ${
+              currentPage === 'branches' ? 'text-[#FF6B00] font-bold bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
+            }`}
+          >
+            Branches
           </button>
           <button
             onClick={() => handleNavClick('about')}

@@ -43,6 +43,7 @@ interface LiveRatePageProps {
   onNavigateHome?: () => void
   onNavigateAbout?: () => void
   onNavigateGoldLoan?: () => void
+  onNavigateBranches?: () => void
   onNavigateContact?: () => void
   onNavigateTo?: (page: string) => void
 }
@@ -51,6 +52,7 @@ export default function LiveRatePage({
   onNavigateHome,
   onNavigateAbout,
   onNavigateGoldLoan,
+  onNavigateBranches,
   onNavigateContact,
   onNavigateTo,
 }: LiveRatePageProps) {
@@ -300,6 +302,7 @@ export default function LiveRatePage({
         onNavigateAbout={onNavigateAbout || (() => onNavigateTo && onNavigateTo('about'))}
         onNavigateLiveRate={() => {}}
         onNavigateGoldLoan={onNavigateGoldLoan || (() => onNavigateTo && onNavigateTo('gold-loan'))}
+        onNavigateBranches={onNavigateBranches || (() => onNavigateTo && onNavigateTo('branches'))}
         onNavigateContact={onNavigateContact || (() => onNavigateTo && onNavigateTo('contact'))}
         onScrollToSection={(sectionId) => {
           if (onNavigateHome) {
@@ -929,6 +932,7 @@ export default function LiveRatePage({
         onNavigateAbout={onNavigateAbout || (() => onNavigateTo && onNavigateTo('about'))}
         onNavigateLiveRate={() => {}}
         onNavigateGoldLoan={onNavigateGoldLoan || (() => onNavigateTo && onNavigateTo('gold-loan'))}
+        onNavigateBranches={onNavigateBranches || (() => onNavigateTo && onNavigateTo('branches'))}
         onNavigateContact={onNavigateContact || (() => onNavigateTo && onNavigateTo('contact'))}
         onScrollToSection={(sectionId) => {
           if (onNavigateHome) {

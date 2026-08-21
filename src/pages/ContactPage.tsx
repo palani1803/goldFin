@@ -19,6 +19,7 @@ export interface ContactPageProps {
   onNavigateAbout?: () => void
   onNavigateLiveRate?: () => void
   onNavigateGoldLoan?: () => void
+  onNavigateBranches?: () => void
   onNavigateContact?: () => void
 }
 
@@ -27,6 +28,7 @@ export default function ContactPage({
   onNavigateAbout,
   onNavigateLiveRate,
   onNavigateGoldLoan,
+  onNavigateBranches,
   onNavigateContact,
 }: ContactPageProps) {
   const [copiedPhone, setCopiedPhone] = useState(false)
@@ -49,6 +51,7 @@ export default function ContactPage({
         onNavigateAbout={onNavigateAbout}
         onNavigateLiveRate={onNavigateLiveRate}
         onNavigateGoldLoan={onNavigateGoldLoan}
+        onNavigateBranches={onNavigateBranches}
         onNavigateContact={onNavigateContact}
         onScrollToSection={(sectionId) => {
           if (onNavigateHome) {
@@ -341,6 +344,7 @@ export default function ContactPage({
         onNavigateAbout={onNavigateAbout}
         onNavigateLiveRate={onNavigateLiveRate}
         onNavigateGoldLoan={onNavigateGoldLoan}
+        onNavigateBranches={onNavigateBranches}
         onNavigateContact={onNavigateContact}
         onScrollToSection={(sectionId) => {
           if (onNavigateHome) {

@@ -78,6 +78,7 @@ interface HomePageProps {
   onNavigateAbout?: () => void
   onNavigateLiveRate?: () => void
   onNavigateGoldLoan?: () => void
+  onNavigateBranches?: () => void
   onNavigateContact?: () => void
 }
 
@@ -86,6 +87,7 @@ export default function HomePage({
   onNavigateAbout,
   onNavigateLiveRate,
   onNavigateGoldLoan,
+  onNavigateBranches,
   onNavigateContact,
 }: HomePageProps = {}) {
   // Modals
@@ -211,6 +213,7 @@ export default function HomePage({
         onNavigateAbout={onNavigateAbout}
         onNavigateLiveRate={onNavigateLiveRate}
         onNavigateGoldLoan={onNavigateGoldLoan}
+        onNavigateBranches={onNavigateBranches}
         onNavigateContact={onNavigateContact}
         onScrollToSection={scrollToSection}
         spotRate24K={spotRate24K}
@@ -838,6 +841,7 @@ export default function HomePage({
         onNavigateAbout={onNavigateAbout}
         onNavigateLiveRate={onNavigateLiveRate}
         onNavigateGoldLoan={onNavigateGoldLoan}
+        onNavigateBranches={onNavigateBranches}
         onNavigateContact={onNavigateContact}
         onScrollToSection={scrollToSection}
       />

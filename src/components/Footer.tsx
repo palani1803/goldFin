@@ -4,6 +4,7 @@ export interface FooterProps {
   onNavigateHome?: () => void
   onNavigateLiveRate?: () => void
   onNavigateGoldLoan?: () => void
+  onNavigateBranches?: () => void
   onNavigateAbout?: () => void
   onNavigateContact?: () => void
   onScrollToSection?: (sectionId: string) => void
@@ -13,11 +14,12 @@ export default function Footer({
   onNavigateHome,
   onNavigateLiveRate,
   onNavigateGoldLoan,
+  onNavigateBranches,
   onNavigateAbout,
   onNavigateContact,
   onScrollToSection,
 }: FooterProps) {
-  const handleLinkClick = (action: 'home' | 'live-rate' | 'gold-loan' | 'about' | 'contact' | string) => {
+  const handleLinkClick = (action: 'home' | 'live-rate' | 'gold-loan' | 'branches' | 'about' | 'contact' | string) => {
     if (action === 'home') {
       if (onNavigateHome) onNavigateHome()
       else window.location.hash = '#home'
@@ -27,6 +29,9 @@ export default function Footer({
     } else if (action === 'gold-loan') {
       if (onNavigateGoldLoan) onNavigateGoldLoan()
       else window.location.hash = '#gold-loan'
+    } else if (action === 'branches') {
+      if (onNavigateBranches) onNavigateBranches()
+      else window.location.hash = '#branches'
     } else if (action === 'about') {
       if (onNavigateAbout) onNavigateAbout()
       else window.location.hash = '#about'
@@ -105,6 +110,14 @@ export default function Footer({
                   onClick={() => handleLinkClick('gold-loan')}
                 >
                   Gold Loan
+                </button>
+              </li>
+              <li>
+                <button
+                  className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
+                  onClick={() => handleLinkClick('branches')}
+                >
+                  Branches
                 </button>
               </li>
               <li>

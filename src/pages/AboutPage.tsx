@@ -20,6 +20,7 @@ interface AboutPageProps {
   onNavigateHome?: () => void
   onNavigateLiveRate?: () => void
   onNavigateGoldLoan?: () => void
+  onNavigateBranches?: () => void
   onNavigateAbout?: () => void
   onNavigateContact?: () => void
 }
@@ -29,6 +30,7 @@ export default function AboutPage({
   onNavigateAbout,
   onNavigateLiveRate,
   onNavigateGoldLoan,
+  onNavigateBranches,
   onNavigateContact,
 }: AboutPageProps) {
   return (
@@ -43,6 +45,7 @@ export default function AboutPage({
         onNavigateAbout={onNavigateAbout}
         onNavigateLiveRate={onNavigateLiveRate}
         onNavigateGoldLoan={onNavigateGoldLoan}
+        onNavigateBranches={onNavigateBranches}
         onNavigateContact={onNavigateContact}
         onScrollToSection={(sectionId) => {
           if (onNavigateHome) {
@@ -370,6 +373,7 @@ export default function AboutPage({
         onNavigateAbout={onNavigateAbout}
         onNavigateLiveRate={onNavigateLiveRate}
         onNavigateGoldLoan={onNavigateGoldLoan}
+        onNavigateBranches={onNavigateBranches}
         onNavigateContact={onNavigateContact}
         onScrollToSection={(sectionId) => {
           if (onNavigateHome) {
