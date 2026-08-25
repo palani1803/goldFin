@@ -10,6 +10,9 @@ const { fetchAndUpdateGoldPrices } = require('./services/goldPriceService')
 const goldRateRoutes = require('./routes/goldRateRoutes')
 const userRoutes = require('./routes/userRoutes')
 const newsRoutes = require('./routes/newsRoutes')
+const adminAuthRoutes = require('./routes/adminAuthRoutes')
+const branchRoutes = require('./routes/branchRoutes')
+const shopGoldRateRoutes = require('./routes/shopGoldRateRoutes')
 
 // Load environment variables
 dotenv.config()
@@ -26,6 +29,9 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/gold-rates', goldRateRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/news', newsRoutes)
+app.use('/api/admin', adminAuthRoutes)
+app.use('/api/branches', branchRoutes)
+app.use('/api/shop-rates', shopGoldRateRoutes)
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -45,11 +51,21 @@ const PORT = process.env.PORT || 5000
 const startServer = async () => {
   try {
     await connectDB()
+
+    // Auto-seed default admin and 5 branches into database if not present
+    const { seedDefaultAdmin } = require('./controllers/adminAuthController')
+    const { seedDefaultBranches } = require('./controllers/branchController')
+    await seedDefaultAdmin()
+    await seedDefaultBranches()
+
     app.listen(PORT, () => {
       console.log(`\n🚀 GoldFin API Server running on port ${PORT}`)
       console.log(`📡 Health check: http://localhost:${PORT}/api/health`)
       console.log(`💰 Gold Rates:   http://localhost:${PORT}/api/gold-rates`)
-      console.log(`👤 Users:        http://localhost:${PORT}/api/users\n`)
+      console.log(`👤 Users:        http://localhost:${PORT}/api/users`)
+      console.log(`🔐 Admin:        http://localhost:${PORT}/api/admin`)
+      console.log(`🏢 Branches:     http://localhost:${PORT}/api/branches`)
+      console.log(`🏷️  Shop Rates:   http://localhost:${PORT}/api/shop-rates\n`)
     })
 
     // --------------- Live Gold Price Cron Job ---------------
