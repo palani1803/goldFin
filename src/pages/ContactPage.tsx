@@ -16,6 +16,7 @@ import {
   Check
 } from 'lucide-react'
 import { Navbar, Footer, TrustBanner, GoldBackground } from '../components'
+import { useLanguage } from '../i18n'
 
 export interface ContactPageProps {
   onNavigateHome?: () => void
@@ -190,6 +191,7 @@ export default function ContactPage({
   onNavigateBranches,
   onNavigateContact,
 }: ContactPageProps) {
+  const { t, isTamil } = useLanguage()
   const [selectedBranchId, setSelectedBranchId] = useState<string>('sivakasi')
   const [copiedPhoneId, setCopiedPhoneId] = useState<string | null>(null)
 
@@ -244,26 +246,39 @@ export default function ContactPage({
               onClick={onNavigateHome}
               className="hover:text-[#FF6B00] transition-colors bg-transparent border-0 p-0 cursor-pointer text-slate-500"
             >
-              Home
+              {t('navHome')}
             </button>
             <ChevronRight size={13} className="text-slate-400" />
-            <span className="text-[#FF6B00] font-bold">Contact & Branch Locations</span>
+            <span className="text-[#FF6B00] font-bold">{isTamil ? 'தொடர்பு & கிளை வரைபடம்' : 'Contact & Branch Locations'}</span>
           </div>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="flex flex-col gap-2">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider w-fit uppercase shadow-sm">
                 <Sparkles size={14} />
-                <span>AUTHORIZED BRANCHES & INTERACTIVE LOCATION MAPS</span>
+                <span>{isTamil ? 'அதிகாரப்பூர்வ கிளைகள் & வரைபட விவரங்கள்' : 'AUTHORIZED BRANCHES & INTERACTIVE LOCATION MAPS'}</span>
               </div>
               <h1 className="text-3xl md:text-5xl lg:text-[3.25rem] font-black text-slate-900 tracking-tight leading-[1.15]">
-                Contact Our{' '}
-                <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
-                  Branch Network
-                </span>
+                {isTamil ? (
+                  <>
+                    எங்கள் கிளைகளை <br />
+                    <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
+                      தொடர்பு கொள்ளவும்
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    Contact Our <br />
+                    <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
+                      Branch Network
+                    </span>
+                  </>
+                )}
               </h1>
               <p className="text-sm md:text-base text-slate-600 max-w-3xl leading-relaxed">
-                Connect directly with our branch managers, visit our bank-grade secure vaults, or view the live interactive Google Map for each branch below.
+                {isTamil
+                  ? 'எங்கள் கிளை மேலாளர்களை நேரடியாக தொடர்பு கொள்ளுங்கள் அல்லது கீழே உள்ள ஊடாடும் கூகிள் வரைபடத்தை பயன்படுத்தி நேரில் வாருங்கள்.'
+                  : 'Connect directly with our branch managers, visit our bank-grade secure vaults, or view the live interactive Google Map for each branch below.'}
               </p>
             </div>
 
@@ -274,7 +289,7 @@ export default function ContactPage({
               </div>
               <div className="flex flex-col">
                 <span className="text-[10px] uppercase font-extrabold tracking-wider text-slate-400">
-                  CENTRAL TOLL-FREE DESK
+                  {isTamil ? 'தலைமை உதவி மையம்' : 'CENTRAL TOLL-FREE DESK'}
                 </span>
                 <a
                   href="tel:+919092548347"
@@ -293,7 +308,7 @@ export default function ContactPage({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-2 sm:p-2.5 rounded-2xl bg-white border border-slate-200/80 shadow-sm">
             <div className="flex items-center gap-2 px-3 py-1 text-xs font-bold text-slate-500">
               <Building2 size={16} className="text-orange-500" />
-              <span>Select Branch for Map & Details:</span>
+              <span>{isTamil ? 'வரைபடம் & விவரங்களை காண கிளையைத் தேர்ந்தெடுக்கவும்:' : 'Select Branch for Map & Details:'}</span>
             </div>
 
             <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
@@ -329,11 +344,13 @@ export default function ContactPage({
                   </span>
                   <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span>Branch Open</span>
+                    <span>{isTamil ? 'கிளை திறந்துள்ளது' : 'Branch Open'}</span>
                   </span>
                 </div>
                 <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                  {activeBranch.name}
+                  {isTamil
+                    ? (activeBranch.id === 'sivakasi' ? t('branchSivakasiName') : activeBranch.id === 'srivilliputhur' ? t('branchSrivilliputhurName') : activeBranch.id === 'puthupatti' ? t('branchPuthupattiName') : activeBranch.id === 'rajapalayam' ? t('branchRajapalayamName') : t('branchAlangulamName'))
+                    : activeBranch.name}
                 </h2>
                 <div className="flex items-center gap-2 text-xs text-slate-500 font-medium">
                   <span className="font-semibold text-slate-700">{activeBranch.city}</span>
@@ -353,13 +370,17 @@ export default function ContactPage({
                   </div>
                   <div className="flex flex-col flex-1">
                     <span className="text-[10px] font-extrabold uppercase tracking-widest text-orange-600">
-                      BRANCH ADDRESS & LANDMARK
+                      {isTamil ? 'கிளை முகவரி & முக்கிய அடையாளம்' : 'BRANCH ADDRESS & LANDMARK'}
                     </span>
                     <span className="text-sm font-extrabold text-slate-900 mt-0.5">
-                      {activeBranch.address}
+                      {isTamil
+                        ? (activeBranch.id === 'sivakasi' ? t('branchSivakasiAddress') : activeBranch.id === 'srivilliputhur' ? t('branchSrivilliputhurAddress') : activeBranch.id === 'puthupatti' ? t('branchPuthupattiAddress') : activeBranch.id === 'rajapalayam' ? t('branchRajapalayamAddress') : t('branchAlangulamAddress'))
+                        : activeBranch.address}
                     </span>
                     <span className="text-xs text-slate-500 mt-0.5">
-                      {activeBranch.landmark}, {activeBranch.city} – {activeBranch.pincode}
+                      {isTamil
+                        ? (activeBranch.id === 'sivakasi' ? t('branchSivakasiLandmark') : activeBranch.id === 'srivilliputhur' ? t('branchSrivilliputhurLandmark') : activeBranch.id === 'puthupatti' ? t('branchPuthupattiLandmark') : activeBranch.id === 'rajapalayam' ? t('branchRajapalayamLandmark') : t('branchAlangulamLandmark'))
+                        : activeBranch.landmark}, {activeBranch.city} – {activeBranch.pincode}
                     </span>
                   </div>
                 </div>
@@ -371,7 +392,7 @@ export default function ContactPage({
                   </div>
                   <div className="flex flex-col flex-1">
                     <span className="text-[10px] font-extrabold uppercase tracking-widest text-orange-600">
-                      DIRECT DESK PHONE
+                      {isTamil ? 'நேரடி தொலைபேசி எண்' : 'DIRECT DESK PHONE'}
                     </span>
                     <div className="flex items-center justify-between gap-2 mt-0.5">
                       <a
@@ -387,18 +408,18 @@ export default function ContactPage({
                         {copiedPhoneId === activeBranch.id ? (
                           <>
                             <Check size={10} />
-                            <span>Copied</span>
+                            <span>{isTamil ? 'நகலெடுக்கப்பட்டது' : 'Copied'}</span>
                           </>
                         ) : (
                           <>
                             <Copy size={10} />
-                            <span>Copy</span>
+                            <span>{isTamil ? 'நகலெடு' : 'Copy'}</span>
                           </>
                         )}
                       </button>
                     </div>
                     <span className="text-xs text-slate-500 mt-0.5">
-                      Landline: <span className="font-semibold text-slate-700">{activeBranch.altPhone}</span>
+                      {isTamil ? 'நிலையான எண் (Landline):' : 'Landline:'} <span className="font-semibold text-slate-700">{activeBranch.altPhone}</span>
                     </span>
                   </div>
                 </div>
@@ -410,7 +431,7 @@ export default function ContactPage({
                   </div>
                   <div className="flex flex-col flex-1">
                     <span className="text-[10px] font-extrabold uppercase tracking-widest text-orange-600">
-                      BRANCH EMAIL & DIGITAL DESK
+                      {isTamil ? 'மின்னஞ்சல் & டிஜிட்டல் உதவி' : 'BRANCH EMAIL & DIGITAL DESK'}
                     </span>
                     <a
                       href={`mailto:${activeBranch.email}`}
@@ -419,7 +440,7 @@ export default function ContactPage({
                       {activeBranch.email}
                     </a>
                     <span className="text-xs text-slate-500 mt-0.5">
-                      Central Helpdesk: <span className="text-slate-700 font-medium">support@goldfin.in</span>
+                      {isTamil ? 'தலைமை உதவி மையம்:' : 'Central Helpdesk:'} <span className="text-slate-700 font-medium">support@goldfin.in</span>
                     </span>
                   </div>
                 </div>
@@ -440,13 +461,13 @@ export default function ContactPage({
                   </div>
                   <div className="flex flex-col flex-1">
                     <span className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-600">
-                      WHATSAPP BRANCH DESK
+                      {isTamil ? 'வாட்ஸ்அப் உதவி மையம்' : 'WHATSAPP BRANCH DESK'}
                     </span>
                     <span className="text-sm font-black text-slate-900 group-hover:text-emerald-600 transition-colors mt-0.5">
                       {activeBranch.phone}
                     </span>
                     <span className="text-xs text-slate-500 mt-0.5">
-                      Chat directly with {activeBranch.city} branch officers
+                      {isTamil ? `${activeBranch.city} கிளை அலுவலர்களுடன் நேரடியாக தொடர்பு கொள்ளவும்` : `Chat directly with ${activeBranch.city} branch officers`}
                     </span>
                   </div>
                 </a>
@@ -458,13 +479,13 @@ export default function ContactPage({
                   </div>
                   <div className="flex flex-col flex-1">
                     <span className="text-[10px] font-extrabold uppercase tracking-widest text-orange-600">
-                      BUSINESS HOURS & IN-CHARGE
+                      {isTamil ? 'வேலை நேரம் & கிளை அலுவலர்' : 'BUSINESS HOURS & IN-CHARGE'}
                     </span>
                     <span className="text-sm font-extrabold text-slate-900 mt-0.5">
-                      {activeBranch.hours}
+                      {isTamil ? 'திங்கள்–சனி: காலை 9:00 – மாலை 6:30' : activeBranch.hours}
                     </span>
                     <span className="text-xs text-slate-500 mt-0.5">
-                      Officer: <span className="font-semibold text-slate-700">{activeBranch.manager}</span>
+                      {isTamil ? 'பொறுப்பு அலுவலர்:' : 'Officer:'} <span className="font-semibold text-slate-700">{activeBranch.manager}</span>
                     </span>
                   </div>
                 </div>
@@ -479,14 +500,14 @@ export default function ContactPage({
                   className="py-3 px-3 rounded-xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-xs hover:brightness-110 transition-all shadow-[0_4px_15px_rgba(249,115,22,0.3)] no-underline flex items-center justify-center gap-1.5 cursor-pointer text-center"
                 >
                   <Navigation size={14} />
-                  <span>Directions</span>
+                  <span>{isTamil ? 'வழி பார்க்க' : 'Directions'}</span>
                 </a>
                 <a
                   href={`tel:${activeBranch.rawPhone}`}
                   className="py-3 px-3 rounded-xl bg-white border border-slate-300 text-slate-800 hover:border-orange-500/40 hover:text-[#FF6B00] font-bold text-xs transition-all no-underline flex items-center justify-center gap-1.5 cursor-pointer shadow-sm text-center"
                 >
                   <Phone size={14} className="text-[#FF6B00]" />
-                  <span>Call Branch</span>
+                  <span>{isTamil ? 'கிளையை அழைக்க' : 'Call Branch'}</span>
                 </a>
                 <a
                   href={`https://wa.me/91${activeBranch.rawPhone}?text=${encodeURIComponent(
@@ -519,7 +540,9 @@ export default function ContactPage({
                     </div>
                     <div>
                       <h3 className="text-base font-extrabold text-slate-900">
-                        {activeBranch.name} Map
+                        {isTamil
+                          ? (activeBranch.id === 'sivakasi' ? t('branchSivakasiName') : activeBranch.id === 'srivilliputhur' ? t('branchSrivilliputhurName') : activeBranch.id === 'puthupatti' ? t('branchPuthupattiName') : activeBranch.id === 'rajapalayam' ? t('branchRajapalayamName') : t('branchAlangulamName'))
+                          : activeBranch.name} {isTamil ? 'வரைபடம்' : 'Map'}
                       </h3>
                       <span className="text-[11px] text-slate-500 font-medium">
                         {activeBranch.city}, {activeBranch.district} • PIN {activeBranch.pincode}
@@ -530,7 +553,7 @@ export default function ContactPage({
                   <div className="flex items-center gap-2">
                     <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
                       <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                      <span>Live Location</span>
+                      <span>{isTamil ? 'நேரடி இருப்பிடம்' : 'Live Location'}</span>
                     </span>
                     <a
                       href={activeBranch.fullMapUrl}
@@ -538,7 +561,7 @@ export default function ContactPage({
                       rel="noopener noreferrer"
                       className="text-xs font-bold text-orange-600 hover:text-orange-700 px-2.5 py-1 rounded-lg bg-orange-50 border border-orange-200 transition-colors flex items-center gap-1 no-underline"
                     >
-                      <span>Full Map</span>
+                      <span>{isTamil ? 'முழு வரைபடம்' : 'Full Map'}</span>
                       <ExternalLink size={12} />
                     </a>
                   </div>
@@ -567,7 +590,9 @@ export default function ContactPage({
                         GOLDFIN {activeBranch.city.toUpperCase()}
                       </span>
                       <span className="text-[10px] text-slate-800 font-bold">
-                        {activeBranch.address}
+                        {isTamil
+                          ? (activeBranch.id === 'sivakasi' ? t('branchSivakasiAddress') : activeBranch.id === 'srivilliputhur' ? t('branchSrivilliputhurAddress') : activeBranch.id === 'puthupatti' ? t('branchPuthupattiAddress') : activeBranch.id === 'rajapalayam' ? t('branchRajapalayamAddress') : t('branchAlangulamAddress'))
+                          : activeBranch.address}
                       </span>
                     </div>
                   </div>
@@ -578,19 +603,19 @@ export default function ContactPage({
                   <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center gap-2.5 text-slate-700">
                     <ShieldCheck size={16} className="text-[#FF6B00] shrink-0" />
                     <span className="text-[11px] font-medium leading-tight">
-                      100% Insured Bank Vault Storage
+                      {isTamil ? '100% காப்பீடு செய்யப்பட்ட வங்கி லாக்கர்' : '100% Insured Bank Vault Storage'}
                     </span>
                   </div>
                   <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center gap-2.5 text-slate-700">
                     <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
                     <span className="text-[11px] font-medium leading-tight">
-                      Instant 15-Min Loan Sanctions
+                      {isTamil ? 'உடனடி 15 நிமிட கடன் அனுமதி' : 'Instant 15-Min Loan Sanctions'}
                     </span>
                   </div>
                   <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center gap-2.5 text-slate-700">
                     <Sparkles size={16} className="text-orange-500 shrink-0" />
                     <span className="text-[11px] font-medium leading-tight">
-                      BIS Hallmarking Live Appraisals
+                      {isTamil ? 'BIS ஹால்மார்க் நேரடி மதிப்பீடு' : 'BIS Hallmarking Live Appraisals'}
                     </span>
                   </div>
                 </div>

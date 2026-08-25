@@ -8,6 +8,7 @@ import {
   MapPin
 } from 'lucide-react'
 import { Navbar, Footer, TrustBanner, GoldBackground } from '../components'
+import { useLanguage } from '../i18n'
 
 // Branch images
 import goldLoanBankHero from '../assets/gold_loan_bank_hero.jpg'
@@ -79,6 +80,8 @@ export default function BranchesPage({
   onNavigateBranches,
   onNavigateContact,
 }: BranchesPageProps) {
+  const { t, isTamil } = useLanguage()
+
   const handleBranchClick = () => {
     if (onNavigateContact) {
       onNavigateContact()
@@ -121,126 +124,148 @@ export default function BranchesPage({
               onClick={onNavigateHome}
               className="hover:text-[#FF6B00] transition-colors bg-transparent border-0 p-0 cursor-pointer text-slate-500"
             >
-              Home
+              {t('navHome')}
             </button>
             <ChevronRight size={13} className="text-slate-400" />
-            <span className="text-[#FF6B00] font-bold">Branches</span>
+            <span className="text-[#FF6B00] font-bold">{t('navBranches')}</span>
           </div>
 
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-xs font-bold tracking-wider uppercase shadow-sm">
             <Sparkles size={14} />
-            <span>GOLDFIN BRANCH NETWORK</span>
+            <span>{isTamil ? 'கோல்ட்பின் கிளைகள் வலையமைப்பு' : 'GOLDFIN BRANCH NETWORK'}</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
-            Our Regional{' '}
-            <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
-              Branches
-            </span>
+            {isTamil ? (
+              <>
+                எங்கள் பிராந்திய{' '}
+                <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
+                  கிளைகள்
+                </span>
+              </>
+            ) : (
+              <>
+                Our Regional{' '}
+                <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
+                  Branches
+                </span>
+              </>
+            )}
           </h1>
 
           <div className="w-16 h-1 bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full" />
 
           <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-            Visit any of our authorized branches across Tamil Nadu. Experience transparent live gold rates, instant 15-minute loan sanctions, and German XRF purity appraisals.
+            {isTamil
+              ? 'தமிழ்நாட்டின் எங்கள் அதிகாரப்பூர்வ கிளைகளை அணுகுங்கள். நேரடி தங்க விலை, உடனடி 15 நிமிட கடன் அனுமதி மற்றும் ஜெர்மன் XRF தூய்மை பரிசோதனை அனுபவியுங்கள்.'
+              : 'Visit any of our authorized branches across Tamil Nadu. Experience transparent live gold rates, instant 15-minute loan sanctions, and German XRF purity appraisals.'}
           </p>
         </div>
 
-        {/* SECTION 1: KABIN GOLD POINT STYLE BRANCH SHOWCASE CARDS (NO ADDRESS & NO MAP ON BRANCHES PAGE) */}
+        {/* SECTION 1: KABIN GOLD POINT STYLE BRANCH SHOWCASE CARDS */}
         <section className="flex flex-col gap-10">
           {/* 2-Column Responsive Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 items-stretch">
-            {BRANCHES_LIST.slice(0, 4).map((branch) => (
-              <div
-                key={branch.id}
-                className="rounded-3xl bg-white border border-slate-200 hover:border-orange-300 transition-all duration-300 overflow-hidden flex flex-col items-center text-center p-6 sm:p-8 shadow-sm hover:shadow-xl group"
-              >
-                {/* Branch Title */}
-                <h3 className="text-2xl sm:text-3xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors mb-5">
-                  {branch.name}
-                </h3>
+            {BRANCHES_LIST.slice(0, 4).map((branch) => {
+              const localizedName = isTamil
+                ? (branch.id === 'sivakasi' ? t('branchSivakasiName') : branch.id === 'srivilliputhur' ? t('branchSrivilliputhurName') : branch.id === 'puthupatti' ? t('branchPuthupattiName') : branch.id === 'rajapalayam' ? t('branchRajapalayamName') : t('branchAlangulamName'))
+                : branch.name
 
-                {/* Branch Image Container with Overlay Caption */}
+              return (
                 <div
-                  onClick={handleBranchClick}
-                  className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-md cursor-pointer border border-slate-200/80 bg-slate-100 group/img"
+                  key={branch.id}
+                  className="rounded-3xl bg-white border border-slate-200 hover:border-orange-300 transition-all duration-300 overflow-hidden flex flex-col items-center text-center p-6 sm:p-8 shadow-sm hover:shadow-xl group"
                 >
-                  <img
-                    src={branch.image}
-                    alt={branch.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105"
-                  />
+                  {/* Branch Title */}
+                  <h3 className="text-2xl sm:text-3xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors mb-5">
+                    {localizedName}
+                  </h3>
 
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Branch Image Container with Overlay Caption */}
+                  <div
+                    onClick={handleBranchClick}
+                    className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-md cursor-pointer border border-slate-200/80 bg-slate-100 group/img"
+                  >
+                    <img
+                      src={branch.image}
+                      alt={localizedName}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105"
+                    />
 
-                  {/* Floating City Caption */}
-                  <div className="absolute bottom-4 left-0 right-0 px-4 flex flex-col items-center justify-center text-white">
-                    <span className="text-xs uppercase font-extrabold tracking-widest text-orange-400">
-                      GoldFin Point
-                    </span>
-                    <span className="text-lg sm:text-xl font-black text-white drop-shadow-md">
-                      {branch.city}
-                    </span>
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+                    {/* Floating City Caption */}
+                    <div className="absolute bottom-4 left-0 right-0 px-4 flex flex-col items-center justify-center text-white">
+                      <span className="text-xs uppercase font-extrabold tracking-widest text-orange-400">
+                        GoldFin Point
+                      </span>
+                      <span className="text-lg sm:text-xl font-black text-white drop-shadow-md">
+                        {branch.city}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Action Button */}
+                  <div className="mt-7 w-full flex justify-center">
+                    <button
+                      onClick={handleBranchClick}
+                      className="w-full sm:w-auto py-3.5 px-8 rounded-xl font-extrabold text-xs transition-all flex items-center justify-center gap-2.5 cursor-pointer border-0 shadow-md bg-slate-900 hover:bg-[#FF6B00] text-white hover:shadow-orange-500/20"
+                    >
+                      <span>{isTamil ? `${branch.city} கிளை விவரம்` : `Visit ${branch.city} Branch`}</span>
+                      <ArrowRight size={15} />
+                    </button>
                   </div>
                 </div>
-
-                {/* Action Button: Navigate to Contact Page for Branch Map & Details */}
-                <div className="mt-7 w-full flex justify-center">
-                  <button
-                    onClick={handleBranchClick}
-                    className="w-full sm:w-auto py-3.5 px-8 rounded-xl font-extrabold text-xs transition-all flex items-center justify-center gap-2.5 cursor-pointer border-0 shadow-md bg-slate-900 hover:bg-[#FF6B00] text-white hover:shadow-orange-500/20"
-                  >
-                    <span>Visit {branch.city} Branch</span>
-                    <ArrowRight size={15} />
-                  </button>
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
 
           {/* Centered 5th Branch Card (Alangulam) */}
           <div className="max-w-xl mx-auto w-full">
-            {BRANCHES_LIST.slice(4, 5).map((branch) => (
-              <div
-                key={branch.id}
-                className="rounded-3xl bg-white border border-slate-200 hover:border-orange-300 transition-all duration-300 overflow-hidden flex flex-col items-center text-center p-6 sm:p-8 shadow-sm hover:shadow-xl group"
-              >
-                <h3 className="text-2xl sm:text-3xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors mb-5">
-                  {branch.name}
-                </h3>
-
+            {BRANCHES_LIST.slice(4, 5).map((branch) => {
+              const localizedName = isTamil ? t('branchAlangulamName') : branch.name
+              return (
                 <div
-                  onClick={handleBranchClick}
-                  className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-md cursor-pointer border border-slate-200/80 bg-slate-100 group/img"
+                  key={branch.id}
+                  className="rounded-3xl bg-white border border-slate-200 hover:border-orange-300 transition-all duration-300 overflow-hidden flex flex-col items-center text-center p-6 sm:p-8 shadow-sm hover:shadow-xl group"
                 >
-                  <img
-                    src={branch.image}
-                    alt={branch.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                  <div className="absolute bottom-4 left-0 right-0 px-4 flex flex-col items-center justify-center text-white">
-                    <span className="text-xs uppercase font-extrabold tracking-widest text-orange-400">
-                      GoldFin Point
-                    </span>
-                    <span className="text-lg sm:text-xl font-black text-white drop-shadow-md">
-                      {branch.city}
-                    </span>
+                  <h3 className="text-2xl sm:text-3xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors mb-5">
+                    {localizedName}
+                  </h3>
+
+                  <div
+                    onClick={handleBranchClick}
+                    className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-md cursor-pointer border border-slate-200/80 bg-slate-100 group/img"
+                  >
+                    <img
+                      src={branch.image}
+                      alt={localizedName}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    <div className="absolute bottom-4 left-0 right-0 px-4 flex flex-col items-center justify-center text-white">
+                      <span className="text-xs uppercase font-extrabold tracking-widest text-orange-400">
+                        GoldFin Point
+                      </span>
+                      <span className="text-lg sm:text-xl font-black text-white drop-shadow-md">
+                        {branch.city}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="mt-7 w-full flex justify-center">
+                    <button
+                      onClick={handleBranchClick}
+                      className="w-full sm:w-auto py-3.5 px-8 rounded-xl font-extrabold text-xs transition-all flex items-center justify-center gap-2.5 cursor-pointer border-0 shadow-md bg-slate-900 hover:bg-[#FF6B00] text-white hover:shadow-orange-500/20"
+                    >
+                      <span>{isTamil ? `${branch.city} கிளை விவரம்` : `Visit ${branch.city} Branch`}</span>
+                      <ArrowRight size={15} />
+                    </button>
                   </div>
                 </div>
-
-                <div className="mt-7 w-full flex justify-center">
-                  <button
-                    onClick={handleBranchClick}
-                    className="w-full sm:w-auto py-3.5 px-8 rounded-xl font-extrabold text-xs transition-all flex items-center justify-center gap-2.5 cursor-pointer border-0 shadow-md bg-slate-900 hover:bg-[#FF6B00] text-white hover:shadow-orange-500/20"
-                  >
-                    <span>Visit {branch.city} Branch</span>
-                    <ArrowRight size={15} />
-                  </button>
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </section>
 

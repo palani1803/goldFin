@@ -1,4 +1,5 @@
 import { Coins, Mail, Phone, ShieldCheck, ArrowUpRight } from 'lucide-react'
+import { useLanguage } from '../i18n'
 
 export interface FooterProps {
   onNavigateHome?: () => void
@@ -19,6 +20,8 @@ export default function Footer({
   onNavigateContact,
   onScrollToSection,
 }: FooterProps) {
+  const { t } = useLanguage()
+
   const handleLinkClick = (action: 'home' | 'live-rate' | 'gold-loan' | 'branches' | 'about' | 'contact' | string) => {
     if (action === 'home') {
       if (onNavigateHome) onNavigateHome()
@@ -68,23 +71,23 @@ export default function Footer({
                   GoldFin
                 </span>
                 <span className="text-[9px] font-bold tracking-widest text-[#FF6B00]">
-                  LIVE GOLD RATES & LOANS
+                  {t('brandTagline')}
                 </span>
               </div>
             </div>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Live 22K & 24K gold rates, instant gold loan calculator, and transparent GST breakdown across India.
+              {t('footerDesc')}
             </p>
             <div className="flex items-center gap-2 text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-full w-fit">
               <ShieldCheck size={14} className="text-emerald-600" />
-              <span>BIS Hallmarked Gold (24K Pure & 22K 916)</span>
+              <span>{t('footerBisBadge')}</span>
             </div>
           </div>
 
           {/* Col 2: Platform Features */}
           <div className="flex flex-col gap-4">
             <h4 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider">
-              Quick Links
+              {t('footerQuickLinks')}
             </h4>
             <ul className="flex flex-col gap-2.5 list-none p-0">
               <li>
@@ -92,7 +95,7 @@ export default function Footer({
                   className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
                   onClick={() => handleLinkClick('home')}
                 >
-                  Home
+                  {t('navHome')}
                 </button>
               </li>
               <li>
@@ -100,7 +103,7 @@ export default function Footer({
                   className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left flex items-center gap-1"
                   onClick={() => handleLinkClick('live-rate')}
                 >
-                  <span>Live Rates</span>
+                  <span>{t('navLiveRate')}</span>
                   <ArrowUpRight size={12} className="text-[#FF6B00]" />
                 </button>
               </li>
@@ -109,7 +112,7 @@ export default function Footer({
                   className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
                   onClick={() => handleLinkClick('gold-loan')}
                 >
-                  Gold Loan
+                  {t('navGoldLoan')}
                 </button>
               </li>
               <li>
@@ -117,7 +120,7 @@ export default function Footer({
                   className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
                   onClick={() => handleLinkClick('branches')}
                 >
-                  Branches
+                  {t('navBranches')}
                 </button>
               </li>
               <li>
@@ -125,7 +128,7 @@ export default function Footer({
                   className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
                   onClick={() => handleLinkClick('about')}
                 >
-                  About Us
+                  {t('navAbout')}
                 </button>
               </li>
               <li>
@@ -133,48 +136,56 @@ export default function Footer({
                   className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
                   onClick={() => handleLinkClick('contact')}
                 >
-                  Contact
+                  {t('navContact')}
                 </button>
               </li>
             </ul>
           </div>
 
-          {/* Col 3: Gold Guides & News */}
+          {/* Col 3: Key Regional Desks */}
           <div className="flex flex-col gap-4">
             <h4 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider">
-              Gold Guides & News
+              {t('footerBranches')}
             </h4>
             <ul className="flex flex-col gap-2.5 list-none p-0">
               <li>
                 <button
                   className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
-                  onClick={() => handleLinkClick('analysis')}
+                  onClick={() => handleLinkClick('branches')}
                 >
-                  RBI Gold Reserves Update
+                  {t('branchSivakasiName')}
                 </button>
               </li>
               <li>
                 <button
                   className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
-                  onClick={() => handleLinkClick('analysis')}
+                  onClick={() => handleLinkClick('branches')}
                 >
-                  Digital Gold vs Sovereign Gold Bonds (SGB)
+                  {t('branchSrivilliputhurName')}
                 </button>
               </li>
               <li>
                 <button
                   className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
-                  onClick={() => handleLinkClick('tips')}
+                  onClick={() => handleLinkClick('branches')}
                 >
-                  Gold Buying & Purity Guide
+                  {t('branchPuthupattiName')}
                 </button>
               </li>
               <li>
                 <button
                   className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
-                  onClick={() => handleLinkClick('tips')}
+                  onClick={() => handleLinkClick('branches')}
                 >
-                  Best Gold Loan Interest Rates
+                  {t('branchRajapalayamName')}
+                </button>
+              </li>
+              <li>
+                <button
+                  className="text-xs text-slate-600 hover:text-[#FF6B00] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
+                  onClick={() => handleLinkClick('branches')}
+                >
+                  {t('branchAlangulamName')}
                 </button>
               </li>
             </ul>
@@ -183,10 +194,10 @@ export default function Footer({
           {/* Col 4: Support & Contact */}
           <div className="flex flex-col gap-4">
             <h4 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider">
-              Customer Support
+              {t('contactSupportHelpline')}
             </h4>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Have questions about today's gold rates, applying for a gold loan, or calculating your jewellery value?
+              {t('contactHoursInfo')}
             </p>
             <a
               href="mailto:support@goldfin.in"
@@ -207,8 +218,8 @@ export default function Footer({
 
         {/* Bottom Strip */}
         <div className="pt-8 mt-12 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 text-center sm:text-left">
-          <span>© 2026 GoldFin. All rights reserved. Live rates benchmarked from Indian gold market (IBJA & MCX).</span>
-          <span>Privacy Policy • Terms of Service • Hallmark Standards</span>
+          <span>© 2026 GoldFin. {t('footerRights')} {t('footerRbiNote')}</span>
+          <span>Sivakasi • Srivilliputhur • M.Puthupatti • Rajapalayam • Alangulam</span>
         </div>
       </div>
     </footer>

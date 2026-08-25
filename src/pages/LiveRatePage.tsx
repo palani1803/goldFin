@@ -11,11 +11,10 @@ import {
   ChevronRight,
   X,
   Coins,
-  MapPin,
-  Building2,
-  Sparkles,
+  Sparkles
 } from 'lucide-react'
 import { Navbar, Footer, GoldBackground } from '../components'
+import { useLanguage } from '../i18n'
 
 interface PurityRate {
   purityId: string
@@ -27,6 +26,16 @@ interface PurityRate {
   changePercent: number
   isUp: boolean
   lastUpdated: string
+}
+
+interface ShopRate {
+  _id?: string
+  purityId: string
+  name: string
+  karat: string
+  pricePerGram: number
+  unit?: string
+  updatedAt?: string
 }
 
 interface HistoryPoint {
@@ -56,11 +65,17 @@ export default function LiveRatePage({
   onNavigateContact,
   onNavigateTo,
 }: LiveRatePageProps) {
+  const { t, isTamil } = useLanguage()
+
   // Live rates state
   const [liveRates, setLiveRates] = useState<PurityRate[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [lastUpdatedDate, setLastUpdatedDate] = useState<string>('17 Aug 2026')
   const [lastUpdatedTime, setLastUpdatedTime] = useState<string>('10:00 AM')
+
+  // GoldFin Finance Company Rates state
+  const [shopRates, setShopRates] = useState<ShopRate[]>([])
+  const [shopRatesLoading, setShopRatesLoading] = useState<boolean>(true)
 
   // Timeframe filter for the chart: Today, 7 Days, 30 Days
   const [timeframe, setTimeframe] = useState<'today' | '7days' | '30days'>('today')
@@ -69,9 +84,6 @@ export default function LiveRatePage({
 
   // Active chart hover index
   const [hoveredPointIndex, setHoveredPointIndex] = useState<number | null>(null)
-
-  // Selected city for comparison card
-  const [selectedCityId, setSelectedCityId] = useState<string>('chennai')
 
   // Countdown timer for next market update
   const [countdownSeconds, setCountdownSeconds] = useState<number>(892)
@@ -137,11 +149,30 @@ export default function LiveRatePage({
     }
   }, [])
 
+  // Fetch GoldFin Finance company rates from backend API
+  const fetchShopRates = useCallback(async () => {
+    try {
+      const res = await fetch('/api/shop-rates')
+      const json = await res.json()
+      if (json.success && Array.isArray(json.data)) {
+        setShopRates(json.data)
+      }
+    } catch (err) {
+      console.error('Error fetching shop rates:', err)
+    } finally {
+      setShopRatesLoading(false)
+    }
+  }, [])
+
   useEffect(() => {
     fetchRates()
-    const interval = setInterval(fetchRates, 60 * 1000)
+    fetchShopRates()
+    const interval = setInterval(() => {
+      fetchRates()
+      fetchShopRates()
+    }, 60 * 1000)
     return () => clearInterval(interval)
-  }, [fetchRates])
+  }, [fetchRates, fetchShopRates])
 
   useEffect(() => {
     fetchHistory(timeframe)
@@ -159,75 +190,6 @@ export default function LiveRatePage({
 
   const change22k = rate22k?.changePercent ?? 0.81
   const isUp22k = rate22k?.isUp ?? true
-
-  // Top 5 Indian Cities Data
-  const topCities = useMemo(() => {
-    const base24k = price24kPerGram
-    const citiesConfig = [
-      {
-        id: 'chennai',
-        name: 'Chennai',
-        state: 'Tamil Nadu',
-        tag: 'MJDMA Chennai',
-        offset: 15,
-        change: 0.84,
-        isUp: true,
-        popular: true,
-      },
-      {
-        id: 'mumbai',
-        name: 'Mumbai',
-        state: 'Maharashtra',
-        tag: 'IBJA Mumbai Rate',
-        offset: 0,
-        change: 0.81,
-        isUp: true,
-        popular: false,
-      },
-      {
-        id: 'delhi',
-        name: 'Delhi NCR',
-        state: 'National Capital',
-        tag: 'DJA Delhi Rate',
-        offset: 10,
-        change: 0.79,
-        isUp: true,
-        popular: false,
-      },
-      {
-        id: 'bengaluru',
-        name: 'Bengaluru',
-        state: 'Karnataka',
-        tag: 'KJMA Bengaluru',
-        offset: 12,
-        change: 0.82,
-        isUp: true,
-        popular: false,
-      },
-      {
-        id: 'hyderabad',
-        name: 'Hyderabad',
-        state: 'Telangana',
-        tag: 'TGJA Hyderabad',
-        offset: 18,
-        change: 0.85,
-        isUp: true,
-        popular: false,
-      },
-    ]
-
-    return citiesConfig.map((c) => {
-      const city24k = base24k + c.offset
-      const city22k = Math.round(city24k * (22 / 24))
-      const city18k = Math.round(city24k * (18 / 24))
-      return {
-        ...c,
-        price24k: city24k,
-        price22k: city22k,
-        price18k: city18k,
-      }
-    })
-  }, [price24kPerGram])
 
   // Calculated high, low, average from active chart
   const currentPrices = historyData.map((d) => d.price)
@@ -325,33 +287,44 @@ export default function LiveRatePage({
               onClick={onNavigateHome}
               className="hover:text-[#FF6B00] transition-colors bg-transparent border-0 p-0 cursor-pointer text-slate-500"
             >
-              Home
+              {t('navHome')}
             </button>
             <ChevronRight size={13} className="text-slate-400" />
-            <span className="text-[#FF6B00] font-bold">Live Gold Rate</span>
+            <span className="text-[#FF6B00] font-bold">{t('navLiveRate')}</span>
           </div>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mt-1">
             <div className="flex flex-col gap-2">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider w-fit">
                 <Sparkles size={14} />
-                <span>LIVE GOLD MARKET RATES</span>
+                <span>{t('heroLiveBadge')}</span>
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-black text-slate-900 tracking-tight leading-[1.1]">
-                Today's <br />
-                <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
-                  Live Gold Rate
-                </span>
+                {isTamil ? (
+                  <>
+                    இன்றைய <br />
+                    <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
+                      நேரடி தங்கம் விலை
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    Today's <br />
+                    <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
+                      Live Gold Rate
+                    </span>
+                  </>
+                )}
               </h1>
               <p className="text-sm md:text-base text-slate-600 max-w-2xl leading-relaxed">
-                Check today's live 1 gram gold prices across India. Updated daily from official market rates (IBJA & MCX).
+                {t('heroSubtitle')}
               </p>
             </div>
 
             {/* Pure 1 Gram Indicator Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white border border-orange-300 text-xs font-bold text-orange-600 self-start md:self-auto shadow-sm backdrop-blur-md">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>OFFICIAL 1 GRAM GOLD RATE (INDIA)</span>
+              <span>{t('officialBadge')}</span>
             </div>
           </div>
         </div>
@@ -362,7 +335,7 @@ export default function LiveRatePage({
           <div className="p-6 md:p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/45 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
-                22K JEWELLERY GOLD (1g)
+                {isTamil ? '22K ஆபரண தங்கம் (1g)' : '22K JEWELLERY GOLD (1g)'}
               </span>
               <div className={`inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full ${
                 isUp22k
@@ -379,7 +352,7 @@ export default function LiveRatePage({
                 {loading ? '...' : `₹${price22kPerGram.toLocaleString('en-IN')}`}
               </div>
               <span className="text-xs text-slate-500 font-medium">
-                91.6% Pure Gold (916 Hallmark) • Per 1 Gram
+                {isTamil ? '91.6% தூய்மை (916 ஹால்மார்க்) • 1 கிராம்' : '91.6% Pure Gold (916 Hallmark) • Per 1 Gram'}
               </span>
             </div>
 
@@ -390,7 +363,7 @@ export default function LiveRatePage({
           <div className="p-6 md:p-7 rounded-3xl bg-white border border-orange-300/80 hover:border-orange-500 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_8px_30px_rgba(249,115,22,0.1)] hover:shadow-[0_12px_35px_rgba(249,115,22,0.18)]">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-extrabold uppercase tracking-widest text-orange-600">
-                24K PURE GOLD (1g)
+                {isTamil ? '24K சுத்த தங்கம் (1g)' : '24K PURE GOLD (1g)'}
               </span>
               <div className={`inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full ${
                 isUp24k
@@ -407,10 +380,10 @@ export default function LiveRatePage({
                 <span className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
                   ₹{price24kPerGram.toLocaleString('en-IN')}
                 </span>
-                <span className="text-xs text-slate-500 font-semibold">/ gram</span>
+                <span className="text-xs text-slate-500 font-semibold">/ {isTamil ? 'கிராம்' : 'gram'}</span>
               </div>
               <span className="text-[11px] text-orange-600 font-semibold block mt-1">
-                99.9% Pure • Sovereign Investment Standard
+                {isTamil ? '99.9% தூய்மை • சர்வதேச முதலீட்டு தரம்' : '99.9% Pure • Sovereign Investment Standard'}
               </span>
             </div>
 
@@ -420,7 +393,7 @@ export default function LiveRatePage({
           {/* Card 3: LAST UPDATED */}
           <div className="p-6 md:p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/40 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
-              LAST UPDATED
+              {t('lastUpdated')}
             </span>
 
             <div className="my-2">
@@ -439,22 +412,120 @@ export default function LiveRatePage({
           {/* Card 4: MARKET STATUS */}
           <div className="p-6 md:p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/40 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
-              MARKET STATUS
+              {t('marketStatus')}
             </span>
 
             <div className="my-2">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.8)]" />
                 <span className="text-2xl md:text-3xl font-extrabold text-emerald-600 tracking-tight">
-                  Market Open
+                  {t('marketOpen')}
                 </span>
               </div>
               <div className="text-xs text-slate-500 font-medium mt-1">
-                Next update in <span className="text-orange-600 font-bold">{formattedCountdown}</span>
+                {t('nextUpdateIn')} <span className="text-orange-600 font-bold">{formattedCountdown}</span>
               </div>
             </div>
 
             <div className="w-1/2 h-[1px] bg-slate-200 rounded-full mt-1" />
+          </div>
+        </div>
+
+        {/* GoldFin Finance Company Offered Rates */}
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className="flex flex-col gap-1">
+              <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">{t('companyRatesCategory')}</span>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">{t('companyRatesTitle')}</h2>
+              <p className="text-xs md:text-sm text-slate-500 font-normal mt-0.5">
+                {t('companyRatesDesc')}
+              </p>
+            </div>
+            <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
+              <Coins size={14} className="text-orange-500" />
+              <span>{t('companyOfficialBadge')}</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {shopRatesLoading ? (
+              [1, 2, 3, 4].map((i) => (
+                <div key={i} className="p-6 rounded-3xl bg-white border border-slate-200 backdrop-blur-xl flex flex-col gap-4 animate-pulse">
+                  <div className="h-4 bg-slate-200 rounded-lg w-3/4" />
+                  <div className="h-8 bg-slate-200 rounded-lg w-1/2" />
+                  <div className="h-3 bg-slate-100 rounded-lg w-full mt-2" />
+                </div>
+              ))
+            ) : (
+              ['18k', '20k', '22k', '24k'].map((purityKey) => {
+                const shopRate = shopRates.find((s) => s.purityId === purityKey)
+                const marketRate = liveRates.find((m) => m.purityId === purityKey)
+                const displayName = isTamil
+                  ? (purityKey === '24k' ? t('gold24k') : purityKey === '22k' ? t('gold22k') : purityKey === '20k' ? t('gold20k') : t('gold18k'))
+                  : (shopRate?.name || marketRate?.name || `GOLD ${purityKey.toUpperCase()}`)
+                const displayKarat = isTamil
+                  ? (purityKey === '24k' ? '24K (99.9% தூய்மை)' : purityKey === '22k' ? '22K (91.6% தூய்மை)' : purityKey === '20k' ? '20K (83.3% தூய்மை)' : '18K (75.0% தூய்மை)')
+                  : (shopRate?.karat || marketRate?.karat || `${purityKey.toUpperCase()} Pure`)
+                const price = shopRate?.pricePerGram || 0
+
+                return (
+                  <div
+                    key={purityKey}
+                    className={`p-6 rounded-3xl bg-white border backdrop-blur-xl flex flex-col justify-between gap-4 group transition-all duration-300 ${
+                      purityKey === '24k'
+                        ? 'border-orange-300 shadow-[0_10px_30px_rgba(249,115,22,0.08)] hover:border-orange-400'
+                        : 'border-slate-200/80 hover:border-orange-400/40 shadow-sm hover:shadow-md'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-extrabold tracking-wider text-slate-700">{displayName}</span>
+                      {purityKey === '24k' ? (
+                        <span className="text-[9px] font-black tracking-wider px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 border border-orange-200">
+                          {t('pureGoldBadge')}
+                        </span>
+                      ) : (
+                        <span className="text-[9px] font-bold tracking-wider px-2 py-0.5 rounded-full bg-orange-50 text-orange-700 border border-orange-200">
+                          {t('goldfinRateBadge')}
+                        </span>
+                      )}
+                    </div>
+
+                    {price > 0 ? (
+                      <div>
+                        <div className="text-3xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors">
+                          ₹{price.toLocaleString('en-IN')}
+                        </div>
+                        <span className="text-[11px] font-semibold text-emerald-600">
+                          {t('officialCompanyPrice')}
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="py-0.5">
+                        <div className="text-3xl font-black text-slate-300 tracking-tight">
+                          ₹ —
+                        </div>
+                        <span className="text-[11px] text-slate-400 font-medium">
+                          {t('rateOnRequest')}
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+                      <span className="text-xs font-medium text-slate-500">{displayKarat} • {t('perGram')}</span>
+                      <span
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                          price > 0
+                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                            : 'bg-slate-100 text-slate-400 border border-slate-200'
+                        }`}
+                      >
+                        {price > 0 ? t('statusActive') : t('statusUnset')}
+                      </span>
+                    </div>
+                  </div>
+                )
+              })
+            )}
           </div>
         </div>
 
@@ -464,10 +535,10 @@ export default function LiveRatePage({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                Gold Price Trend
+                {t('trendTitle')}
               </h2>
               <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-500">
-                24K PURE GOLD RATE TREND (₹ / GRAM)
+                {t('trendSubtitle')}
               </span>
             </div>
 
@@ -481,7 +552,7 @@ export default function LiveRatePage({
                     : 'text-slate-600 hover:text-slate-900 bg-transparent'
                 }`}
               >
-                Today
+                {t('filterToday')}
               </button>
               <button
                 onClick={() => setTimeframe('7days')}
@@ -491,7 +562,7 @@ export default function LiveRatePage({
                     : 'text-slate-600 hover:text-slate-900 bg-transparent'
                 }`}
               >
-                7 Days
+                {t('filter7Days')}
               </button>
               <button
                 onClick={() => setTimeframe('30days')}
@@ -501,7 +572,7 @@ export default function LiveRatePage({
                     : 'text-slate-600 hover:text-slate-900 bg-transparent'
                 }`}
               >
-                30 Days
+                {t('filter30Days')}
               </button>
             </div>
           </div>
@@ -637,164 +708,42 @@ export default function LiveRatePage({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="p-6 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-sm">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
-              {timeframe === 'today' ? "TODAY'S HIGH (1g)" : 'PERIOD HIGH (1g)'}
+              {timeframe === 'today' ? t('todayHigh') : t('periodHigh')}
             </span>
             <div className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
               ₹{highPrice.toLocaleString('en-IN')}
             </div>
-            <span className="text-xs text-slate-500 font-medium">24K Pure Gold Rate</span>
+            <span className="text-xs text-slate-500 font-medium">{t('pureGoldTrend')}</span>
           </div>
 
           <div className="p-6 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-sm">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
-              {timeframe === 'today' ? "TODAY'S LOW (1g)" : 'PERIOD LOW (1g)'}
+              {timeframe === 'today' ? t('todayLow') : t('periodLow')}
             </span>
             <div className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
               ₹{lowPrice.toLocaleString('en-IN')}
             </div>
-            <span className="text-xs text-slate-500 font-medium">24K Pure Gold Rate</span>
+            <span className="text-xs text-slate-500 font-medium">{t('pureGoldTrend')}</span>
           </div>
 
           <div className="p-6 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-sm">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
-              AVERAGE PRICE (1g)
+              {t('avgPrice')}
             </span>
             <div className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
               ₹{avgPrice.toLocaleString('en-IN')}
             </div>
-            <span className="text-xs text-slate-500 font-medium">Average Daily Rate</span>
+            <span className="text-xs text-slate-500 font-medium">{t('dailyAvgRate')}</span>
           </div>
 
           <div className="p-6 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-sm">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
-              DAILY CHANGE %
+              {t('dailyChange')}
             </span>
             <div className={`text-2xl md:text-3xl font-extrabold tracking-tight ${isUp24k ? 'text-emerald-600' : 'text-rose-600'}`}>
               {isUp24k ? `+${change24k}%` : `-${change24k}%`}
             </div>
-            <span className="text-xs text-slate-500 font-medium">vs Yesterday's Rate</span>
-          </div>
-        </div>
-
-        {/* --- Top 5 City-Wise Gold Rates Section --- */}
-        <div className="p-6 md:p-8 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.04)] flex flex-col gap-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-[11px] font-bold tracking-wider mb-2">
-                <MapPin size={13} />
-                <span>MAJOR INDIAN CITIES</span>
-              </div>
-              <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                Top 5 City-Wise Gold Rates
-              </h2>
-              <p className="text-xs md:text-sm text-slate-600 mt-1 font-normal">
-                Compare today's 1 gram 24K, 22K, and 18K gold rates across Chennai, Mumbai, Delhi, Bengaluru, and Hyderabad.
-              </p>
-            </div>
-
-            <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-2 rounded-2xl self-start sm:self-auto">
-              <Building2 size={15} />
-              <span>5 MAJOR CITIES</span>
-            </div>
-          </div>
-
-          {/* City Table Grid */}
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-slate-200 text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
-                  <th className="py-3.5 px-4">City / Region</th>
-                  <th className="py-3.5 px-4">24K Pure Rate (1g)</th>
-                  <th className="py-3.5 px-4">22K Jewellery Rate (1g)</th>
-                  <th className="py-3.5 px-4 hidden md:table-cell">18K Rate (1g)</th>
-                  <th className="py-3.5 px-4">24h Movement</th>
-                  <th className="py-3.5 px-4 hidden lg:table-cell">Local Jewellers Benchmark</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 text-xs">
-                {topCities.map((city) => {
-                  const isSelected = selectedCityId === city.id
-                  return (
-                    <tr
-                      key={city.id}
-                      onClick={() => setSelectedCityId(city.id)}
-                      className={`cursor-pointer transition-all duration-200 ${
-                        isSelected
-                          ? 'bg-orange-50/70 border-l-2 border-[#FF6B00]'
-                          : 'hover:bg-slate-50/80'
-                      }`}
-                    >
-                      {/* City Name & State */}
-                      <td className="py-4 px-4">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black transition-colors ${
-                            isSelected ? 'bg-gradient-to-br from-[#FF6B00] to-[#EA580C] text-white shadow-md' : 'bg-slate-100 text-slate-700'
-                          }`}>
-                            {city.name.substring(0, 2).toUpperCase()}
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <span className="font-extrabold text-slate-900 text-sm">{city.name}</span>
-                              {city.popular && (
-                                <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 border border-orange-200 flex items-center gap-1">
-                                  <Sparkles size={10} />
-                                  <span>Highest Volume</span>
-                                </span>
-                              )}
-                            </div>
-                            <span className="text-xs text-slate-500 font-medium">{city.state}</span>
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* 24K Price (1g) */}
-                      <td className="py-4 px-4">
-                        <div className="font-black text-orange-600 text-sm md:text-base">
-                          ₹{city.price24k.toLocaleString('en-IN')}
-                        </div>
-                        <span className="text-[10px] text-slate-500">999 Pure</span>
-                      </td>
-
-                      {/* 22K Price (1g) */}
-                      <td className="py-4 px-4">
-                        <div className="font-bold text-slate-900 text-sm md:text-base">
-                          ₹{city.price22k.toLocaleString('en-IN')}
-                        </div>
-                        <span className="text-[10px] text-slate-500">916 Hallmark</span>
-                      </td>
-
-                      {/* 18K Price (1g) */}
-                      <td className="py-4 px-4 hidden md:table-cell">
-                        <div className="font-semibold text-slate-700 text-sm">
-                          ₹{city.price18k.toLocaleString('en-IN')}
-                        </div>
-                        <span className="text-[10px] text-slate-500">750 Pure</span>
-                      </td>
-
-                      {/* 24h Movement */}
-                      <td className="py-4 px-4">
-                        <div className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full text-emerald-700 bg-emerald-50 border border-emerald-200">
-                          <TrendingUp size={12} />
-                          <span>+{city.change}%</span>
-                        </div>
-                      </td>
-
-                      {/* Association Benchmark */}
-                      <td className="py-4 px-4 hidden lg:table-cell">
-                        <span className="text-xs text-slate-600 font-medium px-3 py-1 rounded-xl bg-slate-100 border border-slate-200">
-                          {city.tag}
-                        </span>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
-
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 border-t border-slate-100">
-            <span>* Prices are indicative market rates. Jeweller making charges and 3% GST will be charged extra in jewellery shops.</span>
-            <span className="text-orange-600 font-semibold">Updated with daily official market opening rates</span>
+            <span className="text-xs text-slate-500 font-medium">{t('vsYesterday')}</span>
           </div>
         </div>
 

@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Coins, Menu, X } from 'lucide-react'
+import { Coins, Menu, X, Globe } from 'lucide-react'
+import { useLanguage } from '../i18n'
 
 export interface NavbarProps {
   currentPage?: 'home' | 'live-rate' | 'gold-loan' | 'branches' | 'about' | 'contact'
@@ -24,6 +25,7 @@ export default function Navbar({
   onScrollToSection,
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { language, setLanguage, t } = useLanguage()
 
   const handleNavClick = (action: 'home' | 'about' | 'live-rate' | 'gold-loan' | 'branches' | 'contact' | string) => {
     setMobileMenuOpen(false)
@@ -73,13 +75,13 @@ export default function Navbar({
               GoldFin
             </span>
             <span className="text-[10px] font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600">
-              LIVE GOLD RATES & LOANS
+              {t('brandTagline')}
             </span>
           </div>
         </button>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8 ml-auto">
+        <nav className="hidden md:flex items-center gap-7 ml-auto">
           {/* 1. Home Link */}
           <button
             onClick={() => handleNavClick('home')}
@@ -87,7 +89,7 @@ export default function Navbar({
               currentPage === 'home' ? 'text-[#FF6B00] font-bold' : 'text-slate-600 hover:text-[#FF6B00]'
             }`}
           >
-            <span>Home</span>
+            <span>{t('navHome')}</span>
             {currentPage === 'home' && (
               <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full shadow-[0_0_8px_rgba(249,115,22,0.6)]" />
             )}
@@ -103,7 +105,7 @@ export default function Navbar({
             }`}
           >
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Live Rates</span>
+            <span>{t('navLiveRate')}</span>
             {currentPage === 'live-rate' && (
               <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full shadow-[0_0_8px_rgba(249,115,22,0.6)]" />
             )}
@@ -118,13 +120,13 @@ export default function Navbar({
                 : 'text-slate-600 hover:text-[#FF6B00]'
             }`}
           >
-            <span>Gold Loan</span>
+            <span>{t('navGoldLoan')}</span>
             {currentPage === 'gold-loan' && (
               <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full shadow-[0_0_8px_rgba(249,115,22,0.6)]" />
             )}
           </button>
 
-          {/* 4. Branches Tab (Positioned immediately after Gold Loan) */}
+          {/* 4. Branches Tab */}
           <button
             onClick={() => handleNavClick('branches')}
             className={`text-sm font-semibold transition-colors py-2 bg-transparent border-0 cursor-pointer relative ${
@@ -133,7 +135,7 @@ export default function Navbar({
                 : 'text-slate-600 hover:text-[#FF6B00]'
             }`}
           >
-            <span>Branches</span>
+            <span>{t('navBranches')}</span>
             {currentPage === 'branches' && (
               <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full shadow-[0_0_8px_rgba(249,115,22,0.6)]" />
             )}
@@ -148,7 +150,7 @@ export default function Navbar({
                 : 'text-slate-600 hover:text-[#FF6B00]'
             }`}
           >
-            <span>About Us</span>
+            <span>{t('navAbout')}</span>
             {currentPage === 'about' && (
               <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full shadow-[0_0_8px_rgba(249,115,22,0.6)]" />
             )}
@@ -163,33 +165,92 @@ export default function Navbar({
                 : 'text-slate-600 hover:text-[#FF6B00]'
             }`}
           >
-            <span>Contact</span>
+            <span>{t('navContact')}</span>
             {currentPage === 'contact' && (
               <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full shadow-[0_0_8px_rgba(249,115,22,0.6)]" />
             )}
           </button>
+
+          {/* Language Switcher Pill Button */}
+          <div className="flex items-center p-1 rounded-full bg-slate-100 border border-slate-200 shadow-inner ml-2">
+            <button
+              onClick={() => setLanguage('ta')}
+              className={`px-3 py-1 rounded-full text-xs font-bold transition-all border-0 cursor-pointer ${
+                language === 'ta'
+                  ? 'bg-gradient-to-r from-[#FF6B00] to-[#EA580C] text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 bg-transparent'
+              }`}
+            >
+              தமிழ்
+            </button>
+            <button
+              onClick={() => setLanguage('en')}
+              className={`px-3 py-1 rounded-full text-xs font-bold transition-all border-0 cursor-pointer ${
+                language === 'en'
+                  ? 'bg-gradient-to-r from-[#FF6B00] to-[#EA580C] text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 bg-transparent'
+              }`}
+            >
+              ENG
+            </button>
+          </div>
         </nav>
 
-        {/* Mobile Hamburger Menu Button */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 rounded-xl bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 cursor-pointer ml-auto"
-          aria-label="Toggle menu"
-        >
-          {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        {/* Mobile Actions: Language & Hamburger */}
+        <div className="flex md:hidden items-center gap-2 ml-auto">
+          {/* Mobile Language Switcher */}
+          <button
+            onClick={() => setLanguage(language === 'ta' ? 'en' : 'ta')}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-xs font-bold cursor-pointer"
+          >
+            <Globe size={13} />
+            <span>{language === 'ta' ? 'தமிழ்' : 'ENG'}</span>
+          </button>
+
+          {/* Mobile Hamburger Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 rounded-xl bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 cursor-pointer"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-white border-b border-slate-200 px-6 py-5 flex flex-col gap-3 shadow-xl animate-in slide-in-from-top-2">
+          {/* Language Switcher in Mobile Drawer */}
+          <div className="flex items-center justify-between p-2 rounded-2xl bg-slate-50 border border-slate-200 mb-1">
+            <span className="text-xs font-semibold text-slate-600">மொழி / Language</span>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setLanguage('ta')}
+                className={`px-3 py-1 rounded-xl text-xs font-bold border-0 cursor-pointer ${
+                  language === 'ta' ? 'bg-[#FF6B00] text-white shadow-sm' : 'bg-white text-slate-700'
+                }`}
+              >
+                தமிழ்
+              </button>
+              <button
+                onClick={() => setLanguage('en')}
+                className={`px-3 py-1 rounded-xl text-xs font-bold border-0 cursor-pointer ${
+                  language === 'en' ? 'bg-[#FF6B00] text-white shadow-sm' : 'bg-white text-slate-700'
+                }`}
+              >
+                English
+              </button>
+            </div>
+          </div>
+
           <button
             onClick={() => handleNavClick('home')}
             className={`text-left text-sm font-semibold py-2 px-3 rounded-lg bg-transparent border-0 cursor-pointer ${
               currentPage === 'home' ? 'text-[#FF6B00] font-bold bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
             }`}
           >
-            Home
+            {t('navHome')}
           </button>
           <button
             onClick={() => handleNavClick('live-rate')}
@@ -198,7 +259,7 @@ export default function Navbar({
             }`}
           >
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Live Rates</span>
+            <span>{t('navLiveRate')}</span>
           </button>
           <button
             onClick={() => handleNavClick('gold-loan')}
@@ -206,7 +267,7 @@ export default function Navbar({
               currentPage === 'gold-loan' ? 'text-[#FF6B00] font-bold bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
             }`}
           >
-            Gold Loan
+            {t('navGoldLoan')}
           </button>
           <button
             onClick={() => handleNavClick('branches')}
@@ -214,7 +275,7 @@ export default function Navbar({
               currentPage === 'branches' ? 'text-[#FF6B00] font-bold bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
             }`}
           >
-            Branches
+            {t('navBranches')}
           </button>
           <button
             onClick={() => handleNavClick('about')}
@@ -222,7 +283,7 @@ export default function Navbar({
               currentPage === 'about' ? 'text-[#FF6B00] font-bold bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
             }`}
           >
-            About Us
+            {t('navAbout')}
           </button>
           <button
             onClick={() => handleNavClick('contact')}
@@ -230,7 +291,7 @@ export default function Navbar({
               currentPage === 'contact' ? 'text-[#FF6B00] font-bold bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
             }`}
           >
-            Contact
+            {t('navContact')}
           </button>
         </div>
       )}

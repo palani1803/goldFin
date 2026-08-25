@@ -27,6 +27,7 @@ import {
 } from 'lucide-react'
 import goldHeroJewel from '../assets/gold_hero_jewel.jpg'
 import { Navbar, Footer, TrustBanner, GoldBackground } from '../components'
+import { useLanguage } from '../i18n'
 
 interface MarketNewsItem {
   id: string
@@ -176,6 +177,8 @@ export default function HomePage({
   onNavigateBranches,
   onNavigateContact,
 }: HomePageProps = {}) {
+  const { t, isTamil } = useLanguage()
+
   // Modals
   const [showWalletModal, setShowWalletModal] = useState(false)
   const [showArticleModal, setShowArticleModal] = useState(false)
@@ -194,6 +197,18 @@ export default function HomePage({
   const [ratesLoading, setRatesLoading] = useState<boolean>(true)
   const [ratesError, setRatesError] = useState<string | null>(null)
   const [lastUpdatedTime, setLastUpdatedTime] = useState<string | null>(null)
+
+  // --- GoldFin Finance Company Shop Rates State ---
+  const [shopRates, setShopRates] = useState<{
+    _id: string
+    purityId: string
+    name: string
+    karat: string
+    pricePerGram: number
+    unit: string
+    updatedAt?: string
+  }[]>([])
+  const [shopRatesLoading, setShopRatesLoading] = useState<boolean>(true)
 
   // Fetch live rates from backend API
   const fetchLiveRates = useCallback(async () => {
@@ -221,6 +236,21 @@ export default function HomePage({
     }
   }, [])
 
+  // Fetch GoldFin Finance company rates from backend API
+  const fetchShopRates = useCallback(async () => {
+    try {
+      const res = await fetch('/api/shop-rates')
+      const json = await res.json()
+      if (json.success && Array.isArray(json.data)) {
+        setShopRates(json.data)
+      }
+    } catch (err) {
+      console.error('Error fetching shop rates:', err)
+    } finally {
+      setShopRatesLoading(false)
+    }
+  }, [])
+
   // Fetch live market news from backend
   const fetchMarketNews = useCallback(async () => {
     setNewsLoading(true)
@@ -240,13 +270,15 @@ export default function HomePage({
   // Fetch on mount + auto-refresh every 5 minutes
   useEffect(() => {
     fetchLiveRates()
+    fetchShopRates()
     fetchMarketNews()
     const interval = setInterval(() => {
       fetchLiveRates()
+      fetchShopRates()
       fetchMarketNews()
     }, 5 * 60 * 1000)
     return () => clearInterval(interval)
-  }, [fetchLiveRates, fetchMarketNews])
+  }, [fetchLiveRates, fetchShopRates, fetchMarketNews])
 
   // --- Reference Gold Calculator State ---
   const [calcMode, setCalcMode] = useState<'amount' | 'gold'>('amount')
@@ -317,19 +349,33 @@ export default function HomePage({
             <div className="lg:col-span-6 flex flex-col gap-6 text-left py-2 lg:py-6">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider w-fit">
                 <Sparkles size={14} />
-                <span>INDIA'S TRUSTED GOLD PLATFORM</span>
+                <span>{isTamil ? 'அதிகாரப்பூர்வ நேரடி தங்கம் சந்தை நிலவரம்' : "INDIA'S TRUSTED GOLD PLATFORM"}</span>
               </div>
 
               <h1 className="text-4xl md:text-5xl lg:text-[3.65rem] xl:text-[4rem] font-serif font-bold text-slate-900 tracking-tight leading-[1.12]">
-                Trusted Gold Rates <br />
-                for{' '}
-                <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent font-serif italic font-bold">
-                  Every Need
-                </span>
+                {isTamil ? (
+                  <>
+                    நம்பகமான நேரடி <br />
+                    தங்க விலை{' '}
+                    <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent font-serif italic font-bold">
+                      & உடனடி கடன்
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    Trusted Gold Rates <br />
+                    for{' '}
+                    <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent font-serif italic font-bold">
+                      Every Need
+                    </span>
+                  </>
+                )}
               </h1>
 
               <p className="text-base md:text-lg text-slate-600 max-w-lg leading-relaxed font-normal">
-                Get the best value for your gold with live rates, instant gold loans, minimal documents, and a transparent process you can trust.
+                {isTamil
+                  ? 'நேரடி தங்க சந்தை நிலவரம், உடனடி 15 நிமிட தங்க நகை கடன், குறைந்தபட்ச ஆவணங்கள் மற்றும் 100% வெளிப்படையான சேவை.'
+                  : 'Get the best value for your gold with live rates, instant gold loans, minimal documents, and a transparent process you can trust.'}
               </p>
 
               {/* CTA Buttons */}
@@ -338,7 +384,7 @@ export default function HomePage({
                   className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-sm hover:brightness-110 active:scale-[0.98] transition-all shadow-[0_6px_25px_rgba(249,115,22,0.35)] cursor-pointer border-0 flex items-center gap-2"
                   onClick={() => onNavigateGoldLoan ? onNavigateGoldLoan() : scrollToSection('calculator')}
                 >
-                  <span>Get Gold Loan</span>
+                  <span>{isTamil ? 'தங்க கடன் பெறுக' : 'Get Gold Loan'}</span>
                   <ArrowRight size={16} />
                 </button>
                 <button
@@ -346,7 +392,7 @@ export default function HomePage({
                   onClick={() => (onNavigateLiveRate ? onNavigateLiveRate() : scrollToSection('rates'))}
                 >
                   <LineChart size={16} />
-                  <span>Check Live Rates</span>
+                  <span>{isTamil ? 'நேரடி விலை பார்க்க' : 'Check Live Rates'}</span>
                 </button>
               </div>
             </div>
@@ -371,8 +417,8 @@ export default function HomePage({
                   <ShieldCheck size={20} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs md:text-sm font-bold text-slate-900">High Loan Amount</span>
-                  <span className="text-[11px] text-slate-500 font-medium">Up to 75% of gold value</span>
+                  <span className="text-xs md:text-sm font-bold text-slate-900">{isTamil ? 'அதிக கடன் மதிப்பு' : 'High Loan Amount'}</span>
+                  <span className="text-[11px] text-slate-500 font-medium">{isTamil ? 'தங்க மதிப்பில் 75% வரை' : 'Up to 75% of gold value'}</span>
                 </div>
               </div>
 
@@ -381,8 +427,8 @@ export default function HomePage({
                   <TrendingDown size={20} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs md:text-sm font-bold text-slate-900">Low Interest Rates</span>
-                  <span className="text-[11px] text-slate-500 font-medium">Starting from 0.75% p.m.</span>
+                  <span className="text-xs md:text-sm font-bold text-slate-900">{isTamil ? 'குறைந்த வட்டி விகிதம்' : 'Low Interest Rates'}</span>
+                  <span className="text-[11px] text-slate-500 font-medium">{isTamil ? 'மாதம் 0.75% முதல்' : 'Starting from 0.75% p.m.'}</span>
                 </div>
               </div>
 
@@ -391,8 +437,8 @@ export default function HomePage({
                   <Sparkles size={20} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs md:text-sm font-bold text-slate-900">Quick Disbursal</span>
-                  <span className="text-[11px] text-slate-500 font-medium">In just 30 Minutes</span>
+                  <span className="text-xs md:text-sm font-bold text-slate-900">{isTamil ? 'உடனடி கடன் வழங்கல்' : 'Quick Disbursal'}</span>
+                  <span className="text-[11px] text-slate-500 font-medium">{isTamil ? 'வெறும் 15 நிமிடங்களில்' : 'In just 30 Minutes'}</span>
                 </div>
               </div>
 
@@ -401,8 +447,8 @@ export default function HomePage({
                   <Coins size={20} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs md:text-sm font-bold text-slate-900">100% Safe & Secure</span>
-                  <span className="text-[11px] text-slate-500 font-medium">Your gold is insured</span>
+                  <span className="text-xs md:text-sm font-bold text-slate-900">{isTamil ? '100% பாதுகாப்பு & காப்பீடு' : '100% Safe & Secure'}</span>
+                  <span className="text-[11px] text-slate-500 font-medium">{isTamil ? 'உங்கள் தங்கம் காப்பீடு செய்யப்பட்டது' : 'Your gold is insured'}</span>
                 </div>
               </div>
             </div>
@@ -560,57 +606,173 @@ export default function HomePage({
           </div>
         </section>
 
-        {/* Purity Rates Section */}
-        <section id="rates">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-            <div className="flex flex-col gap-1">
-              <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">Today's Gold Rates in India</span>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Live Purity Rates (Per 1 Gram)</h2>
-              {lastUpdatedTime && (
-                <span className="text-[10px] text-slate-500 font-medium mt-0.5">Last updated: {lastUpdatedTime}</span>
+        {/* Purity Rates Section (Market Rates + Finance Company Rates) */}
+        <section id="rates" className="space-y-12">
+          {/* 1. Indian Gold Market Live Rates */}
+          <div>
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+              <div className="flex flex-col gap-1">
+                <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
+                  {isTamil ? 'இந்திய நேரடி தங்க விலை நிலவரம்' : "Today's Gold Rates in India"}
+                </span>
+                <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
+                  {isTamil ? 'இன்றைய நேரடி தங்கம் விலை (1 கிராமுக்கு)' : 'Live Market Purity Rates (Per 1 Gram)'}
+                </h2>
+                {lastUpdatedTime && (
+                  <span className="text-[10px] text-slate-500 font-medium mt-0.5">
+                    {t('lastUpdated')}: {lastUpdatedTime}
+                  </span>
+                )}
+              </div>
+              <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span>{isTamil ? 'நேரடி சந்தை நிலவரம்' : 'LIVE MARKET RATES'}</span>
+              </div>
+            </div>
+            {ratesError && (
+              <div className="mb-4 px-4 py-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-xs font-medium">
+                {ratesError}
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {ratesLoading ? (
+                // Loading skeleton cards
+                [1, 2, 3, 4].map((i) => (
+                  <div key={i} className="p-6 rounded-3xl bg-white border border-slate-200 backdrop-blur-xl flex flex-col gap-4 animate-pulse">
+                    <div className="h-4 bg-slate-200 rounded-lg w-3/4" />
+                    <div className="h-8 bg-slate-200 rounded-lg w-1/2" />
+                    <div className="h-3 bg-slate-100 rounded-lg w-full mt-2" />
+                  </div>
+                ))
+              ) : (
+                ['18k', '20k', '22k', '24k'].map((purityKey) => {
+                  const item = liveRates.find((r) => r.purityId === purityKey)
+                  if (!item) return null
+                  const displayName = isTamil
+                    ? (purityKey === '24k' ? t('gold24k') : purityKey === '22k' ? t('gold22k') : purityKey === '20k' ? t('gold20k') : t('gold18k'))
+                    : item.name
+                  const displayKarat = isTamil
+                    ? (purityKey === '24k' ? '99.9% தூய்மை • 1 கிராம்' : purityKey === '22k' ? '91.6% தூய்மை (916) • 1 கிராம்' : purityKey === '20k' ? '83.3% தூய்மை • 1 கிராம்' : '75.0% தூய்மை • 1 கிராம்')
+                    : `${item.karat} • ${item.unit}`
+
+                  return (
+                    <div key={item.purityId} className={`p-6 rounded-3xl bg-white border backdrop-blur-xl flex flex-col gap-4 group transition-all duration-300 ${item.purityId === '24k' ? 'border-orange-300 shadow-[0_10px_30px_rgba(249,115,22,0.1)]' : 'border-slate-200/80 hover:border-orange-400/40 shadow-sm hover:shadow-md'}`}>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-extrabold tracking-wider text-slate-700">{displayName}</span>
+                        {item.purityId === '24k' && <span className="text-[9px] font-black tracking-wider px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 border border-orange-200">{t('pureGoldBadge')}</span>}
+                      </div>
+                      <div className="text-3xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors">₹{item.pricePerGram.toLocaleString('en-IN')}</div>
+                      <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+                        <span className="text-xs font-medium text-slate-500">{displayKarat}</span>
+                        <div className={`inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full ${item.isUp ? 'text-emerald-700 bg-emerald-50 border border-emerald-200' : 'text-rose-700 bg-rose-50 border border-rose-200'}`}>
+                          {item.isUp ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+                          <span>{item.isUp ? `+${item.changePercent}%` : `-${item.changePercent}%`}</span>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })
               )}
             </div>
-            <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>LIVE MARKET RATES</span>
-            </div>
           </div>
-          {ratesError && (
-            <div className="mb-4 px-4 py-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-xs font-medium">
-              {ratesError}
-            </div>
-          )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {ratesLoading ? (
-              // Loading skeleton cards
-              [1, 2, 3, 4].map((i) => (
-                <div key={i} className="p-6 rounded-3xl bg-white border border-slate-200 backdrop-blur-xl flex flex-col gap-4 animate-pulse">
-                  <div className="h-4 bg-slate-200 rounded-lg w-3/4" />
-                  <div className="h-8 bg-slate-200 rounded-lg w-1/2" />
-                  <div className="h-3 bg-slate-100 rounded-lg w-full mt-2" />
-                </div>
-              ))
-            ) : (
-              liveRates
-                .filter((item) => item.purityId !== 'silver')
-                .map((item) => (
-                <div key={item.purityId} className={`p-6 rounded-3xl bg-white border backdrop-blur-xl flex flex-col gap-4 group transition-all duration-300 ${item.purityId === '24k' ? 'border-orange-300 shadow-[0_10px_30px_rgba(249,115,22,0.1)]' : 'border-slate-200/80 hover:border-orange-400/40 shadow-sm hover:shadow-md'}`}>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-extrabold tracking-wider text-slate-700">{item.name}</span>
-                    {item.purityId === '24k' && <span className="text-[9px] font-black tracking-wider px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 border border-orange-200">24K PURE GOLD</span>}
+          {/* 2. GoldFin Finance Company Offered Rates */}
+          <div className="pt-8 border-t border-slate-200/80">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+              <div className="flex flex-col gap-1">
+                <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">{t('companyRatesCategory')}</span>
+                <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">{t('companyRatesTitle')}</h2>
+                <p className="text-xs md:text-sm text-slate-500 font-normal mt-0.5">
+                  {t('companyRatesDesc')}
+                </p>
+              </div>
+              <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
+                <Coins size={14} className="text-orange-500" />
+                <span>{t('companyOfficialBadge')}</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {shopRatesLoading ? (
+                [1, 2, 3, 4].map((i) => (
+                  <div key={i} className="p-6 rounded-3xl bg-white border border-slate-200 backdrop-blur-xl flex flex-col gap-4 animate-pulse">
+                    <div className="h-4 bg-slate-200 rounded-lg w-3/4" />
+                    <div className="h-8 bg-slate-200 rounded-lg w-1/2" />
+                    <div className="h-3 bg-slate-100 rounded-lg w-full mt-2" />
                   </div>
-                  <div className="text-3xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors">₹{item.pricePerGram.toLocaleString('en-IN')}</div>
-                  <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-                    <span className="text-xs font-medium text-slate-500">{item.karat} • {item.unit}</span>
-                    <div className={`inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full ${item.isUp ? 'text-emerald-700 bg-emerald-50 border border-emerald-200' : 'text-rose-700 bg-rose-50 border border-rose-200'}`}>
-                      {item.isUp ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
-                      <span>{item.isUp ? `+${item.changePercent}%` : `-${item.changePercent}%`}</span>
+                ))
+              ) : (
+                ['18k', '20k', '22k', '24k'].map((purityKey) => {
+                  const shopRate = shopRates.find((s) => s.purityId === purityKey)
+                  const marketRate = liveRates.find((m) => m.purityId === purityKey)
+                  const displayName = isTamil
+                    ? (purityKey === '24k' ? t('gold24k') : purityKey === '22k' ? t('gold22k') : purityKey === '20k' ? t('gold20k') : t('gold18k'))
+                    : (shopRate?.name || marketRate?.name || `GOLD ${purityKey.toUpperCase()}`)
+                  const displayKarat = isTamil
+                    ? (purityKey === '24k' ? '24K (99.9% தூய்மை)' : purityKey === '22k' ? '22K (91.6% தூய்மை)' : purityKey === '20k' ? '20K (83.3% தூய்மை)' : '18K (75.0% தூய்மை)')
+                    : (shopRate?.karat || marketRate?.karat || `${purityKey.toUpperCase()} Pure`)
+                  const price = shopRate?.pricePerGram || 0
+
+                  return (
+                    <div
+                      key={purityKey}
+                      className={`p-6 rounded-3xl bg-white border backdrop-blur-xl flex flex-col justify-between gap-4 group transition-all duration-300 ${
+                        purityKey === '24k'
+                          ? 'border-orange-300 shadow-[0_10px_30px_rgba(249,115,22,0.08)] hover:border-orange-400'
+                          : 'border-slate-200/80 hover:border-orange-400/40 shadow-sm hover:shadow-md'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-extrabold tracking-wider text-slate-700">{displayName}</span>
+                        {purityKey === '24k' ? (
+                          <span className="text-[9px] font-black tracking-wider px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 border border-orange-200">
+                            {t('pureGoldBadge')}
+                          </span>
+                        ) : (
+                          <span className="text-[9px] font-bold tracking-wider px-2 py-0.5 rounded-full bg-orange-50 text-orange-700 border border-orange-200">
+                            {t('goldfinRateBadge')}
+                          </span>
+                        )}
+                      </div>
+
+                      {price > 0 ? (
+                        <div>
+                          <div className="text-3xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors">
+                            ₹{price.toLocaleString('en-IN')}
+                          </div>
+                          <span className="text-[11px] font-semibold text-emerald-600">
+                            {t('officialCompanyPrice')}
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="py-0.5">
+                          <div className="text-3xl font-black text-slate-300 tracking-tight">
+                            ₹ —
+                          </div>
+                          <span className="text-[11px] text-slate-400 font-medium">
+                            {t('rateOnRequest')}
+                          </span>
+                        </div>
+                      )}
+
+                      <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+                        <span className="text-xs font-medium text-slate-500">{displayKarat} • {t('perGram')}</span>
+                        <span
+                          className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                            price > 0
+                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                              : 'bg-slate-100 text-slate-400 border border-slate-200'
+                          }`}
+                        >
+                          {price > 0 ? t('statusActive') : t('statusUnset')}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))
-            )}
+                  )
+                })
+              )}
+            </div>
           </div>
         </section>
 
@@ -621,14 +783,14 @@ export default function HomePage({
               <div className="flex items-center gap-2">
                 <MapPin size={16} className="text-[#FF6B00]" />
                 <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-                  Physical Network & Walk-in Hubs
+                  {t('branchesBadge')}
                 </span>
               </div>
               <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-                Our Authorized Branches
+                {t('branchesTitle')}
               </h2>
               <p className="text-sm text-slate-500 font-normal mt-0.5">
-                Visit any of our 5 direct branches in Tamil Nadu for transparent purity valuation, instant 15-minute gold loans, and insured custody.
+                {t('branchesDesc')}
               </p>
             </div>
 
@@ -638,7 +800,7 @@ export default function HomePage({
                 className="px-4 py-2 rounded-xl bg-white border border-slate-200 hover:border-orange-300 text-xs font-bold text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer flex items-center gap-1.5 shadow-sm hover:shadow"
               >
                 <Building2 size={14} className="text-[#FF6B00]" />
-                <span>View Full Branch Guide</span>
+                <span>{isTamil ? 'முழு கிளை விவரங்கள்' : 'View Full Branch Guide'}</span>
                 <ArrowRight size={13} />
               </button>
             </div>
@@ -646,78 +808,93 @@ export default function HomePage({
 
           {/* 5-Branch Responsive Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-5">
-            {HOME_BRANCHES.map((branch) => (
-              <div
-                key={branch.id}
-                className="rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/50 p-5 flex flex-col justify-between gap-4 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 group"
-              >
-                {/* Header & Badges */}
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center justify-between gap-1">
-                    <span className="px-2.5 py-0.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-[10px] font-black uppercase tracking-wider">
-                      {branch.tag}
-                    </span>
-                    <span className="text-[11px] font-semibold text-slate-400">{branch.district}</span>
-                  </div>
+            {HOME_BRANCHES.map((branch) => {
+              const localizedName = isTamil
+                ? (branch.id === 'sivakasi' ? t('branchSivakasiName') : branch.id === 'srivilliputhur' ? t('branchSrivilliputhurName') : branch.id === 'puthupatti' ? t('branchPuthupattiName') : branch.id === 'rajapalayam' ? t('branchRajapalayamName') : t('branchAlangulamName'))
+                : branch.name
+              const localizedAddress = isTamil
+                ? (branch.id === 'sivakasi' ? t('branchSivakasiAddress') : branch.id === 'srivilliputhur' ? t('branchSrivilliputhurAddress') : branch.id === 'puthupatti' ? t('branchPuthupattiAddress') : branch.id === 'rajapalayam' ? t('branchRajapalayamAddress') : t('branchAlangulamAddress'))
+                : branch.address
+              const localizedLandmark = isTamil
+                ? (branch.id === 'sivakasi' ? t('branchSivakasiLandmark') : branch.id === 'srivilliputhur' ? t('branchSrivilliputhurLandmark') : branch.id === 'puthupatti' ? t('branchPuthupattiLandmark') : branch.id === 'rajapalayam' ? t('branchRajapalayamLandmark') : t('branchAlangulamLandmark'))
+                : branch.landmark
+              const localizedFeatures = isTamil
+                ? (branch.id === 'sivakasi' ? t('branchSivakasiFeatures') : branch.id === 'srivilliputhur' ? t('branchSrivilliputhurFeatures') : branch.id === 'puthupatti' ? t('branchPuthupattiFeatures') : branch.id === 'rajapalayam' ? t('branchRajapalayamFeatures') : t('branchAlangulamFeatures'))
+                : branch.features
 
-                  <h3 className="text-base sm:text-lg font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-tight">
-                    {branch.name}
-                  </h3>
+              return (
+                <div
+                  key={branch.id}
+                  className="rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/50 p-5 flex flex-col justify-between gap-4 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 group"
+                >
+                  {/* Header & Badges */}
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="px-2.5 py-0.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-[10px] font-black uppercase tracking-wider">
+                        {branch.tag}
+                      </span>
+                      <span className="text-[11px] font-semibold text-slate-400">{branch.district}</span>
+                    </div>
 
-                  <div className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-50/80 border border-amber-200/60 px-2 py-0.5 rounded-md w-fit">
-                    <Sparkles size={11} className="text-amber-600 shrink-0" />
-                    <span>{branch.features}</span>
-                  </div>
-                </div>
+                    <h3 className="text-base sm:text-lg font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-tight">
+                      {localizedName}
+                    </h3>
 
-                {/* Text Information Body */}
-                <div className="flex flex-col gap-2.5 py-3 border-y border-slate-100 text-xs">
-                  {/* Address & Landmark */}
-                  <div className="flex items-start gap-2 text-slate-600 leading-snug">
-                    <MapPin size={15} className="text-orange-500 shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-medium text-slate-700 leading-tight">{branch.address}</p>
-                      <p className="text-[11px] text-slate-400 mt-0.5">({branch.landmark})</p>
+                    <div className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-50/80 border border-amber-200/60 px-2 py-0.5 rounded-md w-fit">
+                      <Sparkles size={11} className="text-amber-600 shrink-0" />
+                      <span>{localizedFeatures}</span>
                     </div>
                   </div>
 
-                  {/* Phone */}
-                  <div className="flex items-center gap-2 text-slate-700 pt-0.5">
-                    <Phone size={14} className="text-emerald-600 shrink-0" />
+                  {/* Text Information Body */}
+                  <div className="flex flex-col gap-2.5 py-3 border-y border-slate-100 text-xs">
+                    {/* Address & Landmark */}
+                    <div className="flex items-start gap-2 text-slate-600 leading-snug">
+                      <MapPin size={15} className="text-orange-500 shrink-0 mt-0.5" />
+                      <div>
+                        <p className="font-medium text-slate-700 leading-tight">{localizedAddress}</p>
+                        <p className="text-[11px] text-slate-400 mt-0.5">({localizedLandmark})</p>
+                      </div>
+                    </div>
+
+                    {/* Phone */}
+                    <div className="flex items-center gap-2 text-slate-700 pt-0.5">
+                      <Phone size={14} className="text-emerald-600 shrink-0" />
+                      <a
+                        href={`tel:${branch.rawPhone}`}
+                        className="font-bold text-slate-800 hover:text-orange-600 transition-colors text-xs"
+                      >
+                        {branch.phone}
+                      </a>
+                    </div>
+
+                    {/* Working Hours */}
+                    <div className="flex items-center gap-2 text-slate-500 text-[11px]">
+                      <Clock size={14} className="text-slate-400 shrink-0" />
+                      <span>{isTamil ? 'திங்கள்–சனி: காலை 9:00 – மாலை 6:30' : branch.hours}</span>
+                    </div>
+                  </div>
+
+                  {/* Bottom Actions */}
+                  <div className="grid grid-cols-2 gap-2 pt-1">
                     <a
                       href={`tel:${branch.rawPhone}`}
-                      className="font-bold text-slate-800 hover:text-orange-600 transition-colors text-xs"
+                      className="py-2 px-2.5 rounded-xl bg-orange-50 hover:bg-orange-100 border border-orange-200 text-orange-700 text-xs font-bold transition-all text-center flex items-center justify-center gap-1 no-underline"
                     >
-                      {branch.phone}
+                      <Phone size={12} />
+                      <span>{isTamil ? 'அழைக்க' : 'Call'}</span>
                     </a>
-                  </div>
-
-                  {/* Working Hours */}
-                  <div className="flex items-center gap-2 text-slate-500 text-[11px]">
-                    <Clock size={14} className="text-slate-400 shrink-0" />
-                    <span>{branch.hours}</span>
+                    <button
+                      onClick={() => onNavigateContact ? onNavigateContact() : (onNavigateBranches && onNavigateBranches())}
+                      className="py-2 px-2.5 rounded-xl bg-slate-900 hover:bg-[#FF6B00] text-white text-xs font-bold transition-all text-center flex items-center justify-center gap-1 cursor-pointer border-0 shadow-sm"
+                    >
+                      <span>{isTamil ? 'விவரம்' : 'Details'}</span>
+                      <ArrowRight size={12} />
+                    </button>
                   </div>
                 </div>
-
-                {/* Bottom Actions */}
-                <div className="grid grid-cols-2 gap-2 pt-1">
-                  <a
-                    href={`tel:${branch.rawPhone}`}
-                    className="py-2 px-2.5 rounded-xl bg-orange-50 hover:bg-orange-100 border border-orange-200 text-orange-700 text-xs font-bold transition-all text-center flex items-center justify-center gap-1 no-underline"
-                  >
-                    <Phone size={12} />
-                    <span>Call</span>
-                  </a>
-                  <button
-                    onClick={() => onNavigateContact ? onNavigateContact() : (onNavigateBranches && onNavigateBranches())}
-                    className="py-2 px-2.5 rounded-xl bg-slate-900 hover:bg-[#FF6B00] text-white text-xs font-bold transition-all text-center flex items-center justify-center gap-1 cursor-pointer border-0 shadow-sm"
-                  >
-                    <span>Details</span>
-                    <ArrowRight size={12} />
-                  </button>
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
 
           {/* Network Trust Highlights Strip */}
@@ -741,15 +918,15 @@ export default function HomePage({
           </div>
         </section>
 
-        {/* Market Analysis Grid (Live Market News Feed) */}
+        {/* Market Analysis Grid (Live Market News Feed - Always in Tamil) */}
         <section id="analysis">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">Live Gold Market Updates</span>
+                <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">நேரடி தங்க சந்தை செய்திகள்</span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Gold Market News & Daily Trends</h2>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">தங்க சந்தை செய்திகள் & தினசரி நிலவரம்</h2>
             </div>
             
             <div className="flex items-center gap-3">
@@ -759,7 +936,7 @@ export default function HomePage({
                 title="Refresh live news"
               >
                 <RefreshCw size={13} className={newsLoading ? 'animate-spin text-[#FF6B00]' : 'text-[#FF6B00]'} />
-                <span>{newsLoading ? 'Updating...' : 'Refresh Feed'}</span>
+                <span>{newsLoading ? 'புதுப்பிக்கப்படுகிறது...' : 'செய்திகளைப் புதுப்பிக்க'}</span>
               </button>
             </div>
           </div>
@@ -822,7 +999,7 @@ export default function HomePage({
                     {art.title}
                   </h4>
                   <div className="flex items-center gap-1 text-[11px] text-[#FF6B00] font-bold mt-0.5 group-hover:underline">
-                    <span>Read Summary</span>
+                    <span>சுருக்கம் படிக்க</span>
                     <ArrowRight size={12} />
                   </div>
                 </div>
@@ -1108,14 +1285,14 @@ export default function HomePage({
         </div>
       )}
 
-      {/* Live Market Article Detail Modal */}
+      {/* Live Market Article Detail Modal - Always in Tamil */}
       {selectedNewsItem && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setSelectedNewsItem(null)}>
           <div className="bg-white border border-slate-200 p-6 md:p-8 rounded-3xl max-w-lg w-full flex flex-col gap-5 shadow-2xl relative text-slate-900" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between pb-4 border-b border-slate-100">
               <div className="flex items-center gap-2">
                 <Newspaper size={20} className="text-[#FF6B00]" />
-                <h3 className="text-lg font-extrabold text-slate-900">Market Update</h3>
+                <h3 className="text-lg font-extrabold text-slate-900">சந்தை நேரடி செய்தி</h3>
               </div>
               <button className="p-2 rounded-xl bg-slate-100 text-slate-500 hover:text-slate-900 transition-all border-0 cursor-pointer" onClick={() => setSelectedNewsItem(null)}>
                 <X size={20} />
@@ -1131,7 +1308,7 @@ export default function HomePage({
                   {selectedNewsItem.source}
                 </span>
                 <span className="text-xs text-slate-500 font-medium">
-                  Published {selectedNewsItem.timeAgo}
+                  {selectedNewsItem.timeAgo}
                 </span>
               </div>
 
@@ -1152,7 +1329,7 @@ export default function HomePage({
                   rel="noopener noreferrer"
                   className="w-full sm:flex-1 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-sm hover:brightness-110 transition-all shadow-[0_6px_25px_rgba(249,115,22,0.35)] cursor-pointer text-center no-underline flex items-center justify-center gap-2"
                 >
-                  <span>Open Full Article</span>
+                  <span>முழு செய்தியைப் படிக்க</span>
                   <ExternalLink size={16} />
                 </a>
               )}
@@ -1160,7 +1337,7 @@ export default function HomePage({
                 className="w-full sm:w-auto py-3.5 px-6 rounded-2xl bg-slate-100 border border-slate-200 hover:bg-slate-200 text-slate-800 font-bold text-sm transition-all cursor-pointer"
                 onClick={() => setSelectedNewsItem(null)}
               >
-                Close
+                மூடுக
               </button>
             </div>
           </div>

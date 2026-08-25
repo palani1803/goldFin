@@ -8,13 +8,12 @@ import {
   Target,
   Sparkles,
   ChevronRight,
-  MapPin,
   CheckCircle2,
   Mail,
-  ArrowRight,
   TrendingUp
 } from 'lucide-react'
 import { Navbar, Footer, TrustBanner, GoldBackground } from '../components'
+import { useLanguage } from '../i18n'
 
 interface AboutPageProps {
   onNavigateHome?: () => void
@@ -33,6 +32,8 @@ export default function AboutPage({
   onNavigateBranches,
   onNavigateContact,
 }: AboutPageProps) {
+  const { t, isTamil } = useLanguage()
+
   return (
     <div className="flex flex-col min-h-screen w-full bg-[#F8FAFC] text-slate-900 font-sans antialiased selection:bg-orange-500/20 selection:text-orange-900 relative">
       {/* Reusable White & Orange Ambient Background */}
@@ -67,27 +68,40 @@ export default function AboutPage({
               onClick={onNavigateHome}
               className="hover:text-[#FF6B00] transition-colors bg-transparent border-0 p-0 cursor-pointer text-slate-500"
             >
-              Home
+              {t('navHome')}
             </button>
             <ChevronRight size={13} className="text-slate-400" />
-            <span className="text-[#FF6B00] font-bold">About GoldFin</span>
+            <span className="text-[#FF6B00] font-bold">{t('navAbout')}</span>
           </div>
 
           <div className="flex flex-col gap-3 max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider w-fit uppercase">
               <Sparkles size={14} />
-              <span>EST. 2024 • INDIA'S TRUSTED GOLD PLATFORM</span>
+              <span>{isTamil ? 'நிறுவப்பட்டது 2024 • இந்தியாவின் நம்பகமான தங்க தளம்' : "EST. 2024 • INDIA'S TRUSTED GOLD PLATFORM"}</span>
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-black text-slate-900 tracking-tight leading-[1.1]">
-              Your Trusted Partner in <br />
-              <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
-                Gold Rates & Loans
-              </span>
+              {isTamil ? (
+                <>
+                  தங்க விலை & கடன்களில் <br />
+                  <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
+                    உங்கள் நம்பகமான கூட்டாளி
+                  </span>
+                </>
+              ) : (
+                <>
+                  Your Trusted Partner in <br />
+                  <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
+                    Gold Rates & Loans
+                  </span>
+                </>
+              )}
             </h1>
 
             <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-              GoldFin is India's trusted platform for live gold rates and instant gold loans. We bring complete price transparency with real-time 1g rates, certified BIS hallmarking standards, and 100% safe bank locker loans.
+              {isTamil
+                ? 'கோல்ட்பின் நேரடி தங்க விலை மற்றும் உடனடி தங்கக் கடன்களுக்கான நம்பகமான தளமாகும். நிகழ்நேர 1 கிராம் தூய்மை விலைகள், BIS ஹால்மார்க் தரநிலைகள் மற்றும் 100% பாதுகாப்பான வங்கி லாக்கர் கடன் வசதிகளை வழங்குகிறோம்.'
+                : "GoldFin is India's trusted platform for live gold rates and instant gold loans. We bring complete price transparency with real-time 1g rates, certified BIS hallmarking standards, and 100% safe bank locker loans."}
             </p>
           </div>
         </div>
@@ -101,7 +115,7 @@ export default function AboutPage({
             <div className="text-3xl md:text-4xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors">
               ₹500Cr+
             </div>
-            <div className="text-xs text-slate-500 font-medium">Monthly Gold Valued</div>
+            <div className="text-xs text-slate-500 font-medium">{isTamil ? 'மாதாந்திர தங்க மதிப்பீடு' : 'Monthly Gold Valued'}</div>
           </div>
 
           <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/40 backdrop-blur-xl transition-all duration-300 flex flex-col gap-2 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
@@ -111,7 +125,7 @@ export default function AboutPage({
             <div className="text-3xl md:text-4xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors">
               150,000+
             </div>
-            <div className="text-xs text-slate-500 font-medium">Happy Users & Families</div>
+            <div className="text-xs text-slate-500 font-medium">{isTamil ? 'மகிழ்ச்சியான குடும்பங்கள்' : 'Happy Users & Families'}</div>
           </div>
 
           <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/40 backdrop-blur-xl transition-all duration-300 flex flex-col gap-2 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
@@ -121,7 +135,7 @@ export default function AboutPage({
             <div className="text-3xl md:text-4xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors">
               99.99%
             </div>
-            <div className="text-xs text-slate-500 font-medium">Live Rate Uptime</div>
+            <div className="text-xs text-slate-500 font-medium">{isTamil ? 'நேரடி விலை துல்லியம்' : 'Live Rate Uptime'}</div>
           </div>
 
           <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/40 backdrop-blur-xl transition-all duration-300 flex flex-col gap-2 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
@@ -131,7 +145,7 @@ export default function AboutPage({
             <div className="text-3xl md:text-4xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors">
               100%
             </div>
-            <div className="text-xs text-slate-500 font-medium">BIS Hallmark Verified</div>
+            <div className="text-xs text-slate-500 font-medium">{isTamil ? 'BIS ஹால்மார்க் தூய்மை' : 'BIS Hallmark Verified'}</div>
           </div>
         </div>
 
@@ -263,77 +277,6 @@ export default function AboutPage({
           </div>
         </div>
 
-        {/* Regional Network (5 Hubs) */}
-        <div className="p-8 md:p-12 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.04)] flex flex-col gap-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider mb-2">
-                <MapPin size={13} />
-                <span>REGIONAL NETWORK</span>
-              </div>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-                Our City Presence
-              </h2>
-              <p className="text-sm text-slate-600 mt-1">
-                Connected across India's top 5 gold markets and jewellery hubs.
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {[
-              {
-                city: 'Mumbai (HQ)',
-                state: 'Maharashtra',
-                address: 'BKC Financial District, Bandra East',
-                tag: 'IBJA Market Desk',
-              },
-              {
-                city: 'Chennai',
-                state: 'Tamil Nadu',
-                address: 'T. Nagar Jewellery Trade Arcade',
-                tag: 'MJDMA Chennai Desk',
-              },
-              {
-                city: 'Delhi NCR',
-                state: 'National Capital',
-                address: 'Connaught Place & Chandni Chowk',
-                tag: 'DJA Delhi Desk',
-              },
-              {
-                city: 'Bengaluru',
-                state: 'Karnataka',
-                address: 'MG Road Financial Center',
-                tag: 'KJMA Bengaluru Desk',
-              },
-              {
-                city: 'Hyderabad',
-                state: 'Telangana',
-                address: 'Banjara Hills & Abids Market',
-                tag: 'TGJA Hyderabad Desk',
-              },
-            ].map((hub, idx) => (
-              <div
-                key={idx}
-                className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-orange-500/40 hover:bg-white transition-all flex flex-col justify-between gap-3 group shadow-sm hover:shadow-md"
-              >
-                <div>
-                  <span className="text-[10px] font-black uppercase text-orange-600 tracking-wider px-2 py-0.5 rounded bg-orange-100/60 border border-orange-200">
-                    {hub.tag}
-                  </span>
-                  <h4 className="text-base font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors mt-2">
-                    {hub.city}
-                  </h4>
-                  <span className="text-xs text-slate-500 font-medium">{hub.state}</span>
-                </div>
-                <p className="text-xs text-slate-600 leading-relaxed border-t border-slate-200/60 pt-2">
-                  {hub.address}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Contact Strip */}
         <div className="p-8 md:p-10 rounded-3xl bg-gradient-to-r from-orange-50 via-white to-orange-50 border border-orange-200/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-[0_10px_35px_rgba(249,115,22,0.08)]">
           <div className="flex flex-col gap-2 max-w-xl">
@@ -353,13 +296,7 @@ export default function AboutPage({
               <Mail size={16} />
               <span>Contact Support Team</span>
             </a>
-            <button
-              onClick={onNavigateLiveRate}
-              className="px-7 py-3.5 rounded-2xl bg-white border border-slate-300 text-slate-700 font-bold text-sm hover:bg-slate-50 hover:border-orange-500/40 hover:text-[#FF6B00] transition-all cursor-pointer flex items-center gap-2 shadow-sm"
-            >
-              <span>Explore Live Rates</span>
-              <ArrowRight size={16} />
-            </button>
+            
           </div>
         </div>
 
