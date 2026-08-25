@@ -20,7 +20,10 @@ import {
   TrendingDown,
   ExternalLink,
   RefreshCw,
-  Newspaper
+  Newspaper,
+  MapPin,
+  Phone,
+  Clock
 } from 'lucide-react'
 import goldHeroJewel from '../assets/gold_hero_jewel.jpg'
 import { Navbar, Footer, TrustBanner, GoldBackground } from '../components'
@@ -49,6 +52,89 @@ interface PurityRate {
   isUp: boolean
   lastUpdated: string
 }
+
+// Branch Information for Home Page Text Directory
+interface HomeBranchItem {
+  id: string
+  name: string
+  tag: string
+  city: string
+  district: string
+  address: string
+  landmark: string
+  phone: string
+  rawPhone: string
+  hours: string
+  features: string
+}
+
+const HOME_BRANCHES: HomeBranchItem[] = [
+  {
+    id: 'sivakasi',
+    name: 'Sivakasi Main Branch',
+    tag: 'HQ & Vault',
+    city: 'Sivakasi',
+    district: 'Virudhunagar',
+    address: 'No. 42/B, Kamarajar Road, Near Old Bus Stand',
+    landmark: 'Opposite Town Hall',
+    phone: '+91 90925 48347',
+    rawPhone: '9092548347',
+    hours: 'Mon–Sat: 9:00 AM – 6:30 PM',
+    features: 'Central Vault & German XRF Lab'
+  },
+  {
+    id: 'srivilliputhur',
+    name: 'Srivilliputhur Branch',
+    tag: 'Regional Hub',
+    city: 'Srivilliputhur',
+    district: 'Virudhunagar',
+    address: 'No. 18, Madurai Main Road, Near Andal Temple Arch',
+    landmark: 'Opposite Car Street Junction',
+    phone: '+91 90925 48348',
+    rawPhone: '9092548348',
+    hours: 'Mon–Sat: 9:30 AM – 6:30 PM',
+    features: 'Instant 15-Min Loan Sanctions'
+  },
+  {
+    id: 'puthupatti',
+    name: 'M.Puthupatti Branch',
+    tag: 'Service Hub',
+    city: 'M.Puthupatti',
+    district: 'Virudhunagar',
+    address: 'Main Road Junction, Near Bus Stand, M.Puthupatti',
+    landmark: 'Opp. Primary Agricultural Bank',
+    phone: '+91 90925 48346',
+    rawPhone: '9092548346',
+    hours: 'Mon–Sat: 9:30 AM – 6:00 PM',
+    features: 'Doorstep Valuation & Spot Cash'
+  },
+  {
+    id: 'rajapalayam',
+    name: 'Rajapalayam Branch',
+    tag: 'Commercial Desk',
+    city: 'Rajapalayam',
+    district: 'Virudhunagar',
+    address: 'No. 85, Tenkasi Main Road, PACR Hospital Junction',
+    landmark: 'Near Railway Feeder Road',
+    phone: '+91 90925 48349',
+    rawPhone: '9092548349',
+    hours: 'Mon–Sat: 9:30 AM – 6:30 PM',
+    features: 'High-Value SME Gold Loans'
+  },
+  {
+    id: 'alangulam',
+    name: 'Alangulam Branch',
+    tag: 'Express Desk',
+    city: 'Alangulam',
+    district: 'Tenkasi',
+    address: 'Tenkasi Highway Road, Near Market Square',
+    landmark: 'Near Bus Stand & Main Bazaar',
+    phone: '+91 90925 48345',
+    rawPhone: '9092548345',
+    hours: 'Mon–Sat: 9:30 AM – 6:00 PM',
+    features: 'Express Gold Appraisal Desk'
+  }
+]
 
 const FAQ_ITEMS = [
   {
@@ -525,6 +611,133 @@ export default function HomePage({
                 </div>
               ))
             )}
+          </div>
+        </section>
+
+        {/* Authorized Regional Branches in Text Directory Section */}
+        <section id="branches" className="scroll-mt-24">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-2">
+                <MapPin size={16} className="text-[#FF6B00]" />
+                <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
+                  Physical Network & Walk-in Hubs
+                </span>
+              </div>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
+                Our Authorized Branches
+              </h2>
+              <p className="text-sm text-slate-500 font-normal mt-0.5">
+                Visit any of our 5 direct branches in Tamil Nadu for transparent purity valuation, instant 15-minute gold loans, and insured custody.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => onNavigateBranches ? onNavigateBranches() : (onNavigateContact && onNavigateContact())}
+                className="px-4 py-2 rounded-xl bg-white border border-slate-200 hover:border-orange-300 text-xs font-bold text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer flex items-center gap-1.5 shadow-sm hover:shadow"
+              >
+                <Building2 size={14} className="text-[#FF6B00]" />
+                <span>View Full Branch Guide</span>
+                <ArrowRight size={13} />
+              </button>
+            </div>
+          </div>
+
+          {/* 5-Branch Responsive Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-5">
+            {HOME_BRANCHES.map((branch) => (
+              <div
+                key={branch.id}
+                className="rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/50 p-5 flex flex-col justify-between gap-4 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 group"
+              >
+                {/* Header & Badges */}
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center justify-between gap-1">
+                    <span className="px-2.5 py-0.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-[10px] font-black uppercase tracking-wider">
+                      {branch.tag}
+                    </span>
+                    <span className="text-[11px] font-semibold text-slate-400">{branch.district}</span>
+                  </div>
+
+                  <h3 className="text-base sm:text-lg font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-tight">
+                    {branch.name}
+                  </h3>
+
+                  <div className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-50/80 border border-amber-200/60 px-2 py-0.5 rounded-md w-fit">
+                    <Sparkles size={11} className="text-amber-600 shrink-0" />
+                    <span>{branch.features}</span>
+                  </div>
+                </div>
+
+                {/* Text Information Body */}
+                <div className="flex flex-col gap-2.5 py-3 border-y border-slate-100 text-xs">
+                  {/* Address & Landmark */}
+                  <div className="flex items-start gap-2 text-slate-600 leading-snug">
+                    <MapPin size={15} className="text-orange-500 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-medium text-slate-700 leading-tight">{branch.address}</p>
+                      <p className="text-[11px] text-slate-400 mt-0.5">({branch.landmark})</p>
+                    </div>
+                  </div>
+
+                  {/* Phone */}
+                  <div className="flex items-center gap-2 text-slate-700 pt-0.5">
+                    <Phone size={14} className="text-emerald-600 shrink-0" />
+                    <a
+                      href={`tel:${branch.rawPhone}`}
+                      className="font-bold text-slate-800 hover:text-orange-600 transition-colors text-xs"
+                    >
+                      {branch.phone}
+                    </a>
+                  </div>
+
+                  {/* Working Hours */}
+                  <div className="flex items-center gap-2 text-slate-500 text-[11px]">
+                    <Clock size={14} className="text-slate-400 shrink-0" />
+                    <span>{branch.hours}</span>
+                  </div>
+                </div>
+
+                {/* Bottom Actions */}
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  <a
+                    href={`tel:${branch.rawPhone}`}
+                    className="py-2 px-2.5 rounded-xl bg-orange-50 hover:bg-orange-100 border border-orange-200 text-orange-700 text-xs font-bold transition-all text-center flex items-center justify-center gap-1 no-underline"
+                  >
+                    <Phone size={12} />
+                    <span>Call</span>
+                  </a>
+                  <button
+                    onClick={() => onNavigateContact ? onNavigateContact() : (onNavigateBranches && onNavigateBranches())}
+                    className="py-2 px-2.5 rounded-xl bg-slate-900 hover:bg-[#FF6B00] text-white text-xs font-bold transition-all text-center flex items-center justify-center gap-1 cursor-pointer border-0 shadow-sm"
+                  >
+                    <span>Details</span>
+                    <ArrowRight size={12} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Network Trust Highlights Strip */}
+          <div className="mt-6 p-4 rounded-2xl bg-gradient-to-r from-orange-50/70 via-white to-amber-50/70 border border-orange-200/60 flex flex-wrap items-center justify-around gap-4 text-xs font-semibold text-slate-700 shadow-sm">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 size={16} className="text-emerald-600" />
+              <span>Walk-in 15-Minute Gold Valuation</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 size={16} className="text-emerald-600" />
+              <span>German XRF Non-Destructive Testing</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 size={16} className="text-emerald-600" />
+              <span>100% Insured High-Security Vaults</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 size={16} className="text-emerald-600" />
+              <span>Direct Bank Transfer or Instant Cash</span>
+            </div>
           </div>
         </section>
 
