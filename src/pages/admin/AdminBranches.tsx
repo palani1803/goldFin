@@ -48,7 +48,7 @@ export default function AdminBranches() {
   const [searchQuery, setSearchQuery] = useState('')
   const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'inactive'>('all')
 
-  const token = localStorage.getItem('adminToken') || ''
+  const getAuthToken = () => localStorage.getItem('adminToken') || ''
 
   const fetchBranches = async () => {
     setLoading(true)
@@ -71,11 +71,12 @@ export default function AdminBranches() {
     setSeeding(true)
     setErrorMsg('')
     try {
+      const activeToken = getAuthToken()
       const res = await fetch('/api/branches/seed?force=true', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${activeToken}`,
         },
       })
       const data = await res.json()
@@ -130,12 +131,13 @@ export default function AdminBranches() {
     try {
       const url = editingBranch ? `/api/branches/${editingBranch._id}` : '/api/branches'
       const method = editingBranch ? 'PUT' : 'POST'
+      const activeToken = getAuthToken()
 
       const res = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${activeToken}`,
         },
         body: JSON.stringify(formData),
       })
@@ -159,9 +161,10 @@ export default function AdminBranches() {
 
   const handleDelete = async (id: string) => {
     try {
+      const activeToken = getAuthToken()
       const res = await fetch(`/api/branches/${id}`, {
         method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${activeToken}` },
       })
 
       const data = await res.json()
@@ -182,11 +185,12 @@ export default function AdminBranches() {
 
   const handleToggleActive = async (branch: Branch) => {
     try {
+      const activeToken = getAuthToken()
       const res = await fetch(`/api/branches/${branch._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${activeToken}`,
         },
         body: JSON.stringify({ isActive: !branch.isActive }),
       })
@@ -585,247 +589,228 @@ export default function AdminBranches() {
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/75 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
             onClick={closeModal}
           />
 
           {/* Modal Content */}
           <div
-            className="relative z-10 w-full max-w-[580px] max-h-[90vh] overflow-y-auto rounded-2xl p-6 md:p-7"
+            className="relative z-10 w-full max-w-[600px] max-h-[90vh] flex flex-col rounded-3xl overflow-hidden shadow-[0_25px_80px_rgba(0,0,0,0.8)]"
             style={{
               background: '#1E293B',
-              border: '1px solid rgba(255,255,255,0.1)',
-              boxShadow: '0 25px 80px rgba(0,0,0,0.6)',
+              border: '1px solid rgba(255,255,255,0.12)',
             }}
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-800">
-              <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-orange-500/10 border border-orange-500/20 text-orange-400 flex items-center justify-center">
+            <div className="flex items-center justify-between px-6 py-4.5 border-b border-slate-800 bg-slate-900/50 shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-orange-500/10 border border-orange-500/25 text-orange-400 flex items-center justify-center shadow-sm">
                   <Building2 size={20} />
                 </div>
                 <div>
-                  <h2 className="text-lg font-black text-white">
+                  <h2 className="text-base sm:text-lg font-black text-white tracking-tight">
                     {editingBranch ? 'Edit Branch Location' : 'Add New Branch Location'}
                   </h2>
-                  <p className="text-xs text-slate-400">Enter branch details, contacts and operational timings</p>
+                  <p className="text-xs text-slate-400">
+                    {editingBranch ? 'Update branch address, contact details & operational hours' : 'Enter branch details, contacts and operational timings'}
+                  </p>
                 </div>
               </div>
               <button
                 onClick={closeModal}
-                className="p-2 rounded-lg text-slate-400 hover:text-white bg-slate-800 border-0 cursor-pointer"
+                className="p-2 rounded-xl text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 cursor-pointer transition-all"
               >
                 <X size={18} />
               </button>
             </div>
 
-            {errorMsg && modalOpen && (
-              <div
-                className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm mb-4"
+            {/* Scrollable Form Body */}
+            <div className="p-6 overflow-y-auto space-y-4 max-h-[calc(90vh-135px)]">
+              {errorMsg && modalOpen && (
+                <div
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm"
+                  style={{
+                    background: 'rgba(239,68,68,0.12)',
+                    border: '1px solid rgba(239,68,68,0.25)',
+                    color: '#FCA5A5',
+                  }}
+                >
+                  <AlertCircle size={16} className="shrink-0 text-red-400" />
+                  <span className="font-medium">{errorMsg}</span>
+                </div>
+              )}
+
+              <form id="branch-form" onSubmit={handleSubmit} className="space-y-4">
+                {/* 1. Branch Name */}
+                <div>
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                    Branch Name <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="e.g. Sivakasi Main Branch & Vault"
+                    required
+                    className="w-full h-11 px-3.5 rounded-xl text-sm font-medium text-white placeholder-slate-500 bg-slate-900/80 border border-slate-700/80 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none transition-all"
+                  />
+                </div>
+
+                {/* 2. Full Address */}
+                <div>
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                    Full Address <span className="text-red-400">*</span>
+                  </label>
+                  <textarea
+                    value={formData.address}
+                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                    placeholder="No. 42/B, Kamarajar Road, Near Old Bus Stand"
+                    required
+                    rows={2}
+                    className="w-full px-3.5 py-2.5 rounded-xl text-sm font-medium text-white placeholder-slate-500 bg-slate-900/80 border border-slate-700/80 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none resize-none transition-all"
+                  />
+                </div>
+
+                {/* 3. City & State (Row 1) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                      City / Town <span className="text-red-400">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.city}
+                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                      placeholder="e.g. Sivakasi"
+                      required
+                      className="w-full h-11 px-3.5 rounded-xl text-sm font-medium text-white placeholder-slate-500 bg-slate-900/80 border border-slate-700/80 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                      State
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.state}
+                      onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                      placeholder="Tamil Nadu"
+                      className="w-full h-11 px-3.5 rounded-xl text-sm font-medium text-white placeholder-slate-500 bg-slate-900/80 border border-slate-700/80 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none transition-all"
+                    />
+                  </div>
+                </div>
+
+                {/* 4. Phone & Email (Row 2) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                      Phone Line <span className="text-red-400">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      placeholder="+91 90925 48347"
+                      required
+                      className="w-full h-11 px-3.5 rounded-xl text-sm font-medium text-white placeholder-slate-500 bg-slate-900/80 border border-slate-700/80 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                      Branch Email
+                    </label>
+                    <input
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="sivakasi@goldfin.in"
+                      className="w-full h-11 px-3.5 rounded-xl text-sm font-medium text-white placeholder-slate-500 bg-slate-900/80 border border-slate-700/80 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none transition-all"
+                    />
+                  </div>
+                </div>
+
+                {/* 5. Working Hours & Google Maps Link (Row 3) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                      Working Hours
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.operatingHours}
+                      onChange={(e) => setFormData({ ...formData, operatingHours: e.target.value })}
+                      placeholder="Mon–Sat: 9:00 AM – 6:30 PM"
+                      className="w-full h-11 px-3.5 rounded-xl text-sm font-medium text-white placeholder-slate-500 bg-slate-900/80 border border-slate-700/80 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                      Google Maps Link
+                    </label>
+                    <input
+                      type="url"
+                      value={formData.mapUrl}
+                      onChange={(e) => setFormData({ ...formData, mapUrl: e.target.value })}
+                      placeholder="https://maps.google.com/..."
+                      className="w-full h-11 px-3.5 rounded-xl text-sm font-medium text-white placeholder-slate-500 bg-slate-900/80 border border-slate-700/80 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none transition-all"
+                    />
+                  </div>
+                </div>
+
+                {/* 6. Active Status Toggle */}
+                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-slate-700/80 transition-all">
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-200">Active Status</span>
+                    <span className="text-[11px] text-slate-400">
+                      {formData.isActive ? 'Branch is visible to users on public pages' : 'Branch is hidden from public view'}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, isActive: !formData.isActive })}
+                    className="bg-transparent border-0 cursor-pointer p-0 transition-transform active:scale-95"
+                    style={{ color: formData.isActive ? '#10B981' : '#64748B' }}
+                    title={formData.isActive ? 'Active' : 'Inactive'}
+                  >
+                    {formData.isActive ? <ToggleRight size={32} /> : <ToggleLeft size={32} />}
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            {/* Modal Footer / Sticky Actions */}
+            <div className="px-6 py-4 border-t border-slate-800 bg-slate-900/50 flex items-center justify-end gap-3 shrink-0">
+              <button
+                type="button"
+                onClick={closeModal}
+                className="h-11 px-5 rounded-xl text-xs font-bold text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 cursor-pointer transition-all"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                form="branch-form"
+                disabled={saving}
+                className="flex items-center justify-center gap-2 h-11 px-7 rounded-xl text-xs font-black text-white border-0 cursor-pointer transition-all hover:brightness-110 shadow-lg"
                 style={{
-                  background: 'rgba(239,68,68,0.1)',
-                  border: '1px solid rgba(239,68,68,0.2)',
-                  color: '#FCA5A5',
+                  background: 'linear-gradient(135deg, #FF6B00 0%, #EA580C 100%)',
+                  boxShadow: '0 4px 18px rgba(249,115,22,0.35)',
+                  opacity: saving ? 0.6 : 1,
                 }}
               >
-                <AlertCircle size={16} />
-                {errorMsg}
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Branch Name */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                  Branch Name <span className="text-red-400">*</span>
-                </label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g. Sivakasi Main Branch & Vault"
-                  required
-                  className="w-full h-11 px-4 rounded-xl text-sm font-medium text-white placeholder-slate-500 outline-none"
-                  style={inputStyle}
-                />
-              </div>
-
-              {/* Address */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                  Full Address <span className="text-red-400">*</span>
-                </label>
-                <textarea
-                  value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  placeholder="No. 42/B, Kamarajar Road, Near Old Bus Stand"
-                  required
-                  rows={2}
-                  className="w-full px-4 py-3 rounded-xl text-sm font-medium text-white placeholder-slate-500 outline-none resize-none"
-                  style={inputStyle}
-                />
-              </div>
-
-              {/* City & State */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                    City / Town <span className="text-red-400">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.city}
-                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    placeholder="e.g. Sivakasi"
-                    required
-                    className="w-full h-11 px-4 rounded-xl text-sm font-medium text-white placeholder-slate-500 outline-none"
-                    style={inputStyle}
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                    State
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.state}
-                    onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                    placeholder="Tamil Nadu"
-                    className="w-full h-11 px-4 rounded-xl text-sm font-medium text-white placeholder-slate-500 outline-none"
-                    style={inputStyle}
-                  />
-                </div>
-              </div>
-
-              {/* Phone & Email */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                    Phone Line <span className="text-red-400">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+91 90925 48347"
-                    required
-                    className="w-full h-11 px-4 rounded-xl text-sm font-medium text-white placeholder-slate-500 outline-none"
-                    style={inputStyle}
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                    Branch Email
-                  </label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="sivakasi@goldfin.in"
-                    className="w-full h-11 px-4 rounded-xl text-sm font-medium text-white placeholder-slate-500 outline-none"
-                    style={inputStyle}
-                  />
-                </div>
-              </div>
-
-              {/* Manager & Hours */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                    Branch Head / Manager
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.managerName}
-                    onChange={(e) => setFormData({ ...formData, managerName: e.target.value })}
-                    placeholder="R. Senthil Kumar (Branch Head)"
-                    className="w-full h-11 px-4 rounded-xl text-sm font-medium text-white placeholder-slate-500 outline-none"
-                    style={inputStyle}
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                    Working Hours
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.operatingHours}
-                    onChange={(e) => setFormData({ ...formData, operatingHours: e.target.value })}
-                    placeholder="Mon–Sat: 9:00 AM – 6:30 PM"
-                    className="w-full h-11 px-4 rounded-xl text-sm font-medium text-white placeholder-slate-500 outline-none"
-                    style={inputStyle}
-                  />
-                </div>
-              </div>
-
-              {/* Map URL */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                  Google Maps Link
-                </label>
-                <input
-                  type="url"
-                  value={formData.mapUrl}
-                  onChange={(e) => setFormData({ ...formData, mapUrl: e.target.value })}
-                  placeholder="https://maps.google.com/..."
-                  className="w-full h-11 px-4 rounded-xl text-sm font-medium text-white placeholder-slate-500 outline-none"
-                  style={inputStyle}
-                />
-              </div>
-
-              {/* Active Toggle */}
-              <div className="flex items-center justify-between p-3 rounded-xl bg-slate-900/50 border border-slate-800">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-slate-300">Active Status</p>
-                  <p className="text-[11px] text-slate-500">Active branches are visible on public pages</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setFormData({ ...formData, isActive: !formData.isActive })}
-                  className="bg-transparent border-0 cursor-pointer p-0"
-                  style={{ color: formData.isActive ? '#34D399' : '#94A3B8' }}
-                >
-                  {formData.isActive ? <ToggleRight size={30} /> : <ToggleLeft size={30} />}
-                </button>
-              </div>
-
-              {/* Submit Buttons */}
-              <div className="flex items-center gap-3 pt-2">
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="flex-1 flex items-center justify-center gap-2 h-11 rounded-xl text-sm font-bold text-white border-0 cursor-pointer"
-                  style={{
-                    background: 'linear-gradient(135deg, #FF6B00 0%, #EA580C 100%)',
-                    boxShadow: '0 4px 15px rgba(249,115,22,0.3)',
-                    opacity: saving ? 0.6 : 1,
-                  }}
-                >
-                  {saving ? (
-                    <>
-                      <Loader2 size={16} className="animate-spin" />
-                      Saving...
-                    </>
-                  ) : (
-                    <>
-                      <Check size={16} />
-                      {editingBranch ? 'Update Branch' : 'Create Branch'}
-                    </>
-                  )}
-                </button>
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  className="h-11 px-6 rounded-xl text-sm font-semibold text-slate-400 border-0 cursor-pointer hover:text-white"
-                  style={{
-                    background: 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
+                {saving ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    <span>Saving...</span>
+                  </>
+                ) : (
+                  <>
+                    <Check size={16} />
+                    <span>{editingBranch ? 'Update Branch' : 'Add Branch'}</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       )}

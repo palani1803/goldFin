@@ -4,9 +4,26 @@ const { fetchAndUpdateGoldPrices, getGoldPriceHistory } = require('../services/g
 // @desc    Get all gold/silver rates
 // @route   GET /api/gold-rates
 // @access  Public
+const STALE_THRESHOLD_MS = 60 * 60 * 1000 // 1 hour
+
 const getAllRates = async (req, res, next) => {
   try {
-    const rates = await GoldRate.find({}).sort({ createdAt: -1 })
+    let rates = await GoldRate.find({}).sort({ createdAt: -1 })
+
+    // If empty OR older than 1 hour, auto-refresh in real-time from live stream
+    const isStale =
+      !rates ||
+      rates.length === 0 ||
+      !rates[0].lastUpdated ||
+      (Date.now() - new Date(rates[0].lastUpdated).getTime() > STALE_THRESHOLD_MS)
+
+    if (isStale) {
+      const refreshed = await fetchAndUpdateGoldPrices()
+      if (refreshed.data && refreshed.data.length > 0) {
+        rates = refreshed.data
+      }
+    }
+
     res.status(200).json({ success: true, count: rates.length, data: rates })
   } catch (error) {
     next(error)
@@ -180,26 +197,20 @@ const seedRates = async (req, res, next) => {
   }
 }
 
-// @desc    Manually refresh rates from live GoldAPI.io
+// @desc    Manually refresh rates from live GoldAPI.io (or fallback)
 // @route   POST /api/gold-rates/refresh
 // @access  Public
 const refreshRates = async (req, res, next) => {
   try {
     const result = await fetchAndUpdateGoldPrices()
 
-    if (result.success) {
-      res.status(200).json({
-        success: true,
-        message: result.message,
-        count: result.count,
-        data: result.data,
-      })
-    } else {
-      res.status(400).json({
-        success: false,
-        message: result.message,
-      })
-    }
+    res.status(200).json({
+      success: result.success,
+      message: result.message,
+      isFallback: result.isFallback || false,
+      count: result.count || (result.data ? result.data.length : 0),
+      data: result.data || [],
+    })
   } catch (error) {
     next(error)
   }

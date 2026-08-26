@@ -11,9 +11,21 @@ import { LanguageProvider } from './i18n'
 type PageType = 'home' | 'live-rate' | 'gold-loan' | 'branches' | 'about' | 'contact' | 'admin-login' | 'admin'
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<PageType>(() => {
+  const [selectedBranchCity, setSelectedBranchCity] = useState<string | null>(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash
+      if (hash.startsWith('#contact')) {
+        const queryStr = hash.includes('?') ? hash.split('?')[1] : ''
+        const params = new URLSearchParams(queryStr)
+        return params.get('city') || params.get('branch') || localStorage.getItem('selectedContactBranch') || null
+      }
+    }
+    return null
+  })
+
+  const [currentPage, setCurrentPage] = useState<PageType>(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.split('?')[0]
       if (hash === '#admin') {
         // Check if admin is authenticated
         const token = localStorage.getItem('adminToken')
@@ -31,21 +43,29 @@ function App() {
 
   useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash
-      if (hash === '#admin') {
+      const rawHash = window.location.hash
+      const [hashPath, hashQuery] = rawHash.split('?')
+      const params = new URLSearchParams(hashQuery || '')
+      const branchCity = params.get('city') || params.get('branch')
+      if (branchCity) {
+        setSelectedBranchCity(branchCity)
+        localStorage.setItem('selectedContactBranch', branchCity)
+      }
+
+      if (hashPath === '#admin') {
         const token = localStorage.getItem('adminToken')
         setCurrentPage(token ? 'admin' : 'admin-login')
-      } else if (hash === '#admin-login') {
+      } else if (hashPath === '#admin-login') {
         setCurrentPage('admin-login')
-      } else if (hash === '#contact') {
+      } else if (hashPath === '#contact') {
         setCurrentPage('contact')
-      } else if (hash === '#about') {
+      } else if (hashPath === '#about') {
         setCurrentPage('about')
-      } else if (hash === '#branches') {
+      } else if (hashPath === '#branches') {
         setCurrentPage('branches')
-      } else if (hash === '#gold-loan') {
+      } else if (hashPath === '#gold-loan') {
         setCurrentPage('gold-loan')
-      } else if (hash === '#live-rate') {
+      } else if (hashPath === '#live-rate') {
         setCurrentPage('live-rate')
       } else {
         setCurrentPage('home')
@@ -56,9 +76,15 @@ function App() {
     return () => window.removeEventListener('hashchange', handleHashChange)
   }, [])
 
-  const navigateTo = (page: PageType) => {
+  const navigateTo = (page: PageType, branchCity?: string) => {
+    if (branchCity) {
+      setSelectedBranchCity(branchCity)
+      localStorage.setItem('selectedContactBranch', branchCity)
+      window.location.hash = page === 'contact' ? `#contact?city=${encodeURIComponent(branchCity)}` : `#${page}`
+    } else {
+      window.location.hash = page === 'home' ? '#home' : `#${page}`
+    }
     setCurrentPage(page)
-    window.location.hash = page === 'home' ? '#home' : `#${page}`
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -88,12 +114,13 @@ function App() {
       <div className="w-full min-h-screen bg-[#F8FAFC]">
         {currentPage === 'contact' ? (
           <ContactPage
+            initialCity={selectedBranchCity}
             onNavigateHome={() => navigateTo('home')}
             onNavigateAbout={() => navigateTo('about')}
             onNavigateLiveRate={() => navigateTo('live-rate')}
             onNavigateGoldLoan={() => navigateTo('gold-loan')}
             onNavigateBranches={() => navigateTo('branches')}
-            onNavigateContact={() => navigateTo('contact')}
+            onNavigateContact={(city?: string) => navigateTo('contact', city)}
           />
         ) : currentPage === 'about' ? (
           <AboutPage
@@ -102,7 +129,7 @@ function App() {
             onNavigateLiveRate={() => navigateTo('live-rate')}
             onNavigateGoldLoan={() => navigateTo('gold-loan')}
             onNavigateBranches={() => navigateTo('branches')}
-            onNavigateContact={() => navigateTo('contact')}
+            onNavigateContact={(city?: string) => navigateTo('contact', city)}
           />
         ) : currentPage === 'branches' ? (
           <BranchesPage
@@ -111,7 +138,7 @@ function App() {
             onNavigateLiveRate={() => navigateTo('live-rate')}
             onNavigateGoldLoan={() => navigateTo('gold-loan')}
             onNavigateBranches={() => navigateTo('branches')}
-            onNavigateContact={() => navigateTo('contact')}
+            onNavigateContact={(city?: string) => navigateTo('contact', city)}
           />
         ) : currentPage === 'gold-loan' ? (
           <GoldLoanPage
@@ -120,7 +147,7 @@ function App() {
             onNavigateLiveRate={() => navigateTo('live-rate')}
             onNavigateGoldLoan={() => navigateTo('gold-loan')}
             onNavigateBranches={() => navigateTo('branches')}
-            onNavigateContact={() => navigateTo('contact')}
+            onNavigateContact={(city?: string) => navigateTo('contact', city)}
           />
         ) : currentPage === 'live-rate' ? (
           <LiveRatePage
@@ -128,7 +155,7 @@ function App() {
             onNavigateAbout={() => navigateTo('about')}
             onNavigateGoldLoan={() => navigateTo('gold-loan')}
             onNavigateBranches={() => navigateTo('branches')}
-            onNavigateContact={() => navigateTo('contact')}
+            onNavigateContact={(city?: string) => navigateTo('contact', city)}
             onNavigateTo={(page) => navigateTo(page as any)}
           />
         ) : (
@@ -138,7 +165,7 @@ function App() {
             onNavigateLiveRate={() => navigateTo('live-rate')}
             onNavigateGoldLoan={() => navigateTo('gold-loan')}
             onNavigateBranches={() => navigateTo('branches')}
-            onNavigateContact={() => navigateTo('contact')}
+            onNavigateContact={(city?: string) => navigateTo('contact', city)}
           />
         )}
       </div>

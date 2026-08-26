@@ -49,18 +49,6 @@ const DEFAULT_BRANCHES = [
     mapUrl: 'https://maps.google.com/maps?q=Rajapalayam,+Tamil+Nadu,+India',
     isActive: true,
   },
-  {
-    name: 'Alangulam Tenkasi Road Branch',
-    address: 'No. 15, Ambasamudram Road, Near Alangulam Market Junction',
-    city: 'Alangulam',
-    state: 'Tamil Nadu',
-    phone: '+91 96554 32109',
-    email: 'alangulam@goldfin.in',
-    managerName: 'P. Ganesan (Manager)',
-    operatingHours: 'Mon–Sat: 9:00 AM – 6:30 PM',
-    mapUrl: 'https://maps.google.com/maps?q=Alangulam,+Tamil+Nadu,+India',
-    isActive: true,
-  },
 ]
 
 // Auto-seed default branches into database if empty
@@ -68,9 +56,9 @@ const seedDefaultBranches = async () => {
   try {
     const count = await Branch.countDocuments()
     if (count === 0) {
-      console.log('🏢 [DB] No branches found. Seeding 5 official GoldFin regional branches...')
+      console.log('🏢 [DB] No branches found. Seeding official GoldFin regional branches...')
       await Branch.insertMany(DEFAULT_BRANCHES)
-      console.log('✅ [DB] Successfully seeded 5 GoldFin branches into database.')
+      console.log('✅ [DB] Successfully seeded GoldFin branches into database.')
     }
   } catch (error) {
     console.error('⚠️ [DB] Error seeding default branches:', error.message)

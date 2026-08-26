@@ -32,7 +32,7 @@ export default function AdminGoldRates() {
   const [successMsg, setSuccessMsg] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
 
-  const token = localStorage.getItem('adminToken') || ''
+  const getAuthToken = () => localStorage.getItem('adminToken') || ''
 
   const fetchRates = async () => {
     setLoading(true)
@@ -75,8 +75,7 @@ export default function AdminGoldRates() {
 
   const handleEdit = (rate: ShopRate) => {
     setEditingId(rate.purityId)
-    setEditValue(rate.pricePerGram.toString())
-    setSuccessMsg('')
+    setEditValue(rate.pricePerGram ? rate.pricePerGram.toString() : '')
     setErrorMsg('')
   }
 
@@ -95,11 +94,12 @@ export default function AdminGoldRates() {
     setSaving(true)
     setErrorMsg('')
     try {
+      const activeToken = getAuthToken()
       const res = await fetch(`/api/shop-rates/${purityId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${activeToken}`,
         },
         body: JSON.stringify({ pricePerGram: price }),
       })

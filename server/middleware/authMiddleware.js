@@ -12,7 +12,8 @@ const protect = async (req, res, next) => {
     try {
       token = req.headers.authorization.split(' ')[1]
 
-      const decoded = jwt.verify(token, process.env.JWT_SECRET)
+      const secret = process.env.JWT_SECRET || 'goldfin_admin_jwt_secret_2026'
+      const decoded = jwt.verify(token, secret)
 
       // Attach admin to request (exclude password)
       req.admin = await Admin.findById(decoded.id).select('-password')
@@ -24,6 +25,7 @@ const protect = async (req, res, next) => {
 
       next()
     } catch (error) {
+      console.error('⚠️ [Auth Middleware Error]:', error.message)
       res.status(401)
       next(new Error('Not authorized, token failed'))
     }

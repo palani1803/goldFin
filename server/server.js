@@ -69,16 +69,15 @@ const startServer = async () => {
     })
 
     // --------------- Live Gold Price Cron Job ---------------
-    // Schedule: Every day at 10:00 AM IST (04:30 UTC)
-    // IBJA publishes daily rates around this time
-    cron.schedule('30 4 * * *', async () => {
-      console.log('\n⏰ [CRON] Daily gold price update triggered...')
+    // Schedule: Mon-Sat at 10:30 AM (Opening) and 4:00 PM (Closing) IST
+    cron.schedule('30 10,16 * * 1-6', async () => {
+      console.log('\n⏰ [CRON] Indian Market gold price sync triggered...')
       await fetchAndUpdateGoldPrices()
     }, {
       timezone: 'Asia/Kolkata',
     })
 
-    console.log('⏰ Cron job scheduled: Daily gold price update at 10:00 AM IST')
+    console.log('⏰ Cron job scheduled: Mon-Sat at 10:30 AM & 4:00 PM IST')
 
     // Also fetch on server startup (so first load gets fresh data)
     console.log('\n📡 Fetching latest gold prices on startup...')
