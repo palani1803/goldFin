@@ -10,10 +10,10 @@ export default function TrustBanner() {
           </div>
           <div>
             <h4 className="text-sm sm:text-base font-black text-slate-900 leading-snug">
-              100% BIS ஹால்மார்க் தூய்மை <span className="block text-xs font-semibold text-slate-500">BIS Hallmarked Purity</span>
+              100% BIS Hallmarked Purity <span className="block text-xs font-semibold text-slate-500">Certified Optical Testing</span>
             </h4>
             <p className="text-xs text-slate-600 leading-relaxed mt-1.5">
-              அரசு அங்கீகரிக்கப்பட்ட ஜெர்மன் XRF காரட்மீட்டர் சோதனை. Non-destructive laser appraisal with zero damage.
+              Government-approved German XRF laser Karatmeter testing. Non-destructive appraisal with zero damage to jewellery.
             </p>
           </div>
         </div>
@@ -24,10 +24,10 @@ export default function TrustBanner() {
           </div>
           <div>
             <h4 className="text-sm sm:text-base font-black text-slate-900 leading-snug">
-              நேரடி IBJA & MCX சந்தை விலை <span className="block text-xs font-semibold text-slate-500">Live Indian Benchmark Rates</span>
+              Live IBJA & MCX Market Rates <span className="block text-xs font-semibold text-slate-500">Live Indian Benchmark Rates</span>
             </h4>
             <p className="text-xs text-slate-600 leading-relaxed mt-1.5">
-              வெளிப்படையான விலை மற்றும் அதிகபட்ச கடன் தொகை. Direct market rates with maximum per-gram loan valuation.
+              100% transparent live pricing with maximum loan valuation per gram. Real-time rates updated continuously.
             </p>
           </div>
         </div>
@@ -38,10 +38,10 @@ export default function TrustBanner() {
           </div>
           <div>
             <h4 className="text-sm sm:text-base font-black text-slate-900 leading-snug">
-              முழு வெளிப்படைத்தன்மை & பாதுகாப்பு <span className="block text-xs font-semibold text-slate-500">100% Insured Bank Vaults</span>
+              Complete Transparency & Safety <span className="block text-xs font-semibold text-slate-500">100% Insured Bank Vaults</span>
             </h4>
             <p className="text-xs text-slate-600 leading-relaxed mt-1.5">
-              மறைமுக கட்டணங்கள் இல்லை. 100% காப்பீடு செய்யப்பட்ட பெட்டகங்கள். Zero hidden fees & insured custody.
+              Zero hidden fees, 24/7 CCTV surveillance, and 100% fully insured multi-tier bank security vaults.
             </p>
           </div>
         </div>

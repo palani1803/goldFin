@@ -103,11 +103,11 @@ export default function BranchesPage({
 
   const getLocalizedName = (branch: BranchItem) => {
     const c = branch.city.toLowerCase()
-    if (c.includes('sivakasi')) return 'சிவகாசி தலைமை கிளை • Sivakasi Main Branch & Vault'
-    if (c.includes('srivilliputhur')) return 'ஸ்ரீவில்லிபுத்தூர் கிளை • Srivilliputhur Branch'
-    if (c.includes('puthupatti')) return 'எம்.புதுப்பட்டி கிளை • M.Puthupatti Rural Center'
-    if (c.includes('rajapalayam')) return 'ராஜபாளையம் கிளை • Rajapalayam Branch'
-    if (c.includes('chennai')) return 'சென்னை மெட்ரோ கிளை • Chennai Metro Desk'
+    if (c.includes('sivakasi')) return 'Sivakasi Main Branch & Vault'
+    if (c.includes('srivilliputhur')) return 'Srivilliputhur Branch'
+    if (c.includes('puthupatti')) return 'M.Puthupatti Rural Center'
+    if (c.includes('rajapalayam')) return 'Rajapalayam Branch'
+    if (c.includes('chennai')) return 'Chennai Metro Desk'
     return `${branch.name} (${branch.city})`
   }
 
@@ -145,31 +145,31 @@ export default function BranchesPage({
               onClick={onNavigateHome}
               className="hover:text-[#FF6B00] transition-colors bg-transparent border-0 p-0 cursor-pointer text-slate-500"
             >
-              முகப்பு (Home)
+              Home
             </button>
             <ChevronRight size={13} className="text-slate-400" />
-            <span className="text-[#FF6B00] font-bold">மண்டல கிளைகள் (Branches)</span>
+            <span className="text-[#FF6B00] font-bold">Regional Branches</span>
           </div>
 
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-xs font-bold tracking-wider uppercase shadow-sm">
             <Sparkles size={14} />
-            <span>அதிகாரப்பூர்வ மண்டல கிளைகள் • AUTHORIZED REGIONAL HUBS</span>
+            <span>AUTHORIZED REGIONAL HUBS • VAULT SECURITY</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
-            எங்கள் அதிகாரப்பூர்வ{' '}
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-800 tracking-tight">
+            Our Regional{' '}
             <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
-              கிளைகள்
+              Branch Network
             </span>
-            <span className="block text-lg sm:text-2xl font-bold text-slate-500 mt-1">
-              Our Regional Branches & High-Security Vaults
+            <span className="block text-sm sm:text-lg font-semibold text-slate-500 mt-2 font-sans">
+              நமது மண்டல கிளைகள் மற்றும் வங்கி பெட்டக பாதுகாப்பு
             </span>
           </h1>
 
           <div className="w-16 h-1 bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full" />
 
           <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-            தமிழ்நாட்டின் எங்கள் அதிகாரப்பூர்வ கிளைகளை அணுகுங்கள். நேரடி தங்க விலை, உடனடி 15 நிமிட கடன் அனுமதி மற்றும் ஜெர்மன் XRF தூய்மை பரிசோதனை. Experience transparent live gold rates, instant 15-minute loans, and Advanced German XRF appraisals.
+            Visit any of our authorized branches across Tamil Nadu. Experience transparent live gold rate benchmarks, instant 15-minute loans, and non-destructive German XRF purity appraisals.
           </p>
         </div>
 
@@ -192,7 +192,7 @@ export default function BranchesPage({
                   >
                     {/* Branch Title Container (Consistent Height for Perfect Row Alignment) */}
                     <div className="w-full min-h-[54px] sm:min-h-[60px] flex items-center justify-center mb-4">
-                      <h3 className="text-lg sm:text-xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-snug text-center">
+                      <h3 className="text-lg sm:text-xl font-bold text-slate-800 group-hover:text-[#FF6B00] transition-colors leading-snug text-center">
                         {localizedName}
                       </h3>
                     </div>
@@ -228,7 +228,7 @@ export default function BranchesPage({
                         onClick={() => handleBranchClick(branch.city)}
                         className="w-full sm:w-auto py-3 px-8 rounded-xl font-extrabold text-xs transition-all flex items-center justify-center gap-2.5 cursor-pointer border-0 shadow-md bg-slate-900 hover:bg-[#FF6B00] text-white hover:shadow-orange-500/20 active:scale-[0.98]"
                       >
-                        <span>{branch.city} கிளை விவரம் • Visit Branch</span>
+                        <span>View {branch.city} Branch</span>
                         <ArrowRight size={14} />
                       </button>
                     </div>
@@ -243,17 +243,17 @@ export default function BranchesPage({
         <section className="flex flex-col gap-8">
           <div className="text-center max-w-2xl mx-auto flex flex-col gap-2">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#FF6B00]">
-              நவீன தொழில்நுட்பம் • STATE-OF-THE-ART INFRASTRUCTURE
+              STATE-OF-THE-ART INFRASTRUCTURE
             </span>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
-              பரிசோதனை ஆய்வகம் & பெட்டக வசதி
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-800 tracking-tight">
+              Appraisal Lab & Vault Facilities
+              <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                ஜெர்மன் XRF தரம் பரிசோதனை கூடம் மற்றும் பெட்டக வசதிகள்
+              </span>
             </h2>
-            <span className="text-sm font-bold text-slate-500">
-              Advanced Machinery & Certified Appraisal Lab
-            </span>
             <div className="w-12 h-1 bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full mx-auto" />
             <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
-              ஒவ்வொரு கோல்ட்பின் கிளையிலும் ஜெர்மன் XRF காரட்மீட்டர்கள் மற்றும் துல்லிய எடைக் கருவிகள் உள்ளன. Certified German XRF karatmeters & precision micro-balances for 100% transparent purity evaluation.
+              Every GoldFin branch is equipped with German XRF karatmeters and precision micro-balances for 100% transparent purity evaluation.
             </p>
           </div>
 
@@ -265,10 +265,10 @@ export default function BranchesPage({
               </div>
               <div>
                 <h3 className="text-base font-black text-slate-900 group-hover:text-orange-600 transition-colors">
-                  ஜெர்மன் XRF காரட்மீட்டர் <span className="block text-xs font-semibold text-slate-500">German XRF Karatmeter</span>
+                  German XRF Karatmeter
                 </h3>
                 <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                  நகைகளை உருக்காமல் 18K, 22K, 24K துல்லிய தூய்மையை அறியும் முறை. Non-destructive optical testing without damaging jewellery.
+                  Non-destructive optical testing determining exact purity (18K, 20K, 22K, 24K) without scratching or melting jewellery.
                 </p>
               </div>
             </div>
@@ -280,10 +280,10 @@ export default function BranchesPage({
               </div>
               <div>
                 <h3 className="text-base font-black text-slate-900 group-hover:text-emerald-600 transition-colors">
-                  துல்லிய மின்னணு எடை அளவு <span className="block text-xs font-semibold text-slate-500">Precision Micro Balance</span>
+                  Precision Micro Balance
                 </h3>
                 <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                  0.001 கிராம் வரை துல்லியமான அரசு முத்திரையிடப்பட்ட டிஜிட்டல் எடை அளவு. Calibrated scales with zero weight discrepancy.
+                  Calibrated to 0.001g with government stamping to ensure absolute weight accuracy and zero discrepancies.
                 </p>
               </div>
             </div>
@@ -295,10 +295,10 @@ export default function BranchesPage({
               </div>
               <div>
                 <h3 className="text-base font-black text-slate-900 group-hover:text-blue-600 transition-colors">
-                  100% காப்பீடு செய்யப்பட்ட பெட்டகம் <span className="block text-xs font-semibold text-slate-500">Multi-Tier Insured Vaults</span>
+                  Multi-Tier Insured Bank Vaults
                 </h3>
                 <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                  பயோமெட்ரிக் பாதுகாப்பு, 24/7 சிசிடிவி கண்காணிப்பு மற்றும் தேசிய காப்பீடு. High-security steel safe lockers with 100% insurance.
+                  Biometric access, 24/7 CCTV surveillance, and 100% national insurance coverage for complete peace of mind.
                 </p>
               </div>
             </div>
@@ -312,13 +312,16 @@ export default function BranchesPage({
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left">
             <div className="flex flex-col gap-3 max-w-xl">
               <span className="text-xs font-bold uppercase tracking-widest text-[#FF6B00]">
-                உடனடி கடன் மையம் • GOLDFIN BULLION & LOAN DESK
+                GOLDFIN BULLION & LOAN DESK
               </span>
               <h2 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight">
-                தங்க நகைகளுக்கு உடனடி ரொக்கம் <span className="block text-lg sm:text-2xl font-bold text-slate-300 mt-0.5">Instant Sanction for Your Gold Jewellery</span>
+                Instant Cash for Your Gold Jewellery
+                <span className="block text-sm sm:text-lg font-semibold text-slate-300 mt-1 font-sans">
+                  உங்கள் தங்க நகைகளுக்கு உடனடி ரொக்கப் பணம்
+                </span>
               </h2>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                உடனடி பணத் தேவைக்கு உங்கள் தங்க நகைகளை அடகு வைக்க எங்கள் கிளைகளை நேரில் அணுகவும். Complete address and interactive maps available on Contact page.
+                Visit our nearest branch for instant non-destructive appraisal and immediate cash disbursal. Interactive maps and direct phone lines are available on our Contact page.
               </p>
             </div>
 
@@ -328,7 +331,7 @@ export default function BranchesPage({
                 className="w-full sm:w-auto py-3.5 px-7 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-xs hover:brightness-110 transition-all shadow-[0_4px_20px_rgba(249,115,22,0.4)] flex items-center justify-center gap-2.5 no-underline cursor-pointer"
               >
                 <PhoneCall size={16} />
-                <span>அழைக்க (+91 90925 48347)</span>
+                <span>Call Us (+91 90925 48347)</span>
               </a>
 
               <button
@@ -336,7 +339,7 @@ export default function BranchesPage({
                 className="w-full sm:w-auto py-3.5 px-6 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-extrabold text-xs border border-white/20 transition-all flex items-center justify-center gap-2 cursor-pointer backdrop-blur-md"
               >
                 <MapPin size={15} className="text-[#FF6B00]" />
-                <span>வரைபடம் & விவரங்கள் • Maps & Details</span>
+                <span>Maps & Branch Details</span>
               </button>
             </div>
           </div>

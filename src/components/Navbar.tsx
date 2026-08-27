@@ -254,7 +254,7 @@ export default function Navbar({
               onClick={() => handleNavClick('contact')}
               className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-xs shadow-md text-center border-0 cursor-pointer flex items-center justify-center gap-2"
             >
-              <span>தொடர்புக்கு • Helpline Support</span>
+              <span>Instant Helpline Support</span>
             </button>
           </div>
         </div>

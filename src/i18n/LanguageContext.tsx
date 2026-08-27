@@ -15,10 +15,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [language, setLanguageState] = useState<Language>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('goldfin_lang') as Language
-      if (saved === 'ta' || saved === 'en') return saved
+      if (saved === 'en' || saved === 'ta') return saved
     }
-    // Default to Tamil for Tamil end-users
-    return 'ta'
+    // Default to English as main preference
+    return 'en'
   })
 
   useEffect(() => {
@@ -33,11 +33,11 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }
 
   const toggleLanguage = () => {
-    setLanguageState((prev) => (prev === 'ta' ? 'en' : 'ta'))
+    setLanguageState((prev) => (prev === 'en' ? 'ta' : 'en'))
   }
 
   const t = (key: TranslationKey): string => {
-    const langDict = translations[language] || translations.ta
+    const langDict = translations[language] || translations.en
     return langDict[key] || translations.en[key] || String(key)
   }
 

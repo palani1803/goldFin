@@ -85,27 +85,27 @@ export default function GoldLoanPage({
   const price24kPerGram = rate24k?.pricePerGram || 13535
   const price22kPerGram = rate22k?.pricePerGram || 12407
 
-  // Curated Bilingual FAQ Items
+  // Curated FAQ Items
   const curatedFaqs = [
     {
-      question: 'எனது தங்கத்திற்கு அதிகபட்சமாக எவ்வளவு கடன் பெற முடியும்? • Maximum Loan Eligibility',
+      question: 'How much maximum loan can I get against my gold jewellery?',
       answer:
-        'ஆர்பிஐ (RBI) விதிகளின்படி உங்கள் தங்கத்தின் இன்றைய சந்தை மதிப்பில் 75% வரை கடன் பெறலாம். ₹25,000 முதல் ₹1 கோடி வரை உடனடியாக உங்கள் வங்கிக் கணக்கிற்கு வழங்கப்படுகிறது. You can get up to 75% of your gold’s exact market value with instant bank disbursals.',
+        'As per RBI guidelines, you can get up to 75% of your gold’s exact live market value. Loan amounts range from ₹25,000 to ₹1.5+ Crores with instant direct bank transfer.',
     },
     {
-      question: 'அடமானம் வைக்கப்பட்ட தங்கம் எவ்வாறு பாதுகாக்கப்படுகிறது? • Gold Storage & Vault Security',
+      question: 'How is my pledged gold stored and secured?',
       answer:
-        'அனைத்து தங்க நகைகளும் 24/7 சிசிடிவி கண்காணிப்பு மற்றும் 100% முழு தேசிய காப்பீட்டுடன் கூடிய உயர் பாதுகாப்பு வங்கி பெட்டகங்களில் (Bank Vaults) பாதுகாப்பாக வைக்கப்படுகின்றன. Stored in multi-tier bank vaults with 100% full insurance coverage.',
+        'All pledged ornaments are sealed in tamper-proof security pouches in your presence and stored in multi-tier, 100% fully insured bank lockers equipped with 24/7 CCTV surveillance.',
     },
     {
-      question: 'கடனை முன்கூட்டியே அடைத்தால் அபராதக் கட்டணம் உண்டா? • Foreclosure Charges',
+      question: 'Are there any foreclosure or prepayment penalty charges?',
       answer:
-        'இல்லை, கோல்ட்பின் நிறுவனத்தில் எந்தவிதமான மறைமுக அல்லது முன்கூட்டியே அடைப்பதற்கான அபராதக் கட்டணங்களும் (Zero Foreclosure / Prepayment Charges) கிடையாது. Close your loan anytime with zero extra charges.',
+        'No, GoldFin does not charge any foreclosure or pre-closure penalty fees. You can settle your loan at any time with zero extra charges.',
     },
     {
-      question: 'திருப்பிச் செலுத்துவதற்கு என்னென்ன வழிகள் உள்ளன? • Flexible Repayment Schemes',
+      question: 'What are the available loan repayment schemes?',
       answer:
-        '1) மாதாந்திர வட்டி திட்டம் (மாதம் வட்டி மட்டும் செலுத்தி முடிவில் அசல் செலுத்துவது), 2) புல்லட் திட்டம் (முடிவில் வட்டியும் அசலும் செலுத்துவது), 3) வழக்கமான மாதாந்திர EMI தவணை முறை என 3 எளிய முறைகள் உள்ளன.',
+        '1) Monthly Interest Scheme (pay monthly interest and settle the principal on maturity), 2) Bullet Scheme (pay principal and accumulated interest together at closure), or 3) Regular EMI plans tailored to your needs.',
     },
   ]
 
@@ -141,18 +141,21 @@ export default function GoldLoanPage({
         <div className="flex flex-col items-center text-center gap-4 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider uppercase">
             <Sparkles size={14} />
-            <span>தங்க நகை கடன் • INSTANT CASH AGAINST GOLD</span>
+            <span>INSTANT CASH AGAINST GOLD • MINIMAL KYC</span>
           </div>
 
-          <h1 className="text-3xl md:text-5xl lg:text-[3.4rem] font-black text-slate-900 tracking-tight leading-[1.15]">
-            உடனடி தங்கக் கடன் சேவைகள் <br />
+          <h1 className="text-3xl md:text-5xl lg:text-[3.4rem] font-extrabold text-slate-800 tracking-tight leading-[1.15]">
+            Instant Gold Loan Services <br />
             <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
-              Instant Gold Loan Services
+              Fast 15-Minute Sanctions
+            </span>
+            <span className="block text-sm sm:text-lg font-semibold text-slate-500 mt-2 font-sans">
+              உடனடி 15 நிமிட நகைக்கடன் சேவைகள்
             </span>
           </h1>
 
           <p className="text-sm md:text-base text-slate-600 max-w-2xl leading-relaxed">
-            உங்கள் தங்க நகைகளுக்கு அதிகபட்ச கடன் மற்றும் மிகக் குறைந்த வட்டியில் உடனடி ரொக்கக் கடன் பெறுங்கள். 15 நிமிட அனுமதி, 100% பாதுகாப்பான வங்கி லாக்கர் மற்றும் பூஜ்ஜிய மறைமுகக் கட்டணங்கள். Fast 15-minute sanction with zero hidden fees.
+            Unlock maximum value against your gold jewellery at low interest rates with 15-minute cash or bank transfer, 100% insured bank vault storage, and zero hidden fees.
           </p>
         </div>
 
@@ -172,36 +175,36 @@ export default function GoldLoanPage({
           {/* Right Feature Details */}
           <div className="w-full lg:w-7/12 flex flex-col gap-5 text-left">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider w-fit">
-              <span>பாதுகாப்பானது • நம்பகமானது • உடனடியானது (SAFE • RELIABLE • INSTANT)</span>
+              <span>SAFE • RELIABLE • INSTANT</span>
             </div>
 
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-snug">
-              உங்கள் தங்கத்திற்கு அதிகபட்ச மதிப்பும் உடனடி ரொக்கமும்{' '}
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-slate-800 tracking-tight leading-snug">
+              Unlock Maximum Value & Instant Cash{' '}
               <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
-                பெறுங்கள்
+                Against Your Gold
               </span>
-              <span className="block text-lg sm:text-2xl font-bold text-slate-500 mt-1">
-                Maximum Value & Instant Cash For Your Gold
+              <span className="block text-sm sm:text-lg font-semibold text-slate-500 mt-1 font-sans">
+                உங்கள் நகைகளுக்கு அதிகபட்ச கடன் மதிப்பும் குறைந்த வட்டியும்
               </span>
             </h2>
 
             <p className="text-sm md:text-base text-slate-600 leading-relaxed font-normal">
-              உங்கள் தங்க நகைகளை அடமானம் வைத்து உடனடி பணத்தைப் பெறுங்கள். ஒரு கிராமுக்கு அதிக கடன் தொகை, குறைந்த மாதாந்திர வட்டி, நெகிழ்வான தவணை முறை மற்றும் 100% பாதுகாப்பான வங்கி லாக்கர் வசதி.
+              Pledge your gold jewellery with complete trust. Benefit from maximum per-gram loan valuation, affordable monthly interest, flexible tenure options, and 100% insured German bank safe custody.
             </p>
 
             {/* 3 Diamond Bullet Points */}
             <div className="flex flex-col gap-3 pt-2">
               <div className="flex items-start gap-3 text-sm text-slate-700">
                 <CheckCircle2 size={18} className="text-[#FF6B00] shrink-0 mt-0.5" />
-                <span>இன்றைய சந்தை மதிப்பில் 75% வரை உடனடி கடன் தொகை • Up to 75% of Current Market Value</span>
+                <span>Up to 75% of Current Market Value (RBI-Compliant LTV)</span>
               </div>
               <div className="flex items-start gap-3 text-sm text-slate-700">
                 <CheckCircle2 size={18} className="text-[#FF6B00] shrink-0 mt-0.5" />
-                <span>முன்கூட்டியே அடைப்பதற்கு எந்த கூடுதல் அபராதக் கட்டணமும் இல்லை • Zero Foreclosure Charges</span>
+                <span>Zero Foreclosure & Pre-Payment Charges</span>
               </div>
               <div className="flex items-start gap-3 text-sm text-slate-700">
                 <CheckCircle2 size={18} className="text-[#FF6B00] shrink-0 mt-0.5" />
-                <span>மாதம் வெறும் 0.75% முதல் துவங்கும் குறைந்த வட்டி • Starting From 0.75% per month</span>
+                <span>Attractive Interest Starting from 0.75% Per Month</span>
               </div>
             </div>
           </div>
@@ -212,16 +215,19 @@ export default function GoldLoanPage({
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-                நேரடி தங்கம் விலை (1 கிராமுக்கு) • LIVE RATES PER 1 GRAM
+                LIVE RATES PER 1 GRAM
               </span>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-                இன்றைய தங்க விலை நிலவரம் <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">Today's Benchmark Gold Rates</span>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+                Today's Benchmark Gold Rates
+                <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                  இன்றைய நேரடி சந்தை குறிப்பு தங்கம் விலை (1g)
+                </span>
               </h2>
             </div>
 
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white border border-slate-200 text-xs font-bold text-slate-700 self-start sm:self-auto shadow-sm">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>சந்தை இயங்குகிறது • LIVE IST</span>
+              <span>Market Open • LIVE IST</span>
             </div>
           </div>
 
@@ -232,7 +238,7 @@ export default function GoldLoanPage({
                 <div className="flex items-center gap-2">
                   <Award size={18} className="text-[#FF6B00]" />
                   <span className="text-xs font-extrabold uppercase tracking-wider text-slate-700">
-                    22K ஆபரண தங்கம் • 22K Hallmarked Gold
+                    22K Hallmarked Jewellery Gold
                   </span>
                 </div>
                 <div className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full text-emerald-700 bg-emerald-50 border border-emerald-200">
@@ -246,7 +252,7 @@ export default function GoldLoanPage({
                   {loading ? '...' : `₹${price22kPerGram.toLocaleString('en-IN')} / g`}
                 </div>
                 <span className="text-xs text-slate-500 font-medium">
-                  91.6% தூய தங்கம் (916 BIS ஹால்மார்க்) • 1 கிராம்
+                  91.6% Pure Gold (916 BIS Hallmark) • 1 Gram
                 </span>
               </div>
 
@@ -259,7 +265,7 @@ export default function GoldLoanPage({
                 <div className="flex items-center gap-2">
                   <Sparkles size={18} className="text-[#FF6B00]" />
                   <span className="text-xs font-extrabold uppercase tracking-wider text-slate-700">
-                    24K சுத்த தங்கம் • 24K Pure Gold
+                    24K Pure Investment Gold
                   </span>
                 </div>
                 <div className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full text-emerald-700 bg-emerald-50 border border-emerald-200">
@@ -273,7 +279,7 @@ export default function GoldLoanPage({
                   {loading ? '...' : `₹${price24kPerGram.toLocaleString('en-IN')} / g`}
                 </div>
                 <span className="text-xs text-slate-500 font-medium">
-                  99.9% தூய தங்கம் (24 Karat Pure) • சர்வதேச தரம்
+                  99.9% Pure Gold (24 Karat Pure) • International Benchmark
                 </span>
               </div>
 
@@ -286,13 +292,16 @@ export default function GoldLoanPage({
         <div className="flex flex-col gap-8">
           <div className="flex flex-col items-center text-center gap-2">
             <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-              ஏன் கோல்ட்பின்? • WHY CHOOSE GOLDFIN
+              WHY CHOOSE GOLDFIN
             </span>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-              கோல்ட்பின் தங்கக் கடனின் சிறப்பம்சங்கள் <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">Key Benefits of GoldFin Loan</span>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+              Key Benefits of GoldFin Loan
+              <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                கோல்ட்பின் நகைக்கடனின் முக்கிய சிறப்பம்சங்கள்
+              </span>
             </h2>
             <p className="text-sm text-slate-600 max-w-xl">
-              குறைந்தபட்ச ஆவணங்கள், உடனடி வங்கி பரிமாற்றம் மற்றும் 100% பாதுகாப்பான சேமிப்பு.
+              Minimal KYC documentation, 15-minute cash disbursal, and 100% insured bank vault security.
             </p>
           </div>
 
@@ -303,10 +312,10 @@ export default function GoldLoanPage({
                 <Zap size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
-                15 நிமிட உடனடி கடன் • Instant Sanction
+                15-Min Instant Sanction
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                விரைவான சரிபார்ப்பு மற்றும் 15 நிமிடங்களில் உங்கள் வங்கிக் கணக்கில் கடன் தொகை வரவு வைக்கப்படும்.
+                Rapid non-destructive appraisal and immediate cash or bank transfer to your account within 15 minutes.
               </p>
             </div>
 
@@ -316,10 +325,10 @@ export default function GoldLoanPage({
                 <Scale size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
-                அதிகபட்ச கடன் மதிப்பு • Highest Value
+                Highest Loan Valuation
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                ஆர்பிஐ விதிகளின்படி இன்றைய நேரடி சந்தை மதிப்பில் 75% வரை அதிக கடன் தொகை வழங்கப்படும்.
+                Get up to 75% of your gold's live benchmark market value in compliance with RBI regulations.
               </p>
             </div>
 
@@ -329,10 +338,10 @@ export default function GoldLoanPage({
                 <ShieldCheck size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
-                100% பாதுகாப்பான பெட்டகம் • Insured Vaults
+                100% Insured Bank Vaults
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                24/7 சிசிடிவி மற்றும் முழு தேசிய காப்பீட்டுடன் கூடிய உயர் பாதுகாப்பு வங்கி பெட்டகங்கள்.
+                24/7 biometric CCTV surveillance and full national insurance coverage on all pledged jewellery.
               </p>
             </div>
 
@@ -342,10 +351,10 @@ export default function GoldLoanPage({
                 <FileText size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
-                குறைந்தபட்ச ஆவணங்கள் • Minimal KYC
+                Minimal KYC Documentation
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                வருமான சான்றிதழ் தேவையில்லை. ஆதார் மற்றும் பான் கார்டு கொண்டு உடனடியாக கடன் பெறலாம்.
+                No salary slips or income proofs required. Sanction loans instantly with just your Aadhaar and PAN card.
               </p>
             </div>
 
@@ -355,10 +364,10 @@ export default function GoldLoanPage({
                 <Calendar size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
-                நெகிழ்வான தவணை முறை • Flexible Plans
+                Flexible Repayment Plans
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                மாத வட்டி திட்டம் அல்லது வழக்கமான EMI தவணை முறைகளில் உங்கள் வசதிக்கேற்ப திருப்பிச் செலுத்தலாம்.
+                Choose between monthly interest payments, bullet repayment schemes, or convenient regular EMIs.
               </p>
             </div>
 
@@ -368,10 +377,10 @@ export default function GoldLoanPage({
                 <CreditCard size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
-                நேரடி வங்கி வரவு • Instant Transfer
+                Direct Bank Disbursal
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                UPI, IMPS அல்லது NEFT/RTGS மூலம் உங்கள் வங்கிக் கணக்கில் பணம் உடனடியாக வரவு வைக்கப்படும்.
+                Funds are disbursed instantly to your savings account via UPI, IMPS, or NEFT/RTGS with zero delay.
               </p>
             </div>
           </div>
@@ -381,13 +390,16 @@ export default function GoldLoanPage({
         <div className="flex flex-col gap-8">
           <div className="flex flex-col items-center text-center gap-2">
             <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-              செயல்முறை • HOW IT WORKS
+              HOW IT WORKS
             </span>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-              5 எளிய படிகளில் தங்கக் கடன் <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">5 Simple Steps to Get Your Gold Loan</span>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+              5 Simple Steps to Get Your Gold Loan
+              <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                எளிய 5 படிகளில் உடனடி நகைக்கடன் பெறுங்கள்
+              </span>
             </h2>
             <p className="text-sm text-slate-600 max-w-xl">
-              சில நிமிடங்களில் உங்கள் தங்க நகைகளுக்கு ரொக்கம் பெறும் எளிய செயல்முறை.
+              Sanction your gold loan in just a few minutes with our streamlined branch process.
             </p>
           </div>
 
@@ -395,28 +407,28 @@ export default function GoldLoanPage({
             {[
               {
                 num: '01',
-                title: 'விண்ணப்பிக்க • Apply',
-                desc: 'ஆன்லைன் மூலமாகவோ அல்லது கிளைக்கு நேரடியாகவோ வரவும்.',
+                title: '1. Quick Apply',
+                desc: 'Apply online or visit any of our nearby regional branches.',
               },
               {
                 num: '02',
-                title: 'தூய்மை சோதனை • Valuation',
-                desc: 'உங்கள் முன்னிலையிலேயே லேசர் XRF சோதனை செய்யப்படும்.',
+                title: '2. Laser Valuation',
+                desc: 'German XRF laser testing conducted right in front of you.',
               },
               {
                 num: '03',
-                title: 'கடன் அனுமதி • Sanction',
-                desc: 'இன்றைய உச்சகட்ட விலையில் உடனடி கடன் அனுமதி.',
+                title: '3. Instant Sanction',
+                desc: 'Maximum loan amount sanctioned based on live spot rates.',
               },
               {
                 num: '04',
-                title: 'பாதுகாப்பு • Vault',
-                desc: 'நகைகள் சீலிடப்பட்டு வங்கி பெட்டகத்தில் வைக்கப்படும்.',
+                title: '4. Safe Vaulting',
+                desc: 'Jewellery sealed and stored in 100% insured bank lockers.',
               },
               {
                 num: '05',
-                title: 'பணம் பெறுதல் • Disbursal',
-                desc: 'வங்கிக் கணக்கில் உடனடியாக பணம் வரவு வைக்கப்படும்.',
+                title: '5. Instant Disbursal',
+                desc: 'Cash or immediate direct bank transfer to your account.',
               },
             ].map((step, idx) => (
               <div
@@ -441,13 +453,16 @@ export default function GoldLoanPage({
         <div className="flex flex-col gap-8">
           <div className="flex flex-col items-center text-center gap-2">
             <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-              தேவையான ஆவணங்கள் • KYC CHECKLIST
+              KYC CHECKLIST
             </span>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-              எளிய ஆவண சரிபார்ப்பு <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">Minimal Verification Documents</span>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+              Minimal Verification Documents
+              <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                எளிய ஆவண சரிபார்ப்பு மற்றும் விரைவான ஒப்புதல்
+              </span>
             </h2>
             <p className="text-sm text-slate-600 max-w-xl">
-              எந்தவித சிரமமுமின்றி விரைவான கடன் அனுமதியைப் பெற தேவையானவை.
+              Simple documentation for rapid loan sanction and immediate disbursal.
             </p>
           </div>
 
@@ -455,23 +470,23 @@ export default function GoldLoanPage({
             {[
               {
                 icon: <FileText size={22} />,
-                title: 'அடையாள சான்று • ID Proof',
-                desc: 'ஆதார் அட்டை, பாஸ்போர்ட் அல்லது வாக்காளர் அடையாள அட்டை',
+                title: 'ID Proof',
+                desc: 'Aadhaar Card, Passport, or Voter ID Card',
               },
               {
                 icon: <BadgePercent size={22} />,
-                title: 'பான் கார்டு • PAN Card',
-                desc: 'வருமான வரித்துறை விதிகளின்படி தேவையான அட்டை',
+                title: 'PAN Card',
+                desc: 'Required as per Income Tax & RBI guidelines',
               },
               {
                 icon: <ShieldCheck size={22} />,
-                title: 'முகவரி சான்று • Address',
-                desc: 'மின் கட்டண ரசீது, ஓட்டுநர் உரிமம் அல்லது ஆதார்',
+                title: 'Address Proof',
+                desc: 'Electricity bill, Driving License, or Aadhaar Card',
               },
               {
                 icon: <CreditCard size={22} />,
-                title: 'வங்கி கணக்கு • Bank Account',
-                desc: 'பரிமாற்றத்திற்கான வங்கி பாஸ்புக் அல்லது காசோலை',
+                title: 'Bank Account',
+                desc: 'Bank passbook or cancelled cheque for direct transfer',
               },
             ].map((doc, idx) => (
               <div
@@ -496,13 +511,16 @@ export default function GoldLoanPage({
         <div className="flex flex-col gap-8 max-w-3xl mx-auto w-full">
           <div className="flex flex-col items-center text-center gap-2">
             <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-              அடிக்கடி கேட்கப்படும் கேள்விகள் • FREQUENTLY ASKED QUESTIONS
+              FREQUENTLY ASKED QUESTIONS
             </span>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-              தங்கக் கடன் சந்தேகங்கள் & பதில்கள் <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">Gold Loan Queries & Clarity</span>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+              Gold Loan Queries & Clarity
+              <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                நகைக்கடன் பற்றிய பொதுவான சந்தேகங்களும் தீர்வுகளும்
+              </span>
             </h2>
             <p className="text-sm text-slate-600 max-w-xl">
-              கோல்ட்பின் தங்கக் கடன் பற்றிய முழுமையான தகவல்கள்.
+              Clear answers to all your questions regarding GoldFin gold loans.
             </p>
           </div>
 
@@ -569,7 +587,7 @@ export default function GoldLoanPage({
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2 text-slate-900 font-bold text-lg">
                 <Zap size={20} className="text-[#FF6B00]" />
-                <span>உடனடி தங்கக் கடன் விண்ணப்பம் • Quick Apply</span>
+                <span>Quick Gold Loan Application</span>
               </div>
               <button
                 className="p-1.5 rounded-xl bg-slate-100 text-slate-500 hover:text-slate-900 border-0 cursor-pointer"
@@ -580,19 +598,19 @@ export default function GoldLoanPage({
             </div>
 
             <div className="p-4 rounded-2xl bg-orange-50 border border-orange-200/80 flex flex-col gap-1 text-xs">
-              <span className="text-slate-600">தங்க நகை கடன் • Gold Loan Scheme</span>
+              <span className="text-slate-600">GoldFin Instant Gold Loan</span>
               <span className="text-lg font-black text-slate-900">
-                தங்க மதிப்பில் 75% வரை உடனடி கடன் (Up to 75% LTV)
+                Up to 75% LTV sanctioned instantly
               </span>
               <span className="text-xs text-orange-600 font-semibold mt-1">
-                மாதம் வெறும் 0.75% முதல் துவங்கும் வட்டி • From 0.75% p.m.
+                Attractive interest starting from 0.75% per month
               </span>
             </div>
 
             <form
               onSubmit={(e) => {
                 e.preventDefault()
-                alert('விண்ணப்பம் வெற்றிகரமாக பெறப்பட்டது! Application submitted. Our loan specialist will contact you in 15 minutes.')
+                alert('Application submitted successfully! Our loan specialist will contact you in 15 minutes.')
                 setApplyModalOpen(false)
               }}
               className="flex flex-col gap-3.5"
@@ -600,19 +618,19 @@ export default function GoldLoanPage({
               <input
                 type="text"
                 required
-                placeholder="முழு பெயர் • Full Name (as per Aadhaar)"
+                placeholder="Full Name (as per Aadhaar)"
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm focus:outline-none focus:border-[#FF6B00]"
               />
               <input
                 type="tel"
                 required
-                placeholder="கைபேசி எண் • Mobile Number"
+                placeholder="Mobile Number"
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm focus:outline-none focus:border-[#FF6B00]"
               />
               <input
                 type="text"
                 required
-                placeholder="ஊர் / அஞ்சல் குறியீடு • City / Pincode"
+                placeholder="City / Pincode"
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm focus:outline-none focus:border-[#FF6B00]"
               />
 
@@ -620,7 +638,7 @@ export default function GoldLoanPage({
                 type="submit"
                 className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-sm hover:brightness-110 transition-all border-0 cursor-pointer mt-2 shadow-[0_6px_25px_rgba(249,115,22,0.35)]"
               >
-                விண்ணப்பிக்க • Submit Application
+                Submit Application
               </button>
             </form>
           </div>

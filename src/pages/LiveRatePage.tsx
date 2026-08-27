@@ -82,27 +82,9 @@ export default function LiveRatePage({
   // Active chart hover index
   const [hoveredPointIndex, setHoveredPointIndex] = useState<number | null>(null)
 
-  // Countdown timer for next market update
-  const [countdownSeconds, setCountdownSeconds] = useState<number>(892)
-
   // Modals state
   const [activeInfoModal, setActiveInfoModal] = useState<{ title: string; content: string; icon: string } | null>(null)
   const [applyModalOpen, setApplyModalOpen] = useState(false)
-
-  // Countdown effect
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdownSeconds((prev) => (prev > 0 ? prev - 1 : 900))
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [])
-
-  // Format countdown mm:ss
-  const formattedCountdown = useMemo(() => {
-    const mins = Math.floor(countdownSeconds / 60)
-    const secs = countdownSeconds % 60
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}s`
-  }, [countdownSeconds])
 
   // Fetch live rates from backend
   const fetchRates = useCallback(async () => {
@@ -284,47 +266,45 @@ export default function LiveRatePage({
               onClick={onNavigateHome}
               className="hover:text-[#FF6B00] transition-colors bg-transparent border-0 p-0 cursor-pointer text-slate-500"
             >
-              முகப்பு (Home)
+              Home
             </button>
             <ChevronRight size={13} className="text-slate-400" />
-            <span className="text-[#FF6B00] font-bold">நேரடி தங்க விலை (Live Rates)</span>
+            <span className="text-[#FF6B00] font-bold">Live Gold Rates</span>
           </div>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mt-1">
             <div className="flex flex-col gap-2">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider w-fit">
                 <Sparkles size={14} />
-                <span>அதிகாரப்பூர்வ நேரடி விலை • OFFICIAL LIVE BENCHMARK</span>
+                <span>OFFICIAL LIVE BENCHMARK • REAL-TIME RATES</span>
               </div>
-              <h1 className="text-3xl md:text-5xl lg:text-[3.3rem] font-black text-slate-900 tracking-tight leading-[1.15]">
-                இன்றைய நேரடி <br />
+              <h1 className="text-3xl md:text-5xl lg:text-[3.3rem] font-extrabold text-slate-800 tracking-tight leading-[1.15]">
+                Today's Live <br />
                 <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
-                  தங்கம் விலை நிலவரம்
+                  Gold Rate in India
                 </span>
-                <span className="block text-lg sm:text-2xl font-bold text-slate-500 mt-1">
-                  Today's Live Gold Rates (IBJA / MCX Benchmarks)
-                </span>
+                
               </h1>
               <p className="text-sm md:text-base text-slate-600 max-w-2xl leading-relaxed">
-                இந்திய சந்தை நிலவரப்படி நேரடி 24K, 22K, 20K, 18K மற்றும் 8 கிராம் சவரன் விலை நிலவரங்கள். Transparent live Indian benchmark rates updated continuously.
+                Live 24K, 22K, 20K, 18K gold and 8-gram sovereign rates across India. Transparent benchmark rates updated continuously from official market feeds.
               </p>
             </div>
 
             {/* Pure 1 Gram Indicator Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white border border-orange-300 text-xs font-bold text-orange-600 self-start md:self-auto shadow-sm backdrop-blur-md">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>100% நேரடி தரவு • Live IBJA Feed</span>
+              <span>100% Live Data • IBJA Feed</span>
             </div>
           </div>
         </div>
 
-        {/* 4 Metric Top Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* 3 Metric Top Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           {/* Card 1: 22K PRICE (1g) */}
-          <div className="p-6 md:p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/45 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
-            <div className="flex items-center justify-between">
+          <div className="p-6 md:p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/50 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.14)] min-h-[190px]">
+            <div className="flex items-center justify-between min-h-[26px]">
               <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-600">
-                22K ஆபரண தங்கம் • 22K (1g)
+                22K Ornament Gold • 22K (1g)
               </span>
               <div className={`inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full ${
                 isUp22k
@@ -341,7 +321,7 @@ export default function LiveRatePage({
                 {loading ? '...' : `₹${price22kPerGram.toLocaleString('en-IN')}`}
               </div>
               <span className="text-xs text-slate-500 font-medium">
-                91.6% தூய்மை (916 BIS ஹால்மார்க்) • 1 கிராம்
+                91.6% Purity (916 BIS Hallmark) • 1 Gram
               </span>
             </div>
 
@@ -349,10 +329,10 @@ export default function LiveRatePage({
           </div>
 
           {/* Card 2: 24K PRICE (1g) */}
-          <div className="p-6 md:p-7 rounded-3xl bg-white border border-orange-300/80 hover:border-orange-500 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_8px_30px_rgba(249,115,22,0.1)] hover:shadow-[0_12px_35px_rgba(249,115,22,0.18)]">
-            <div className="flex items-center justify-between">
+          <div className="p-6 md:p-7 rounded-3xl bg-white border border-orange-300/80 hover:border-orange-500 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_8px_30px_rgba(249,115,22,0.1)] hover:shadow-[0_12px_35px_rgba(249,115,22,0.18)] min-h-[190px]">
+            <div className="flex items-center justify-between min-h-[26px]">
               <span className="text-[11px] font-extrabold uppercase tracking-widest text-orange-600">
-                24K சுத்த தங்கம் • 24K Pure (1g)
+                24K Pure Gold • 24K Pure (1g)
               </span>
               <div className={`inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full ${
                 isUp24k
@@ -364,59 +344,43 @@ export default function LiveRatePage({
               </div>
             </div>
 
-            <div className="my-4">
+            <div className="my-3">
               <div className="flex items-baseline gap-1.5">
-                <span className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
+                <span className="text-3xl md:text-4xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors tracking-tight">
                   ₹{price24kPerGram.toLocaleString('en-IN')}
                 </span>
-                <span className="text-xs text-slate-500 font-semibold">/ கிராம் (gram)</span>
+                <span className="text-xs text-slate-500 font-semibold">/ gram</span>
               </div>
-              <span className="text-[11px] text-orange-600 font-semibold block mt-1">
-                99.9% தூய்மை • சர்வதேச முதலீட்டு தரம் (999 Pure)
+              <span className="text-xs text-slate-500 font-medium">
+                99.9% Purity (24K Pure) • 1 Gram
               </span>
             </div>
 
-            <div className="w-1/2 h-[1.5px] bg-orange-400 rounded-full mt-1" />
+            <div className="w-2/3 h-[2px] bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-transparent rounded-full mt-1" />
           </div>
 
           {/* Card 3: LAST UPDATED */}
-          <div className="p-6 md:p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/40 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
-            <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
-              கடைசியாக புதுப்பித்தது • LAST UPDATED
-            </span>
-
-            <div className="my-2">
-              <div className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-                {lastUpdatedDate}
-              </div>
-              <div className="flex items-center gap-1.5 text-xs text-orange-600 font-bold mt-1">
-                <Clock size={14} />
+          <div className="p-6 md:p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/50 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.14)] min-h-[190px]">
+            <div className="flex items-center justify-between min-h-[26px]">
+              <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
+                LAST UPDATED
+              </span>
+              <div className="inline-flex items-center gap-1.5 text-xs text-orange-600 font-bold px-2.5 py-1 rounded-full bg-orange-50 border border-orange-200/80">
+                <Clock size={12} />
                 <span>{lastUpdatedTime} IST</span>
               </div>
             </div>
 
-            <div className="w-1/2 h-[1px] bg-slate-200 rounded-full mt-1" />
-          </div>
-
-          {/* Card 4: MARKET STATUS */}
-          <div className="p-6 md:p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/40 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
-            <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
-              சந்தை நிலை • MARKET STATUS
-            </span>
-
-            <div className="my-2">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.8)]" />
-                <span className="text-2xl md:text-3xl font-extrabold text-emerald-600 tracking-tight">
-                  நேரலை • Active
-                </span>
+            <div className="my-3">
+              <div className="text-2xl md:text-3xl font-extrabold text-slate-900 group-hover:text-[#FF6B00] transition-colors tracking-tight">
+                {lastUpdatedDate}
               </div>
-              <div className="text-xs text-slate-500 font-medium mt-1">
-                அடுத்த புதுப்பிப்பு • Next in: <span className="text-orange-600 font-bold">{formattedCountdown}</span>
-              </div>
+              <span className="text-xs text-slate-500 font-medium">
+                Official Indian Market Benchmark Feed
+              </span>
             </div>
 
-            <div className="w-1/2 h-[1px] bg-slate-200 rounded-full mt-1" />
+            <div className="w-2/3 h-[2px] bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-transparent rounded-full mt-1" />
           </div>
         </div>
 
@@ -425,22 +389,25 @@ export default function LiveRatePage({
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div className="flex flex-col gap-1">
               <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-                கோல்ட்பின் நிதி நிறுவன நேரடி கடன் விகிதம் • GOLDFIN BRANCH RATES
+                GOLDFIN BRANCH RATES
               </span>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-                கோல்ட்பின் அதிகாரப்பூர்வ கடன் & கொள்முதல் விலை <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">GoldFin Official Loan & Branch Rates</span>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+                GoldFin Official Loan & Branch Rates
+                <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                  கோல்ட்பின் அதிகாரப்பூர்வ கிளை மற்றும் கொள்முதல் விலை
+                </span>
               </h2>
               <p className="text-xs md:text-sm text-slate-500 font-normal mt-0.5">
-                எங்கள் மண்டல கிளைகளில் வழங்கப்படும் அதிகபட்ச கடன் மற்றும் நேரடி மதிப்பீட்டு விலை. Live spot loan valuation at all authorized branches.
+                Maximum loan valuations and spot purchase rates available across all our authorized regional branches.
               </p>
             </div>
             <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
               <Coins size={14} className="text-orange-500" />
-              <span>அதிகாரப்பூர்வ கிளை விலை • BRANCH OFFER</span>
+              <span>BRANCH OFFER</span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
             {shopRatesLoading ? (
               [1, 2, 3, 4].map((i) => (
                 <div key={i} className="p-6 rounded-3xl bg-white border border-slate-200 backdrop-blur-xl flex flex-col gap-4 animate-pulse">
@@ -454,35 +421,35 @@ export default function LiveRatePage({
                 const shopRate = shopRates.find((s) => s.purityId === purityKey)
                 const marketRate = liveRates.find((m) => m.purityId === purityKey)
                 const displayName =
-                  purityKey === '24k' ? '24K சுத்த தங்கம் • 24K Pure' :
-                  purityKey === '22k' ? '22K ஆபரண தங்கம் • 22K (916)' :
-                  purityKey === '20k' ? '20K தங்கம் • 20K Gold' : '18K தங்கம் • 18K Gold'
+                  purityKey === '24k' ? '24K Pure Gold' :
+                  purityKey === '22k' ? '22K Gold (916)' :
+                  purityKey === '20k' ? '20K Gold' : '18K Gold'
                 const displayKarat =
-                  purityKey === '24k' ? '99.9% தூய்மை • 1g' :
-                  purityKey === '22k' ? '91.6% தூய்மை • 1g' :
-                  purityKey === '20k' ? '83.3% தூய்மை • 1g' : '75.0% தூய்மை • 1g'
+                  purityKey === '24k' ? '99.9% Purity • 1g' :
+                  purityKey === '22k' ? '91.6% Purity • 1g' :
+                  purityKey === '20k' ? '83.3% Purity • 1g' : '75.0% Purity • 1g'
                 const price = shopRate ? shopRate.pricePerGram : (marketRate ? marketRate.pricePerGram : 0)
 
                 return (
                   <div
                     key={purityKey}
-                    className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/20 to-amber-50/30 border border-orange-200/90 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col gap-4 group"
+                    className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/20 to-amber-50/30 border border-orange-200/90 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between min-h-[170px] group"
                   >
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-extrabold tracking-wider text-slate-800">{displayName}</span>
-                      <span className="text-[9px] font-black tracking-wider px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-300">
+                    <div className="flex items-center justify-between gap-2 min-h-[26px]">
+                      <span className="text-sm font-extrabold tracking-wider text-slate-800 whitespace-nowrap">{displayName}</span>
+                      <span className="text-[9px] font-black tracking-wider px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-300 shrink-0">
                         GOLDFIN
                       </span>
                     </div>
 
-                    <div className="text-3xl font-black text-orange-600 group-hover:text-orange-700 transition-colors">
+                    <div className="text-3xl font-black text-orange-600 group-hover:text-orange-700 transition-colors my-2">
                       ₹{price > 0 ? price.toLocaleString('en-IN') : '...'}
                     </div>
 
-                    <div className="flex items-center justify-between pt-2 border-t border-orange-100 text-xs">
+                    <div className="flex items-center justify-between pt-2.5 border-t border-orange-100 text-xs">
                       <span className="font-semibold text-slate-600">{displayKarat}</span>
-                      <span className="text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md text-[10px]">
-                        உடனடி கடன் • 15 Min
+                      <span className="text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md text-[10px] whitespace-nowrap">
+                        Instant Loan • 15 Min
                       </span>
                     </div>
                   </div>
@@ -497,11 +464,14 @@ export default function LiveRatePage({
           {/* Header row */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                தங்க விலை நகர்வு வரைபடம் <span className="block text-sm font-bold text-slate-500 mt-0.5">Historical Gold Price Movement</span>
+              <h2 className="text-2xl font-extrabold text-slate-800 tracking-tight">
+                Historical Gold Price Movement
+                <span className="block text-xs sm:text-sm font-semibold text-slate-500 mt-1 font-sans">
+                  24K தூய தங்கம் வரலாற்று விலை மாற்ற வரைபடம்
+                </span>
               </h2>
               <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-500">
-                இந்திய சந்தை நேரலை போக்கு • Indian Benchmark Live Trend
+                Indian Benchmark Live Trend
               </span>
             </div>
 
@@ -515,7 +485,7 @@ export default function LiveRatePage({
                     : 'text-slate-600 hover:text-slate-900 bg-transparent'
                 }`}
               >
-                இன்று • Today
+                Today
               </button>
               <button
                 onClick={() => setTimeframe('7days')}
@@ -525,7 +495,7 @@ export default function LiveRatePage({
                     : 'text-slate-600 hover:text-slate-900 bg-transparent'
                 }`}
               >
-                7 நாட்கள் • 7D
+                7 Days
               </button>
               <button
                 onClick={() => setTimeframe('30days')}
@@ -535,7 +505,7 @@ export default function LiveRatePage({
                     : 'text-slate-600 hover:text-slate-900 bg-transparent'
                 }`}
               >
-                30 நாட்கள் • 30D
+                30 Days
               </button>
             </div>
           </div>
@@ -671,42 +641,42 @@ export default function LiveRatePage({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="p-6 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-sm">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
-              உச்ச விலை • High
+              High Price (1g)
             </span>
-            <div className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <div className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
               ₹{highPrice.toLocaleString('en-IN')}
             </div>
-            <span className="text-xs text-slate-500 font-medium">24K சுத்த தங்கம் (1g)</span>
+            <span className="text-xs text-slate-500 font-medium">24K Pure Gold (1g)</span>
           </div>
 
           <div className="p-6 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-sm">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
-              குறைந்த விலை • Low
+              Low Price (1g)
             </span>
-            <div className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <div className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
               ₹{lowPrice.toLocaleString('en-IN')}
             </div>
-            <span className="text-xs text-slate-500 font-medium">24K சுத்த தங்கம் (1g)</span>
+            <span className="text-xs text-slate-500 font-medium">24K Pure Gold (1g)</span>
           </div>
 
           <div className="p-6 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-sm">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
-              சராசரி விலை • Average
+              Average Price (1g)
             </span>
-            <div className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <div className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
               ₹{avgPrice.toLocaleString('en-IN')}
             </div>
-            <span className="text-xs text-slate-500 font-medium">சராசரி சந்தை விலை</span>
+            <span className="text-xs text-slate-500 font-medium">Average Market Price</span>
           </div>
 
           <div className="p-6 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-sm">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
-              தினசரி மாற்றம் • 24h Change
+              24h Change %
             </span>
             <div className={`text-2xl md:text-3xl font-extrabold tracking-tight ${isUp24k ? 'text-emerald-600' : 'text-rose-600'}`}>
               {isUp24k ? `+${change24k}%` : `-${change24k}%`}
             </div>
-            <span className="text-xs text-slate-500 font-medium">நேற்றைய ஒப்பீடு • vs Yesterday</span>
+            <span className="text-xs text-slate-500 font-medium">vs Yesterday's Rate</span>
           </div>
         </div>
 
@@ -719,12 +689,12 @@ export default function LiveRatePage({
                 <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
                   <Sliders size={22} />
                 </div>
-                <h4 className="text-base font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
-                  விலை நிர்ணயக் காரணிகள் • Gold Price Factors
+                <h4 className="text-base font-bold text-slate-800 group-hover:text-[#FF6B00] transition-colors">
+                  Gold Price Factors & Market Influences
                 </h4>
               </div>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                MCX கமாடிட்டி வர்த்தகம், இறக்குமதி வரி, டாலர் மதிப்பு மற்றும் நகைக் கடை சங்கங்கள் இன்றைய தங்க விலையை எவ்வாறு நிர்ணயிக்கின்றன என்பதை அறிக.
+                Learn how MCX commodity trading, import duties, US Dollar valuations, and bullion associations establish daily gold prices.
               </p>
             </div>
             <button
@@ -738,7 +708,7 @@ export default function LiveRatePage({
               }
               className="flex items-center gap-1.5 text-xs font-bold text-[#FF6B00] hover:text-[#EA580C] transition-colors bg-transparent border-0 p-0 cursor-pointer w-fit"
             >
-              <span>விளக்கம் • Learn More</span>
+              <span>Learn More</span>
               <ArrowRight size={14} />
             </button>
           </div>
@@ -750,12 +720,12 @@ export default function LiveRatePage({
                 <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
                   <Award size={22} />
                 </div>
-                <h4 className="text-base font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
-                  22K vs 24K தூய்மை வேறுபாடு • Purity Guide
+                <h4 className="text-base font-bold text-slate-800 group-hover:text-[#FF6B00] transition-colors">
+                  22K vs 24K Purity Guide
                 </h4>
               </div>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                24K சுத்த தங்கம் (நாணயங்கள்/கட்டிகள்) மற்றும் 22K ஹால்மார்க் தங்கம் (ஆபரண நகைகள்) இடையே உள்ள வித்தியாசங்களை அறிந்து கொள்ளுங்கள்.
+                Understand the difference between 24K pure bullion (coins/bars) and 22K 916 hallmarked gold (durable jewellery).
               </p>
             </div>
             <button
@@ -769,7 +739,7 @@ export default function LiveRatePage({
               }
               className="flex items-center gap-1.5 text-xs font-bold text-[#FF6B00] hover:text-[#EA580C] transition-colors bg-transparent border-0 p-0 cursor-pointer w-fit"
             >
-              <span>விளக்கம் • Learn More</span>
+              <span>Learn More</span>
               <ArrowRight size={14} />
             </button>
           </div>
@@ -781,12 +751,12 @@ export default function LiveRatePage({
                 <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
                   <RefreshCw size={22} />
                 </div>
-                <h4 className="text-base font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
-                  தினசரி விலை புதுப்பிப்பு • Daily Updates
+                <h4 className="text-base font-bold text-slate-800 group-hover:text-[#FF6B00] transition-colors">
+                  Daily Price Updates & Timing
                 </h4>
               </div>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                இந்திய சந்தையில் தங்கம் விலை தினமும் இருமுறை புதுப்பிக்கப்படுவதன் காரணங்கள் மற்றும் சிறந்த நேரத்தில் வாங்கும் உத்திகள்.
+                Why gold rates in India update twice daily and effective timing strategies for purchasing or financing gold.
               </p>
             </div>
             <button
@@ -800,7 +770,7 @@ export default function LiveRatePage({
               }
               className="flex items-center gap-1.5 text-xs font-bold text-[#FF6B00] hover:text-[#EA580C] transition-colors bg-transparent border-0 p-0 cursor-pointer w-fit"
             >
-              <span>விளக்கம் • Learn More</span>
+              <span>Learn More</span>
               <ArrowRight size={14} />
             </button>
           </div>
@@ -812,12 +782,12 @@ export default function LiveRatePage({
                 <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
                   <ShieldCheck size={22} />
                 </div>
-                <h4 className="text-base font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
-                  நகை வாங்கும் வழிகாட்டி • Buying Tips
+                <h4 className="text-base font-bold text-slate-800 group-hover:text-[#FF6B00] transition-colors">
+                  Jewellery Buying Tips & HUID Verification
                 </h4>
               </div>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                6 இலக்க HUID ஹால்மார்க் சரிபார்ப்பு, செய் கூலி கணக்கீடு மற்றும் 3% GST விவரங்களை வாங்கும் முன் உறுதி செய்வதற்கான வழிகாட்டி.
+                Guide to verifying 6-digit BIS HUID hallmarking, calculating making charges, and understanding transparent 3% GST.
               </p>
             </div>
             <button
@@ -831,7 +801,7 @@ export default function LiveRatePage({
               }
               className="flex items-center gap-1.5 text-xs font-bold text-[#FF6B00] hover:text-[#EA580C] transition-colors bg-transparent border-0 p-0 cursor-pointer w-fit"
             >
-              <span>விளக்கம் • Learn More</span>
+              <span>Learn More</span>
               <ArrowRight size={14} />
             </button>
           </div>

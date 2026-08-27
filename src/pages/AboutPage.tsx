@@ -66,10 +66,10 @@ export default function AboutPage({
               onClick={onNavigateHome}
               className="hover:text-[#FF6B00] transition-colors bg-transparent border-0 p-0 cursor-pointer text-slate-500"
             >
-              முகப்பு (Home)
+              Home
             </button>
             <ChevronRight size={13} className="text-slate-400" />
-            <span className="text-[#FF6B00] font-bold">எங்களை பற்றி (About Us)</span>
+            <span className="text-[#FF6B00] font-bold">About Us</span>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
@@ -77,21 +77,21 @@ export default function AboutPage({
             <div className="lg:col-span-6 flex flex-col gap-4">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider w-fit uppercase">
                 <Sparkles size={14} />
-                <span>நிறுவப்பட்டது 2024 • EST. 2024 • INDIA'S TRUSTED GOLD PLATFORM</span>
+                <span>EST. 2024 • INDIA'S TRUSTED GOLD PLATFORM</span>
               </div>
 
-              <h1 className="text-3xl md:text-5xl lg:text-[3.1rem] font-black text-slate-900 tracking-tight leading-[1.15]">
-                தங்க விலை & கடன்களில் <br />
+              <h1 className="text-3xl md:text-5xl lg:text-[3.1rem] font-extrabold text-slate-800 tracking-tight leading-[1.15]">
+                Your Trusted Partner in <br />
                 <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
-                  உங்கள் நம்பகமான கூட்டாளி
+                  Gold Rates & Loans
                 </span>
-                <span className="block text-base sm:text-xl font-bold text-slate-500 mt-1">
-                  Your Trusted Partner in Live Gold Rates & Loans
+                <span className="block text-sm sm:text-lg font-semibold text-slate-500 mt-2 font-sans">
+                  100% வெளிப்படையான விலை மற்றும் வங்கி பாதுகாப்பு
                 </span>
               </h1>
 
               <p className="text-sm md:text-base text-slate-600 leading-relaxed max-w-xl">
-                கோல்ட்பின் நேரடி தங்க விலை மற்றும் உடனடி தங்கக் கடன்களுக்கான நம்பகமான தளமாகும். நிகழ்நேர 1 கிராம் தூய்மை விலைகள், BIS ஹால்மார்க் தரநிலைகள் மற்றும் 100% பாதுகாப்பான வங்கி லாக்கர் கடன் வசதிகளை வழங்குகிறோம். Complete price transparency with verified standards.
+                GoldFin is India's premier transparent platform for real-time gold price benchmarks and instant gold-backed financing. We provide live 1-gram purity rates, BIS Hallmark standards, and 100% insured bank vault facilities. Experience complete price transparency with verified standards.
               </p>
             </div>
 
@@ -113,40 +113,40 @@ export default function AboutPage({
             <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center mb-1 group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
               <TrendingUp size={22} />
             </div>
-            <div className="text-3xl md:text-4xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors">
+            <div className="text-3xl md:text-4xl font-extrabold text-slate-800 group-hover:text-[#FF6B00] transition-colors">
               ₹500+ Cr
             </div>
-            <div className="text-xs text-slate-500 font-medium">மாதாந்திர தங்க மதிப்பீடு • Gold Valued</div>
+            <div className="text-xs text-slate-500 font-medium">Monthly Gold Valued</div>
           </div>
 
           <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/40 backdrop-blur-xl transition-all duration-300 flex flex-col gap-2 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
             <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center mb-1 group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
               <Users size={22} />
             </div>
-            <div className="text-3xl md:text-4xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors">
+            <div className="text-3xl md:text-4xl font-extrabold text-slate-800 group-hover:text-[#FF6B00] transition-colors">
               10,000+
             </div>
-            <div className="text-xs text-slate-500 font-medium">மகிழ்ச்சியான குடும்பங்கள் • Happy Clients</div>
+            <div className="text-xs text-slate-500 font-medium">Happy Families Served</div>
           </div>
 
           <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/40 backdrop-blur-xl transition-all duration-300 flex flex-col gap-2 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
             <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center mb-1 group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
               <Zap size={22} />
             </div>
-            <div className="text-3xl md:text-4xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors">
+            <div className="text-3xl md:text-4xl font-extrabold text-slate-800 group-hover:text-[#FF6B00] transition-colors">
               99.99%
             </div>
-            <div className="text-xs text-slate-500 font-medium">நேரடி விலை துல்லியம் • Rate Accuracy</div>
+            <div className="text-xs text-slate-500 font-medium">Real-Time Rate Accuracy</div>
           </div>
 
           <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/40 backdrop-blur-xl transition-all duration-300 flex flex-col gap-2 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
             <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center mb-1 group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
               <Award size={22} />
             </div>
-            <div className="text-3xl md:text-4xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors">
+            <div className="text-3xl md:text-4xl font-extrabold text-slate-800 group-hover:text-[#FF6B00] transition-colors">
               100%
             </div>
-            <div className="text-xs text-slate-500 font-medium">BIS ஹால்மார்க் தூய்மை • Hallmark Verified</div>
+            <div className="text-xs text-slate-500 font-medium">BIS Hallmark Certified</div>
           </div>
         </div>
 
@@ -157,28 +157,31 @@ export default function AboutPage({
             <div className="flex flex-col gap-4">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold w-fit">
                 <Target size={14} />
-                <span>எங்கள் நோக்கம் • OUR CORE MISSION</span>
+                <span>OUR CORE MISSION</span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
-                தங்க விலையில் முழு வெளிப்படைத்தன்மை <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">Democratizing Price Transparency Across India</span>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight leading-snug">
+                Democratizing Price Transparency
+                <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                  வெளிப்படையான தங்கம் விலை மற்றும் நேரடி சந்தை தகவல்கள்
+                </span>
               </h2>
               <p className="text-sm md:text-base text-slate-600 leading-relaxed">
-                மறைமுக கட்டணங்களை தவிர்த்து, மக்களுக்கு நேரடி தங்க விலை, துல்லியமான 1 கிராம் கணக்கீடு மற்றும் தெளிவான 3% GST விவரங்களை வழங்குவதே எங்கள் முக்கிய நோக்கமாகும்.
+                Our mission is to eliminate hidden markups, giving everyday citizens access to live bullion market prices, exact 1-gram calculations, and clear 3% GST breakdowns.
               </p>
             </div>
 
             <div className="flex flex-col gap-3 border-t border-slate-100 pt-5">
               <div className="flex items-center gap-3 text-xs md:text-sm text-slate-700">
                 <CheckCircle2 size={18} className="text-[#FF6B00] shrink-0" />
-                <span>IBJA நேரடி புதுப்பிப்புகள் • Direct IBJA Updates</span>
+                <span>Direct IBJA Benchmark Updates</span>
               </div>
               <div className="flex items-center gap-3 text-xs md:text-sm text-slate-700">
                 <CheckCircle2 size={18} className="text-[#FF6B00] shrink-0" />
-                <span>MCX கமாடிட்டி சந்தை விலை • Live MCX Spot Rates</span>
+                <span>Live MCX Spot Commodity Rates</span>
               </div>
               <div className="flex items-center gap-3 text-xs md:text-sm text-slate-700">
                 <CheckCircle2 size={18} className="text-[#FF6B00] shrink-0" />
-                <span>6 இலக்க BIS HUID சரிபார்ப்பு • Strict 6-Digit HUID Verification</span>
+                <span>Strict 6-Digit BIS HUID Verification</span>
               </div>
             </div>
           </div>
@@ -188,28 +191,31 @@ export default function AboutPage({
             <div className="flex flex-col gap-4">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold w-fit">
                 <Building2 size={14} />
-                <span>எங்கள் தொலைநோக்கு • OUR VISION</span>
+                <span>OUR VISION</span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
-                இந்தியாவின் முதன்மை தங்க தளம் <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">Building India's Most Trusted Gold Platform</span>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight leading-snug">
+                Building India's Most Trusted Gold Platform
+                <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                  இந்தியாவின் முன்னணி நம்பகமான தங்கம் தளம்
+                </span>
               </h2>
               <p className="text-sm md:text-base text-slate-600 leading-relaxed">
-                ஒவ்வொரு குடும்பமும் முழு நம்பிக்கையுடன் தங்க நகைகளை வாங்கவும், நியாயமான சந்தை விலையில் உடனடி கடன் பெறவும் வழிவகுப்பது.
+                Empowering every Indian family to buy gold jewellery with total clarity and unlock emergency capital against gold at fair, RBI-compliant market valuations.
               </p>
             </div>
 
             <div className="flex flex-col gap-3 border-t border-slate-100 pt-5">
               <div className="flex items-center gap-3 text-xs md:text-sm text-slate-700">
                 <CheckCircle2 size={18} className="text-[#FF6B00] shrink-0" />
-                <span>75% வரை உடனடி கடன் அனுமதி • Instant 75% RBI-Sanctioned Value</span>
+                <span>Instant 75% RBI-Sanctioned Value</span>
               </div>
               <div className="flex items-center gap-3 text-xs md:text-sm text-slate-700">
                 <CheckCircle2 size={18} className="text-[#FF6B00] shrink-0" />
-                <span>100% காப்பீடு செய்த பெட்டகம் • 100% Insured Bank Vaults</span>
+                <span>100% Insured High-Security Bank Vaults</span>
               </div>
               <div className="flex items-center gap-3 text-xs md:text-sm text-slate-700">
                 <CheckCircle2 size={18} className="text-[#FF6B00] shrink-0" />
-                <span>தினசரி நிகழ்நேர விலை நிலவரம் • Continuous Live Price Benchmarks</span>
+                <span>Continuous Live Price Benchmarks</span>
               </div>
             </div>
           </div>
@@ -219,13 +225,16 @@ export default function AboutPage({
         <div className="flex flex-col gap-8">
           <div className="flex flex-col items-center text-center gap-2">
             <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-              எங்கள் கொள்கைகள் • OUR CORE PILLARS
+              OUR CORE PILLARS
             </span>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-              கோல்ட்பின் 4 முக்கிய தூண்கள் <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">The Four Pillars of GoldFin</span>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+              The Four Pillars of GoldFin
+              <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                கோல்ட்பின் நிறுவனத்தின் நான்கு அடிப்படை தூண்கள்
+              </span>
             </h2>
             <p className="text-sm text-slate-600 max-w-xl">
-              கோல்ட்பின் இயங்கும் அடிப்படை நெறிமுறைகள் மற்றும் உறுதிமொழிகள்.
+              The core principles and commitments that define GoldFin's integrity.
             </p>
           </div>
 
@@ -235,10 +244,10 @@ export default function AboutPage({
                 <ShieldCheck size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
-                சான்றளிக்கப்பட்ட தூய்மை • Certified Purity
+                Certified Purity
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                24K (999) மற்றும் 22K (916) தங்கத்திற்கு 100% BIS ஹால்மார்க் அங்கீகரிக்கப்பட்ட தரநிலைகள்.
+                100% BIS Hallmarked certified standards for 24K (999) pure gold and 22K (916) jewellery gold.
               </p>
             </div>
 
@@ -247,10 +256,10 @@ export default function AboutPage({
                 <Zap size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
-                நேரடி விலை நிலவரம் • Live Rates
+                Real-Time Benchmark Rates
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                IBJA மற்றும் MCX சந்தை குறியீடுகளுடன் நிகழ்நேரத்தில் இணைக்கப்பட்ட விலை தரவு.
+                Live price data synchronized directly with official IBJA and MCX national commodity indices.
               </p>
             </div>
 
@@ -259,10 +268,10 @@ export default function AboutPage({
                 <Award size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
-                தெளிவான GST விவரம் • Clear 3% GST
+                Transparent 3% GST Breakdown
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                தங்க உலோகம், செய் கூலி மற்றும் 3% ஜிஎஸ்டி வரியின் துல்லியமான முழுக் கணக்கீடு.
+                Accurate and itemized calculation of gold metal, making charges, and statutory 3% GST.
               </p>
             </div>
 
@@ -271,10 +280,10 @@ export default function AboutPage({
                 <Lock size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
-                100% பாதுகாப்பான பெட்டகம் • Insured Vaults
+                100% Insured Bank Vaults
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                24/7 சிசிடிவி கண்காணிப்பு மற்றும் முழு காப்பீட்டுடன் கூடிய உயர் பாதுகாப்பு வங்கி பெட்டகங்கள்.
+                24/7 CCTV surveillance, biometric dual-control custody, and full national insurance protection.
               </p>
             </div>
           </div>
@@ -284,10 +293,10 @@ export default function AboutPage({
         <div className="p-8 md:p-10 rounded-3xl bg-gradient-to-r from-orange-50 via-white to-orange-50 border border-orange-200/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-[0_10px_35px_rgba(249,115,22,0.08)]">
           <div className="flex flex-col gap-2 max-w-xl">
             <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-              கோல்ட்பின் உதவி வேண்டுமா? <span className="block text-base font-bold text-slate-500 mt-0.5">Need Assistance from GoldFin?</span>
+              Need Assistance from GoldFin? <span className="block text-base font-bold text-slate-500 mt-0.5">We're Here to Help You</span>
             </h3>
             <p className="text-sm text-slate-600 leading-relaxed">
-              நேரடி தங்க விலை, கடன் கணக்கீடுகள் அல்லது கிளை சந்திப்பு குறித்த சந்தேகங்களுக்கு எங்களை தொடர்புகொள்ளவும்.
+              Have questions about live gold rates, loan calculations, or visiting our nearest branch? Contact our specialists today.
             </p>
           </div>
 
@@ -303,7 +312,7 @@ export default function AboutPage({
               className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-sm hover:brightness-110 transition-all shadow-[0_6px_25px_rgba(249,115,22,0.35)] cursor-pointer border-0 flex items-center justify-center gap-2"
             >
               <Mail size={16} />
-              <span>தொடர்பு கொள்ள • Contact Us</span>
+              <span>Contact Us</span>
             </button>
           </div>
         </div>

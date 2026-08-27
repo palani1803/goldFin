@@ -349,11 +349,11 @@ export default function ContactPage({
 
   const getLocalizedName = (b: BranchInfo) => {
     const c = b.city.toLowerCase()
-    if (c.includes('sivakasi')) return 'சிவகாசி தலைமை கிளை • Sivakasi Main Branch & Vault'
-    if (c.includes('srivilliputhur')) return 'ஸ்ரீவில்லிபுத்தூர் கிளை • Srivilliputhur Branch'
-    if (c.includes('puthupatti')) return 'எம்.புதுப்பட்டி கிளை • M.Puthupatti Rural Center'
-    if (c.includes('rajapalayam')) return 'ராஜபாளையம் கிளை • Rajapalayam Branch'
-    if (c.includes('chennai')) return 'சென்னை மெட்ரோ கிளை • Chennai Metro Desk'
+    if (c.includes('sivakasi')) return 'Sivakasi Main Branch & Vault'
+    if (c.includes('srivilliputhur')) return 'Srivilliputhur Branch'
+    if (c.includes('puthupatti')) return 'M.Puthupatti Rural Center'
+    if (c.includes('rajapalayam')) return 'Rajapalayam Branch'
+    if (c.includes('chennai')) return 'Chennai Metro Desk'
     return `${b.name} (${b.city})`
   }
 
@@ -399,25 +399,25 @@ export default function ContactPage({
               onClick={onNavigateHome}
               className="hover:text-[#FF6B00] transition-colors bg-transparent border-0 p-0 cursor-pointer text-slate-500"
             >
-              முகப்பு (Home)
+              Home
             </button>
             <ChevronRight size={13} className="text-slate-400" />
-            <span className="text-[#FF6B00] font-bold">தொடர்பு & கிளை வரைபடம் (Contact & Maps)</span>
+            <span className="text-[#FF6B00] font-bold">Contact & Branch Maps</span>
           </div>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="flex flex-col gap-2">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider w-fit uppercase shadow-sm">
                 <Sparkles size={14} />
-                <span>அதிகாரப்பூர்வ கிளைகள் & நேரடி வரைபடம் • AUTHORIZED BRANCHES & MAPS</span>
+                <span>AUTHORIZED BRANCHES & LIVE MAPS</span>
               </div>
-              <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
-                நேரடியாக{' '}
+              <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-800 tracking-tight">
+                Get in Touch{' '}
                 <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
-                  தொடர்பு கொள்ளவும்
+                  Directly
                 </span>
-                <span className="block text-lg sm:text-2xl font-bold text-slate-500 mt-1">
-                  Find & Contact Your Nearest Regional Branch
+                <span className="block text-sm sm:text-lg font-semibold text-slate-500 mt-2 font-sans">
+                  உங்கள் அருகிலுள்ள மண்டல கிளையை தொடர்புகொள்ளவும்
                 </span>
               </h1>
             </div>
@@ -428,22 +428,16 @@ export default function ContactPage({
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <span className="text-xs font-extrabold uppercase tracking-widest text-slate-400">
-              கிளையைத் தேர்ந்தெடுக்கவும் • SELECT ACTIVE BRANCH
+              SELECT ACTIVE BRANCH
             </span>
             <span className="text-xs text-orange-600 font-bold">
-              {branches.length} அங்கீகரிக்கப்பட்ட கிளைகள் • Authorized Locations
+              {branches.length} Authorized Locations
             </span>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-none">
             {branches.map((branch) => {
               const isSelected = branch.id === selectedBranchId
-              const cityTamil =
-                branch.city.toLowerCase().includes('sivakasi') ? 'சிவகாசி' :
-                branch.city.toLowerCase().includes('srivilliputhur') ? 'ஸ்ரீவில்லிபுத்தூர்' :
-                branch.city.toLowerCase().includes('puthupatti') ? 'எம்.புதுப்பட்டி' :
-                branch.city.toLowerCase().includes('rajapalayam') ? 'ராஜபாளையம்' :
-                branch.city.toLowerCase().includes('chennai') ? 'சென்னை' : branch.city
 
               return (
                 <button
@@ -456,7 +450,7 @@ export default function ContactPage({
                   }`}
                 >
                   <Building2 size={16} className={isSelected ? 'text-white' : 'text-orange-500'} />
-                  <span>{cityTamil} ({branch.city})</span>
+                  <span>{branch.city}</span>
                 </button>
               )
             })}
@@ -475,10 +469,10 @@ export default function ContactPage({
                 </span>
                 <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>கிளை திறந்துள்ளது • Branch Open</span>
+                  <span>Branch Open</span>
                 </span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-800 tracking-tight">
                 {getLocalizedName(activeBranch)}
               </h2>
               <div className="flex items-center gap-2 text-xs text-slate-500 font-medium">
@@ -499,7 +493,7 @@ export default function ContactPage({
                 </div>
                 <div className="flex flex-col flex-1">
                   <span className="text-[10px] font-extrabold uppercase tracking-widest text-orange-600">
-                    கிளை முகவரி & முக்கிய அடையாளம் • BRANCH ADDRESS & LANDMARK
+                    BRANCH ADDRESS & LANDMARK
                   </span>
                   <span className="text-sm font-extrabold text-slate-900 mt-0.5">
                     {getLocalizedAddress(activeBranch)}
@@ -517,7 +511,7 @@ export default function ContactPage({
                 </div>
                 <div className="flex flex-col flex-1">
                   <span className="text-[10px] font-extrabold uppercase tracking-widest text-orange-600">
-                    நேரடி தொலைபேசி எண் • DIRECT DESK PHONE
+                    DIRECT DESK PHONE
                   </span>
                   <div className="flex items-center justify-between gap-2 mt-0.5">
                     <a
@@ -556,7 +550,7 @@ export default function ContactPage({
                 </div>
                 <div className="flex flex-col flex-1">
                   <span className="text-[10px] font-extrabold uppercase tracking-widest text-orange-600">
-                    மின்னஞ்சல் முகவரி • OFFICIAL EMAIL
+                    OFFICIAL EMAIL
                   </span>
                   <a
                     href={`mailto:${activeBranch.email}`}
@@ -565,7 +559,7 @@ export default function ContactPage({
                     {activeBranch.email}
                   </a>
                   <span className="text-[11px] text-slate-400 mt-0.5">
-                    30 நிமிடங்களில் விரைவான பதில் • Fast 30-min response
+                    Fast 30-min response
                   </span>
                 </div>
               </div>
@@ -577,7 +571,7 @@ export default function ContactPage({
                 </div>
                 <div className="flex flex-col flex-1">
                   <span className="text-[10px] font-extrabold uppercase tracking-widest text-orange-600">
-                    செயல்படும் நேரம் • OPERATING HOURS
+                    OPERATING HOURS
                   </span>
                   <span className="text-sm font-extrabold text-slate-900 mt-0.5">
                     {activeBranch.hours}
@@ -597,7 +591,7 @@ export default function ContactPage({
               className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-sm hover:brightness-110 transition-all shadow-[0_6px_20px_rgba(249,115,22,0.3)] flex items-center justify-center gap-2 no-underline cursor-pointer"
             >
               <Navigation size={17} />
-              <span>{activeBranch.city} கிளைக்கு வழிசெலுத்தவும் • Get Directions</span>
+              <span>Get Directions to {activeBranch.city} Branch</span>
               <ExternalLink size={14} className="opacity-80" />
             </a>
           </div>
@@ -627,7 +621,7 @@ export default function ContactPage({
                   rel="noopener noreferrer"
                   className="text-xs font-bold text-orange-600 hover:text-orange-700 px-3 py-1.5 rounded-xl bg-orange-50 border border-orange-200 transition-colors flex items-center gap-1.5 no-underline"
                 >
-                  <span>முழு வரைபடம் • Open Maps</span>
+                  <span>Open Maps</span>
                   <ExternalLink size={12} />
                 </a>
               </div>

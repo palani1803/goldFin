@@ -126,23 +126,23 @@ const HOME_BRANCHES: HomeBranchItem[] = [
 const FAQ_ITEMS = [
   {
     id: 1,
-    question: 'தங்க கால்குலேட்டர் விலை எவ்வாறு கணக்கிடப்படுகிறது? • How is the Gold Value calculated?',
-    answer: 'இன்றைய நேரடி 24K தூய தங்க விலையின் (IBJA / MCX) அடிப்படையில் கணக்கிடப்படுகிறது. ஆபரண தங்கத்திற்கு (22K, 20K, 18K), தூய தங்க சதவீதத்தின் அடிப்படையில் (எ.கா: 22K = 24K × 22/24) துல்லியமாக கணக்கிடப்படுகிறது. Calculated directly from live Indian market benchmarks.'
+    question: 'How is the Gold Value and Loan Eligibility calculated?',
+    answer: 'It is calculated directly using today’s live 24K pure gold market benchmark (IBJA / MCX). Jewellery Karats (22K, 20K, 18K) are derived via precise metallurgical purity ratios, offering up to 75% RBI-compliant loan-to-value.'
   },
   {
     id: 2,
-    question: 'இந்தியாவில் தங்கத்திற்கு GST வரி எவ்வளவு? • What is the GST on gold in India?',
-    answer: 'இந்தியாவில் தங்கத்தின் உலோக விலைக்கு 3% GST வரியும், நகை செய் கூலிக்கு 5% GST வரியும் அரசு விதிகளின்படி வசூலிக்கப்படுகிறது. Standard 3% GST applies to gold value and 5% GST on making charges.'
+    question: 'What is the GST on gold in India?',
+    answer: 'In India, a standard 3% Goods and Services Tax (GST) applies to the base gold metal value, along with a 5% GST on jewellery making charges. Pledging existing jewellery for gold loans does not attract metal GST.'
   },
   {
     id: 3,
-    question: '24K மற்றும் 22K தங்கத்திற்கு என்ன வித்தியாசம்? • Difference between 24K and 22K Gold?',
-    answer: '24K தங்கம் 99.9% தூய்மையானது (முதலீட்டு நாணயங்கள் மற்றும் கட்டிகளுக்கு உகந்தது). 22K தங்கம் (916 BIS ஹால்மார்க்) 91.6% தூய தங்கம் கொண்டு நீடித்த ஆபரண நகைகள் செய்ய பயன்படுகிறது.'
+    question: 'What is the difference between 24K and 22K Gold?',
+    answer: '24K Gold is 99.9% pure bullion, ideal for investment bars and coins. 22K Gold (916 BIS Hallmark) contains 91.6% pure gold alloyed with durable metals, making it the industry benchmark for durable jewellery.'
   },
   {
     id: 4,
-    question: 'நேரடி தங்க விலை எவ்வளவு அடிக்கடி புதுப்பிக்கப்படுகிறது? • How often are rates updated?',
-    answer: 'கோல்ட்பின் நேரடி தங்க விலைகள் இந்திய சந்தை நிலவரப்படி (IBJA / MCX) தினமும் காலை 10:00 மணிக்கு மற்றும் நாள் முழுவதும் நிகழ்நேரத்தில் தொடர்ந்து புதுப்பிக்கப்படுகின்றன. Live benchmark prices updated throughout the market trading day.'
+    question: 'How often are the live gold rates updated?',
+    answer: 'GoldFin live gold rates are synchronized with official Indian market indices (IBJA / MCX) continuously throughout the trading day, with primary benchmark updates at 10:00 AM and real-time feeds.'
   }
 ]
 
@@ -402,10 +402,10 @@ export default function HomePage({
             <div className="lg:col-span-6 flex flex-col gap-5 text-left py-0">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider w-fit">
                 <Sparkles size={14} />
-                <span>அதிகாரப்பூர்வ நேரடி தங்கம் விலை & கடன் • OFFICIAL LIVE BENCHMARK</span>
+                <span>OFFICIAL LIVE BENCHMARK • GOLD RATES & INSTANT LOANS</span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] xl:text-[3.1rem] font-serif font-bold text-slate-900 tracking-tight leading-[1.18]">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] xl:text-[3.1rem] font-serif font-bold text-slate-800 tracking-tight leading-[1.18]">
                 Live Gold Rates <br />
                 <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent font-serif italic font-bold">
                   & Instant 15-Minute Gold Loan
@@ -422,7 +422,7 @@ export default function HomePage({
                   className="w-full sm:w-auto px-6 sm:px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-xs sm:text-sm hover:brightness-110 active:scale-[0.98] transition-all shadow-[0_6px_25px_rgba(249,115,22,0.35)] cursor-pointer border-0 flex items-center justify-center gap-2 text-center"
                   onClick={() => onNavigateGoldLoan ? onNavigateGoldLoan() : scrollToSection('calculator')}
                 >
-                  <span>தங்க கடன் பெறுக • Get Gold Loan</span>
+                  <span>Get Instant Gold Loan</span>
                   <ArrowRight size={16} />
                 </button>
                 <button
@@ -430,7 +430,7 @@ export default function HomePage({
                   onClick={() => (onNavigateLiveRate ? onNavigateLiveRate() : scrollToSection('rates'))}
                 >
                   <LineChart size={16} />
-                  <span>நேரடி விலை • Live Rates</span>
+                  <span>View Live Rates</span>
                 </button>
               </div>
             </div>
@@ -455,7 +455,7 @@ export default function HomePage({
                   <ShieldCheck size={20} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs md:text-sm font-black text-slate-900">அதிக கடன் மதிப்பு</span>
+                  <span className="text-xs md:text-sm font-black text-slate-900">Highest Loan Value</span>
                   <span className="text-[10px] text-slate-500 font-medium">Up to 75% Gold Value</span>
                 </div>
               </div>
@@ -465,7 +465,7 @@ export default function HomePage({
                   <TrendingDown size={20} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs md:text-sm font-black text-slate-900">குறைந்த வட்டி விகிதம்</span>
+                  <span className="text-xs md:text-sm font-black text-slate-900">Lowest Interest Rate</span>
                   <span className="text-[10px] text-slate-500 font-medium">From 0.75% per month</span>
                 </div>
               </div>
@@ -475,7 +475,7 @@ export default function HomePage({
                   <Sparkles size={20} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs md:text-sm font-black text-slate-900">15 நிமிட கடன் வழங்கல்</span>
+                  <span className="text-xs md:text-sm font-black text-slate-900">15-Min Fast Sanction</span>
                   <span className="text-[10px] text-slate-500 font-medium">15-Min Quick Disbursal</span>
                 </div>
               </div>
@@ -484,7 +484,7 @@ export default function HomePage({
                   <Coins size={20} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs md:text-sm font-black text-slate-900">100% பாதுகாப்பு</span>
+                  <span className="text-xs md:text-sm font-black text-slate-900">100% Insured Security</span>
                   <span className="text-[10px] text-slate-500 font-medium">100% Insured Bank Vault</span>
                 </div>
               </div>
@@ -502,8 +502,11 @@ export default function HomePage({
               <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
                 INSTANT GOLD CALCULATOR
               </span>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
                 Gold Rate & Value Calculator
+                <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                  தங்க விலை மற்றும் மதிப்பு கணக்கீடு
+                </span>
               </h2>
             </div>
             <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
@@ -654,22 +657,25 @@ export default function HomePage({
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
               <div className="flex flex-col gap-1">
                 <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-                  இந்திய நேரடி தங்க விலை நிலவரம் • LIVE INDIAN BENCHMARK
+                  LIVE INDIAN BENCHMARK
                 </span>
-                <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-                  இன்றைய நேரடி தங்கம் விலை <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">Live Market Purity Rates (Per 1 Gram)</span>
+                <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+                  Live Market Purity Rates
+                  <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                    நேரடி சந்தை தரம் வாரியான தங்கம் விலை நிலவரம் (1g)
+                  </span>
                 </h2>
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 {lastUpdatedTime && (
                   <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-white border border-slate-200/80 px-3.5 py-1.5 rounded-full shadow-xs">
                     <Clock size={13} className="text-orange-500" />
-                    <span>புதுப்பிப்பு • {lastUpdatedTime}</span>
+                    <span>Updated • {lastUpdatedTime}</span>
                   </div>
                 )}
                 <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>நேரடி சந்தை விலை • LIVE MARKET RATES</span>
+                  <span>LIVE MARKET RATES</span>
                 </div>
               </div>
             </div>
@@ -694,13 +700,13 @@ export default function HomePage({
                   const item = liveRates.find((r) => r.purityId === purityKey)
                   if (!item) return null
                   const displayName =
-                    purityKey === '24k' ? '24K சுத்த தங்கம் • 24K Pure' :
-                    purityKey === '22k' ? '22K ஆபரண தங்கம் • 22K (916)' :
-                    purityKey === '20k' ? '20K தங்கம் • 20K Gold' : '18K தங்கம் • 18K Gold'
+                    purityKey === '24k' ? '24K Pure Gold' :
+                    purityKey === '22k' ? '22K Jewellery Gold (916)' :
+                    purityKey === '20k' ? '20K Gold' : '18K Gold'
                   const displayKarat =
-                    purityKey === '24k' ? '99.9% தூய்மை • 1g (999 Pure)' :
-                    purityKey === '22k' ? '91.6% தூய்மை • 1g (BIS 916)' :
-                    purityKey === '20k' ? '83.3% தூய்மை • 1g' : '75.0% தூய்மை • 1g'
+                    purityKey === '24k' ? '99.9% Pure • 1g (999 Pure)' :
+                    purityKey === '22k' ? '91.6% Pure • 1g (BIS 916)' :
+                    purityKey === '20k' ? '83.3% Pure • 1g' : '75.0% Pure • 1g'
 
                   return (
                     <div key={item.purityId} className={`p-6 rounded-3xl bg-white border backdrop-blur-xl flex flex-col gap-4 group transition-all duration-300 ${item.purityId === '24k' ? 'border-orange-300 shadow-[0_10px_30px_rgba(249,115,22,0.1)]' : 'border-slate-200/80 hover:border-orange-400/40 shadow-sm hover:shadow-md'}`}>
@@ -728,19 +734,22 @@ export default function HomePage({
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
               <div className="flex flex-col gap-1">
                 <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-                  கோல்ட்பின் நிதி நிறுவன நேரடி கடன் விகிதம் • GOLDFIN BRANCH RATES
+                  GOLDFIN BRANCH RATES
                 </span>
-                <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-                  கோல்ட்பின் அதிகாரப்பூர்வ கடன் & கொள்முதல் விலை <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">GoldFin Official Loan & Branch Rates</span>
+                <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+                  GoldFin Official Loan & Branch Rates
+                  <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                    கோல்ட்பின் அதிகாரப்பூர்வ கிளை மற்றும் கொள்முதல் விலை
+                  </span>
                 </h2>
               </div>
               <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
                 <Coins size={14} className="text-orange-500" />
-                <span>அதிகாரப்பூர்வ கிளை விலை • BRANCH OFFER</span>
+                <span>BRANCH OFFER</span>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
               {shopRatesLoading ? (
                 [1, 2, 3, 4].map((i) => (
                   <div key={i} className="p-6 rounded-3xl bg-white border border-slate-200 backdrop-blur-xl flex flex-col gap-4 animate-pulse">
@@ -754,33 +763,33 @@ export default function HomePage({
                   const shopRate = shopRates.find((s) => s.purityId === purityKey)
                   const marketRate = liveRates.find((m) => m.purityId === purityKey)
                   const displayName =
-                    purityKey === '24k' ? '24K சுத்த தங்கம் • 24K Pure' :
-                    purityKey === '22k' ? '22K ஆபரண தங்கம் • 22K (916)' :
-                    purityKey === '20k' ? '20K தங்கம் • 20K Gold' : '18K தங்கம் • 18K Gold'
+                    purityKey === '24k' ? '24K Pure Gold' :
+                    purityKey === '22k' ? '22K Gold (916)' :
+                    purityKey === '20k' ? '20K Gold' : '18K Gold'
                   const displayKarat =
-                    purityKey === '24k' ? '99.9% தூய்மை • 1g' :
-                    purityKey === '22k' ? '91.6% தூய்மை • 1g' :
-                    purityKey === '20k' ? '83.3% தூய்மை • 1g' : '75.0% தூய்மை • 1g'
+                    purityKey === '24k' ? '99.9% Pure • 1g' :
+                    purityKey === '22k' ? '91.6% Pure • 1g' :
+                    purityKey === '20k' ? '83.3% Pure • 1g' : '75.0% Pure • 1g'
                   const price = shopRate ? shopRate.pricePerGram : (marketRate ? marketRate.pricePerGram : 0)
 
                   return (
                     <div
                       key={purityKey}
-                      className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/20 to-amber-50/30 border border-orange-200/90 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col gap-4 group"
+                      className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/20 to-amber-50/30 border border-orange-200/90 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between min-h-[170px] group"
                     >
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-extrabold tracking-wider text-slate-800">{displayName}</span>
-                        <span className="text-[9px] font-black tracking-wider px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-300">
+                      <div className="flex items-center justify-between gap-2 min-h-[26px]">
+                        <span className="text-sm font-extrabold tracking-wider text-slate-800 whitespace-nowrap">{displayName}</span>
+                        <span className="text-[9px] font-black tracking-wider px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-300 shrink-0">
                           GOLDFIN
                         </span>
                       </div>
-                      <div className="text-3xl font-black text-orange-600 group-hover:text-orange-700 transition-colors">
+                      <div className="text-3xl font-black text-orange-600 group-hover:text-orange-700 transition-colors my-2">
                         ₹{price > 0 ? price.toLocaleString('en-IN') : '...'}
                       </div>
-                      <div className="flex items-center justify-between pt-2 border-t border-orange-100 text-xs">
+                      <div className="flex items-center justify-between pt-2.5 border-t border-orange-100 text-xs">
                         <span className="font-semibold text-slate-600">{displayKarat}</span>
-                        <span className="text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md text-[10px]">
-                          உடனடி கடன் • 15 Min
+                        <span className="text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md text-[10px] whitespace-nowrap">
+                          Instant Loan • 15 Min
                         </span>
                       </div>
                     </div>
@@ -798,11 +807,14 @@ export default function HomePage({
               <div className="flex items-center gap-2">
                 <MapPin size={16} className="text-[#FF6B00]" />
                 <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-                  அங்கீகரிக்கப்பட்ட கிளைகள் • REGIONAL BRANCH NETWORK
+                  REGIONAL BRANCH NETWORK
                 </span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-                எங்கள் கிளைகள் <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">Our Branches & Loan Centers</span>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+                Our Regional Branches
+                <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                  நமது கிளைகள் மற்றும் தொடர்பு விவரங்கள்
+                </span>
               </h2>
             </div>
 
@@ -812,7 +824,7 @@ export default function HomePage({
                 className="px-4 py-2 rounded-xl bg-white border border-slate-200 hover:border-orange-300 text-xs font-bold text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer flex items-center gap-1.5 shadow-sm hover:shadow"
               >
                 <Building2 size={14} className="text-[#FF6B00]" />
-                <span>முழு கிளை விவரங்கள் • View All Branches</span>
+                <span>View All Branches</span>
                 <ArrowRight size={13} />
               </button>
             </div>
@@ -824,11 +836,11 @@ export default function HomePage({
               const c = (branch.city || '').toLowerCase()
               const n = (branch.name || '').toLowerCase()
               const localizedName =
-                c.includes('sivakasi') || n.includes('sivakasi') ? 'சிவகாசி (Sivakasi Branch)' :
-                c.includes('srivilliputhur') || n.includes('srivilliputhur') ? 'ஸ்ரீவில்லிபுத்தூர் (Srivilliputhur)' :
-                c.includes('puthupatti') || n.includes('puthupatti') ? 'எம்.புதுப்பட்டி (M.Puthupatti)' :
-                c.includes('rajapalayam') || n.includes('rajapalayam') ? 'ராஜபாளையம் (Rajapalayam)' :
-                c.includes('chennai') || n.includes('chennai') ? 'சென்னை (Chennai Branch)' :
+                c.includes('sivakasi') || n.includes('sivakasi') ? 'Sivakasi Main Branch' :
+                c.includes('srivilliputhur') || n.includes('srivilliputhur') ? 'Srivilliputhur Branch' :
+                c.includes('puthupatti') || n.includes('puthupatti') ? 'M.Puthupatti Branch' :
+                c.includes('rajapalayam') || n.includes('rajapalayam') ? 'Rajapalayam Branch' :
+                c.includes('chennai') || n.includes('chennai') ? 'Chennai Metro Desk' :
                 branch.name.includes('(') ? branch.name : `${branch.name} (${branch.city || 'Branch'})`
 
               return (
@@ -887,7 +899,7 @@ export default function HomePage({
                     {/* Working Hours */}
                     <div className="flex items-center gap-2 text-slate-500 text-[11px] h-5">
                       <Clock size={14} className="text-slate-400 shrink-0" />
-                      <span className="truncate">திங்கள்–சனி: காலை 9:00 – மாலை 6:30</span>
+                      <span className="truncate">Mon–Sat: 9:00 AM – 6:30 PM</span>
                     </div>
                   </div>
                 </div>
@@ -902,7 +914,7 @@ export default function HomePage({
                 <CheckCircle2 size={16} />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-xs font-bold text-slate-800 leading-tight truncate">15 நிமிட உடனடி மதிப்பீடு</span>
+                <span className="text-xs font-bold text-slate-800 leading-tight truncate">15-Min Fast Valuation</span>
                 <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">15-Min Loan Valuation</span>
               </div>
             </div>
@@ -912,8 +924,8 @@ export default function HomePage({
                 <CheckCircle2 size={16} />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-xs font-bold text-slate-800 leading-tight truncate">ஜெர்மன் XRF சோதனை</span>
-                <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">German XRF Laser Lab</span>
+                <span className="text-xs font-bold text-slate-800 leading-tight truncate">Advanced XRF Testing</span>
+                <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">Advanced XRF Laser Lab</span>
               </div>
             </div>
 
@@ -922,7 +934,7 @@ export default function HomePage({
                 <CheckCircle2 size={16} />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-xs font-bold text-slate-800 leading-tight truncate">100% காப்பீடு பெட்டகம்</span>
+                <span className="text-xs font-bold text-slate-800 leading-tight truncate">100% Insured Vaults</span>
                 <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">100% Insured Bank Vaults</span>
               </div>
             </div>
@@ -932,7 +944,7 @@ export default function HomePage({
                 <CheckCircle2 size={16} />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-xs font-bold text-slate-800 leading-tight truncate">உடனடி வங்கி வரவு / பணம்</span>
+                <span className="text-xs font-bold text-slate-800 leading-tight truncate">Instant Bank Disbursal / Cash</span>
                 <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">Instant Cash & Bank Payout</span>
               </div>
             </div>
@@ -946,11 +958,14 @@ export default function HomePage({
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-                  நேரடி தங்க சந்தை செய்திகள் • LIVE BULLION INTELLIGENCE
+                  LIVE BULLION INTELLIGENCE
                 </span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-                தங்க சந்தை செய்திகள் & தினசரி நிலவரம் <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">Live Gold & Financial Market Insights</span>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+                Market News & Daily Updates
+                <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                  நேரடி சந்தை செய்திகள் மற்றும் தினசரி தகவல்கள்
+                </span>
               </h2>
             </div>
             
@@ -961,7 +976,7 @@ export default function HomePage({
                 title="Refresh live news"
               >
                 <RefreshCw size={13} className={newsLoading ? 'animate-spin text-[#FF6B00]' : 'text-[#FF6B00]'} />
-                <span>{newsLoading ? 'புதுப்பிக்கப்படுகிறது...' : 'செய்திகளைப் புதுப்பிக்க • Refresh'}</span>
+                <span>{newsLoading ? 'Refreshing...' : 'Refresh News'}</span>
               </button>
             </div>
           </div>
@@ -1024,7 +1039,7 @@ export default function HomePage({
                     {art.title}
                   </h4>
                   <div className="flex items-center gap-1 text-[11px] text-[#FF6B00] font-bold mt-0.5 group-hover:underline">
-                    <span>சுருக்கம் படிக்க</span>
+                    <span>Read Summary</span>
                     <ArrowRight size={12} />
                   </div>
                 </div>
@@ -1038,7 +1053,12 @@ export default function HomePage({
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div className="flex flex-col gap-1">
               <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">Who We Are</span>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">About GoldFin</h2>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+                About GoldFin
+                <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                  கோல்ட்பின் பற்றி – உங்கள் தங்கத்தின் நம்பிக்கையான துணை
+                </span>
+              </h2>
             </div>
             <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
               <Building2 size={14} />
@@ -1052,7 +1072,7 @@ export default function HomePage({
               <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center shadow-sm">
                 <ShieldCheck size={26} />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900">100% Honest Market Information</h3>
+              <h3 className="text-2xl font-bold text-slate-800">100% Honest Market Information</h3>
               <p className="text-sm text-slate-600 leading-relaxed">
                 GoldFin was created with a single purpose: to give Indian households complete clarity on gold rates, purity calculation, and gold loans without hidden jeweller commissions or misleading terms.
               </p>
@@ -1097,7 +1117,12 @@ export default function HomePage({
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div className="flex flex-col gap-1">
               <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">Expert Knowledge</span>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Investment Tips & Market Insights</h2>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+                Investment Tips & Market Insights
+                <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                  தங்க முதலீட்டு ஆலோசனைகள் மற்றும் சந்தை நுண்ணறிவு
+                </span>
+              </h2>
             </div>
             <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
               <Lightbulb size={14} />
@@ -1217,10 +1242,13 @@ export default function HomePage({
         <section id="faq">
           <div className="flex flex-col items-center text-center gap-1 mb-8">
             <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-              அடிக்கடி கேட்கப்படும் கேள்விகள் • FREQUENTLY ASKED QUESTIONS
+              FREQUENTLY ASKED QUESTIONS
             </span>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-              பொதுவான சந்தேகங்கள் & விளக்கங்கள் <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">Everything You Need to Know About GoldFin</span>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+              Frequently Asked Questions
+              <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                அடிக்கடி கேட்கப்படும் பொதுவான கேள்விகள் மற்றும் விளக்கங்கள்
+              </span>
             </h2>
           </div>
 
@@ -1318,7 +1346,7 @@ export default function HomePage({
             <div className="flex items-center justify-between pb-4 border-b border-slate-100">
               <div className="flex items-center gap-2">
                 <Newspaper size={20} className="text-[#FF6B00]" />
-                <h3 className="text-lg font-extrabold text-slate-900">சந்தை நேரடி செய்தி</h3>
+                <h3 className="text-lg font-extrabold text-slate-900">Live Market News</h3>
               </div>
               <button className="p-2 rounded-xl bg-slate-100 text-slate-500 hover:text-slate-900 transition-all border-0 cursor-pointer" onClick={() => setSelectedNewsItem(null)}>
                 <X size={20} />
@@ -1355,7 +1383,7 @@ export default function HomePage({
                   rel="noopener noreferrer"
                   className="w-full sm:flex-1 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-sm hover:brightness-110 transition-all shadow-[0_6px_25px_rgba(249,115,22,0.35)] cursor-pointer text-center no-underline flex items-center justify-center gap-2"
                 >
-                  <span>முழு செய்தியைப் படிக்க</span>
+                  <span>Read Full Article</span>
                   <ExternalLink size={16} />
                 </a>
               )}
@@ -1363,7 +1391,7 @@ export default function HomePage({
                 className="w-full sm:w-auto py-3.5 px-6 rounded-2xl bg-slate-100 border border-slate-200 hover:bg-slate-200 text-slate-800 font-bold text-sm transition-all cursor-pointer"
                 onClick={() => setSelectedNewsItem(null)}
               >
-                மூடுக
+                Close
               </button>
             </div>
           </div>

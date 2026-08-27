@@ -112,25 +112,7 @@ body {
   100% { transform: rotate(360deg) translateX(30px) rotate(-360deg); }
 }
 
-.animate-float-glow-top {
-  animation: floatGlow 14s infinite ease-in-out alternate;
-}
 
-.animate-float-glow-mid {
-  animation: floatGlow 18s infinite ease-in-out alternate-reverse;
-}
-
-.animate-float-glow-bottom {
-  animation: floatGlow 16s infinite ease-in-out alternate;
-}
-
-.animate-aura-pulse {
-  animation: auraPulse 8s infinite ease-in-out;
-}
-
-.animate-slow-orbit {
-  animation: slowOrbit 24s infinite linear;
-}
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
