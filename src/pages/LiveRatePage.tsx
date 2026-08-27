@@ -506,10 +506,10 @@ export default function LiveRatePage({
             </div>
 
             {/* Time Filter Tabs */}
-            <div className="inline-flex items-center p-1.5 rounded-2xl bg-slate-100 border border-slate-200">
+            <div className="grid grid-cols-3 sm:inline-flex items-center p-1.5 rounded-2xl bg-slate-100 border border-slate-200 w-full sm:w-auto">
               <button
                 onClick={() => setTimeframe('today')}
-                className={`px-4 py-2 rounded-xl text-xs font-extrabold uppercase tracking-wider transition-all border-0 cursor-pointer ${
+                className={`px-2 sm:px-4 py-2 rounded-xl text-[10.5px] sm:text-xs font-extrabold uppercase tracking-wider transition-all border-0 cursor-pointer text-center whitespace-nowrap ${
                   timeframe === 'today'
                     ? 'bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white shadow-md'
                     : 'text-slate-600 hover:text-slate-900 bg-transparent'
@@ -519,23 +519,23 @@ export default function LiveRatePage({
               </button>
               <button
                 onClick={() => setTimeframe('7days')}
-                className={`px-4 py-2 rounded-xl text-xs font-extrabold uppercase tracking-wider transition-all border-0 cursor-pointer ${
+                className={`px-2 sm:px-4 py-2 rounded-xl text-[10.5px] sm:text-xs font-extrabold uppercase tracking-wider transition-all border-0 cursor-pointer text-center whitespace-nowrap ${
                   timeframe === '7days'
                     ? 'bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white shadow-md'
                     : 'text-slate-600 hover:text-slate-900 bg-transparent'
                 }`}
               >
-                7 நாட்கள் • 7 Days
+                7 நாட்கள் • 7D
               </button>
               <button
                 onClick={() => setTimeframe('30days')}
-                className={`px-4 py-2 rounded-xl text-xs font-extrabold uppercase tracking-wider transition-all border-0 cursor-pointer ${
+                className={`px-2 sm:px-4 py-2 rounded-xl text-[10.5px] sm:text-xs font-extrabold uppercase tracking-wider transition-all border-0 cursor-pointer text-center whitespace-nowrap ${
                   timeframe === '30days'
                     ? 'bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white shadow-md'
                     : 'text-slate-600 hover:text-slate-900 bg-transparent'
                 }`}
               >
-                30 நாட்கள் • 30 Days
+                30 நாட்கள் • 30D
               </button>
             </div>
           </div>

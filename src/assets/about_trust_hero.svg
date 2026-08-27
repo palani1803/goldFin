@@ -1,0 +1,636 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="60%" stop-color="#FFFDF9" />
+      <stop offset="100%" stop-color="#FFF8EE" />
+    </linearGradient>
+
+    <!-- Sun / Tree Glow -->
+    <radialGradient id="treeGlow" cx="68%" cy="42%" r="45%">
+      <stop offset="0%" stop-color="#FED7AA" stop-opacity="0.5" />
+      <stop offset="45%" stop-color="#FFEDD5" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#FFFDF9" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Gold Text Gradient -->
+    <linearGradient id="goldTextGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF6B00" />
+      <stop offset="45%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+
+    <!-- Gold Tree Trunk & Branches Gradient -->
+    <linearGradient id="goldTrunkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EA580C" />
+      <stop offset="35%" stop-color="#F59E0B" />
+      <stop offset="70%" stop-color="#D97706" />
+      <stop offset="100%" stop-color="#B45309" />
+    </linearGradient>
+
+    <!-- Leaf Fill Gradient -->
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFBEB" />
+      <stop offset="40%" stop-color="#FEF3C7" />
+      <stop offset="80%" stop-color="#FDE68A" />
+      <stop offset="100%" stop-color="#FBBF24" />
+    </linearGradient>
+
+    <!-- Wave Ribbon Gradient 1 -->
+    <linearGradient id="waveGrad1" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#EA580C" stop-opacity="0.85" />
+      <stop offset="35%" stop-color="#F97316" stop-opacity="0.75" />
+      <stop offset="70%" stop-color="#FB923C" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#EA580C" stop-opacity="0.9" />
+    </linearGradient>
+
+    <!-- Wave Ribbon Gradient 2 -->
+    <linearGradient id="waveGrad2" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#FDBA74" stop-opacity="0.45" />
+      <stop offset="50%" stop-color="#F97316" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#FB923C" stop-opacity="0.4" />
+    </linearGradient>
+
+    <!-- Wave Ribbon Gradient 3 (Light top wave) -->
+    <linearGradient id="waveGrad3" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#FED7AA" stop-opacity="0.5" />
+      <stop offset="40%" stop-color="#FDBA74" stop-opacity="0.6" />
+      <stop offset="80%" stop-color="#F97316" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#FED7AA" stop-opacity="0.5" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="960" height="640" fill="url(#bgGrad)" />
+  
+  <!-- Warm Tree Radial Glow -->
+  <circle cx="660" cy="270" r="280" fill="url(#treeGlow)" />
+
+  <!-- ==================== LEFT TEXT CONTENT ==================== -->
+  <g transform="translate(64, 110)">
+    <!-- ABOUT US Pill -->
+    <text x="0" y="0" font-family="'Plus Jakarta Sans', -apple-system, sans-serif" font-size="13" font-weight="800" fill="#EA580C" letter-spacing="3.5">
+      ABOUT US
+    </text>
+
+    <!-- Main Stacked Headline in Serif -->
+    <text x="0" y="55" font-family="'Playfair Display', Georgia, serif" font-size="44" font-weight="700" fill="#0F172A" letter-spacing="-0.5">
+      Your Trust.
+    </text>
+    <text x="0" y="112" font-family="'Playfair Display', Georgia, serif" font-size="44" font-weight="700" fill="#0F172A" letter-spacing="-0.5">
+      Your Wealth.
+    </text>
+    <text x="0" y="169" font-family="'Playfair Display', Georgia, serif" font-size="44" font-weight="700" fill="#0F172A" letter-spacing="-0.5">
+      Your <tspan fill="url(#goldTextGrad)" font-style="normal">Golden</tspan> Future.
+    </text>
+
+    <!-- Horizontal Divider Line -->
+    <rect x="0" y="210" width="55" height="3" rx="1.5" fill="#FF7A00" />
+
+    <!-- Subtitle Text -->
+    <text x="0" y="255" font-family="'Plus Jakarta Sans', -apple-system, sans-serif" font-size="16" font-weight="500" fill="#475569" letter-spacing="0.2">
+      We help you secure today,
+    </text>
+    <text x="0" y="282" font-family="'Plus Jakarta Sans', -apple-system, sans-serif" font-size="16" font-weight="500" fill="#475569" letter-spacing="0.2">
+      so you can shine tomorrow.
+    </text>
+  </g>
+
+  <!-- ==================== GOLDEN TREE ==================== -->
+  <g id="treeGroup">
+    <!-- Tree Trunk with braided organic curves -->
+    <!-- Main Center Trunk -->
+    <path d="M 645,415 C 646,380 652,320 650,260 C 650,230 658,210 660,195
+             C 662,210 670,230 670,260 C 668,320 674,380 675,415 Z" 
+          fill="url(#goldTrunkGrad)" opacity="0.9" />
+
+    <!-- Trunk Fiber / Bark Detail Lines -->
+    <path d="M 648,410 C 650,370 656,330 655,270 C 654,235 658,215 660,195" fill="none" stroke="#B45309" stroke-width="1.8" />
+    <path d="M 654,412 C 657,365 660,320 659,265 C 659,230 661,210 660,195" fill="none" stroke="#FEF3C7" stroke-width="1.2" opacity="0.8" />
+    <path d="M 666,412 C 663,365 660,320 661,265 C 661,230 659,210 660,195" fill="none" stroke="#EA580C" stroke-width="1.4" />
+    <path d="M 672,410 C 670,370 664,330 665,270 C 666,235 662,215 660,195" fill="none" stroke="#B45309" stroke-width="1.8" />
+
+    <!-- Spreading Roots -->
+    <path d="M 645,415 C 635,425 615,432 580,440" fill="none" stroke="#D97706" stroke-width="3" stroke-linecap="round" />
+    <path d="M 648,415 C 640,428 625,435 605,445" fill="none" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round" />
+    <path d="M 655,418 C 650,432 640,442 630,450" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" />
+    
+    <path d="M 675,415 C 685,425 705,432 740,440" fill="none" stroke="#D97706" stroke-width="3" stroke-linecap="round" />
+    <path d="M 672,415 C 680,428 695,435 715,445" fill="none" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round" />
+    <path d="M 665,418 C 670,432 680,442 690,450" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Main Branches Arching Left and Right -->
+    <!-- Left Major Branch 1 (Low) -->
+    <path d="M 652,280 C 630,270 590,265 540,250 C 515,242 495,248 480,245" fill="none" stroke="#D97706" stroke-width="3.5" stroke-linecap="round" />
+    <path d="M 560,255 C 540,235 520,225 500,215" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round" />
+    <path d="M 525,247 C 510,260 495,268 475,270" fill="none" stroke="#EA580C" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Left Major Branch 2 (Mid) -->
+    <path d="M 654,235 C 625,215 580,195 530,175 C 505,165 485,160 465,155" fill="none" stroke="#D97706" stroke-width="3" stroke-linecap="round" />
+    <path d="M 580,195 C 565,175 540,160 515,145" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" />
+    <path d="M 550,183 C 535,195 515,200 495,200" fill="none" stroke="#EA580C" stroke-width="1.8" stroke-linecap="round" />
+
+    <!-- Left Major Branch 3 (High) -->
+    <path d="M 657,195 C 640,165 610,140 565,120 C 545,110 525,105 505,100" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round" />
+    <path d="M 610,140 C 595,120 575,105 550,90" fill="none" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round" />
+
+    <!-- Right Major Branch 1 (Low) -->
+    <path d="M 668,280 C 690,270 730,265 780,250 C 805,242 825,248 840,245" fill="none" stroke="#D97706" stroke-width="3.5" stroke-linecap="round" />
+    <path d="M 760,255 C 780,235 800,225 820,215" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round" />
+    <path d="M 795,247 C 810,260 825,268 845,270" fill="none" stroke="#EA580C" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Right Major Branch 2 (Mid) -->
+    <path d="M 666,235 C 695,215 740,195 790,175 C 815,165 835,160 855,155" fill="none" stroke="#D97706" stroke-width="3" stroke-linecap="round" />
+    <path d="M 740,195 C 755,175 780,160 805,145" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" />
+    <path d="M 770,183 C 785,195 805,200 825,200" fill="none" stroke="#EA580C" stroke-width="1.8" stroke-linecap="round" />
+
+    <!-- Right Major Branch 3 (High) -->
+    <path d="M 663,195 C 680,165 710,140 755,120 C 775,110 795,105 815,100" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round" />
+    <path d="M 710,140 C 725,120 745,105 770,90" fill="none" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round" />
+
+    <!-- Center Top Vertical Twigs -->
+    <path d="M 660,195 C 655,160 650,130 655,100" fill="none" stroke="#D97706" stroke-width="2.2" stroke-linecap="round" />
+    <path d="M 660,195 C 665,160 670,130 665,100" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round" />
+    <path d="M 656,150 C 640,130 625,115 615,95" fill="none" stroke="#EA580C" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 664,150 C 680,130 695,115 705,95" fill="none" stroke="#EA580C" stroke-width="1.8" stroke-linecap="round" />
+
+    <!-- Dynamic Leaves Canopy -->
+    
+      <g transform="translate(660, 110) rotate(0) scale(1.045)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(635, 115) rotate(-15) scale(0.95)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(685, 115) rotate(15) scale(0.95)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(610, 130) rotate(-30) scale(0.95)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(710, 130) rotate(30) scale(0.95)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(650, 135) rotate(-8) scale(0.95)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(670, 135) rotate(8) scale(0.95)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(585, 150) rotate(-45) scale(0.95)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(735, 150) rotate(45) scale(0.95)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(625, 155) rotate(-20) scale(0.9025)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(695, 155) rotate(20) scale(0.9025)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(560, 170) rotate(-55) scale(0.9974999999999999)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(760, 170) rotate(55) scale(0.9974999999999999)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(600, 175) rotate(-35) scale(0.9025)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(720, 175) rotate(35) scale(0.9025)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(640, 175) rotate(-10) scale(0.855)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(680, 175) rotate(10) scale(0.855)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(540, 195) rotate(-65) scale(0.95)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(780, 195) rotate(65) scale(0.95)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(575, 195) rotate(-50) scale(0.9025)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(745, 195) rotate(50) scale(0.9025)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(615, 195) rotate(-25) scale(0.855)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(705, 195) rotate(25) scale(0.855)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(660, 190) rotate(0) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(520, 220) rotate(-75) scale(0.95)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(800, 220) rotate(75) scale(0.95)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(555, 220) rotate(-60) scale(0.9025)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(765, 220) rotate(60) scale(0.9025)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(590, 220) rotate(-40) scale(0.855)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(730, 220) rotate(40) scale(0.855)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(630, 215) rotate(-15) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(690, 215) rotate(15) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(505, 250) rotate(-85) scale(0.9025)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(815, 250) rotate(85) scale(0.9025)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(535, 250) rotate(-70) scale(0.855)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(785, 250) rotate(70) scale(0.855)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(570, 245) rotate(-50) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(750, 245) rotate(50) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(605, 240) rotate(-30) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(715, 240) rotate(30) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(525, 180) rotate(-60) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(795, 180) rotate(60) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(550, 150) rotate(-50) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(770, 150) rotate(50) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(620, 130) rotate(-25) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(700, 130) rotate(25) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(580, 125) rotate(-40) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(740, 125) rotate(40) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(645, 105) rotate(-5) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+      <g transform="translate(675, 105) rotate(5) scale(0.8075)">
+        <!-- Leaf Shape with Gold Gradient Fill and Stroke -->
+        <path d="M 0,-18 C -7,-10 -6,0 0,6 C 6,0 7,-10 0,-18 Z" 
+              fill="url(#leafGrad)" stroke="#E07A10" stroke-width="1.3" opacity="0.95"/>
+        <!-- Central Vein -->
+        <line x1="0" y1="-14" x2="0" y2="4" stroke="#C26100" stroke-width="0.9" opacity="0.85" />
+        <!-- Side Veins -->
+        <path d="M -3,-6 L 0,-4 L 3,-6 M -3,-1 L 0,1 L 3,-1 M -2,-11 L 0,-9 L 2,-11" stroke="#C26100" stroke-width="0.6" fill="none" opacity="0.6" />
+      </g>
+  </g>
+
+  <!-- ==================== FLOWING BOTTOM RIBBON WAVES ==================== -->
+  <g id="ribbonWaves">
+    <!-- Wave 1: Soft Translucent Background Amber Wave -->
+    <path d="M -20,530 C 150,560 300,590 480,510 C 660,430 820,490 980,450 L 980,660 L -20,660 Z" 
+          fill="url(#waveGrad3)" />
+
+    <!-- Wave 2: Main Rich Orange S-Curve Wave -->
+    <path d="M -20,560 C 120,520 280,470 450,520 C 620,570 780,520 980,470 L 980,660 L -20,660 Z" 
+          fill="url(#waveGrad2)" />
+
+    <!-- Wave 3: Foreground Dynamic Golden Flow Wave -->
+    <path d="M -20,580 C 160,530 320,500 500,550 C 680,600 840,540 980,500 L 980,660 L -20,660 Z" 
+          fill="url(#waveGrad1)" />
+
+    <!-- Fine Guilloche Wave Contour Lines for Crisp Luxury Feel -->
+    <path d="M -20,525 C 150,555 300,585 480,505 C 660,425 820,485 980,445" 
+          fill="none" stroke="#F97316" stroke-width="1.2" opacity="0.6" />
+    <path d="M -20,545 C 135,535 290,485 465,515 C 640,545 800,505 980,460" 
+          fill="none" stroke="#FEF3C7" stroke-width="1.5" opacity="0.8" />
+    <path d="M -20,565 C 145,525 305,495 485,535 C 665,575 825,525 980,480" 
+          fill="none" stroke="#EA580C" stroke-width="1.2" opacity="0.7" />
+    <path d="M -20,585 C 155,545 315,515 495,555 C 675,595 835,545 980,500" 
+          fill="none" stroke="#FDBA74" stroke-width="1.5" opacity="0.9" />
+  </g>
+</svg>

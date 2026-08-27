@@ -58,28 +58,29 @@ export default function Navbar({
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
-      <div className="max-w-[1320px] mx-auto px-4 md:px-6 flex items-center justify-between h-[78px]">
+    <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-xl border-b border-slate-200/80 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
+      <div className="max-w-[1320px] mx-auto px-4 md:px-6 flex items-center justify-between h-[68px] sm:h-[78px]">
         {/* Brand Logo (Left Side) */}
         <button
           onClick={() => handleNavClick('home')}
-          className="flex items-center gap-3 no-underline cursor-pointer group bg-transparent border-0 p-0 text-left"
+          className="flex items-center gap-2.5 sm:gap-3 no-underline cursor-pointer group bg-transparent border-0 p-0 text-left shrink-0"
         >
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#FF6B00] via-[#F97316] to-[#EA580C] flex items-center justify-center text-white shadow-[0_4px_20px_rgba(249,115,22,0.35)] group-hover:scale-105 transition-transform shrink-0">
-            <Coins size={24} />
+          <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#FF6B00] via-[#F97316] to-[#EA580C] flex items-center justify-center text-white shadow-[0_4px_20px_rgba(249,115,22,0.35)] group-hover:scale-105 transition-transform shrink-0">
+            <Coins size={20} className="sm:hidden" />
+            <Coins size={24} className="hidden sm:block" />
           </div>
           <div className="flex flex-col">
-            <span className="text-xl font-extrabold tracking-tight text-slate-900 group-hover:text-[#FF6B00] transition-colors">
+            <span className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-none sm:leading-tight">
               GoldFin
             </span>
-            <span className="text-[10px] font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600">
+            <span className="text-[9px] sm:text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 whitespace-nowrap mt-0.5">
               Live Rates & Gold Loans
             </span>
           </div>
         </button>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-6 lg:gap-7 ml-auto">
+        <nav className="hidden md:flex items-center gap-5 lg:gap-7 ml-auto">
           {/* 1. Home Link */}
           <button
             onClick={() => handleNavClick('home')}
@@ -172,7 +173,7 @@ export default function Navbar({
           {/* Direct Helpline / Visit Button */}
           <button
             onClick={() => handleNavClick('contact')}
-            className="ml-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#EA580C] text-white text-xs font-bold shadow-md hover:shadow-orange-500/25 transition-all cursor-pointer border-0 flex items-center gap-1.5"
+            className="ml-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#EA580C] text-white text-xs font-bold shadow-md hover:shadow-orange-500/25 transition-all cursor-pointer border-0 flex items-center gap-1.5 shrink-0"
           >
             <span>Helpline</span>
           </button>
@@ -183,68 +184,79 @@ export default function Navbar({
           {/* Mobile Hamburger Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-xl bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 cursor-pointer"
+            className="p-2.5 rounded-xl bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 cursor-pointer active:scale-95 transition-transform"
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-slate-200 px-6 py-5 flex flex-col gap-2.5 shadow-xl animate-in slide-in-from-top-2">
+        <div className="md:hidden bg-white/95 backdrop-blur-xl border-b border-slate-200 px-4 py-4 flex flex-col gap-2 shadow-2xl animate-in slide-in-from-top-2">
           <button
             onClick={() => handleNavClick('home')}
-            className={`text-left text-sm font-semibold py-2.5 px-3 rounded-xl bg-transparent border-0 cursor-pointer flex items-center justify-between ${
-              currentPage === 'home' ? 'text-[#FF6B00] font-bold bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
+            className={`text-left text-sm font-bold py-3 px-4 rounded-xl bg-transparent border-0 cursor-pointer flex items-center justify-between min-h-[44px] ${
+              currentPage === 'home' ? 'text-[#FF6B00] bg-orange-50/90' : 'text-slate-700 hover:text-[#FF6B00] hover:bg-slate-50'
             }`}
           >
             <span>Home</span>
           </button>
           <button
             onClick={() => handleNavClick('live-rate')}
-            className={`text-left text-sm font-bold py-2.5 px-3 rounded-xl bg-transparent border-0 cursor-pointer flex items-center justify-between ${
-              currentPage === 'live-rate' ? 'text-[#FF6B00] bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
+            className={`text-left text-sm font-bold py-3 px-4 rounded-xl bg-transparent border-0 cursor-pointer flex items-center justify-between min-h-[44px] ${
+              currentPage === 'live-rate' ? 'text-[#FF6B00] bg-orange-50/90' : 'text-slate-700 hover:text-[#FF6B00] hover:bg-slate-50'
             }`}
           >
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Live Gold Rates</span>
             </div>
+            <span className="text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">Live</span>
           </button>
           <button
             onClick={() => handleNavClick('gold-loan')}
-            className={`text-left text-sm font-semibold py-2.5 px-3 rounded-xl bg-transparent border-0 cursor-pointer flex items-center justify-between ${
-              currentPage === 'gold-loan' ? 'text-[#FF6B00] font-bold bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
+            className={`text-left text-sm font-bold py-3 px-4 rounded-xl bg-transparent border-0 cursor-pointer flex items-center justify-between min-h-[44px] ${
+              currentPage === 'gold-loan' ? 'text-[#FF6B00] bg-orange-50/90' : 'text-slate-700 hover:text-[#FF6B00] hover:bg-slate-50'
             }`}
           >
-            <span>Gold Loan</span>
+            <span>Gold Loan (15-Min)</span>
           </button>
           <button
             onClick={() => handleNavClick('branches')}
-            className={`text-left text-sm font-semibold py-2.5 px-3 rounded-xl bg-transparent border-0 cursor-pointer flex items-center justify-between ${
-              currentPage === 'branches' ? 'text-[#FF6B00] font-bold bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
+            className={`text-left text-sm font-bold py-3 px-4 rounded-xl bg-transparent border-0 cursor-pointer flex items-center justify-between min-h-[44px] ${
+              currentPage === 'branches' ? 'text-[#FF6B00] bg-orange-50/90' : 'text-slate-700 hover:text-[#FF6B00] hover:bg-slate-50'
             }`}
           >
-            <span>Branches</span>
+            <span>Branches & Vaults</span>
           </button>
           <button
             onClick={() => handleNavClick('about')}
-            className={`text-left text-sm font-semibold py-2.5 px-3 rounded-xl bg-transparent border-0 cursor-pointer flex items-center justify-between ${
-              currentPage === 'about' ? 'text-[#FF6B00] font-bold bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
+            className={`text-left text-sm font-bold py-3 px-4 rounded-xl bg-transparent border-0 cursor-pointer flex items-center justify-between min-h-[44px] ${
+              currentPage === 'about' ? 'text-[#FF6B00] bg-orange-50/90' : 'text-slate-700 hover:text-[#FF6B00] hover:bg-slate-50'
             }`}
           >
             <span>About Us</span>
           </button>
           <button
             onClick={() => handleNavClick('contact')}
-            className={`text-left text-sm font-semibold py-2.5 px-3 rounded-xl bg-transparent border-0 cursor-pointer flex items-center justify-between ${
-              currentPage === 'contact' ? 'text-[#FF6B00] font-bold bg-orange-50' : 'text-slate-700 hover:text-[#FF6B00]'
+            className={`text-left text-sm font-bold py-3 px-4 rounded-xl bg-transparent border-0 cursor-pointer flex items-center justify-between min-h-[44px] ${
+              currentPage === 'contact' ? 'text-[#FF6B00] bg-orange-50/90' : 'text-slate-700 hover:text-[#FF6B00] hover:bg-slate-50'
             }`}
           >
-            <span>Contact</span>
+            <span>Contact & Support</span>
           </button>
+          
+          {/* Direct Mobile Call / Helpline Action */}
+          <div className="pt-2 border-t border-slate-100 flex items-center gap-2">
+            <button
+              onClick={() => handleNavClick('contact')}
+              className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-xs shadow-md text-center border-0 cursor-pointer flex items-center justify-center gap-2"
+            >
+              <span>தொடர்புக்கு • Helpline Support</span>
+            </button>
+          </div>
         </div>
       )}
     </header>

@@ -12,7 +12,7 @@ import {
   Mail,
   TrendingUp
 } from 'lucide-react'
-import { Navbar, Footer, TrustBanner, GoldBackground } from '../components'
+import { Navbar, Footer, TrustBanner, GoldBackground, AboutTrustHeroBanner } from '../components'
 
 interface AboutPageProps {
   onNavigateHome?: () => void
@@ -60,7 +60,7 @@ export default function AboutPage({
       {/* Main Content Container */}
       <main className="max-w-[1320px] mx-auto px-4 md:px-6 py-12 md:py-16 relative z-10 w-full flex flex-col gap-14 md:gap-20">
         {/* Breadcrumb & Hero Header */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-6">
           <div className="flex items-center gap-2 text-xs text-slate-500 font-medium">
             <button
               onClick={onNavigateHome}
@@ -72,25 +72,38 @@ export default function AboutPage({
             <span className="text-[#FF6B00] font-bold">எங்களை பற்றி (About Us)</span>
           </div>
 
-          <div className="flex flex-col gap-3 max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider w-fit uppercase">
-              <Sparkles size={14} />
-              <span>நிறுவப்பட்டது 2024 • EST. 2024 • INDIA'S TRUSTED GOLD PLATFORM</span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+            {/* Left Content */}
+            <div className="lg:col-span-6 flex flex-col gap-4">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider w-fit uppercase">
+                <Sparkles size={14} />
+                <span>நிறுவப்பட்டது 2024 • EST. 2024 • INDIA'S TRUSTED GOLD PLATFORM</span>
+              </div>
+
+              <h1 className="text-3xl md:text-5xl lg:text-[3.1rem] font-black text-slate-900 tracking-tight leading-[1.15]">
+                தங்க விலை & கடன்களில் <br />
+                <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
+                  உங்கள் நம்பகமான கூட்டாளி
+                </span>
+                <span className="block text-base sm:text-xl font-bold text-slate-500 mt-1">
+                  Your Trusted Partner in Live Gold Rates & Loans
+                </span>
+              </h1>
+
+              <p className="text-sm md:text-base text-slate-600 leading-relaxed max-w-xl">
+                கோல்ட்பின் நேரடி தங்க விலை மற்றும் உடனடி தங்கக் கடன்களுக்கான நம்பகமான தளமாகும். நிகழ்நேர 1 கிராம் தூய்மை விலைகள், BIS ஹால்மார்க் தரநிலைகள் மற்றும் 100% பாதுகாப்பான வங்கி லாக்கர் கடன் வசதிகளை வழங்குகிறோம். Complete price transparency with verified standards.
+              </p>
             </div>
 
-            <h1 className="text-3xl md:text-5xl lg:text-[3.4rem] font-black text-slate-900 tracking-tight leading-[1.15]">
-              தங்க விலை & கடன்களில் <br />
-              <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
-                உங்கள் நம்பகமான கூட்டாளி
-              </span>
-              <span className="block text-lg sm:text-2xl font-bold text-slate-500 mt-1">
-                Your Trusted Partner in Live Gold Rates & Loans
-              </span>
-            </h1>
+            {/* Right Image Visual — Vector High Definition: Your Trust. Your Wealth. Your Golden Future. */}
+            <div className="lg:col-span-6 flex items-center justify-center lg:justify-end">
+              <div className="relative w-full max-w-[580px] group">
+                {/* Decorative Amber Glow */}
+                <div className="absolute -inset-2 bg-gradient-to-tr from-orange-500/25 via-amber-400/15 to-transparent rounded-3xl blur-2xl -z-10 group-hover:from-orange-500/35 transition-all duration-500" />
 
-            <p className="text-sm md:text-base text-slate-600 leading-relaxed">
-              கோல்ட்பின் நேரடி தங்க விலை மற்றும் உடனடி தங்கக் கடன்களுக்கான நம்பகமான தளமாகும். நிகழ்நேர 1 கிராம் தூய்மை விலைகள், BIS ஹால்மார்க் தரநிலைகள் மற்றும் 100% பாதுகாப்பான வங்கி லாக்கர் கடன் வசதிகளை வழங்குகிறோம். Complete price transparency with verified standards.
-            </p>
+                <AboutTrustHeroBanner />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -278,7 +291,7 @@ export default function AboutPage({
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4 w-full md:w-auto">
             <button
               onClick={() => {
                 if (onNavigateContact) {
@@ -287,7 +300,7 @@ export default function AboutPage({
                   window.location.hash = '#contact'
                 }
               }}
-              className="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-sm hover:brightness-110 transition-all shadow-[0_6px_25px_rgba(249,115,22,0.35)] cursor-pointer border-0 flex items-center gap-2"
+              className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-sm hover:brightness-110 transition-all shadow-[0_6px_25px_rgba(249,115,22,0.35)] cursor-pointer border-0 flex items-center justify-center gap-2"
             >
               <Mail size={16} />
               <span>தொடர்பு கொள்ள • Contact Us</span>

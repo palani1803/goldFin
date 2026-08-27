@@ -563,7 +563,7 @@ export default function GoldLoanPage({
           onClick={() => setApplyModalOpen(false)}
         >
           <div
-            className="bg-white border border-slate-200 p-7 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative text-slate-900"
+            className="bg-white border border-slate-200 p-6 sm:p-8 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto flex flex-col gap-5 sm:gap-6 shadow-2xl relative text-slate-900"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">

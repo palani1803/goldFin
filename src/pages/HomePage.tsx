@@ -264,31 +264,37 @@ export default function HomePage({
           .filter((b: any) => b.isActive !== false)
           .map((b: any) => {
             const cityKey = (b.city || '').toLowerCase()
+            const nameKey = (b.name || '').toLowerCase()
             let tag = 'Service Hub'
-            let district = 'Virudhunagar'
-            let landmark = 'Near Main Bazaar'
-            let features = 'Instant 15-Min Loan Sanctions'
+            let district = b.district || (cityKey.includes('chennai') || nameKey.includes('chennai') ? 'Chennai' : 'Virudhunagar')
+            let landmark = b.landmark || 'Near Main Bazaar'
+            let features = b.features || 'Instant 15-Min Loan Sanctions'
 
-            if (cityKey.includes('sivakasi')) {
+            if (cityKey.includes('sivakasi') || nameKey.includes('sivakasi')) {
               tag = 'HQ & Vault'
               district = 'Virudhunagar'
               landmark = 'Opposite Town Hall'
               features = 'Central Vault & German XRF Lab'
-            } else if (cityKey.includes('srivilliputhur')) {
+            } else if (cityKey.includes('srivilliputhur') || nameKey.includes('srivilliputhur')) {
               tag = 'Regional Hub'
               district = 'Virudhunagar'
               landmark = 'Near Andal Temple Arch'
               features = 'Instant 15-Min Loan Sanctions'
-            } else if (cityKey.includes('puthupatti')) {
+            } else if (cityKey.includes('puthupatti') || nameKey.includes('puthupatti')) {
               tag = 'Service Hub'
               district = 'Virudhunagar'
               landmark = 'Opp. Primary Agricultural Bank'
               features = 'Doorstep Valuation & Spot Cash'
-            } else if (cityKey.includes('rajapalayam')) {
+            } else if (cityKey.includes('rajapalayam') || nameKey.includes('rajapalayam')) {
               tag = 'Commercial Desk'
               district = 'Virudhunagar'
               landmark = 'Near PACR Hospital Junction'
               features = 'High-Value SME Gold Loans'
+            } else if (cityKey.includes('chennai') || nameKey.includes('chennai')) {
+              tag = 'Service Hub'
+              district = 'Chennai'
+              landmark = 'Metro City Center'
+              features = 'Instant 15-Min Loan Sanctions'
             }
 
             return {
@@ -399,28 +405,28 @@ export default function HomePage({
                 <span>அதிகாரப்பூர்வ நேரடி தங்கம் விலை & கடன் • OFFICIAL LIVE BENCHMARK</span>
               </div>
 
-              <h1 className="text-3xl md:text-5xl lg:text-[3.4rem] xl:text-[3.8rem] font-serif font-bold text-slate-900 tracking-tight leading-[1.15]">
-                நேரடி தங்க விலை <br />
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] xl:text-[3.1rem] font-serif font-bold text-slate-900 tracking-tight leading-[1.18]">
+                Live Gold Rates <br />
                 <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent font-serif italic font-bold">
-                  & உடனடி 15 நிமிட கடன்
+                  & Instant 15-Minute Gold Loan
                 </span>
               </h1>
 
               <p className="text-sm md:text-base text-slate-600 max-w-lg leading-relaxed font-normal">
-                தமிழ்நாட்டின் நம்பகமான நேரடி தங்க சந்தை நிலவரம், உடனடி 15 நிமிட தங்கக் கடன், குறைந்தபட்ச ஆவணங்கள் மற்றும் 100% வெளிப்படையான சேவை. Transparent live IBJA/MCX rates with highest loan valuation.
+                Track live market gold rates and get instant gold loans in just 15 minutes with maximum valuation, minimal documentation, and 100% transparent service.
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-wrap items-center gap-4 pt-2">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-2 w-full">
                 <button
-                  className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-sm hover:brightness-110 active:scale-[0.98] transition-all shadow-[0_6px_25px_rgba(249,115,22,0.35)] cursor-pointer border-0 flex items-center gap-2"
+                  className="w-full sm:w-auto px-6 sm:px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-xs sm:text-sm hover:brightness-110 active:scale-[0.98] transition-all shadow-[0_6px_25px_rgba(249,115,22,0.35)] cursor-pointer border-0 flex items-center justify-center gap-2 text-center"
                   onClick={() => onNavigateGoldLoan ? onNavigateGoldLoan() : scrollToSection('calculator')}
                 >
                   <span>தங்க கடன் பெறுக • Get Gold Loan</span>
                   <ArrowRight size={16} />
                 </button>
                 <button
-                  className="px-6 py-3.5 rounded-xl bg-white border border-slate-300 text-slate-800 font-bold text-sm hover:bg-slate-50 hover:border-orange-500/40 hover:text-[#FF6B00] transition-all cursor-pointer flex items-center gap-2 shadow-sm"
+                  className="w-full sm:w-auto px-5 sm:px-6 py-3.5 rounded-xl bg-white border border-slate-300 text-slate-800 font-bold text-xs sm:text-sm hover:bg-slate-50 hover:border-orange-500/40 hover:text-[#FF6B00] transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm text-center"
                   onClick={() => (onNavigateLiveRate ? onNavigateLiveRate() : scrollToSection('rates'))}
                 >
                   <LineChart size={16} />
@@ -443,7 +449,7 @@ export default function HomePage({
 
           {/* Floating Trust Stats Card */}
           <div className="mt-8 md:mt-10 rounded-2xl md:rounded-3xl bg-white/95 border border-slate-200/80 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.03)] p-2 md:p-3">
-            <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-slate-100">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
               <div className="flex items-center gap-3.5 py-3 px-4 md:px-6">
                 <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200/60 flex items-center justify-center text-orange-600 shrink-0">
                   <ShieldCheck size={20} />
@@ -494,15 +500,15 @@ export default function HomePage({
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div className="flex flex-col gap-1">
               <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-                தங்க மதிப்பீட்டுக் கருவி • INSTANT GOLD CALCULATOR
+                INSTANT GOLD CALCULATOR
               </span>
               <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-                தங்க விலை & கடன் மதிப்பீடு <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">Gold Rate & Value Calculator</span>
+                Gold Rate & Value Calculator
               </h2>
             </div>
             <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
               <CoinsIcon size={14} />
-              <span>இன்றைய 24K விலை • 24K RATE: ₹{spotRate24K > 0 ? spotRate24K.toLocaleString('en-IN') : '...'}/g</span>
+              <span>TODAY'S 24K RATE: ₹{spotRate24K > 0 ? spotRate24K.toLocaleString('en-IN') : '...'}/g</span>
             </div>
           </div>
 
@@ -519,7 +525,7 @@ export default function HomePage({
                   }}
                 >
                   <Coins size={18} />
-                  <span>தொகை மூலம் • By Amount (₹)</span>
+                  <span>By Amount (₹)</span>
                 </button>
                 <button
                   className={`flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer border-0 ${calcMode === 'gold' ? 'bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white shadow-md' : 'text-slate-600 hover:text-slate-900 bg-transparent'}`}
@@ -530,7 +536,7 @@ export default function HomePage({
                   }}
                 >
                   <Scale size={18} />
-                  <span>எடை மூலம் • By Weight (g)</span>
+                  <span>By Weight (g)</span>
                 </button>
               </div>
 
@@ -542,7 +548,7 @@ export default function HomePage({
                 <input
                   type="number"
                   className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 font-bold text-base sm:text-lg focus:outline-none focus:border-[#FF6B00] transition-colors"
-                  placeholder={calcMode === 'amount' ? 'தொகையை ரூபாயில் உள்ளிடவும் (e.g. 50000)' : 'எடையை கிராமில் உள்ளிடவும் (e.g. 10)'}
+                  placeholder={calcMode === 'amount' ? 'Enter amount in Rupees (e.g. 50000)' : 'Enter weight in Grams (e.g. 10)'}
                   value={inputValue}
                   onChange={(e) => {
                     setInputValue(e.target.value)
@@ -552,30 +558,30 @@ export default function HomePage({
               </div>
 
               {/* Quick Presets Row */}
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-semibold text-slate-500">விரைவுத் தேர்வுகள் (Presets):</span>
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                <span className="text-xs font-semibold text-slate-500 w-full sm:w-auto">Quick Presets:</span>
                 {calcMode === 'amount' ? (
                   <>
-                    <button className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('25000')}>₹25,000</button>
-                    <button className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('50000')}>₹50,000</button>
-                    <button className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('100000')}>₹1,00,000</button>
-                    <button className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('500000')}>₹5,00,000</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('25000')}>₹25,000</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('50000')}>₹50,000</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('100000')}>₹1,00,000</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('500000')}>₹5,00,000</button>
                   </>
                 ) : (
                   <>
-                    <button className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('5')}>5 கிராம் (5g)</button>
-                    <button className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('8')}>8 கிராம் (1 பவுன்)</button>
-                    <button className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('10')}>10 கிராம் (10g)</button>
-                    <button className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('11.66')}>1 தோலா (11.66g)</button>
-                    <button className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('50')}>50 கிராம் (50g)</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('5')}>5 Grams (5g)</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('8')}>8g (1 Pavan)</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('10')}>10 Grams (10g)</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('11.66')}>1 Tola (11.66g)</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('50')}>50 Grams (50g)</button>
                   </>
                 )}
               </div>
 
               {/* Karat Value Selector */}
               <div>
-                <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">தங்கத்தின் காரட் தூய்மை • Select Gold Purity</div>
-                <div className="grid grid-cols-6 gap-2">
+                <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Select Gold Purity</div>
+                <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
                   {[18, 19, 20, 21, 22, 24].map((carat) => (
                     <button
                       key={carat}
@@ -596,33 +602,33 @@ export default function HomePage({
                 {calcMode === 'amount' ? (
                   isCalculated && parsedVal > 0 ? (
                     <>
-                      <div className="text-xs font-bold uppercase tracking-wider text-slate-500">தோராயமாக நீங்கள் பெறக்கூடிய தங்கம் • Estimated Gold:</div>
+                      <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Estimated Gold Weight:</div>
                       <div className="text-2xl md:text-3xl font-black text-orange-600 tracking-tight">
-                        {calculatedGoldWeight} கிராம் ({selectedCarat}K தங்கம்)
+                        {calculatedGoldWeight} Grams ({selectedCarat}K Gold)
                       </div>
                       <div className="text-xs font-medium text-slate-500 mt-1">
-                        {selectedCarat}K நேரடி விலை அடிப்படையில்: ₹{rateForCarat.toLocaleString('en-IN')}/கிராம்
+                        Based on live {selectedCarat}K benchmark rate: ₹{rateForCarat.toLocaleString('en-IN')}/gram
                       </div>
                     </>
                   ) : (
                     <div className="text-sm text-slate-500">
-                      உங்கள் பட்ஜெட் தொகை மற்றும் காரட்டை தேர்வு செய்து எடையை கணக்கிடுங்கள்.
+                      Enter your budget amount and select karat to calculate estimated gold weight.
                     </div>
                   )
                 ) : (
                   isCalculated && parsedVal > 0 ? (
                     <>
-                      <div className="text-xs font-bold uppercase tracking-wider text-slate-500">மொத்த தங்க மதிப்பு • Total Gold Value:</div>
+                      <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Total Estimated Gold Value:</div>
                       <div className="text-2xl md:text-3xl font-black text-orange-600 tracking-tight">
                         ₹{calculatedRupees}
                       </div>
                       <div className="text-xs font-medium text-slate-500 mt-1">
-                        {parsedVal} கிராம் ({selectedCarat}K தங்கம்) @ ₹{rateForCarat.toLocaleString('en-IN')}/கிராம்
+                        {parsedVal} Grams ({selectedCarat}K Gold) @ ₹{rateForCarat.toLocaleString('en-IN')}/gram
                       </div>
                     </>
                   ) : (
                     <div className="text-sm text-slate-500">
-                      தங்கத்தின் எடையை உள்ளிட்டு மதிப்பை உடனடியாக கணக்கிடுங்கள்.
+                      Enter gold weight and select karat to instantly calculate total market value.
                     </div>
                   )
                 )}
@@ -630,12 +636,12 @@ export default function HomePage({
 
               {/* Calculate Action Button */}
               <button className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-base hover:brightness-110 transition-all shadow-[0_6px_25px_rgba(249,115,22,0.35)] cursor-pointer border-0" onClick={handleCalculate}>
-                மதிப்பைக் கணக்கிடவும் • Calculate Value
+                Calculate Gold Value
               </button>
 
               {/* Note Footer */}
               <div className="text-xs text-slate-500 text-center leading-relaxed">
-                <strong className="text-slate-700">குறிப்பு • Note:</strong> நேரடி இந்திய சந்தை நிலவரப்படி கணக்கிடப்பட்டுள்ளது. செய் கூலி மற்றும் 3% GST தனித்தனியாக இருக்கும்.
+                <strong className="text-slate-700">Note:</strong> Calculated in real-time according to official Indian market benchmarks. Jeweller making charges and 3% GST are applicable separately.
               </div>
             </div>
           </div>
@@ -653,15 +659,18 @@ export default function HomePage({
                 <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
                   இன்றைய நேரடி தங்கம் விலை <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">Live Market Purity Rates (Per 1 Gram)</span>
                 </h2>
-                {lastUpdatedTime && (
-                  <span className="text-[10px] text-slate-500 font-medium mt-0.5">
-                    கடைசியாக புதுப்பிக்கப்பட்டது • Last Updated: {lastUpdatedTime}
-                  </span>
-                )}
               </div>
-              <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>நேரடி சந்தை விலை • LIVE MARKET RATES</span>
+              <div className="flex flex-wrap items-center gap-2">
+                {lastUpdatedTime && (
+                  <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-white border border-slate-200/80 px-3.5 py-1.5 rounded-full shadow-xs">
+                    <Clock size={13} className="text-orange-500" />
+                    <span>புதுப்பிப்பு • {lastUpdatedTime}</span>
+                  </div>
+                )}
+                <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>நேரடி சந்தை விலை • LIVE MARKET RATES</span>
+                </div>
               </div>
             </div>
             {ratesError && (
@@ -724,9 +733,6 @@ export default function HomePage({
                 <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
                   கோல்ட்பின் அதிகாரப்பூர்வ கடன் & கொள்முதல் விலை <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">GoldFin Official Loan & Branch Rates</span>
                 </h2>
-                <p className="text-xs md:text-sm text-slate-500 font-normal mt-0.5">
-                  எங்கள் மண்டல கிளைகளில் வழங்கப்படும் அதிகபட்ச கடன் மற்றும் நேரடி மதிப்பீட்டு விலை. Live spot loan valuation at all authorized branches.
-                </p>
               </div>
               <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
                 <Coins size={14} className="text-orange-500" />
@@ -796,11 +802,8 @@ export default function HomePage({
                 </span>
               </div>
               <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-                எங்கள் மண்டல கிளைகள் <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">Authorized Regional Branches & Loan Centers</span>
+                எங்கள் கிளைகள் <span className="block text-base sm:text-lg font-bold text-slate-500 mt-0.5">Our Branches & Loan Centers</span>
               </h2>
-              <p className="text-sm text-slate-500 font-normal mt-0.5">
-                நேரடி வருகை தந்து 15 நிமிடங்களில் கடன் தொகையைப் பெறுங்கள் • Walk in for instant spot valuation.
-              </p>
             </div>
 
             <div className="flex items-center gap-3">
@@ -818,83 +821,74 @@ export default function HomePage({
           {/* Responsive Branch Grid */}
           <div className={`grid grid-cols-1 sm:grid-cols-2 ${homeBranches.length <= 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3 xl:grid-cols-5'} gap-4 md:gap-5`}>
             {homeBranches.map((branch) => {
-              const c = branch.city.toLowerCase()
+              const c = (branch.city || '').toLowerCase()
+              const n = (branch.name || '').toLowerCase()
               const localizedName =
-                c.includes('sivakasi') ? 'சிவகாசி (Sivakasi Branch)' :
-                c.includes('srivilliputhur') ? 'ஸ்ரீவில்லிபுத்தூர் (Srivilliputhur)' :
-                c.includes('puthupatti') ? 'எம்.புதுப்பட்டி (M.Puthupatti)' :
-                c.includes('rajapalayam') ? 'ராஜபாளையம் (Rajapalayam)' :
-                c.includes('chennai') ? 'சென்னை (Chennai Metro)' : branch.name
+                c.includes('sivakasi') || n.includes('sivakasi') ? 'சிவகாசி (Sivakasi Branch)' :
+                c.includes('srivilliputhur') || n.includes('srivilliputhur') ? 'ஸ்ரீவில்லிபுத்தூர் (Srivilliputhur)' :
+                c.includes('puthupatti') || n.includes('puthupatti') ? 'எம்.புதுப்பட்டி (M.Puthupatti)' :
+                c.includes('rajapalayam') || n.includes('rajapalayam') ? 'ராஜபாளையம் (Rajapalayam)' :
+                c.includes('chennai') || n.includes('chennai') ? 'சென்னை (Chennai Branch)' :
+                branch.name.includes('(') ? branch.name : `${branch.name} (${branch.city || 'Branch'})`
 
               return (
                 <div
                   key={branch.id}
-                  className="rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/50 p-5 flex flex-col justify-between gap-4 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 group"
+                  className="rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/50 p-5 flex flex-col justify-between transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 group h-full"
                 >
-                  {/* Header & Badges */}
-                  <div className="flex flex-col gap-2">
-                    <div className="flex items-center justify-between gap-1">
-                      <span className="px-2.5 py-0.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-[10px] font-black uppercase tracking-wider">
+                  {/* Top Header & Badges */}
+                  <div className="flex flex-col">
+                    {/* Tag & District Row: Fixed Single-line Height */}
+                    <div className="flex items-center justify-between gap-1.5 h-7 mb-2">
+                      <span className="px-2 py-0.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-[9.5px] font-black uppercase tracking-wider whitespace-nowrap shrink-0">
                         {branch.tag}
                       </span>
-                      <span className="text-[11px] font-semibold text-slate-400">{branch.district}</span>
+                      <span className="text-[11px] font-semibold text-slate-400 whitespace-nowrap truncate text-right">
+                        {branch.district}
+                      </span>
                     </div>
 
-                    <h3 className="text-base sm:text-lg font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-tight">
-                      {localizedName}
-                    </h3>
+                    {/* Branch Title: Fixed Equal Height with 2-Line Alignment */}
+                    <div className="min-h-[52px] flex items-center mb-2.5">
+                      <h3 className="text-[15px] sm:text-base font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-[1.25] line-clamp-2">
+                        {localizedName}
+                      </h3>
+                    </div>
 
-                    <div className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-50/80 border border-amber-200/60 px-2 py-0.5 rounded-md w-fit">
-                      <Sparkles size={11} className="text-amber-600 shrink-0" />
-                      <span>{branch.features}</span>
+                    {/* Feature Badge: Fixed Full-Width Equal Height Container */}
+                    <div className="flex items-center gap-1.5 text-[10.5px] leading-tight font-bold text-amber-800 bg-amber-50/90 border border-amber-200/70 px-2.5 py-1.5 rounded-xl w-full min-h-[40px]">
+                      <Sparkles size={12} className="text-amber-600 shrink-0" />
+                      <span className="line-clamp-2">{branch.features}</span>
                     </div>
                   </div>
 
                   {/* Text Information Body */}
-                  <div className="flex flex-col gap-2.5 py-3 border-y border-slate-100 text-xs">
-                    {/* Address & Landmark */}
-                    <div className="flex items-start gap-2 text-slate-600 leading-snug">
+                  <div className="flex flex-col gap-2.5 pt-3.5 mt-3 border-t border-slate-100 text-xs">
+                    {/* Address & Landmark: Fixed Min Height */}
+                    <div className="flex items-start gap-2 text-slate-600 leading-snug min-h-[48px]">
                       <MapPin size={15} className="text-orange-500 shrink-0 mt-0.5" />
-                      <div>
-                        <p className="font-medium text-slate-700 leading-tight">{branch.address}</p>
-                        <p className="text-[11px] text-slate-400 mt-0.5">({branch.landmark})</p>
+                      <div className="flex flex-col">
+                        <p className="font-medium text-slate-700 leading-tight line-clamp-2">{branch.address}</p>
+                        <p className="text-[11px] text-slate-400 mt-0.5 truncate">({branch.landmark})</p>
                       </div>
                     </div>
 
                     {/* Phone */}
-                    <div className="flex items-center gap-2 text-slate-700 pt-0.5">
+                    <div className="flex items-center gap-2 text-slate-700 h-5">
                       <Phone size={14} className="text-emerald-600 shrink-0" />
                       <a
                         href={`tel:${branch.rawPhone}`}
-                        className="font-bold text-slate-800 hover:text-orange-600 transition-colors text-xs"
+                        className="font-bold text-slate-800 hover:text-orange-600 transition-colors text-xs truncate"
                       >
                         {branch.phone}
                       </a>
                     </div>
 
                     {/* Working Hours */}
-                    <div className="flex items-center gap-2 text-slate-500 text-[11px]">
+                    <div className="flex items-center gap-2 text-slate-500 text-[11px] h-5">
                       <Clock size={14} className="text-slate-400 shrink-0" />
-                      <span>திங்கள்–சனி: காலை 9:00 – மாலை 6:30</span>
+                      <span className="truncate">திங்கள்–சனி: காலை 9:00 – மாலை 6:30</span>
                     </div>
-                  </div>
-
-                  {/* Bottom Actions */}
-                  <div className="grid grid-cols-2 gap-2 pt-1">
-                    <a
-                      href={`tel:${branch.rawPhone}`}
-                      className="py-2 px-2.5 rounded-xl bg-orange-50 hover:bg-orange-100 border border-orange-200 text-orange-700 text-xs font-bold transition-all text-center flex items-center justify-center gap-1 no-underline"
-                    >
-                      <Phone size={12} />
-                      <span>அழைக்க • Call</span>
-                    </a>
-                    <button
-                      onClick={() => onNavigateContact ? onNavigateContact(branch.city) : (onNavigateBranches && onNavigateBranches())}
-                      className="py-2 px-2.5 rounded-xl bg-slate-900 hover:bg-[#FF6B00] text-white text-xs font-bold transition-all text-center flex items-center justify-center gap-1 cursor-pointer border-0 shadow-sm"
-                    >
-                      <span>விவரம் • Details</span>
-                      <ArrowRight size={12} />
-                    </button>
                   </div>
                 </div>
               )
@@ -902,22 +896,45 @@ export default function HomePage({
           </div>
 
           {/* Network Trust Highlights Strip */}
-          <div className="mt-6 p-4 rounded-2xl bg-gradient-to-r from-orange-50/70 via-white to-amber-50/70 border border-orange-200/60 flex flex-wrap items-center justify-around gap-4 text-xs font-semibold text-slate-700 shadow-sm">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 size={16} className="text-emerald-600" />
-              <span>15 நிமிட உடனடி மதிப்பீடு • 15-Min Valuation</span>
+          <div className="mt-8 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-orange-50/80 via-white to-amber-50/80 border border-orange-200/70 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 shadow-sm">
+            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white border border-orange-100/80 shadow-xs hover:border-orange-300 transition-colors">
+              <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-emerald-600 shrink-0">
+                <CheckCircle2 size={16} />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-xs font-bold text-slate-800 leading-tight truncate">15 நிமிட உடனடி மதிப்பீடு</span>
+                <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">15-Min Loan Valuation</span>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 size={16} className="text-emerald-600" />
-              <span>ஜெர்மன் XRF சோதனை • German XRF Lab</span>
+
+            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white border border-orange-100/80 shadow-xs hover:border-orange-300 transition-colors">
+              <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-emerald-600 shrink-0">
+                <CheckCircle2 size={16} />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-xs font-bold text-slate-800 leading-tight truncate">ஜெர்மன் XRF சோதனை</span>
+                <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">German XRF Laser Lab</span>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 size={16} className="text-emerald-600" />
-              <span>100% காப்பீடு செய்த பெட்டகம் • Insured Vaults</span>
+
+            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white border border-orange-100/80 shadow-xs hover:border-orange-300 transition-colors">
+              <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-emerald-600 shrink-0">
+                <CheckCircle2 size={16} />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-xs font-bold text-slate-800 leading-tight truncate">100% காப்பீடு பெட்டகம்</span>
+                <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">100% Insured Bank Vaults</span>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 size={16} className="text-emerald-600" />
-              <span>உடனடி வங்கி பரிமாற்றம் / ரொக்கம் • Instant Payout</span>
+
+            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white border border-orange-100/80 shadow-xs hover:border-orange-300 transition-colors">
+              <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-emerald-600 shrink-0">
+                <CheckCircle2 size={16} />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-xs font-bold text-slate-800 leading-tight truncate">உடனடி வங்கி வரவு / பணம்</span>
+                <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">Instant Cash & Bank Payout</span>
+              </div>
             </div>
           </div>
         </section>
@@ -1061,10 +1078,7 @@ export default function HomePage({
                   <span className="text-xs text-slate-500 font-semibold">Gold Purity Standard</span>
                   <span className="text-base font-bold text-slate-900">100% BIS Hallmarked (916 & 999)</span>
                 </div>
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-col gap-1">
-                  <span className="text-xs text-slate-500 font-semibold">City Coverage</span>
-                  <span className="text-base font-bold text-slate-900">Daily Live Rates for 5+ Cities</span>
-                </div>
+                
                 <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-col gap-1">
                   <span className="text-xs text-slate-500 font-semibold">Gold Loan Interest</span>
                   <span className="text-base font-bold text-orange-600">Starting from 0.75% per month</span>
@@ -1251,7 +1265,7 @@ export default function HomePage({
       {/* Wallet Modal */}
       {showWalletModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setShowWalletModal(false)}>
-          <div className="bg-white border border-slate-200 p-6 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative text-slate-900" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white border border-slate-200 p-6 md:p-8 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto flex flex-col gap-6 shadow-2xl relative text-slate-900" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between pb-4 border-b border-slate-100">
               <h3 className="text-xl font-extrabold text-slate-900">My Gold Holdings</h3>
               <button className="p-2 rounded-xl bg-slate-100 text-slate-500 hover:text-slate-900 transition-all border-0 cursor-pointer" onClick={() => setShowWalletModal(false)}>
@@ -1278,7 +1292,7 @@ export default function HomePage({
       {/* Generic Tool / Insight Modal */}
       {activeModalTitle && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setActiveModalTitle(null)}>
-          <div className="bg-white border border-slate-200 p-6 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative text-slate-900" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white border border-slate-200 p-6 md:p-8 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto flex flex-col gap-6 shadow-2xl relative text-slate-900" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between pb-4 border-b border-slate-100">
               <h3 className="text-xl font-extrabold text-slate-900">{activeModalTitle}</h3>
               <button className="p-2 rounded-xl bg-slate-100 text-slate-500 hover:text-slate-900 transition-all border-0 cursor-pointer" onClick={() => setActiveModalTitle(null)}>
@@ -1300,7 +1314,7 @@ export default function HomePage({
       {/* Live Market Article Detail Modal - Always in Tamil */}
       {selectedNewsItem && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setSelectedNewsItem(null)}>
-          <div className="bg-white border border-slate-200 p-6 md:p-8 rounded-3xl max-w-lg w-full flex flex-col gap-5 shadow-2xl relative text-slate-900" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white border border-slate-200 p-6 md:p-8 rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto flex flex-col gap-5 shadow-2xl relative text-slate-900" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between pb-4 border-b border-slate-100">
               <div className="flex items-center gap-2">
                 <Newspaper size={20} className="text-[#FF6B00]" />
@@ -1359,7 +1373,7 @@ export default function HomePage({
       {/* Legacy Modal */}
       {showArticleModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setShowArticleModal(false)}>
-          <div className="bg-white border border-slate-200 p-6 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative text-slate-900" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white border border-slate-200 p-6 md:p-8 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto flex flex-col gap-6 shadow-2xl relative text-slate-900" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between pb-4 border-b border-slate-100">
               <h3 className="text-xl font-extrabold text-slate-900">Market Update</h3>
               <button className="p-2 rounded-xl bg-slate-100 text-slate-500 hover:text-slate-900 transition-all border-0 cursor-pointer" onClick={() => setShowArticleModal(false)}>
