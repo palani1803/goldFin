@@ -5,7 +5,6 @@ import {
   Clock,
   Sliders,
   Award,
-  RefreshCw,
   ShieldCheck,
   ArrowRight,
   ChevronRight,
@@ -283,7 +282,6 @@ export default function LiveRatePage({
                 <span className="bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
                   Gold Rate in India
                 </span>
-                
               </h1>
               <p className="text-sm md:text-base text-slate-600 max-w-2xl leading-relaxed">
                 Live 24K, 22K, 20K, 18K gold and 8-gram sovereign rates across India. Transparent benchmark rates updated continuously from official market feeds.
@@ -299,14 +297,14 @@ export default function LiveRatePage({
         </div>
 
         {/* 3 Metric Top Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 items-stretch">
           {/* Card 1: 22K PRICE (1g) */}
-          <div className="p-6 md:p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/50 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.14)] min-h-[190px]">
-            <div className="flex items-center justify-between min-h-[26px]">
-              <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-600">
+          <div className="p-4.5 sm:p-5 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 hover:border-orange-400/70 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-xs hover:shadow-[0_10px_25px_rgba(249,115,22,0.10)] min-h-[155px]">
+            <div className="flex items-center justify-between min-h-[24px]">
+              <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-wide text-slate-600">
                 22K Ornament Gold • 22K (1g)
               </span>
-              <div className={`inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full ${
+              <div className={`inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full ${
                 isUp22k
                   ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
                   : 'text-rose-700 bg-rose-50 border border-rose-200'
@@ -316,25 +314,25 @@ export default function LiveRatePage({
               </div>
             </div>
 
-            <div className="my-3">
-              <div className="text-3xl md:text-4xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors tracking-tight">
+            <div className="my-1.5">
+              <div className="text-3xl sm:text-4xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors tracking-tight leading-none">
                 {loading ? '...' : `₹${price22kPerGram.toLocaleString('en-IN')}`}
               </div>
-              <span className="text-xs text-slate-500 font-medium">
+              <span className="text-xs text-slate-500 font-medium block mt-1">
                 91.6% Purity (916 BIS Hallmark) • 1 Gram
               </span>
             </div>
 
-            <div className="w-2/3 h-[2px] bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-transparent rounded-full mt-1" />
+            <div className="w-2/3 h-[2px] bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-transparent rounded-full mt-0.5" />
           </div>
 
           {/* Card 2: 24K PRICE (1g) */}
-          <div className="p-6 md:p-7 rounded-3xl bg-white border border-orange-300/80 hover:border-orange-500 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_8px_30px_rgba(249,115,22,0.1)] hover:shadow-[0_12px_35px_rgba(249,115,22,0.18)] min-h-[190px]">
-            <div className="flex items-center justify-between min-h-[26px]">
-              <span className="text-[11px] font-extrabold uppercase tracking-widest text-orange-600">
+          <div className="p-4.5 sm:p-5 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-orange-50/70 via-white to-amber-50/60 border-2 border-orange-400/90 hover:border-orange-500 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-sm hover:shadow-[0_10px_28px_rgba(249,115,22,0.14)] min-h-[155px]">
+            <div className="flex items-center justify-between min-h-[24px]">
+              <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-wide text-orange-600">
                 24K Pure Gold • 24K Pure (1g)
               </span>
-              <div className={`inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full ${
+              <div className={`inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full ${
                 isUp24k
                   ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
                   : 'text-rose-700 bg-rose-50 border border-rose-200'
@@ -344,76 +342,76 @@ export default function LiveRatePage({
               </div>
             </div>
 
-            <div className="my-3">
+            <div className="my-1.5">
               <div className="flex items-baseline gap-1.5">
-                <span className="text-3xl md:text-4xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors tracking-tight">
+                <span className="text-3xl sm:text-4xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors tracking-tight leading-none">
                   ₹{price24kPerGram.toLocaleString('en-IN')}
                 </span>
                 <span className="text-xs text-slate-500 font-semibold">/ gram</span>
               </div>
-              <span className="text-xs text-slate-500 font-medium">
+              <span className="text-xs text-slate-500 font-medium block mt-1">
                 99.9% Purity (24K Pure) • 1 Gram
               </span>
             </div>
 
-            <div className="w-2/3 h-[2px] bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-transparent rounded-full mt-1" />
+            <div className="w-2/3 h-[2px] bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-transparent rounded-full mt-0.5" />
           </div>
 
           {/* Card 3: LAST UPDATED */}
-          <div className="p-6 md:p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/50 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.14)] min-h-[190px]">
-            <div className="flex items-center justify-between min-h-[26px]">
-              <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
+          <div className="p-4.5 sm:p-5 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 hover:border-orange-400/70 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group shadow-xs hover:shadow-[0_10px_25px_rgba(249,115,22,0.10)] min-h-[155px]">
+            <div className="flex items-center justify-between min-h-[24px]">
+              <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-wide text-slate-500">
                 LAST UPDATED
               </span>
-              <div className="inline-flex items-center gap-1.5 text-xs text-orange-600 font-bold px-2.5 py-1 rounded-full bg-orange-50 border border-orange-200/80">
+              <div className="inline-flex items-center gap-1 text-xs text-orange-600 font-bold px-2.5 py-0.5 rounded-full bg-orange-100/70 border border-orange-200">
                 <Clock size={12} />
                 <span>{lastUpdatedTime} IST</span>
               </div>
             </div>
 
-            <div className="my-3">
-              <div className="text-2xl md:text-3xl font-extrabold text-slate-900 group-hover:text-[#FF6B00] transition-colors tracking-tight">
+            <div className="my-1.5">
+              <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 group-hover:text-[#FF6B00] transition-colors tracking-tight leading-none">
                 {lastUpdatedDate}
               </div>
-              <span className="text-xs text-slate-500 font-medium">
+              <span className="text-xs text-slate-500 font-medium block mt-1">
                 Official Indian Market Benchmark Feed
               </span>
             </div>
 
-            <div className="w-2/3 h-[2px] bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-transparent rounded-full mt-1" />
+            <div className="w-2/3 h-[2px] bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-transparent rounded-full mt-0.5" />
           </div>
         </div>
 
         {/* GoldFin Finance Company Offered Rates */}
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-4 sm:gap-5">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+            <div className="flex flex-col gap-0.5">
               <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
                 GOLDFIN BRANCH RATES
               </span>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+              <h2 className="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight">
                 GoldFin Official Loan & Branch Rates
-                <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                <span className="block text-xs sm:text-sm font-semibold text-slate-500 mt-0.5 font-sans">
                   கோல்ட்பின் அதிகாரப்பூர்வ கிளை மற்றும் கொள்முதல் விலை
                 </span>
               </h2>
-              <p className="text-xs md:text-sm text-slate-500 font-normal mt-0.5">
+              <p className="text-xs text-slate-500 font-normal mt-0.5">
                 Maximum loan valuations and spot purchase rates available across all our authorized regional branches.
               </p>
             </div>
-            <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
-              <Coins size={14} className="text-orange-500" />
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-3 py-1 rounded-full backdrop-blur-md w-fit">
+              <Coins size={13} className="text-orange-500" />
               <span>BRANCH OFFER</span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 items-stretch">
             {shopRatesLoading ? (
               [1, 2, 3, 4].map((i) => (
-                <div key={i} className="p-6 rounded-3xl bg-white border border-slate-200 backdrop-blur-xl flex flex-col gap-4 animate-pulse">
-                  <div className="h-4 bg-slate-200 rounded-lg w-3/4" />
-                  <div className="h-8 bg-slate-200 rounded-lg w-1/2" />
-                  <div className="h-3 bg-slate-100 rounded-lg w-full mt-2" />
+                <div key={i} className="p-4 rounded-2xl bg-gradient-to-br from-white to-orange-50/30 border border-orange-200/60 backdrop-blur-xl flex flex-col gap-2.5 animate-pulse">
+                  <div className="h-4 bg-orange-100/60 rounded-lg w-3/4" />
+                  <div className="h-7 bg-orange-100/60 rounded-lg w-1/2" />
+                  <div className="h-3 bg-orange-50 rounded-lg w-full mt-1" />
                 </div>
               ))
             ) : (
@@ -427,28 +425,28 @@ export default function LiveRatePage({
                 const displayKarat =
                   purityKey === '24k' ? '99.9% Purity • 1g' :
                   purityKey === '22k' ? '91.6% Purity • 1g' :
-                  purityKey === '20k' ? '83.3% Purity • 1g' : '75.0% Purity • 1g'
+                  purityKey === '20k' ? '83.3% Purity • 1g' : '75.0% Pure • 1g'
                 const price = shopRate ? shopRate.pricePerGram : (marketRate ? marketRate.pricePerGram : 0)
 
                 return (
                   <div
                     key={purityKey}
-                    className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/20 to-amber-50/30 border border-orange-200/90 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between min-h-[170px] group"
+                    className="p-4 sm:p-4.5 rounded-2xl bg-gradient-to-br from-white via-orange-50/20 to-amber-50/30 border border-orange-200/90 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between gap-2.5 group"
                   >
-                    <div className="flex items-center justify-between gap-2 min-h-[26px]">
-                      <span className="text-sm font-extrabold tracking-wider text-slate-800 whitespace-nowrap">{displayName}</span>
-                      <span className="text-[9px] font-black tracking-wider px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-300 shrink-0">
+                    <div className="flex items-center justify-between gap-2 min-h-[22px]">
+                      <span className="text-xs sm:text-[13px] font-extrabold tracking-wide text-slate-800 whitespace-nowrap">{displayName}</span>
+                      <span className="text-[9px] font-black tracking-wider px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-300 shrink-0">
                         GOLDFIN
                       </span>
                     </div>
 
-                    <div className="text-3xl font-black text-orange-600 group-hover:text-orange-700 transition-colors my-2">
+                    <div className="text-2xl sm:text-3xl font-black text-orange-600 group-hover:text-orange-700 transition-colors leading-tight">
                       ₹{price > 0 ? price.toLocaleString('en-IN') : '...'}
                     </div>
 
-                    <div className="flex items-center justify-between pt-2.5 border-t border-orange-100 text-xs">
-                      <span className="font-semibold text-slate-600">{displayKarat}</span>
-                      <span className="text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md text-[10px] whitespace-nowrap">
+                    <div className="flex items-center justify-between pt-2 border-t border-orange-100 text-xs">
+                      <span className="text-[11px] font-semibold text-slate-600">{displayKarat}</span>
+                      <span className="text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-md text-[10px] whitespace-nowrap">
                         Instant Loan • 15 Min
                       </span>
                     </div>
@@ -460,12 +458,12 @@ export default function LiveRatePage({
         </div>
 
         {/* Gold Price Movement Section with Historical Wave Chart */}
-        <div className="p-6 md:p-8 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.04)] flex flex-col gap-6 relative overflow-hidden">
+        <div className="p-6 md:p-8 rounded-3xl bg-gradient-to-b from-white via-orange-50/20 to-white border border-orange-200/90 backdrop-blur-xl shadow-[0_12px_40px_rgba(249,115,22,0.06)] flex flex-col gap-6 relative overflow-hidden">
           {/* Header row */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-2xl font-extrabold text-slate-800 tracking-tight">
-                Historical Gold Price Movement
+                 Gold Price History Movements
                 <span className="block text-xs sm:text-sm font-semibold text-slate-500 mt-1 font-sans">
                   24K தூய தங்கம் வரலாற்று விலை மாற்ற வரைபடம்
                 </span>
@@ -476,13 +474,13 @@ export default function LiveRatePage({
             </div>
 
             {/* Time Filter Tabs */}
-            <div className="grid grid-cols-3 sm:inline-flex items-center p-1.5 rounded-2xl bg-slate-100 border border-slate-200 w-full sm:w-auto">
+            <div className="grid grid-cols-3 sm:inline-flex items-center p-1.5 rounded-2xl bg-orange-100/60 border border-orange-200/70 w-full sm:w-auto">
               <button
                 onClick={() => setTimeframe('today')}
                 className={`px-2 sm:px-4 py-2 rounded-xl text-[10.5px] sm:text-xs font-extrabold uppercase tracking-wider transition-all border-0 cursor-pointer text-center whitespace-nowrap ${
                   timeframe === 'today'
                     ? 'bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white shadow-md'
-                    : 'text-slate-600 hover:text-slate-900 bg-transparent'
+                    : 'text-slate-700 hover:text-orange-600 bg-transparent'
                 }`}
               >
                 Today
@@ -492,7 +490,7 @@ export default function LiveRatePage({
                 className={`px-2 sm:px-4 py-2 rounded-xl text-[10.5px] sm:text-xs font-extrabold uppercase tracking-wider transition-all border-0 cursor-pointer text-center whitespace-nowrap ${
                   timeframe === '7days'
                     ? 'bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white shadow-md'
-                    : 'text-slate-600 hover:text-slate-900 bg-transparent'
+                    : 'text-slate-700 hover:text-orange-600 bg-transparent'
                 }`}
               >
                 7 Days
@@ -502,7 +500,7 @@ export default function LiveRatePage({
                 className={`px-2 sm:px-4 py-2 rounded-xl text-[10.5px] sm:text-xs font-extrabold uppercase tracking-wider transition-all border-0 cursor-pointer text-center whitespace-nowrap ${
                   timeframe === '30days'
                     ? 'bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white shadow-md'
-                    : 'text-slate-600 hover:text-slate-900 bg-transparent'
+                    : 'text-slate-700 hover:text-orange-600 bg-transparent'
                 }`}
               >
                 30 Days
@@ -515,7 +513,7 @@ export default function LiveRatePage({
             {/* Dynamic Y-axis labels & horizontal guide lines */}
             <div className="absolute inset-0 flex flex-col justify-between pointer-events-none text-[11px] text-slate-400 font-semibold select-none">
               {yAxisLevels.map((lvl, idx) => (
-                <div key={idx} className="border-b border-slate-100 pb-1 flex justify-between">
+                <div key={idx} className="border-b border-orange-100/70 pb-1 flex justify-between">
                   <span>₹{lvl.toLocaleString('en-IN')}/g</span>
                 </div>
               ))}
@@ -616,7 +614,7 @@ export default function LiveRatePage({
           </div>
 
           {/* X-axis Date / Time Labels */}
-          <div className="flex justify-between items-center px-2 pt-2 text-[11px] md:text-xs font-semibold text-slate-500 border-t border-slate-100 overflow-x-auto gap-2">
+          <div className="flex justify-between items-center px-2 pt-2 text-[11px] md:text-xs font-semibold text-slate-500 border-t border-orange-100 overflow-x-auto gap-2">
             {svgPoints
               .filter((_, idx) => {
                 if (timeframe === '30days') return idx % 5 === 0 || idx === svgPoints.length - 1
@@ -639,7 +637,7 @@ export default function LiveRatePage({
 
         {/* 4 Stat / High-Low Grid Boxes */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-sm">
+          <div className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/15 border border-orange-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-2xs">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
               High Price (1g)
             </span>
@@ -649,7 +647,7 @@ export default function LiveRatePage({
             <span className="text-xs text-slate-500 font-medium">24K Pure Gold (1g)</span>
           </div>
 
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-sm">
+          <div className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/15 border border-orange-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-2xs">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
               Low Price (1g)
             </span>
@@ -659,7 +657,7 @@ export default function LiveRatePage({
             <span className="text-xs text-slate-500 font-medium">24K Pure Gold (1g)</span>
           </div>
 
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-sm">
+          <div className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/15 border border-orange-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-2xs">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
               Average Price (1g)
             </span>
@@ -669,7 +667,7 @@ export default function LiveRatePage({
             <span className="text-xs text-slate-500 font-medium">Average Market Price</span>
           </div>
 
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-sm">
+          <div className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/15 border border-orange-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-2xs">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
               24h Change %
             </span>
@@ -683,10 +681,10 @@ export default function LiveRatePage({
         {/* 4 Feature Educational Cards (2x2 Grid) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Card 1: Price Factors */}
-          <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/35 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group shadow-sm hover:shadow-md">
+          <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/30 to-amber-50/20 border border-orange-200/80 hover:border-orange-400/60 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group shadow-xs hover:shadow-[0_10px_30px_rgba(249,115,22,0.08)]">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                   <Sliders size={22} />
                 </div>
                 <h4 className="text-base font-bold text-slate-800 group-hover:text-[#FF6B00] transition-colors">
@@ -714,10 +712,10 @@ export default function LiveRatePage({
           </div>
 
           {/* Card 2: 22K vs 24K */}
-          <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/35 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group shadow-sm hover:shadow-md">
+          <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/30 to-amber-50/20 border border-orange-200/80 hover:border-orange-400/60 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group shadow-xs hover:shadow-[0_10px_30px_rgba(249,115,22,0.08)]">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                   <Award size={22} />
                 </div>
                 <h4 className="text-base font-bold text-slate-800 group-hover:text-[#FF6B00] transition-colors">
@@ -745,27 +743,27 @@ export default function LiveRatePage({
           </div>
 
           {/* Card 3: Daily Changes */}
-          <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/35 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group shadow-sm hover:shadow-md">
+          <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/30 to-amber-50/20 border border-orange-200/80 hover:border-orange-400/60 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group shadow-xs hover:shadow-[0_10px_30px_rgba(249,115,22,0.08)]">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
-                  <RefreshCw size={22} />
+                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
+                  <TrendingUp size={22} />
                 </div>
                 <h4 className="text-base font-bold text-slate-800 group-hover:text-[#FF6B00] transition-colors">
-                  Daily Price Updates & Timing
+                  Why Gold Prices Change Daily
                 </h4>
               </div>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                Why gold rates in India update twice daily and effective timing strategies for purchasing or financing gold.
+                International interest rates, geopolitical factors, inflation shifts, and currency fluctuations drive daily benchmark adjustments.
               </p>
             </div>
             <button
               onClick={() =>
                 setActiveInfoModal({
-                  title: 'Daily Gold Rate Updates',
+                  title: 'Why Do Gold Rates Fluctuate Daily?',
                   content:
-                    'Jewellers and gold associations in India announce opening rates around 10:00 AM IST and closing rates around 4:30 PM IST. Tracking these rates helps you buy or pledge gold at the best time.',
-                  icon: 'refresh',
+                    'Gold prices fluctuate daily due to global central bank interest rate decisions, geopolitical stability, domestic wedding season demand, and rupee-dollar exchange movements.',
+                  icon: 'trending',
                 })
               }
               className="flex items-center gap-1.5 text-xs font-bold text-[#FF6B00] hover:text-[#EA580C] transition-colors bg-transparent border-0 p-0 cursor-pointer w-fit"
@@ -775,27 +773,27 @@ export default function LiveRatePage({
             </button>
           </div>
 
-          {/* Card 4: Buying Tips */}
-          <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/35 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group shadow-sm hover:shadow-md">
+          {/* Card 4: Hallmark & HUID */}
+          <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/30 to-amber-50/20 border border-orange-200/80 hover:border-orange-400/60 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-5 group shadow-xs hover:shadow-[0_10px_30px_rgba(249,115,22,0.08)]">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                   <ShieldCheck size={22} />
                 </div>
                 <h4 className="text-base font-bold text-slate-800 group-hover:text-[#FF6B00] transition-colors">
-                  Jewellery Buying Tips & HUID Verification
+                  BIS Hallmark & 6-Digit HUID
                 </h4>
               </div>
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                Guide to verifying 6-digit BIS HUID hallmarking, calculating making charges, and understanding transparent 3% GST.
+                Learn how the government-mandated Hallmark Unique Identification (HUID) code protects consumers against adulteration.
               </p>
             </div>
             <button
               onClick={() =>
                 setActiveInfoModal({
-                  title: 'Smart Gold Buying & Hallmarking Guide',
+                  title: 'Understanding BIS Hallmarking and HUID',
                   content:
-                    'Always check for the official BIS Hallmark symbol and the 6-digit HUID code on your jewellery. Ensure your jewellery bill clearly mentions gold weight, making charges, and 3% GST separately.',
+                    'Every piece of gold jewellery in India is stamped with a unique 6-digit alphanumeric HUID code that certifies its purity and origin with the Bureau of Indian Standards (BIS).',
                   icon: 'shield',
                 })
               }

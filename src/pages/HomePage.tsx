@@ -26,7 +26,7 @@ import {
   Clock
 } from 'lucide-react'
 import goldHeroJewel from '../assets/gold_hero_jewel.jpg'
-import { Navbar, Footer, TrustBanner, GoldBackground } from '../components'
+import { Navbar, Footer, TrustBanner, GoldBackground, GoldCoin3D } from '../components'
 
 interface MarketNewsItem {
   id: string
@@ -318,20 +318,79 @@ export default function HomePage({
     }
   }, [])
 
-  // Fetch on mount + auto-refresh every 5 minutes
+  // Fetch on mount + auto-refresh every 10 seconds + instant sync on window focus, tab visibility, and admin update events
   useEffect(() => {
-    fetchLiveRates()
-    fetchShopRates()
-    fetchMarketNews()
-    fetchBranches()
-    const interval = setInterval(() => {
+    const fetchAllData = () => {
       fetchLiveRates()
       fetchShopRates()
       fetchMarketNews()
       fetchBranches()
-    }, 5 * 60 * 1000)
-    return () => clearInterval(interval)
+    }
+
+    fetchAllData()
+
+    // 1. Polling interval: Auto-updates company & live rates every 10 seconds
+    const interval = setInterval(fetchAllData, 10 * 1000)
+
+    // 2. Instant sync when user focuses the tab or opens browser
+    const handleFocusOrVisible = () => {
+      if (document.visibilityState === 'visible') {
+        fetchAllData()
+      }
+    }
+
+    // 3. Instant sync when Admin updates shop rates in another tab / component
+    const handleRatesUpdate = () => {
+      fetchShopRates()
+      fetchLiveRates()
+    }
+
+    const handleStorageUpdate = (e: StorageEvent) => {
+      if (e.key === 'goldFin_shop_rates_updated') {
+        fetchShopRates()
+        fetchLiveRates()
+      }
+    }
+
+    window.addEventListener('focus', handleFocusOrVisible)
+    document.addEventListener('visibilitychange', handleFocusOrVisible)
+    window.addEventListener('goldRatesUpdated', handleRatesUpdate)
+    window.addEventListener('storage', handleStorageUpdate)
+
+    return () => {
+      clearInterval(interval)
+      window.removeEventListener('focus', handleFocusOrVisible)
+      document.removeEventListener('visibilitychange', handleFocusOrVisible)
+      window.removeEventListener('goldRatesUpdated', handleRatesUpdate)
+      window.removeEventListener('storage', handleStorageUpdate)
+    }
   }, [fetchLiveRates, fetchShopRates, fetchMarketNews, fetchBranches])
+
+  // Computed values for Railway Moving Ticker & Hero display (Company Gold Price from Admin side)
+  const shop24k = shopRates.find((r) => r.purityId === '24k')?.pricePerGram || 0
+  const shop22k = shopRates.find((r) => r.purityId === '22k')?.pricePerGram || 0
+  const shop20k = shopRates.find((r) => r.purityId === '20k')?.pricePerGram || 0
+  const shop18k = shopRates.find((r) => r.purityId === '18k')?.pricePerGram || 0
+  const shopSilver = shopRates.find((r) => r.purityId === 'silver')?.pricePerGram || 0
+
+  const live24k = liveRates.find((r) => r.purityId === '24k')?.pricePerGram || 0
+  const live22k = liveRates.find((r) => r.purityId === '22k')?.pricePerGram || 0
+  const live20k = liveRates.find((r) => r.purityId === '20k')?.pricePerGram || 0
+  const live18k = liveRates.find((r) => r.purityId === '18k')?.pricePerGram || 0
+  const liveSilver = liveRates.find((r) => r.purityId === 'silver')?.pricePerGram || 0
+
+  // Priority: 1. Admin configured Company Gold Price -> 2. Live market benchmark -> 3. Standard calibrated fallback
+  const display24K = shop24k > 0 ? shop24k : (live24k || 8245)
+  const display22K = shop22k > 0 ? shop22k : (live22k || Math.round((display24K * 22) / 24) || 7558)
+  const display20K = shop20k > 0 ? shop20k : (live20k || Math.round((display24K * 20) / 24) || 6871)
+  const display18K = shop18k > 0 ? shop18k : (live18k || Math.round((display24K * 18) / 24) || 6184)
+  const displaySilver = shopSilver > 0 ? shopSilver : (liveSilver || 98)
+
+  const pavun24K = display24K * 8
+  const pavun22K = display22K * 8
+  const pavun20K = display20K * 8
+  const pavun18K = display18K * 8
+  const silver100g = displaySilver * 100
 
   // --- Reference Gold Calculator State ---
   const [calcMode, setCalcMode] = useState<'amount' | 'gold'>('amount')
@@ -339,11 +398,14 @@ export default function HomePage({
   const [selectedCarat, setSelectedCarat] = useState<number>(22)
   const [isCalculated, setIsCalculated] = useState<boolean>(false)
 
-  // 24K Base Spot Rate — from live API (fallback to 0)
-  const rate24kData = liveRates.find((r) => r.purityId === '24k')
-  const spotRate24K = rate24kData?.pricePerGram || 0
-  // Rate per gram for selected carat: (24K Rate * Carat / 24)
-  const rateForCarat = Math.round(spotRate24K * (selectedCarat / 24))
+  // Spot Rate for selected carat based on company prices
+  const spotRate24K = display24K
+  const rateForCarat =
+    selectedCarat === 24 ? display24K :
+    selectedCarat === 22 ? display22K :
+    selectedCarat === 20 ? display20K :
+    selectedCarat === 18 ? display18K :
+    Math.round(display24K * (selectedCarat / 24))
 
   // Calculations
   const parsedVal = parseFloat(inputValue) || 0
@@ -390,6 +452,140 @@ export default function HomePage({
         spotRate24K={spotRate24K}
       />
 
+      {/* Railway Moving Tag — Live Company Gold Price Ticker (Carat Gram & Pavun Rates from Admin) */}
+      <div className="w-full bg-[#0B1120] text-slate-100 border-y border-orange-500/30 relative overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.18)] z-30 select-none">
+        <div className="w-full flex items-stretch relative">
+          {/* Fixed Left Badge: Railway Station LED Live Indicator */}
+          <div className="relative z-20 flex items-center gap-2 px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 bg-gradient-to-r from-red-600 via-orange-600 to-[#EA580C] text-white font-extrabold text-[11px] sm:text-xs tracking-wider uppercase shrink-0 shadow-md">
+            <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-80"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-white"></span>
+            </span>
+            <span className="font-mono tracking-tight font-black whitespace-nowrap flex items-center gap-1.5">
+              <span>TODAY'S COMPANY GOLD RATE</span>
+              <span className="hidden lg:inline text-orange-100 font-sans font-bold">• நிறுவன நேரடி விலை</span>
+            </span>
+            {/* Angled decorative edge */}
+            <div className="hidden sm:block absolute top-0 -right-2 h-full w-2 bg-[#EA580C] [clip-path:polygon(0_0,100%_0,0_100%)]" />
+          </div>
+
+          {/* Scrolling Ticker Track with Side Gradient Fades */}
+          <div className="relative flex-1 overflow-hidden flex items-center py-2 sm:py-2.5">
+            {/* Left fade */}
+            <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-[#0B1120] to-transparent z-10 pointer-events-none" />
+            {/* Right fade */}
+            <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-l from-[#0B1120] to-transparent z-10 pointer-events-none" />
+
+            {/* Seamless Infinite Marquee Track */}
+            <div className="animate-railway-ticker flex items-center cursor-pointer">
+              {[0, 1].map((loopIdx) => (
+                <div key={loopIdx} className="flex items-center gap-6 sm:gap-8 shrink-0 pr-6 sm:pr-8">
+                  {/* 1. 24K Pure Gold: 1g & 1 Pavun */}
+                  <div
+                    className="flex items-center gap-2 group hover:opacity-90 transition-opacity"
+                    onClick={() => (onNavigateLiveRate ? onNavigateLiveRate() : scrollToSection('rates'))}
+                  >
+                    <span className="px-2.5 py-0.5 rounded-md bg-amber-500/20 border border-amber-400/50 text-amber-300 font-mono font-black text-[10px] sm:text-[11px] tracking-wider">
+                      24K GOLD
+                    </span>
+                    <div className="flex items-center gap-1.5 font-mono text-xs sm:text-sm">
+                      <span className="text-slate-400 text-xs font-sans">1g:</span>
+                      <span className="font-black text-amber-400">₹{display24K.toLocaleString('en-IN')}</span>
+                      <span className="text-slate-600 font-sans mx-0.5">|</span>
+                      <span className="text-slate-400 text-xs font-sans">1 Pavun (8g):</span>
+                      <span className="font-black text-amber-300">₹{pavun24K.toLocaleString('en-IN')}</span>
+                      <span className="text-[11px] text-amber-400/80 font-sans hidden sm:inline">(1 பவுன்)</span>
+                    </div>
+                  </div>
+
+                  <span className="text-orange-500/60 font-black text-xs select-none">◆</span>
+
+                  {/* 2. 22K (916 Hallmark) Gold: 1g & 1 Pavun */}
+                  <div
+                    className="flex items-center gap-2 group hover:opacity-90 transition-opacity"
+                    onClick={() => (onNavigateLiveRate ? onNavigateLiveRate() : scrollToSection('rates'))}
+                  >
+                    <span className="px-2.5 py-0.5 rounded-md bg-orange-500/20 border border-orange-400/50 text-orange-300 font-mono font-black text-[10px] sm:text-[11px] tracking-wider">
+                      22K 916 GOLD
+                    </span>
+                    <div className="flex items-center gap-1.5 font-mono text-xs sm:text-sm">
+                      <span className="text-slate-400 text-xs font-sans">1g:</span>
+                      <span className="font-black text-orange-400">₹{display22K.toLocaleString('en-IN')}</span>
+                      <span className="text-slate-600 font-sans mx-0.5">|</span>
+                      <span className="text-slate-400 text-xs font-sans">1 Pavun (8g):</span>
+                      <span className="font-black text-orange-300">₹{pavun22K.toLocaleString('en-IN')}</span>
+                      <span className="text-[11px] text-orange-400/80 font-sans hidden sm:inline">(1 பவுன்)</span>
+                    </div>
+                  </div>
+
+                  <span className="text-orange-500/60 font-black text-xs select-none">◆</span>
+
+                  {/* 3. 20K Gold: 1g & 1 Pavun */}
+                  <div
+                    className="flex items-center gap-2 group hover:opacity-90 transition-opacity"
+                    onClick={() => (onNavigateLiveRate ? onNavigateLiveRate() : scrollToSection('rates'))}
+                  >
+                    <span className="px-2.5 py-0.5 rounded-md bg-yellow-500/20 border border-yellow-400/50 text-yellow-300 font-mono font-black text-[10px] sm:text-[11px] tracking-wider">
+                      20K GOLD
+                    </span>
+                    <div className="flex items-center gap-1.5 font-mono text-xs sm:text-sm">
+                      <span className="text-slate-400 text-xs font-sans">1g:</span>
+                      <span className="font-black text-yellow-400">₹{display20K.toLocaleString('en-IN')}</span>
+                      <span className="text-slate-600 font-sans mx-0.5">|</span>
+                      <span className="text-slate-400 text-xs font-sans">1 Pavun (8g):</span>
+                      <span className="font-black text-yellow-300">₹{pavun20K.toLocaleString('en-IN')}</span>
+                      <span className="text-[11px] text-yellow-400/80 font-sans hidden sm:inline">(1 பவுன்)</span>
+                    </div>
+                  </div>
+
+                  <span className="text-orange-500/60 font-black text-xs select-none">◆</span>
+
+                  {/* 4. 18K Gold: 1g & 1 Pavun */}
+                  <div
+                    className="flex items-center gap-2 group hover:opacity-90 transition-opacity"
+                    onClick={() => (onNavigateLiveRate ? onNavigateLiveRate() : scrollToSection('rates'))}
+                  >
+                    <span className="px-2.5 py-0.5 rounded-md bg-slate-800 border border-slate-700 text-slate-300 font-mono font-black text-[10px] sm:text-[11px] tracking-wider">
+                      18K GOLD
+                    </span>
+                    <div className="flex items-center gap-1.5 font-mono text-xs sm:text-sm">
+                      <span className="text-slate-400 text-xs font-sans">1g:</span>
+                      <span className="font-black text-slate-200">₹{display18K.toLocaleString('en-IN')}</span>
+                      <span className="text-slate-600 font-sans mx-0.5">|</span>
+                      <span className="text-slate-400 text-xs font-sans">1 Pavun (8g):</span>
+                      <span className="font-black text-slate-100">₹{pavun18K.toLocaleString('en-IN')}</span>
+                      <span className="text-[11px] text-slate-400 font-sans hidden sm:inline">(1 பவுன்)</span>
+                    </div>
+                  </div>
+
+                  <span className="text-orange-500/60 font-black text-xs select-none">◆</span>
+
+                  {/* 5. 999 Fine Silver: 1g & 100g */}
+                  <div
+                    className="flex items-center gap-2 group hover:opacity-90 transition-opacity"
+                    onClick={() => (onNavigateLiveRate ? onNavigateLiveRate() : scrollToSection('rates'))}
+                  >
+                    <span className="px-2.5 py-0.5 rounded-md bg-slate-200/20 border border-slate-300/50 text-slate-200 font-mono font-black text-[10px] sm:text-[11px] tracking-wider">
+                      SILVER 999
+                    </span>
+                    <div className="flex items-center gap-1.5 font-mono text-xs sm:text-sm">
+                      <span className="text-slate-400 text-xs font-sans">1g:</span>
+                      <span className="font-black text-slate-100">₹{displaySilver.toLocaleString('en-IN')}</span>
+                      <span className="text-slate-600 font-sans mx-0.5">|</span>
+                      <span className="text-slate-400 text-xs font-sans">100g:</span>
+                      <span className="font-black text-slate-200">₹{silver100g.toLocaleString('en-IN')}</span>
+                      <span className="text-[11px] text-slate-300 font-sans hidden sm:inline">(100 கிராம்)</span>
+                    </div>
+                  </div>
+
+                  <span className="text-orange-500/60 font-black text-xs select-none">◆</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Hero Section — Clean White Background & Vibrant Gold Theme */}
       <section id="overview" className="relative pt-4 md:pt-6 pb-10 md:pb-14 overflow-hidden bg-white border-b border-slate-200/80">
         {/* Subtle ambient glow */}
@@ -435,7 +631,7 @@ export default function HomePage({
               </div>
             </div>
 
-            {/* Right Image Visual */}
+            {/* Right Image Visual with 3D Floating Gold Coin */}
             <div className="lg:col-span-6 flex items-center justify-center lg:justify-end">
               <div className="relative w-full max-w-[480px] lg:max-w-[520px]">
                 <img
@@ -443,6 +639,11 @@ export default function HomePage({
                   alt="Gold Jewellery on Marble Pedestal"
                   className="w-full h-auto object-cover rounded-3xl shadow-[0_20px_45px_rgba(249,115,22,0.12)] border border-slate-100 transition-transform duration-700 hover:scale-[1.01]"
                 />
+
+                {/* 3D Floating Spinning Gold Coin inside Image Right Corner */}
+                <div className="absolute top-2.5 right-2.5 sm:top-4 sm:right-4 z-20 animate-coin-float-3d">
+                  <GoldCoin3D caratLabel="24K 999" autoSpin={true} />
+                </div>
               </div>
             </div>
           </div>
@@ -516,11 +717,11 @@ export default function HomePage({
           </div>
 
           <div className="max-w-3xl mx-auto w-full">
-            <div className="p-6 md:p-8 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.04)] flex flex-col gap-6">
+            <div className="p-6 md:p-8 rounded-3xl bg-gradient-to-b from-white via-orange-50/25 to-white border border-orange-200/90 backdrop-blur-xl shadow-[0_12px_40px_rgba(249,115,22,0.06)] flex flex-col gap-6">
               {/* Dual Mode Switcher Tabs */}
-              <div className="grid grid-cols-2 p-1.5 bg-slate-100 rounded-2xl border border-slate-200">
+              <div className="grid grid-cols-2 p-1.5 bg-orange-100/60 rounded-2xl border border-orange-200/70">
                 <button
-                  className={`flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer border-0 ${calcMode === 'amount' ? 'bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white shadow-md' : 'text-slate-600 hover:text-slate-900 bg-transparent'}`}
+                  className={`flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer border-0 ${calcMode === 'amount' ? 'bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white shadow-md' : 'text-slate-700 hover:text-orange-600 bg-transparent'}`}
                   onClick={() => {
                     setCalcMode('amount')
                     setInputValue('')
@@ -531,7 +732,7 @@ export default function HomePage({
                   <span>By Amount (₹)</span>
                 </button>
                 <button
-                  className={`flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer border-0 ${calcMode === 'gold' ? 'bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white shadow-md' : 'text-slate-600 hover:text-slate-900 bg-transparent'}`}
+                  className={`flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer border-0 ${calcMode === 'gold' ? 'bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white shadow-md' : 'text-slate-700 hover:text-orange-600 bg-transparent'}`}
                   onClick={() => {
                     setCalcMode('gold')
                     setInputValue('')
@@ -550,7 +751,7 @@ export default function HomePage({
                 </span>
                 <input
                   type="number"
-                  className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 font-bold text-base sm:text-lg focus:outline-none focus:border-[#FF6B00] transition-colors"
+                  className="w-full pl-10 pr-4 py-4 bg-orange-50/30 hover:bg-orange-50/50 border border-orange-200/80 rounded-2xl text-slate-900 font-bold text-base sm:text-lg focus:outline-none focus:border-[#FF6B00] transition-colors"
                   placeholder={calcMode === 'amount' ? 'Enter amount in Rupees (e.g. 50000)' : 'Enter weight in Grams (e.g. 10)'}
                   value={inputValue}
                   onChange={(e) => {
@@ -565,30 +766,30 @@ export default function HomePage({
                 <span className="text-xs font-semibold text-slate-500 w-full sm:w-auto">Quick Presets:</span>
                 {calcMode === 'amount' ? (
                   <>
-                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('25000')}>₹25,000</button>
-                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('50000')}>₹50,000</button>
-                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('100000')}>₹1,00,000</button>
-                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('500000')}>₹5,00,000</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-white hover:bg-orange-50 border border-orange-200/70 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer shadow-2xs" onClick={() => handlePresetSelect('25000')}>₹25,000</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-white hover:bg-orange-50 border border-orange-200/70 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer shadow-2xs" onClick={() => handlePresetSelect('50000')}>₹50,000</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-white hover:bg-orange-50 border border-orange-200/70 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer shadow-2xs" onClick={() => handlePresetSelect('100000')}>₹1,00,000</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-white hover:bg-orange-50 border border-orange-200/70 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer shadow-2xs" onClick={() => handlePresetSelect('500000')}>₹5,00,000</button>
                   </>
                 ) : (
                   <>
-                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('5')}>5 Grams (5g)</button>
-                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('8')}>8g (1 Pavan)</button>
-                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('10')}>10 Grams (10g)</button>
-                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('11.66')}>1 Tola (11.66g)</button>
-                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer" onClick={() => handlePresetSelect('50')}>50 Grams (50g)</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-white hover:bg-orange-50 border border-orange-200/70 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer shadow-2xs" onClick={() => handlePresetSelect('5')}>5 Grams (5g)</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-white hover:bg-orange-50 border border-orange-200/70 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer shadow-2xs" onClick={() => handlePresetSelect('8')}>8g (1 Pavan)</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-white hover:bg-orange-50 border border-orange-200/70 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer shadow-2xs" onClick={() => handlePresetSelect('10')}>10 Grams (10g)</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-white hover:bg-orange-50 border border-orange-200/70 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer shadow-2xs" onClick={() => handlePresetSelect('11.66')}>1 Tola (11.66g)</button>
+                    <button className="px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl bg-white hover:bg-orange-50 border border-orange-200/70 hover:border-orange-300 text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer shadow-2xs" onClick={() => handlePresetSelect('50')}>50 Grams (50g)</button>
                   </>
                 )}
               </div>
 
               {/* Karat Value Selector */}
               <div>
-                <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Select Gold Purity</div>
+                <div className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Select Gold Purity</div>
                 <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
                   {[18, 19, 20, 21, 22, 24].map((carat) => (
                     <button
                       key={carat}
-                      className={`py-2.5 rounded-xl font-bold text-sm border transition-all cursor-pointer text-center ${selectedCarat === carat ? 'bg-orange-50 border-orange-400 text-orange-600 shadow-sm' : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-orange-300 hover:text-slate-900'}`}
+                      className={`py-2.5 rounded-xl font-bold text-sm border transition-all cursor-pointer text-center ${selectedCarat === carat ? 'bg-orange-100/80 border-orange-400 text-orange-700 shadow-sm' : 'bg-white border-orange-100 text-slate-700 hover:bg-orange-50 hover:border-orange-300 hover:text-slate-900'}`}
                       onClick={() => {
                         setSelectedCarat(carat)
                         setIsCalculated(false)
@@ -601,7 +802,7 @@ export default function HomePage({
               </div>
 
               {/* Result Banner Box */}
-              <div className="p-5 rounded-2xl bg-gradient-to-br from-orange-50 via-white to-orange-50 border border-orange-200/80 text-center flex flex-col gap-1">
+              <div className="p-5 rounded-2xl bg-gradient-to-br from-orange-100/70 via-white to-orange-100/60 border border-orange-300/80 text-center flex flex-col gap-1 shadow-xs">
                 {calcMode === 'amount' ? (
                   isCalculated && parsedVal > 0 ? (
                     <>
@@ -651,48 +852,48 @@ export default function HomePage({
         </section>
 
         {/* Purity Rates Section (Market Rates + Finance Company Rates) */}
-        <section id="rates" className="space-y-12">
+        <section id="rates" className="space-y-6 sm:space-y-8">
           {/* 1. Indian Gold Market Live Rates */}
           <div>
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-              <div className="flex flex-col gap-1">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-4">
+              <div className="flex flex-col gap-0.5">
                 <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
                   LIVE INDIAN BENCHMARK
                 </span>
-                <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
-                  Live Market Purity Rates
-                  <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
-                    நேரடி சந்தை தரம் வாரியான தங்கம் விலை நிலவரம் (1g)
+                <h2 className="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight">
+                  Indian Gold Market Benchmark Rates
+                  <span className="block text-xs sm:text-sm font-semibold text-slate-500 mt-0.5 font-sans">
+                    இந்திய தங்கச் சந்தை நேரடி விலை நிலவரம்
                   </span>
                 </h2>
               </div>
-              <div className="flex flex-wrap items-center gap-2">
-                {lastUpdatedTime && (
-                  <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-white border border-slate-200/80 px-3.5 py-1.5 rounded-full shadow-xs">
-                    <Clock size={13} className="text-orange-500" />
-                    <span>Updated • {lastUpdatedTime}</span>
-                  </div>
-                )}
-                <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>LIVE MARKET RATES</span>
+              <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-700 text-xs font-bold">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  <span>MARKET OPEN</span>
+                </div>
+                <div className="text-xs font-semibold text-slate-500">
+                  Updated: <span className="font-bold text-slate-700">{lastUpdatedTime || 'Live'}</span>
                 </div>
               </div>
             </div>
             {ratesError && (
-              <div className="mb-4 px-4 py-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-xs font-medium">
+              <div className="mb-3 px-3.5 py-2 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-xs font-medium">
                 {ratesError}
               </div>
             )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
               {ratesLoading ? (
                 // Loading skeleton cards
                 [1, 2, 3, 4].map((i) => (
-                  <div key={i} className="p-6 rounded-3xl bg-white border border-slate-200 backdrop-blur-xl flex flex-col gap-4 animate-pulse">
-                    <div className="h-4 bg-slate-200 rounded-lg w-3/4" />
-                    <div className="h-8 bg-slate-200 rounded-lg w-1/2" />
-                    <div className="h-3 bg-slate-100 rounded-lg w-full mt-2" />
+                  <div key={i} className="p-4 rounded-2xl bg-gradient-to-br from-white to-orange-50/30 border border-orange-200/60 backdrop-blur-xl flex flex-col gap-2.5 animate-pulse">
+                    <div className="h-4 bg-orange-100/60 rounded-lg w-3/4" />
+                    <div className="h-7 bg-orange-100/60 rounded-lg w-1/2" />
+                    <div className="h-3 bg-orange-50 rounded-lg w-full mt-1" />
                   </div>
                 ))
               ) : (
@@ -709,16 +910,26 @@ export default function HomePage({
                     purityKey === '20k' ? '83.3% Pure • 1g' : '75.0% Pure • 1g'
 
                   return (
-                    <div key={item.purityId} className={`p-6 rounded-3xl bg-white border backdrop-blur-xl flex flex-col gap-4 group transition-all duration-300 ${item.purityId === '24k' ? 'border-orange-300 shadow-[0_10px_30px_rgba(249,115,22,0.1)]' : 'border-slate-200/80 hover:border-orange-400/40 shadow-sm hover:shadow-md'}`}>
+                    <div
+                      key={item.purityId}
+                      className={`p-4 sm:p-4.5 rounded-2xl backdrop-blur-xl flex flex-col justify-between gap-2.5 group transition-all duration-300 ${item.purityId === '24k' ? 'bg-gradient-to-br from-orange-50/80 via-white to-amber-50/60 border-2 border-orange-400/90 shadow-[0_8px_25px_rgba(249,115,22,0.14)] ring-2 ring-orange-400/20' : 'bg-gradient-to-br from-white via-orange-50/30 to-amber-50/20 border border-orange-200/80 hover:border-orange-400/70 shadow-xs hover:shadow-[0_8px_20px_rgba(249,115,22,0.08)]'}`}
+                    >
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-extrabold tracking-wider text-slate-700">{displayName}</span>
-                        {item.purityId === '24k' && <span className="text-[9px] font-black tracking-wider px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 border border-orange-200">100% PURE</span>}
+                        <span className="text-xs sm:text-[13px] font-extrabold tracking-wide text-orange-600">{displayName}</span>
+                        {item.purityId === '24k' && (
+                          <span className="text-[9px] font-black tracking-wider px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-700 border border-orange-200 flex items-center gap-1">
+                            <Sparkles size={9} />
+                            100% PURE
+                          </span>
+                        )}
                       </div>
-                      <div className="text-3xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors">₹{item.pricePerGram.toLocaleString('en-IN')}</div>
-                      <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-                        <span className="text-xs font-medium text-slate-500">{displayKarat}</span>
-                        <div className={`inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full ${item.isUp ? 'text-emerald-700 bg-emerald-50 border border-emerald-200' : 'text-rose-700 bg-rose-50 border border-rose-200'}`}>
-                          {item.isUp ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+                      <div className="text-2xl sm:text-3xl font-black text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-tight">
+                        ₹{item.pricePerGram.toLocaleString('en-IN')}
+                      </div>
+                      <div className="flex items-center justify-between pt-2 border-t border-orange-100/80">
+                        <span className="text-[11px] font-medium text-slate-500">{displayKarat}</span>
+                        <div className={`inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full ${item.isUp ? 'text-emerald-700 bg-emerald-50 border border-emerald-200' : 'text-rose-700 bg-rose-50 border border-rose-200'}`}>
+                          {item.isUp ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
                           <span>{item.isUp ? `+${item.changePercent}%` : `-${item.changePercent}%`}</span>
                         </div>
                       </div>
@@ -730,32 +941,32 @@ export default function HomePage({
           </div>
 
           {/* 2. GoldFin Finance Company Offered Rates */}
-          <div className="pt-8 border-t border-slate-200/80">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-              <div className="flex flex-col gap-1">
+          <div className="pt-6 border-t border-slate-200/80">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-4">
+              <div className="flex flex-col gap-0.5">
                 <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
                   GOLDFIN BRANCH RATES
                 </span>
-                <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+                <h2 className="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight">
                   GoldFin Official Loan & Branch Rates
-                  <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                  <span className="block text-xs sm:text-sm font-semibold text-slate-500 mt-0.5 font-sans">
                     கோல்ட்பின் அதிகாரப்பூர்வ கிளை மற்றும் கொள்முதல் விலை
                   </span>
                 </h2>
               </div>
-              <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
-                <Coins size={14} className="text-orange-500" />
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-3 py-1 rounded-full backdrop-blur-md w-fit">
+                <Coins size={13} className="text-orange-500" />
                 <span>BRANCH OFFER</span>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 items-stretch">
               {shopRatesLoading ? (
                 [1, 2, 3, 4].map((i) => (
-                  <div key={i} className="p-6 rounded-3xl bg-white border border-slate-200 backdrop-blur-xl flex flex-col gap-4 animate-pulse">
+                  <div key={i} className="p-4 rounded-2xl bg-white border border-slate-200 backdrop-blur-xl flex flex-col gap-2.5 animate-pulse">
                     <div className="h-4 bg-slate-200 rounded-lg w-3/4" />
-                    <div className="h-8 bg-slate-200 rounded-lg w-1/2" />
-                    <div className="h-3 bg-slate-100 rounded-lg w-full mt-2" />
+                    <div className="h-7 bg-slate-200 rounded-lg w-1/2" />
+                    <div className="h-3 bg-slate-100 rounded-lg w-full mt-1" />
                   </div>
                 ))
               ) : (
@@ -775,20 +986,20 @@ export default function HomePage({
                   return (
                     <div
                       key={purityKey}
-                      className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/20 to-amber-50/30 border border-orange-200/90 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between min-h-[170px] group"
+                      className="p-4 sm:p-4.5 rounded-2xl bg-gradient-to-br from-white via-orange-50/20 to-amber-50/30 border border-orange-200/90 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between gap-2.5 group"
                     >
-                      <div className="flex items-center justify-between gap-2 min-h-[26px]">
-                        <span className="text-sm font-extrabold tracking-wider text-slate-800 whitespace-nowrap">{displayName}</span>
-                        <span className="text-[9px] font-black tracking-wider px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-300 shrink-0">
+                      <div className="flex items-center justify-between gap-2 min-h-[22px]">
+                        <span className="text-xs sm:text-[13px] font-extrabold tracking-wide text-slate-900 whitespace-nowrap">{displayName}</span>
+                        <span className="text-[9px] font-black tracking-wider px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-300 shrink-0">
                           GOLDFIN
                         </span>
                       </div>
-                      <div className="text-3xl font-black text-orange-600 group-hover:text-orange-700 transition-colors my-2">
+                      <div className="text-2xl sm:text-3xl font-black text-orange-600 group-hover:text-orange-700 transition-colors leading-tight">
                         ₹{price > 0 ? price.toLocaleString('en-IN') : '...'}
                       </div>
-                      <div className="flex items-center justify-between pt-2.5 border-t border-orange-100 text-xs">
-                        <span className="font-semibold text-slate-600">{displayKarat}</span>
-                        <span className="text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md text-[10px] whitespace-nowrap">
+                      <div className="flex items-center justify-between pt-2 border-t border-orange-100 text-xs">
+                        <span className="text-[11px] font-semibold text-slate-600">{displayKarat}</span>
+                        <span className="text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-md text-[10px] whitespace-nowrap">
                           Instant Loan • 15 Min
                         </span>
                       </div>
@@ -821,7 +1032,7 @@ export default function HomePage({
             <div className="flex items-center gap-3">
               <button
                 onClick={() => onNavigateBranches ? onNavigateBranches() : (onNavigateContact && onNavigateContact())}
-                className="px-4 py-2 rounded-xl bg-white border border-slate-200 hover:border-orange-300 text-xs font-bold text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer flex items-center gap-1.5 shadow-sm hover:shadow"
+                className="px-4 py-2 rounded-xl bg-white border border-orange-200 hover:border-orange-400 text-xs font-bold text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs hover:shadow-xs"
               >
                 <Building2 size={14} className="text-[#FF6B00]" />
                 <span>View All Branches</span>
@@ -846,16 +1057,16 @@ export default function HomePage({
               return (
                 <div
                   key={branch.id}
-                  className="rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/50 p-5 flex flex-col justify-between transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 group h-full"
+                  className="rounded-3xl bg-gradient-to-b from-white via-white to-orange-50/35 border border-orange-200/70 hover:border-orange-400/80 p-5 flex flex-col justify-between transition-all duration-300 shadow-xs hover:shadow-[0_10px_25px_rgba(249,115,22,0.08)] hover:-translate-y-0.5 group h-full"
                 >
                   {/* Top Header & Badges */}
                   <div className="flex flex-col">
                     {/* Tag & District Row: Fixed Single-line Height */}
                     <div className="flex items-center justify-between gap-1.5 h-7 mb-2">
-                      <span className="px-2 py-0.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-[9.5px] font-black uppercase tracking-wider whitespace-nowrap shrink-0">
+                      <span className="px-2 py-0.5 rounded-full bg-orange-100/70 border border-orange-200 text-orange-700 text-[9.5px] font-black uppercase tracking-wider whitespace-nowrap shrink-0">
                         {branch.tag}
                       </span>
-                      <span className="text-[11px] font-semibold text-slate-400 whitespace-nowrap truncate text-right">
+                      <span className="text-[11px] font-semibold text-slate-500 whitespace-nowrap truncate text-right">
                         {branch.district}
                       </span>
                     </div>
@@ -868,14 +1079,14 @@ export default function HomePage({
                     </div>
 
                     {/* Feature Badge: Fixed Full-Width Equal Height Container */}
-                    <div className="flex items-center gap-1.5 text-[10.5px] leading-tight font-bold text-amber-800 bg-amber-50/90 border border-amber-200/70 px-2.5 py-1.5 rounded-xl w-full min-h-[40px]">
+                    <div className="flex items-center gap-1.5 text-[10.5px] leading-tight font-bold text-amber-900 bg-amber-100/70 border border-amber-200/80 px-2.5 py-1.5 rounded-xl w-full min-h-[40px]">
                       <Sparkles size={12} className="text-amber-600 shrink-0" />
                       <span className="line-clamp-2">{branch.features}</span>
                     </div>
                   </div>
 
                   {/* Text Information Body */}
-                  <div className="flex flex-col gap-2.5 pt-3.5 mt-3 border-t border-slate-100 text-xs">
+                  <div className="flex flex-col gap-2.5 pt-3.5 mt-3 border-t border-orange-100 text-xs">
                     {/* Address & Landmark: Fixed Min Height */}
                     <div className="flex items-start gap-2 text-slate-600 leading-snug min-h-[48px]">
                       <MapPin size={15} className="text-orange-500 shrink-0 mt-0.5" />
@@ -908,8 +1119,8 @@ export default function HomePage({
           </div>
 
           {/* Network Trust Highlights Strip */}
-          <div className="mt-8 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-orange-50/80 via-white to-amber-50/80 border border-orange-200/70 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 shadow-sm">
-            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white border border-orange-100/80 shadow-xs hover:border-orange-300 transition-colors">
+          <div className="mt-8 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-orange-100/70 via-white to-amber-100/70 border border-orange-200/80 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 shadow-xs">
+            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/90 border border-orange-100 shadow-2xs hover:border-orange-300 transition-colors">
               <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-emerald-600 shrink-0">
                 <CheckCircle2 size={16} />
               </div>
@@ -919,7 +1130,7 @@ export default function HomePage({
               </div>
             </div>
 
-            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white border border-orange-100/80 shadow-xs hover:border-orange-300 transition-colors">
+            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/90 border border-orange-100 shadow-2xs hover:border-orange-300 transition-colors">
               <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-emerald-600 shrink-0">
                 <CheckCircle2 size={16} />
               </div>
@@ -929,7 +1140,7 @@ export default function HomePage({
               </div>
             </div>
 
-            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white border border-orange-100/80 shadow-xs hover:border-orange-300 transition-colors">
+            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/90 border border-orange-100 shadow-2xs hover:border-orange-300 transition-colors">
               <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-emerald-600 shrink-0">
                 <CheckCircle2 size={16} />
               </div>
@@ -939,53 +1150,51 @@ export default function HomePage({
               </div>
             </div>
 
-            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white border border-orange-100/80 shadow-xs hover:border-orange-300 transition-colors">
+            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/90 border border-orange-100 shadow-2xs hover:border-orange-300 transition-colors">
               <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-emerald-600 shrink-0">
                 <CheckCircle2 size={16} />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-xs font-bold text-slate-800 leading-tight truncate">Instant Bank Disbursal / Cash</span>
-                <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">Instant Cash & Bank Payout</span>
+                <span className="text-xs font-bold text-slate-800 leading-tight truncate">No Hidden Charges</span>
+                <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">100% Transparent Terms</span>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Market Analysis Grid (Live Market News Feed) */}
-        <section id="analysis">
+        {/* Live Market News & Updates Section */}
+        <section id="news">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <Newspaper size={16} className="text-[#FF6B00]" />
                 <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-                  LIVE BULLION INTELLIGENCE
+                  DAILY MARKET INSIGHTS
                 </span>
               </div>
               <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
-                Market News & Daily Updates
+                Gold & Commodity Market News
                 <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
-                  நேரடி சந்தை செய்திகள் மற்றும் தினசரி தகவல்கள்
+                  தங்கம் மற்றும் நிதி சந்தை தினசரி செய்திகள்
                 </span>
               </h2>
             </div>
-            
-            <div className="flex items-center gap-3">
-              <button
-                onClick={fetchMarketNews}
-                className="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 hover:border-orange-300 text-xs font-bold text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
-                title="Refresh live news"
-              >
-                <RefreshCw size={13} className={newsLoading ? 'animate-spin text-[#FF6B00]' : 'text-[#FF6B00]'} />
-                <span>{newsLoading ? 'Refreshing...' : 'Refresh News'}</span>
-              </button>
-            </div>
+
+            <button
+              onClick={fetchMarketNews}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-50 hover:bg-orange-100 border border-orange-200/80 text-orange-600 text-xs font-bold w-fit cursor-pointer transition-colors"
+              title="Refresh live news"
+            >
+              <RefreshCw size={13} className={newsLoading ? 'animate-spin text-[#FF6B00]' : 'text-[#FF6B00]'} />
+              <span>{newsLoading ? 'FETCHING...' : 'LIVE FEED • UPDATED TODAY'}</span>
+            </button>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* Left Featured Live Article */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            {/* Left Featured Big News Card */}
             {marketNews.length > 0 ? (
               <div 
-                className="lg:col-span-7 relative min-h-[360px] rounded-3xl overflow-hidden bg-cover bg-center p-8 flex flex-col justify-end border border-slate-200 group cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:border-orange-400 transition-all"
+                className="lg:col-span-7 relative min-h-[360px] rounded-3xl overflow-hidden bg-cover bg-center p-8 flex flex-col justify-end border border-orange-200/70 group cursor-pointer shadow-md hover:border-orange-400 transition-all"
                 style={{ backgroundImage: `url('https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=1200&q=80')` }}
                 onClick={() => setSelectedNewsItem(marketNews[0])}
               >
@@ -1011,7 +1220,7 @@ export default function HomePage({
                 </div>
               </div>
             ) : (
-              <div className="lg:col-span-7 h-[360px] rounded-3xl bg-white border border-slate-200 flex items-center justify-center">
+              <div className="lg:col-span-7 h-[360px] rounded-3xl bg-gradient-to-br from-white to-orange-50/30 border border-orange-200 flex items-center justify-center">
                 <div className="w-8 h-8 rounded-full border-2 border-[#FF6B00] border-t-transparent animate-spin" />
               </div>
             )}
@@ -1021,12 +1230,12 @@ export default function HomePage({
               {marketNews.slice(1, 4).map((art) => (
                 <div 
                   key={art.id} 
-                  className="p-5 rounded-2xl bg-white border border-slate-200/80 hover:border-orange-400/40 hover:bg-orange-50/30 transition-all duration-300 backdrop-blur-xl flex flex-col gap-2.5 cursor-pointer group shadow-sm hover:shadow-md" 
+                  className="p-5 rounded-2xl bg-gradient-to-r from-white via-white to-orange-50/40 border border-orange-200/70 hover:border-orange-400/60 hover:bg-orange-50/50 transition-all duration-300 backdrop-blur-xl flex flex-col gap-2.5 cursor-pointer group shadow-2xs hover:shadow-xs" 
                   onClick={() => setSelectedNewsItem(art)}
                 >
                   <div className="flex items-center justify-between text-xs">
                     <div className="flex items-center gap-2">
-                      <span className="px-2 py-0.5 rounded bg-orange-50 border border-orange-200/80 text-orange-600 font-black text-[9px] uppercase tracking-wider">
+                      <span className="px-2 py-0.5 rounded bg-orange-100/70 border border-orange-200 text-orange-700 font-black text-[9px] uppercase tracking-wider">
                         {art.category}
                       </span>
                       <span className="text-slate-500 font-semibold text-[11px]">
@@ -1068,8 +1277,8 @@ export default function HomePage({
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
             {/* Mission Card */}
-            <div className="lg:col-span-7 p-8 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-4 shadow-[0_10px_35px_rgba(0,0,0,0.04)]">
-              <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center shadow-sm">
+            <div className="lg:col-span-7 p-8 rounded-3xl bg-gradient-to-br from-white via-orange-50/30 to-amber-50/20 border border-orange-200/80 backdrop-blur-xl flex flex-col gap-4 shadow-[0_10px_35px_rgba(249,115,22,0.05)]">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center shadow-xs">
                 <ShieldCheck size={26} />
               </div>
               <h3 className="text-2xl font-bold text-slate-800">100% Honest Market Information</h3>
@@ -1091,19 +1300,19 @@ export default function HomePage({
             </div>
 
             {/* Why Choose Us Stats */}
-            <div className="lg:col-span-5 p-8 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col gap-6 shadow-[0_10px_35px_rgba(0,0,0,0.04)]">
+            <div className="lg:col-span-5 p-8 rounded-3xl bg-gradient-to-br from-white via-orange-50/30 to-amber-50/20 border border-orange-200/80 backdrop-blur-xl flex flex-col gap-6 shadow-[0_10px_35px_rgba(249,115,22,0.05)]">
               <h4 className="text-lg font-bold text-slate-900">Why Families Trust GoldFin</h4>
               <div className="flex flex-col gap-4">
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-col gap-1">
+                <div className="p-4 rounded-2xl bg-white/90 border border-orange-200/70 flex flex-col gap-1 shadow-2xs">
                   <span className="text-xs text-slate-500 font-semibold">Gold Purity Standard</span>
                   <span className="text-base font-bold text-slate-900">100% BIS Hallmarked (916 & 999)</span>
                 </div>
                 
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-col gap-1">
+                <div className="p-4 rounded-2xl bg-white/90 border border-orange-200/70 flex flex-col gap-1 shadow-2xs">
                   <span className="text-xs text-slate-500 font-semibold">Gold Loan Interest</span>
                   <span className="text-base font-bold text-orange-600">Starting from 0.75% per month</span>
                 </div>
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-col gap-1">
+                <div className="p-4 rounded-2xl bg-white/90 border border-orange-200/70 flex flex-col gap-1 shadow-2xs">
                   <span className="text-xs text-slate-500 font-semibold">Hidden Charges</span>
                   <span className="text-base font-bold text-emerald-600">Zero Valuation Fees</span>
                 </div>
@@ -1132,9 +1341,9 @@ export default function HomePage({
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Gold Investment Tips Card */}
-            <div className="p-6 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/40 backdrop-blur-xl transition-all duration-300 flex flex-col gap-5 group shadow-sm hover:shadow-md">
+            <div className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/30 to-amber-50/20 border border-orange-200/80 hover:border-orange-400/60 backdrop-blur-xl transition-all duration-300 flex flex-col gap-5 group shadow-xs hover:shadow-[0_10px_30px_rgba(249,115,22,0.08)]">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                   <Lightbulb size={22} />
                 </div>
                 <div>
@@ -1167,9 +1376,9 @@ export default function HomePage({
             </div>
 
             {/* Gold Loan Tips Card */}
-            <div className="p-6 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/40 backdrop-blur-xl transition-all duration-300 flex flex-col gap-5 group shadow-sm hover:shadow-md">
+            <div className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/30 to-amber-50/20 border border-orange-200/80 hover:border-orange-400/60 backdrop-blur-xl transition-all duration-300 flex flex-col gap-5 group shadow-xs hover:shadow-[0_10px_30px_rgba(249,115,22,0.08)]">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                   <Landmark size={22} />
                 </div>
                 <div>
@@ -1202,9 +1411,9 @@ export default function HomePage({
             </div>
 
             {/* Market Outlook Card */}
-            <div className="p-6 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-400/40 backdrop-blur-xl transition-all duration-300 flex flex-col gap-5 group shadow-sm hover:shadow-md">
+            <div className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/30 to-amber-50/20 border border-orange-200/80 hover:border-orange-400/60 backdrop-blur-xl transition-all duration-300 flex flex-col gap-5 group shadow-xs hover:shadow-[0_10px_30px_rgba(249,115,22,0.08)]">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                   <BarChart3 size={22} />
                 </div>
                 <div>
@@ -1256,7 +1465,7 @@ export default function HomePage({
             {FAQ_ITEMS.map((faq) => (
               <div 
                 key={faq.id} 
-                className="p-6 rounded-2xl bg-white border border-slate-200/80 hover:border-orange-400/40 transition-all backdrop-blur-xl cursor-pointer flex flex-col gap-3 shadow-sm hover:shadow-md"
+                className={`p-6 rounded-2xl border transition-all backdrop-blur-xl cursor-pointer flex flex-col gap-3 shadow-2xs hover:shadow-xs ${openFaqId === faq.id ? 'bg-orange-50/70 border-orange-300 shadow-xs' : 'bg-gradient-to-r from-white via-white to-orange-50/30 border-orange-200/70 hover:border-orange-400/60'}`}
                 onClick={() => setOpenFaqId(openFaqId === faq.id ? null : faq.id)}
               >
                 <div className="flex items-center justify-between">
@@ -1268,7 +1477,7 @@ export default function HomePage({
                 </div>
 
                 {openFaqId === faq.id && (
-                  <p className="text-sm text-slate-600 leading-relaxed pt-3 border-t border-slate-100">{faq.answer}</p>
+                  <p className="text-sm text-slate-700 leading-relaxed pt-3 border-t border-orange-200/60">{faq.answer}</p>
                 )}
               </div>
             ))}

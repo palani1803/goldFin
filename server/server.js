@@ -68,16 +68,24 @@ const startServer = async () => {
       console.log(`🏷️  Shop Rates:   http://localhost:${PORT}/api/shop-rates\n`)
     })
 
-    // --------------- Live Gold Price Cron Job ---------------
-    // Schedule: Mon-Sat at 10:30 AM (Opening) and 4:00 PM (Closing) IST
-    cron.schedule('30 10,16 * * 1-6', async () => {
-      console.log('\n⏰ [CRON] Indian Market gold price sync triggered...')
+    // --------------- Automatic Daily & Intraday Gold Price Cron Jobs ---------------
+    // 1. Intraday Market Sync: Every 30 minutes from 9:00 AM to 6:30 PM IST (Mon-Sat)
+    cron.schedule('*/30 9-18 * * 1-6', async () => {
+      console.log('\n⏰ [CRON] Intraday Indian Market live gold price sync triggered...')
       await fetchAndUpdateGoldPrices()
     }, {
       timezone: 'Asia/Kolkata',
     })
 
-    console.log('⏰ Cron job scheduled: Mon-Sat at 10:30 AM & 4:00 PM IST')
+    // 2. Daily Morning Benchmark Opening Sync (6:00 AM & 10:00 AM IST every day)
+    cron.schedule('0 6,10 * * *', async () => {
+      console.log('\n⏰ [CRON] Daily Morning Gold Benchmark sync triggered...')
+      await fetchAndUpdateGoldPrices()
+    }, {
+      timezone: 'Asia/Kolkata',
+    })
+
+    console.log('⏰ Automated Cron Schedule: Daily at 6:00 AM, 10:00 AM & every 30 mins during market hours (IST)')
 
     // Also fetch on server startup (so first load gets fresh data)
     console.log('\n📡 Fetching latest gold prices on startup...')

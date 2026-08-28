@@ -4,7 +4,7 @@ const { fetchAndUpdateGoldPrices, getGoldPriceHistory } = require('../services/g
 // @desc    Get all gold/silver rates
 // @route   GET /api/gold-rates
 // @access  Public
-const STALE_THRESHOLD_MS = 60 * 60 * 1000 // 1 hour
+const STALE_THRESHOLD_MS = 15 * 60 * 1000 // 15 minutes auto-refresh threshold
 
 const getAllRates = async (req, res, next) => {
   try {

@@ -115,6 +115,14 @@ export default function AdminGoldRates() {
           r.purityId === purityId ? { ...r, pricePerGram: price, updatedAt: new Date().toISOString() } : r
         )
       )
+      // Broadcast update across tabs and components
+      try {
+        localStorage.setItem('goldFin_shop_rates_updated', Date.now().toString())
+        window.dispatchEvent(new CustomEvent('goldRatesUpdated'))
+      } catch (e) {
+        console.log('Event dispatch error:', e)
+      }
+
       setEditingId(null)
       setEditValue('')
       setSuccessMsg(`${purityId.toUpperCase()} rate updated successfully!`)

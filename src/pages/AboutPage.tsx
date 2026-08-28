@@ -109,8 +109,8 @@ export default function AboutPage({
 
         {/* Core Metrics Strip (4 Impact Cards) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/40 backdrop-blur-xl transition-all duration-300 flex flex-col gap-2 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
-            <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center mb-1 group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+          <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/30 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-2 group shadow-xs hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center mb-1 group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
               <TrendingUp size={22} />
             </div>
             <div className="text-3xl md:text-4xl font-extrabold text-slate-800 group-hover:text-[#FF6B00] transition-colors">
@@ -119,8 +119,8 @@ export default function AboutPage({
             <div className="text-xs text-slate-500 font-medium">Monthly Gold Valued</div>
           </div>
 
-          <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/40 backdrop-blur-xl transition-all duration-300 flex flex-col gap-2 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
-            <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center mb-1 group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+          <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/30 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-2 group shadow-xs hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center mb-1 group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
               <Users size={22} />
             </div>
             <div className="text-3xl md:text-4xl font-extrabold text-slate-800 group-hover:text-[#FF6B00] transition-colors">
@@ -129,8 +129,8 @@ export default function AboutPage({
             <div className="text-xs text-slate-500 font-medium">Happy Families Served</div>
           </div>
 
-          <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/40 backdrop-blur-xl transition-all duration-300 flex flex-col gap-2 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
-            <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center mb-1 group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+          <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/30 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-2 group shadow-xs hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center mb-1 group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
               <Zap size={22} />
             </div>
             <div className="text-3xl md:text-4xl font-extrabold text-slate-800 group-hover:text-[#FF6B00] transition-colors">
@@ -139,8 +139,8 @@ export default function AboutPage({
             <div className="text-xs text-slate-500 font-medium">Real-Time Rate Accuracy</div>
           </div>
 
-          <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/40 backdrop-blur-xl transition-all duration-300 flex flex-col gap-2 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
-            <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center mb-1 group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+          <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/30 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-2 group shadow-xs hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center mb-1 group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
               <Award size={22} />
             </div>
             <div className="text-3xl md:text-4xl font-extrabold text-slate-800 group-hover:text-[#FF6B00] transition-colors">
@@ -153,9 +153,9 @@ export default function AboutPage({
         {/* Mission & Vision Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Mission Card */}
-          <div className="lg:col-span-6 p-8 md:p-10 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col justify-between gap-6 shadow-[0_10px_35px_rgba(0,0,0,0.04)]">
+          <div className="lg:col-span-6 p-8 md:p-10 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 backdrop-blur-xl flex flex-col justify-between gap-6 shadow-[0_10px_35px_rgba(249,115,22,0.05)]">
             <div className="flex flex-col gap-4">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold w-fit">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-100/70 border border-orange-200 text-orange-700 text-xs font-bold w-fit">
                 <Target size={14} />
                 <span>OUR CORE MISSION</span>
               </div>
@@ -170,7 +170,7 @@ export default function AboutPage({
               </p>
             </div>
 
-            <div className="flex flex-col gap-3 border-t border-slate-100 pt-5">
+            <div className="flex flex-col gap-3 border-t border-orange-100 pt-5">
               <div className="flex items-center gap-3 text-xs md:text-sm text-slate-700">
                 <CheckCircle2 size={18} className="text-[#FF6B00] shrink-0" />
                 <span>Direct IBJA Benchmark Updates</span>
@@ -187,9 +187,9 @@ export default function AboutPage({
           </div>
 
           {/* Vision Card */}
-          <div className="lg:col-span-6 p-8 md:p-10 rounded-3xl bg-white border border-slate-200/80 backdrop-blur-xl flex flex-col justify-between gap-6 shadow-[0_10px_35px_rgba(0,0,0,0.04)]">
+          <div className="lg:col-span-6 p-8 md:p-10 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 backdrop-blur-xl flex flex-col justify-between gap-6 shadow-[0_10px_35px_rgba(249,115,22,0.05)]">
             <div className="flex flex-col gap-4">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold w-fit">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-100/70 border border-orange-200 text-orange-700 text-xs font-bold w-fit">
                 <Building2 size={14} />
                 <span>OUR VISION</span>
               </div>
@@ -204,7 +204,7 @@ export default function AboutPage({
               </p>
             </div>
 
-            <div className="flex flex-col gap-3 border-t border-slate-100 pt-5">
+            <div className="flex flex-col gap-3 border-t border-orange-100 pt-5">
               <div className="flex items-center gap-3 text-xs md:text-sm text-slate-700">
                 <CheckCircle2 size={18} className="text-[#FF6B00] shrink-0" />
                 <span>Instant 75% RBI-Sanctioned Value</span>
@@ -239,8 +239,8 @@ export default function AboutPage({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
-              <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+            <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-xs hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                 <ShieldCheck size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
@@ -251,8 +251,8 @@ export default function AboutPage({
               </p>
             </div>
 
-            <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
-              <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+            <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-xs hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                 <Zap size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
@@ -263,8 +263,8 @@ export default function AboutPage({
               </p>
             </div>
 
-            <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
-              <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+            <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-xs hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                 <Award size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
@@ -275,8 +275,8 @@ export default function AboutPage({
               </p>
             </div>
 
-            <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
-              <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+            <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-xs hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                 <Lock size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">

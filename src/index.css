@@ -112,7 +112,71 @@ body {
   100% { transform: rotate(360deg) translateX(30px) rotate(-360deg); }
 }
 
+/* Railway Moving Tag / Marquee Ticker Animation */
+@keyframes railwayTicker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
 
+.animate-railway-ticker {
+  display: flex;
+  width: max-content;
+  animation: railwayTicker 35s linear infinite;
+  will-change: transform;
+}
+
+.animate-railway-ticker:hover {
+  animation-play-state: paused;
+}
+
+/* 3D Gold Coin Animations */
+@keyframes coinSpin3D {
+  0% {
+    transform: rotateY(0deg) rotateX(8deg);
+  }
+  50% {
+    transform: rotateY(180deg) rotateX(-6deg);
+  }
+  100% {
+    transform: rotateY(360deg) rotateX(8deg);
+  }
+}
+
+@keyframes coinFloat3D {
+  0%, 100% {
+    transform: translateY(0px) rotateX(6deg) rotateY(-8deg);
+  }
+  50% {
+    transform: translateY(-8px) rotateX(-4deg) rotateY(10deg);
+  }
+}
+
+@keyframes coinShimmer {
+  0% {
+    transform: translateX(-150%) skewX(-25deg);
+  }
+  35%, 100% {
+    transform: translateX(250%) skewX(-25deg);
+  }
+}
+
+.animate-coin-spin-3d {
+  animation: coinSpin3D 9s linear infinite;
+  transform-style: preserve-3d;
+}
+
+.animate-coin-float-3d {
+  animation: coinFloat3D 6s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.animate-coin-shimmer {
+  animation: coinShimmer 4s ease-in-out infinite;
+}
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {

@@ -175,20 +175,20 @@ export default function BranchesPage({
 
         {/* SECTION 1: BRANCH SHOWCASE CARDS */}
         <section className="flex flex-col gap-10">
-          {loading ? (
-            <div className="flex items-center justify-center py-20 text-slate-400 gap-3">
-              <Loader2 size={24} className="animate-spin text-[#FF6B00]" />
-              <span className="text-sm font-semibold">Loading branch locations...</span>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-stretch max-w-5xl mx-auto w-full">
+            {loading ? (
+              <div className="flex items-center justify-center py-20 text-slate-400 gap-3">
+                <Loader2 size={24} className="animate-spin text-[#FF6B00]" />
+                <span className="text-sm font-semibold">Loading branch locations...</span>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-stretch max-w-5xl mx-auto w-full">
               {branches.map((branch) => {
                 const localizedName = getLocalizedName(branch)
 
                 return (
                   <div
                     key={branch._id || branch.city}
-                    className="rounded-3xl bg-white border border-slate-200/90 hover:border-orange-400/50 transition-all duration-300 overflow-hidden flex flex-col justify-between p-6 sm:p-7 shadow-sm hover:shadow-xl group"
+                    className="rounded-3xl bg-gradient-to-b from-white via-white to-orange-50/35 border border-orange-200/80 hover:border-orange-400/80 transition-all duration-300 overflow-hidden flex flex-col justify-between p-6 sm:p-7 shadow-xs hover:shadow-[0_12px_35px_rgba(249,115,22,0.12)] group"
                   >
                     {/* Branch Title Container (Consistent Height for Perfect Row Alignment) */}
                     <div className="w-full min-h-[54px] sm:min-h-[60px] flex items-center justify-center mb-4">
@@ -200,7 +200,7 @@ export default function BranchesPage({
                     {/* Branch Image Container with Balanced 4:3 Aspect Ratio */}
                     <div
                       onClick={() => handleBranchClick(branch.city)}
-                      className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-md cursor-pointer border border-slate-200/80 bg-slate-100 group/img my-auto"
+                      className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-md cursor-pointer border border-orange-200/70 bg-slate-100 group/img my-auto"
                     >
                       <img
                         src={branch.image || branchJewelNecklace}
@@ -259,8 +259,8 @@ export default function BranchesPage({
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Machine 1 */}
-            <div className="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-sm hover:shadow-lg transition-all flex flex-col gap-4 group">
-              <div className="w-12 h-12 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <div className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 shadow-xs hover:shadow-[0_10px_25px_rgba(249,115,22,0.1)] transition-all flex flex-col gap-4 group">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:scale-110 transition-transform">
                 <Sparkles size={24} />
               </div>
               <div>
@@ -274,8 +274,8 @@ export default function BranchesPage({
             </div>
 
             {/* Machine 2 */}
-            <div className="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-sm hover:shadow-lg transition-all flex flex-col gap-4 group">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <div className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 shadow-xs hover:shadow-[0_10px_25px_rgba(249,115,22,0.1)] transition-all flex flex-col gap-4 group">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
                 <Scale size={24} />
               </div>
               <div>
@@ -289,8 +289,8 @@ export default function BranchesPage({
             </div>
 
             {/* Machine 3 */}
-            <div className="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-sm hover:shadow-lg transition-all flex flex-col gap-4 group">
-              <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <div className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 shadow-xs hover:shadow-[0_10px_25px_rgba(249,115,22,0.1)] transition-all flex flex-col gap-4 group">
+              <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
                 <Lock size={24} />
               </div>
               <div>

@@ -3,3 +3,5 @@ export { default as Footer } from './Footer'
 export { default as TrustBanner } from './TrustBanner'
 export { default as GoldBackground } from './GoldBackground'
 export { default as AboutTrustHeroBanner } from './AboutTrustHeroBanner'
+export { default as GoldCoin3D } from './GoldCoin3D'
+

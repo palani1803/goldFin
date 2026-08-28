@@ -462,9 +462,9 @@ export default function ContactPage({
           {/* Left Column: Branch Comprehensive Details (5 Cols) */}
           <div className="lg:col-span-5 flex flex-col gap-5">
             {/* Header Badge Card */}
-            <div className="p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/80 shadow-sm flex flex-col gap-3">
+            <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 shadow-xs flex flex-col gap-3">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-orange-600 bg-orange-50 border border-orange-200 px-2.5 py-0.5 rounded-full">
+                <span className="text-[10px] font-extrabold uppercase tracking-widest text-orange-700 bg-orange-100/70 border border-orange-200 px-2.5 py-0.5 rounded-full">
                   {activeBranch.tag}
                 </span>
                 <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
@@ -487,8 +487,8 @@ export default function ContactPage({
             {/* Contact Information Cards */}
             <div className="flex flex-col gap-3">
               {/* 1. Branch Address */}
-              <div className="p-4 rounded-2xl bg-white border border-slate-200/80 hover:border-orange-500/35 transition-all flex items-start gap-3.5 shadow-sm group">
-                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#FF6B00] group-hover:to-[#EA580C] group-hover:text-white transition-all shadow-sm">
+              <div className="p-4 rounded-2xl bg-gradient-to-r from-white via-white to-orange-50/30 border border-orange-200/70 hover:border-orange-500/50 transition-all flex items-start gap-3.5 shadow-2xs group">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#FF6B00] group-hover:to-[#EA580C] group-hover:text-white transition-all shadow-2xs">
                   <MapPin size={18} />
                 </div>
                 <div className="flex flex-col flex-1">
@@ -505,8 +505,8 @@ export default function ContactPage({
               </div>
 
               {/* 2. Direct Priority Line */}
-              <div className="p-4 rounded-2xl bg-white border border-slate-200/80 hover:border-orange-500/35 transition-all flex items-start gap-3.5 shadow-sm group">
-                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#FF6B00] group-hover:to-[#EA580C] group-hover:text-white transition-all shadow-sm">
+              <div className="p-4 rounded-2xl bg-gradient-to-r from-white via-white to-orange-50/30 border border-orange-200/70 hover:border-orange-500/50 transition-all flex items-start gap-3.5 shadow-2xs group">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#FF6B00] group-hover:to-[#EA580C] group-hover:text-white transition-all shadow-2xs">
                   <Phone size={18} />
                 </div>
                 <div className="flex flex-col flex-1">
@@ -522,7 +522,7 @@ export default function ContactPage({
                     </a>
                     <button
                       onClick={() => handleCopyPhone(activeBranch.id, activeBranch.rawPhone)}
-                      className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 hover:bg-orange-500 hover:text-white text-slate-700 transition-colors border border-slate-200 cursor-pointer flex items-center gap-1"
+                      className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-orange-50 hover:bg-orange-500 hover:text-white text-slate-700 transition-colors border border-orange-200 cursor-pointer flex items-center gap-1"
                     >
                       {copiedPhoneId === activeBranch.id ? (
                         <>
@@ -544,8 +544,8 @@ export default function ContactPage({
               </div>
 
               {/* 3. Official Email */}
-              <div className="p-4 rounded-2xl bg-white border border-slate-200/80 hover:border-orange-500/35 transition-all flex items-start gap-3.5 shadow-sm group">
-                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#FF6B00] group-hover:to-[#EA580C] group-hover:text-white transition-all shadow-sm">
+              <div className="p-4 rounded-2xl bg-gradient-to-r from-white via-white to-orange-50/30 border border-orange-200/70 hover:border-orange-500/50 transition-all flex items-start gap-3.5 shadow-2xs group">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#FF6B00] group-hover:to-[#EA580C] group-hover:text-white transition-all shadow-2xs">
                   <Mail size={18} />
                 </div>
                 <div className="flex flex-col flex-1">
@@ -565,8 +565,8 @@ export default function ContactPage({
               </div>
 
               {/* 4. Operating Hours */}
-              <div className="p-4 rounded-2xl bg-white border border-slate-200/80 hover:border-orange-500/35 transition-all flex items-start gap-3.5 shadow-sm group">
-                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#FF6B00] group-hover:to-[#EA580C] group-hover:text-white transition-all shadow-sm">
+              <div className="p-4 rounded-2xl bg-gradient-to-r from-white via-white to-orange-50/30 border border-orange-200/70 hover:border-orange-500/50 transition-all flex items-start gap-3.5 shadow-2xs group">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#FF6B00] group-hover:to-[#EA580C] group-hover:text-white transition-all shadow-2xs">
                   <Clock size={18} />
                 </div>
                 <div className="flex flex-col flex-1">
@@ -598,11 +598,11 @@ export default function ContactPage({
 
           {/* Right Column: Google Maps Interactive Embed (7 Cols) */}
           <div className="lg:col-span-7 flex flex-col gap-4 sticky top-24">
-            <div className="relative rounded-3xl bg-white border border-slate-200/80 shadow-md p-4 sm:p-5 flex flex-col gap-4 overflow-hidden">
+            <div className="relative rounded-3xl bg-gradient-to-b from-white via-orange-50/15 to-white border border-orange-200/80 shadow-md p-4 sm:p-5 flex flex-col gap-4 overflow-hidden">
               {/* Map Header */}
-              <div className="flex items-center justify-between gap-2 pb-3 border-b border-slate-100">
+              <div className="flex items-center justify-between gap-2 pb-3 border-b border-orange-100">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-xl bg-orange-100/70 border border-orange-200 text-orange-600 flex items-center justify-center">
                     <Building2 size={16} />
                   </div>
                   <div>
@@ -627,7 +627,7 @@ export default function ContactPage({
               </div>
 
               {/* Map Iframe */}
-              <div className="relative w-full h-[420px] sm:h-[480px] rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 shadow-inner">
+              <div className="relative w-full h-[420px] sm:h-[480px] rounded-2xl overflow-hidden border border-orange-200/80 bg-slate-100 shadow-inner">
                 <iframe
                   key={activeBranch.id}
                   title={`${activeBranch.name} Map`}
@@ -658,7 +658,7 @@ export default function ContactPage({
               {/* Features List */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 text-xs">
                 {activeBranch.features.map((feat, idx) => (
-                  <div key={idx} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center gap-2 text-slate-700">
+                  <div key={idx} className="p-2.5 rounded-xl bg-orange-50/50 border border-orange-200/70 flex items-center gap-2 text-slate-700">
                     <CheckCircle2 size={14} className="text-emerald-500 shrink-0" />
                     <span className="text-[11px] font-medium leading-tight">{feat}</span>
                   </div>

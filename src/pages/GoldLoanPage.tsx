@@ -16,7 +16,7 @@ import {
   BadgePercent
 } from 'lucide-react'
 import goldLoanBankHero from '../assets/gold_loan_bank_hero.jpg'
-import { Navbar, Footer, GoldBackground } from '../components'
+import { Navbar, Footer, GoldBackground, TrustBanner } from '../components'
 
 interface PurityRate {
   purityId: string
@@ -233,7 +233,7 @@ export default function GoldLoanPage({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Standard (22K) Card */}
-            <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/40 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-4 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
+            <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-4 group shadow-xs hover:shadow-[0_12px_30px_rgba(249,115,22,0.12)]">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Award size={18} className="text-[#FF6B00]" />
@@ -256,11 +256,11 @@ export default function GoldLoanPage({
                 </span>
               </div>
 
-              <div className="w-full h-[1px] bg-slate-100 rounded-full" />
+              <div className="w-full h-[1px] bg-orange-100/80 rounded-full" />
             </div>
 
             {/* Pure (24K) Card */}
-            <div className="p-7 rounded-3xl bg-white border border-orange-300/70 hover:border-orange-500 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-4 group shadow-[0_6px_25px_rgba(249,115,22,0.08)] hover:shadow-[0_12px_30px_rgba(249,115,22,0.15)]">
+            <div className="p-7 rounded-3xl bg-gradient-to-br from-orange-50/70 via-white to-amber-50/60 border-2 border-orange-400/90 hover:border-orange-500 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-4 group shadow-sm hover:shadow-[0_12px_30px_rgba(249,115,22,0.16)]">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Sparkles size={18} className="text-[#FF6B00]" />
@@ -283,7 +283,7 @@ export default function GoldLoanPage({
                 </span>
               </div>
 
-              <div className="w-full h-[1px] bg-slate-100 rounded-full" />
+              <div className="w-full h-[1px] bg-orange-100/80 rounded-full" />
             </div>
           </div>
         </div>
@@ -307,8 +307,8 @@ export default function GoldLoanPage({
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Card 1: Instant Approval */}
-            <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
-              <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+            <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-xs hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                 <Zap size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
@@ -320,8 +320,8 @@ export default function GoldLoanPage({
             </div>
 
             {/* Card 2: Highest Valuation */}
-            <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
-              <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+            <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-xs hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                 <Scale size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
@@ -333,8 +333,8 @@ export default function GoldLoanPage({
             </div>
 
             {/* Card 3: Secure Storage */}
-            <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
-              <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+            <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-xs hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                 <ShieldCheck size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
@@ -346,8 +346,8 @@ export default function GoldLoanPage({
             </div>
 
             {/* Card 4: Minimal Documentation */}
-            <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
-              <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+            <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-xs hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                 <FileText size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
@@ -359,8 +359,8 @@ export default function GoldLoanPage({
             </div>
 
             {/* Card 5: Flexible Repayment */}
-            <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
-              <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+            <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-xs hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                 <Calendar size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
@@ -372,8 +372,8 @@ export default function GoldLoanPage({
             </div>
 
             {/* Card 6: Quick Disbursal */}
-            <div className="p-7 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
-              <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+            <div className="p-7 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-4 group shadow-xs hover:shadow-[0_10px_28px_rgba(249,115,22,0.1)]">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                 <CreditCard size={24} />
               </div>
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
@@ -433,9 +433,9 @@ export default function GoldLoanPage({
             ].map((step, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-3xl bg-white border border-slate-200/80 hover:border-orange-500/35 backdrop-blur-xl transition-all duration-300 flex flex-col gap-3 group shadow-sm hover:shadow-md"
+                className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-3 group shadow-2xs hover:shadow-xs"
               >
-                <div className="w-10 h-10 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-black flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-sm">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 text-xs font-black flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
                   {step.num}
                 </div>
                 <h4 className="text-sm font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
@@ -552,7 +552,8 @@ export default function GoldLoanPage({
           </div>
         </div>
 
-        
+        {/* Reusable Trust Banner */}
+        <TrustBanner />
       </main>
 
       {/* Footer via Reusable Component */}
