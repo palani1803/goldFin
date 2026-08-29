@@ -10,6 +10,7 @@ import {
   Loader2
 } from 'lucide-react'
 import { Navbar, Footer, TrustBanner, GoldBackground } from '../components'
+import { useSiteSettings } from '../hooks/useSiteSettings'
 
 // Branch images
 import branchJewelNecklace from '../assets/branch_jewel_necklace.jpg'
@@ -63,21 +64,23 @@ export default function BranchesPage({
   onNavigateBranches,
   onNavigateContact,
 }: BranchesPageProps) {
+  const { settings } = useSiteSettings()
+  const companyName = settings.siteName || 'Mahesh Bankers'
   const [branches, setBranches] = useState<BranchItem[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
+  const loadBranches = () => {
     fetch('/api/branches')
       .then((res) => res.json())
       .then((json) => {
-        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+        if (json.success && Array.isArray(json.data)) {
           const activeBranches = json.data
             .filter((b: any) => b.isActive !== false)
             .map((b: any) => ({
               _id: b._id,
               id: b._id,
               name: b.name,
-              subtitle: `GoldFin ${b.city}`,
+              subtitle: `${companyName} ${b.city}`,
               city: b.city,
               address: b.address,
               phone: b.phone,
@@ -88,6 +91,23 @@ export default function BranchesPage({
       })
       .catch((err) => console.error('Failed to load branches:', err))
       .finally(() => setLoading(false))
+  }
+
+  useEffect(() => {
+    loadBranches()
+
+    const handleUpdate = () => loadBranches()
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'goldFin_branches_updated') loadBranches()
+    }
+
+    window.addEventListener('branchesUpdated', handleUpdate)
+    window.addEventListener('storage', handleStorage)
+
+    return () => {
+      window.removeEventListener('branchesUpdated', handleUpdate)
+      window.removeEventListener('storage', handleStorage)
+    }
   }, [])
 
   const handleBranchClick = (city?: string) => {
@@ -214,7 +234,7 @@ export default function BranchesPage({
                       {/* Floating City Caption */}
                       <div className="absolute bottom-3.5 left-0 right-0 px-4 flex flex-col items-center justify-center text-white text-center">
                         <span className="text-[11px] uppercase font-extrabold tracking-widest text-orange-400 drop-shadow-sm">
-                          GoldFin Point
+                          {companyName} Point
                         </span>
                         <span className="text-base sm:text-lg font-black text-white drop-shadow-md">
                           {branch.city}
@@ -253,7 +273,7 @@ export default function BranchesPage({
             </h2>
             <div className="w-12 h-1 bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full mx-auto" />
             <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
-              Every GoldFin branch is equipped with German XRF karatmeters and precision micro-balances for 100% transparent purity evaluation.
+              Every {companyName} branch is equipped with German XRF karatmeters and precision micro-balances for 100% transparent purity evaluation.
             </p>
           </div>
 
@@ -312,7 +332,7 @@ export default function BranchesPage({
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left">
             <div className="flex flex-col gap-3 max-w-xl">
               <span className="text-xs font-bold uppercase tracking-widest text-[#FF6B00]">
-                GOLDFIN BULLION & LOAN DESK
+                {companyName.toUpperCase()} BULLION & LOAN DESK
               </span>
               <h2 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight">
                 Instant Cash for Your Gold Jewellery
@@ -327,11 +347,11 @@ export default function BranchesPage({
 
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
               <a
-                href="tel:+919092548347"
+                href={`tel:${(settings.contactPhone || '+91 90925 48347').replace(/[^0-9+]/g, '')}`}
                 className="w-full sm:w-auto py-3.5 px-7 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-xs hover:brightness-110 transition-all shadow-[0_4px_20px_rgba(249,115,22,0.4)] flex items-center justify-center gap-2.5 no-underline cursor-pointer"
               >
                 <PhoneCall size={16} />
-                <span>Call Us (+91 90925 48347)</span>
+                <span>Call Us ({settings.contactPhone || '+91 90925 48347'})</span>
               </a>
 
               <button

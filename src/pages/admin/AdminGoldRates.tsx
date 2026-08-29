@@ -3,6 +3,7 @@ import {
   Coins, Save, RefreshCw, Check, AlertCircle, TrendingUp, TrendingDown,
   Edit3, X, Loader2
 } from 'lucide-react'
+import { useSiteSettings } from '../../hooks/useSiteSettings'
 
 interface ShopRate {
   _id: string
@@ -23,6 +24,8 @@ interface MarketRate {
 }
 
 export default function AdminGoldRates() {
+  const { settings } = useSiteSettings()
+  const companyName = settings.siteName || 'Mahesh Bankers'
   const [shopRates, setShopRates] = useState<ShopRate[]>([])
   const [marketRates, setMarketRates] = useState<MarketRate[]>([])
   const [loading, setLoading] = useState(true)
@@ -158,17 +161,66 @@ export default function AdminGoldRates() {
   }
 
   const purityColors: Record<string, { bg: string; border: string; text: string }> = {
-    '24k': { bg: 'rgba(255,215,0,0.1)', border: 'rgba(255,215,0,0.2)', text: '#FFD700' },
-    '22k': { bg: 'rgba(251,191,36,0.1)', border: 'rgba(251,191,36,0.2)', text: '#FBBF24' },
-    '20k': { bg: 'rgba(245,158,11,0.1)', border: 'rgba(245,158,11,0.2)', text: '#F59E0B' },
-    '18k': { bg: 'rgba(249,115,22,0.1)', border: 'rgba(249,115,22,0.2)', text: '#FB923C' },
-    silver: { bg: 'rgba(148,163,184,0.1)', border: 'rgba(148,163,184,0.2)', text: '#94A3B8' },
+    '24k': { bg: '#FFFBEB', border: '#FDE68A', text: '#D97706' },
+    '22k': { bg: '#FFF7ED', border: '#FED7AA', text: '#EA580C' },
+    '20k': { bg: '#FFF1F2', border: '#FECDD3', text: '#E11D48' },
+    '18k': { bg: '#F0FDF4', border: '#BBF7D0', text: '#16A34A' },
+  }
+
+  // Derive calculated rates for 20k and 18k based on 22k (or 24k)
+  const rate24k = shopRates.find((s) => s.purityId === '24k')?.pricePerGram || 0
+  const rate22k = shopRates.find((s) => s.purityId === '22k')?.pricePerGram || 0
+  const baseRate = rate22k > 0 ? rate22k : rate24k
+  const baseKarat = rate22k > 0 ? 22 : 24
+  const calc20k = baseRate > 0 ? Math.round((baseRate / baseKarat) * 20) : 0
+  const calc18k = baseRate > 0 ? Math.round((baseRate / baseKarat) * 18) : 0
+
+  const handleAutoFill20k18k = async () => {
+    if (!calc20k && !calc18k) return
+    setSaving(true)
+    setErrorMsg('')
+    try {
+      const activeToken = getAuthToken()
+      const updates = []
+      if (calc20k > 0) {
+        updates.push(
+          fetch('/api/shop-rates/20k', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${activeToken}` },
+            body: JSON.stringify({ pricePerGram: calc20k }),
+          })
+        )
+      }
+      if (calc18k > 0) {
+        updates.push(
+          fetch('/api/shop-rates/18k', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${activeToken}` },
+            body: JSON.stringify({ pricePerGram: calc18k }),
+          })
+        )
+      }
+      await Promise.all(updates)
+      await fetchRates()
+      try {
+        localStorage.setItem('goldFin_shop_rates_updated', Date.now().toString())
+        window.dispatchEvent(new CustomEvent('goldRatesUpdated'))
+      } catch (e) {
+        console.log(e)
+      }
+      setSuccessMsg('Successfully auto-set 20K & 18K prices based on 22K rate!')
+      setTimeout(() => setSuccessMsg(''), 4000)
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Failed to auto-set rates')
+    } finally {
+      setSaving(false)
+    }
   }
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <RefreshCw size={28} className="text-orange-400 animate-spin" />
+        <RefreshCw size={28} className="text-orange-500 animate-spin" />
       </div>
     )
   }
@@ -179,58 +231,54 @@ export default function AdminGoldRates() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-bold text-orange-400 uppercase tracking-wider">Home Page Live Sync</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-xs font-bold text-orange-600 uppercase tracking-wider">Home Page Live Sync</span>
           </div>
-          <h1 className="text-2xl font-extrabold text-white flex items-center gap-3">
-            <Coins size={26} className="text-orange-400" />
-            GoldFin Finance Gold Rates
+          <h1 className="text-2xl font-black text-slate-900 flex items-center gap-3">
+            <Coins size={26} className="text-orange-600" />
+            {companyName} Official Gold Rates
           </h1>
-          <p className="text-sm text-slate-400 mt-1 max-w-2xl leading-relaxed">
-            Set your finance company's offered gold prices. These prices update the <strong>"GoldFin Finance Gold Price"</strong> section on the Home Page and are used for customer gold loan valuations.
+          <p className="text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed">
+            Set your shop's offered gold prices (24K, 22K, 20K, 18K). If 20K or 18K is not manually fixed, it is automatically derived from your 22K rate.
           </p>
         </div>
-        <button
-          onClick={fetchRates}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-300 border-0 cursor-pointer transition-all hover:text-white"
-          style={{
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.08)',
-          }}
-        >
-          <RefreshCw size={16} />
-          Refresh Rates
-        </button>
+        <div className="flex items-center gap-2.5 flex-wrap">
+          {baseRate > 0 && (
+            <button
+              onClick={handleAutoFill20k18k}
+              disabled={saving}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-orange-700 bg-orange-50 hover:bg-orange-100 border border-orange-200/90 cursor-pointer transition-all shadow-xs active:scale-95"
+              title="Auto-calculate and save 20K and 18K proportionally from 22K"
+            >
+              <Coins size={14} className={saving ? 'animate-spin' : ''} />
+              <span>{saving ? 'Calculating...' : '⚡ Auto-Set 20K & 18K from 22K'}</span>
+            </button>
+          )}
+
+          <button
+            onClick={fetchRates}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200/90 shadow-xs cursor-pointer transition-all active:scale-95"
+          >
+            <RefreshCw size={16} />
+            Refresh Rates
+          </button>
+        </div>
       </div>
 
       {/* Alerts */}
       {successMsg && (
-        <div
-          className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm"
-          style={{
-            background: 'rgba(16,185,129,0.1)',
-            border: '1px solid rgba(16,185,129,0.2)',
-            color: '#6EE7B7',
-          }}
-        >
-          <Check size={18} />
+        <div className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800 shadow-xs">
+          <Check size={18} className="text-emerald-600" />
           {successMsg}
         </div>
       )}
       {errorMsg && (
-        <div
-          className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm"
-          style={{
-            background: 'rgba(239,68,68,0.1)',
-            border: '1px solid rgba(239,68,68,0.2)',
-            color: '#FCA5A5',
-          }}
-        >
-          <AlertCircle size={18} />
+        <div className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold bg-rose-50 border border-rose-200 text-rose-800 shadow-xs">
+          <AlertCircle size={18} className="text-rose-600" />
           {errorMsg}
           <button
             onClick={() => setErrorMsg('')}
-            className="ml-auto text-red-400/60 hover:text-red-400 bg-transparent border-0 cursor-pointer p-0"
+            className="ml-auto text-rose-500 hover:text-rose-700 bg-transparent border-0 cursor-pointer p-0"
           >
             <X size={16} />
           </button>
@@ -238,13 +286,13 @@ export default function AdminGoldRates() {
       )}
 
       {/* Rates Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-        {['24k', '22k', '20k', '18k', 'silver'].map((purityKey) => {
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-5 items-stretch">
+        {['24k', '22k', '20k', '18k'].map((purityKey) => {
           const rate = shopRates.find((s) => s.purityId === purityKey) || {
             _id: purityKey,
             purityId: purityKey,
-            name: purityKey === 'silver' ? 'SILVER 999' : `GOLD ${purityKey.toUpperCase()}`,
-            karat: purityKey === '24k' ? '24K (99.9% Pure)' : purityKey === '22k' ? '22K (91.6% Pure)' : purityKey === '20k' ? '20K (83.3% Pure)' : purityKey === '18k' ? '18K (75.0% Pure)' : '99.9% Fine Silver',
+            name: `GOLD ${purityKey.toUpperCase()}`,
+            karat: purityKey === '24k' ? '24K • 99.9% Pure' : purityKey === '22k' ? '22K • 91.6% Pure' : purityKey === '20k' ? '20K • 83.3% Pure' : '18K • 75.0% Pure',
             pricePerGram: 0,
             unit: 'per gram',
             updatedAt: new Date().toISOString(),
@@ -254,105 +302,101 @@ export default function AdminGoldRates() {
           const isEditing = editingId === rate.purityId
           const marketPrice = market?.pricePerGram || 0
 
+          const displayName =
+            purityKey === '24k' ? 'Gold 24K' :
+            purityKey === '22k' ? 'Gold 22K' :
+            purityKey === '20k' ? 'Gold 20K' : 'Gold 18K'
+
+          const displayKarat =
+            purityKey === '24k' ? '99.9% Pure' :
+            purityKey === '22k' ? '91.6% Pure' :
+            purityKey === '20k' ? '83.3% Pure' : '75.0% Pure'
+
+          const derivedPrice = purityKey === '20k' ? calc20k : purityKey === '18k' ? calc18k : 0
+          const hasManualPrice = rate.pricePerGram > 0
+          const displayPrice = hasManualPrice ? rate.pricePerGram : derivedPrice
+
           return (
             <div
               key={rate.purityId}
-              className="rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 relative overflow-hidden"
-              style={{
-                background: 'linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.85) 100%)',
-                border: isEditing ? `1.5px solid ${colors.text}` : '1px solid rgba(255,255,255,0.08)',
-                boxShadow: isEditing ? `0 0 25px ${colors.bg}` : '0 4px 20px rgba(0,0,0,0.2)',
-              }}
+              className={`rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition-all duration-300 relative overflow-hidden h-full bg-white shadow-xs hover:shadow-md ${
+                isEditing ? 'border-2 border-orange-500 shadow-orange-500/10' : 'border border-slate-200/90'
+              }`}
             >
-              {/* Card Header */}
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
+              <div className="flex flex-col gap-3">
+                {/* Card Header */}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2.5 min-w-0">
                     <div
-                      className="w-11 h-11 rounded-xl flex items-center justify-center text-sm font-extrabold shadow-sm"
+                      className="w-10 h-10 rounded-xl flex items-center justify-center text-xs font-black shrink-0 shadow-xs"
                       style={{ background: colors.bg, color: colors.text, border: `1px solid ${colors.border}` }}
                     >
-                      {rate.purityId === 'silver' ? 'Ag' : rate.purityId.toUpperCase()}
+                      {purityKey.toUpperCase()}
                     </div>
-                    <div>
-                      <p className="text-base font-bold text-white leading-tight">{rate.name}</p>
-                      <p className="text-xs text-slate-400 mt-0.5">{rate.karat}</p>
+                    <div className="min-w-0">
+                      <p className="text-sm sm:text-base font-black text-slate-900 leading-tight truncate">
+                        {displayName}
+                      </p>
+                      <p className="text-[11px] text-slate-500 font-semibold truncate mt-0.5">
+                        {displayKarat}
+                      </p>
                     </div>
                   </div>
 
-                  <span
-                    className="text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"
-                    style={{
-                      background: 'rgba(249,115,22,0.12)',
-                      color: '#FB923C',
-                      border: '1px solid rgba(249,115,22,0.25)',
-                    }}
-                  >
-                    Home Page Rate
+                  <span className="text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0 bg-orange-50 text-orange-700 border border-orange-200">
+                    Live
                   </span>
                 </div>
 
                 {/* 1. Live Indian Market Benchmark (Read-Only) */}
-                <div
-                  className="rounded-xl p-3 mb-4"
-                  style={{
-                    background: 'rgba(15, 23, 42, 0.6)',
-                    border: '1px solid rgba(255,255,255,0.06)',
-                  }}
-                >
+                <div className="rounded-xl p-3 bg-slate-50/90 border border-slate-200/80">
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                      <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                        Indian Market Price (Live)
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider">
+                        Benchmark
                       </span>
                     </div>
                     {market && (
                       <span
-                        className="flex items-center gap-0.5 text-[11px] font-bold"
-                        style={{ color: market.isUp ? '#34D399' : '#F87171' }}
+                        className="flex items-center gap-0.5 text-[10px] font-bold"
+                        style={{ color: market.isUp ? '#059669' : '#DC2626' }}
                       >
-                        {market.isUp ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+                        {market.isUp ? <TrendingUp size={11} /> : <TrendingDown size={11} />}
                         {market.changePercent}%
                       </span>
                     )}
                   </div>
                   <div className="flex items-baseline justify-between mt-1">
-                    <p className="text-lg font-extrabold text-white">
-                      {marketPrice > 0 ? formatPrice(marketPrice) : 'Fetching live...'}
-                      <span className="text-xs font-normal text-slate-400 ml-1">/gram</span>
+                    <p className="text-base sm:text-lg font-black text-slate-900">
+                      {marketPrice > 0 ? formatPrice(marketPrice) : 'Fetching...'}
+                      <span className="text-[11px] font-semibold text-slate-400 ml-0.5">/g</span>
                     </p>
-                    <span className="text-[10px] text-slate-500 font-medium">Auto-fetched (IBJA/MCX)</span>
+                    <span className="text-[9px] text-slate-400 font-bold">IBJA/MCX</span>
                   </div>
                 </div>
 
-                {/* 2. Our Company Gold Price (Editable) */}
-                <div
-                  className="rounded-xl p-3.5 mb-3"
-                  style={{
-                    background: 'rgba(249, 115, 22, 0.06)',
-                    border: '1px solid rgba(249, 115, 22, 0.18)',
-                  }}
-                >
+                {/* 2. Shop Offered Gold Price (Editable) */}
+                <div className="rounded-xl p-3.5 bg-gradient-to-br from-orange-50/70 via-amber-50/40 to-orange-100/30 border border-orange-200/90 shadow-2xs">
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-[11px] font-bold text-orange-400 uppercase tracking-wider">
-                      🏢 Our Company Gold Price
+                    <span className="text-[10px] font-black text-orange-700 uppercase tracking-wider">
+                      🏢 Shop Offer
                     </span>
                     {!isEditing && (
                       <button
                         onClick={() => handleEdit(rate)}
-                        className="flex items-center gap-1 text-[11px] font-bold text-orange-300 hover:text-white bg-transparent border-0 cursor-pointer p-0 transition-colors"
+                        className="flex items-center gap-1 text-[11px] font-bold text-orange-600 hover:text-orange-800 bg-transparent border-0 cursor-pointer p-0 transition-colors"
                       >
-                        <Edit3 size={13} />
-                        <span>Edit Price</span>
+                        <Edit3 size={12} />
+                        <span>Edit</span>
                       </button>
                     )}
                   </div>
 
                   {isEditing ? (
-                    <div className="space-y-3 pt-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-base font-bold text-orange-400">₹</span>
+                    <div className="space-y-2.5 pt-1">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-sm font-black text-orange-600">₹</span>
                         <input
                           type="number"
                           value={editValue}
@@ -360,12 +404,8 @@ export default function AdminGoldRates() {
                           autoFocus
                           min="0"
                           step="0.01"
-                          placeholder="Enter your price"
-                          className="flex-1 h-10 px-3 rounded-lg text-base font-bold text-white outline-none"
-                          style={{
-                            background: 'rgba(15, 23, 42, 0.8)',
-                            border: '1.5px solid rgba(249,115,22,0.4)',
-                          }}
+                          placeholder="Enter price"
+                          className="flex-1 h-9 px-2.5 rounded-lg text-sm font-bold text-slate-900 bg-white border border-orange-300 outline-none w-full shadow-xs focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                           onKeyDown={(e) => {
                             if (e.key === 'Enter') handleSave(rate.purityId)
                             if (e.key === 'Escape') handleCancel()
@@ -373,33 +413,40 @@ export default function AdminGoldRates() {
                         />
                       </div>
 
-                      {marketPrice > 0 && (
-                        <button
-                          type="button"
-                          onClick={() => setEditValue(marketPrice.toString())}
-                          className="text-[11px] text-slate-400 hover:text-orange-300 bg-transparent border-0 cursor-pointer p-0 flex items-center gap-1"
-                        >
-                          <span>⚡ Use Market Price: ₹{marketPrice.toLocaleString('en-IN')}</span>
-                        </button>
-                      )}
+                      <div className="flex flex-col gap-1 text-[10px]">
+                        {derivedPrice > 0 && !hasManualPrice && (
+                          <button
+                            type="button"
+                            onClick={() => setEditValue(derivedPrice.toString())}
+                            className="text-amber-700 hover:text-amber-900 font-bold bg-transparent border-0 cursor-pointer p-0 flex items-center gap-1 text-left"
+                          >
+                            <span>⚡ Use 22K: ₹{derivedPrice.toLocaleString('en-IN')}</span>
+                          </button>
+                        )}
+                        {marketPrice > 0 && (
+                          <button
+                            type="button"
+                            onClick={() => setEditValue(marketPrice.toString())}
+                            className="text-slate-600 hover:text-orange-600 font-bold bg-transparent border-0 cursor-pointer p-0 flex items-center gap-1 text-left"
+                          >
+                            <span>⚡ Market: ₹{marketPrice.toLocaleString('en-IN')}</span>
+                          </button>
+                        )}
+                      </div>
 
                       <div className="flex items-center gap-2 pt-1">
                         <button
                           onClick={() => handleSave(rate.purityId)}
                           disabled={saving}
-                          className="flex-1 flex items-center justify-center gap-1.5 h-9 rounded-lg text-xs font-bold text-white border-0 cursor-pointer transition-all"
-                          style={{
-                            background: 'linear-gradient(135deg, #FF6B00 0%, #EA580C 100%)',
-                            opacity: saving ? 0.6 : 1,
-                          }}
+                          className="flex-1 flex items-center justify-center gap-1.5 h-8 rounded-lg text-xs font-bold text-white bg-gradient-to-r from-[#FF6B00] to-[#EA580C] border-0 cursor-pointer transition-all shadow-xs active:scale-95"
+                          style={{ opacity: saving ? 0.7 : 1 }}
                         >
-                          {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
-                          <span>{saving ? 'Saving...' : 'Save Price'}</span>
+                          {saving ? <Loader2 size={12} className="animate-spin" /> : <Save size={12} />}
+                          <span>Save</span>
                         </button>
                         <button
                           onClick={handleCancel}
-                          className="h-9 px-3 rounded-lg text-xs font-semibold text-slate-400 border-0 cursor-pointer hover:text-white"
-                          style={{ background: 'rgba(255,255,255,0.06)' }}
+                          className="h-8 px-2.5 rounded-lg text-xs font-bold text-slate-600 bg-white hover:bg-slate-100 border border-slate-200 cursor-pointer"
                         >
                           Cancel
                         </button>
@@ -407,18 +454,29 @@ export default function AdminGoldRates() {
                     </div>
                   ) : (
                     <div>
-                      <p className="text-2xl font-black text-white">
-                        {rate.pricePerGram > 0 ? (
+                      <div className="text-xl sm:text-2xl font-black text-orange-600 leading-tight">
+                        {displayPrice > 0 ? (
                           <>
-                            <span style={{ color: colors.text }}>{formatPrice(rate.pricePerGram)}</span>
-                            <span className="text-xs font-medium text-slate-400 ml-1">/{rate.unit}</span>
+                            <span>{formatPrice(displayPrice)}</span>
+                            <span className="text-xs font-bold text-slate-500 ml-1">/g</span>
                           </>
                         ) : (
-                          <span className="text-slate-500 text-base font-semibold">
-                            Not set (shows "₹ —" on site)
+                          <span className="text-slate-400 text-sm font-semibold">
+                            Not set
                           </span>
                         )}
-                      </p>
+                      </div>
+                      <div className="min-h-[20px] mt-1 flex items-center">
+                        {!hasManualPrice && derivedPrice > 0 ? (
+                          <span className="inline-flex items-center gap-1 text-[9px] font-black text-amber-700 bg-amber-100/70 px-1.5 py-0.5 rounded border border-amber-300">
+                            ⚡ Auto-Derived (22K)
+                          </span>
+                        ) : hasManualPrice ? (
+                          <span className="inline-flex items-center gap-1 text-[9px] font-black text-emerald-700 bg-emerald-100/70 px-1.5 py-0.5 rounded border border-emerald-300">
+                            ✓ Fixed Shop Rate
+                          </span>
+                        ) : null}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -426,9 +484,9 @@ export default function AdminGoldRates() {
 
               {/* Card Footer */}
               {!isEditing && (
-                <div className="pt-2 border-t flex items-center justify-between text-[11px] text-slate-500" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-                  <span>Status: <strong className={rate.pricePerGram > 0 ? 'text-emerald-400' : 'text-slate-400'}>{rate.pricePerGram > 0 ? 'Active on Home' : 'Unset'}</strong></span>
-                  {rate.pricePerGram > 0 && <span>{formatDate(rate.updatedAt)}</span>}
+                <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500">
+                  <span>Status: <strong className={hasManualPrice ? 'text-emerald-600 font-bold' : derivedPrice > 0 ? 'text-amber-600 font-bold' : 'text-slate-400 font-medium'}>{hasManualPrice ? 'Custom' : derivedPrice > 0 ? 'Derived' : 'Unset'}</strong></span>
+                  <span className="text-slate-400 font-medium truncate max-w-[110px]">{hasManualPrice ? formatDate(rate.updatedAt) : 'Auto'}</span>
                 </div>
               )}
             </div>
@@ -437,21 +495,14 @@ export default function AdminGoldRates() {
       </div>
 
       {/* Info Note */}
-      <div
-        className="rounded-xl px-5 py-4 flex items-start gap-3"
-        style={{
-          background: 'rgba(59,130,246,0.06)',
-          border: '1px solid rgba(59,130,246,0.12)',
-        }}
-      >
-        <AlertCircle size={18} className="text-blue-400 shrink-0 mt-0.5" />
+      <div className="rounded-2xl px-5 py-4 flex items-start gap-3 bg-blue-50/80 border border-blue-200/80 shadow-xs">
+        <AlertCircle size={18} className="text-blue-600 shrink-0 mt-0.5" />
         <div>
-          <p className="text-sm font-semibold text-blue-300 mb-1">How it works</p>
-          <p className="text-xs text-slate-400 leading-relaxed">
-            <strong>Market Rate</strong> is the live price fetched automatically from gold exchanges.
+          <p className="text-sm font-bold text-blue-900 mb-0.5">How Shop Gold Valuation Works</p>
+          <p className="text-xs text-blue-800/80 leading-relaxed font-medium">
+            <strong>Market Rate</strong> is the live benchmark fetched automatically from IBJA and gold exchanges.
             <br />
-            <strong>Your Shop Rate</strong> is what you offer to your customers — type your price and hit Save.
-            This will be displayed on your website.
+            <strong>Your Shop Rate</strong> is what you offer your customers — set your price and click Save. All 4 regional branches and customer calculators sync immediately.
           </p>
         </div>
       </div>

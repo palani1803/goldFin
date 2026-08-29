@@ -508,34 +508,134 @@ const seedHistoricalDataIfEmpty = async (currentPrice24k) => {
 }
 
 /**
+ * Records or updates gold price in GoldHistory in MongoDB
+ * Handles high/low/close, changePercent and logs intraday timestamp points for live charts.
+ */
+const recordPriceHistoryUpdate = async (price24K, price22K = null, source = 'admin') => {
+  try {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    const final24k = Math.round(Number(price24K))
+    const final22k = price22K ? Math.round(Number(price22K)) : Math.round(final24k * (22 / 24))
+
+    const existing = await GoldHistory.findOne({ date: today })
+    const now = new Date()
+    const timeLabel = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })
+
+    const newPoint = {
+      time: now,
+      label: timeLabel,
+      price24k: final24k,
+      price22k: final22k,
+      source,
+    }
+
+    if (existing) {
+      const high = Math.max(existing.highPrice || final24k, final24k)
+      const low = Math.min(existing.lowPrice || final24k, final24k)
+      const open = existing.openPrice || final24k
+      const changePct = open > 0 ? parseFloat((((final24k - open) / open) * 100).toFixed(2)) : 0
+
+      const points = Array.isArray(existing.intradayPoints) ? existing.intradayPoints : []
+      const lastPoint = points[points.length - 1]
+      if (!lastPoint || (now.getTime() - new Date(lastPoint.time).getTime() > 10000)) {
+        points.push(newPoint)
+      } else {
+        points[points.length - 1] = newPoint
+      }
+
+      existing.price24k = final24k
+      existing.price22k = final22k
+      existing.highPrice = high
+      existing.lowPrice = low
+      existing.closePrice = final24k
+      existing.changePercent = changePct
+      existing.intradayPoints = points
+
+      await existing.save()
+      console.log(`📈 [DB History] Updated GoldHistory for today: 24K=₹${final24k}, 22K=₹${final22k} (${changePct}%) [${timeLabel}]`)
+      return existing
+    } else {
+      const yesterdayDoc = await GoldHistory.findOne({ date: { $lt: today } }).sort({ date: -1 })
+      const open = yesterdayDoc?.closePrice || final24k
+      const changePct = open > 0 ? parseFloat((((final24k - open) / open) * 100).toFixed(2)) : 0
+
+      const created = await GoldHistory.create({
+        date: today,
+        price24k: final24k,
+        price22k: final22k,
+        highPrice: final24k,
+        lowPrice: final24k,
+        openPrice: open,
+        closePrice: final24k,
+        changePercent: changePct,
+        intradayPoints: [
+          {
+            time: new Date(today.getTime() + 9 * 3600 * 1000),
+            label: '09:00 AM',
+            price24k: open,
+            price22k: Math.round(open * (22 / 24)),
+            source: 'market_open',
+          },
+          newPoint,
+        ],
+      })
+      console.log(`📈 [DB History] Created new GoldHistory snapshot in database: 24K=₹${final24k}, 22K=₹${final22k}`)
+      return created
+    }
+  } catch (err) {
+    console.error('⚠️ [DB History Error]:', err.message)
+    return null
+  }
+}
+
+/**
  * Gets historical data for chart based on range: 'today' | '7days' | '30days'
  */
 const getGoldPriceHistory = async (range = 'today') => {
   try {
-    const live24k = await GoldRate.findOne({ purityId: '24k' })
-    const base24k = live24k?.pricePerGram || 13535
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const todayDateStr = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
+
+    const live24kDoc = await GoldRate.findOne({ purityId: '24k' })
+    const base24k = live24kDoc?.pricePerGram || 13535
     const base22k = Math.round(base24k * (22 / 24))
 
     if (range === 'today') {
-      const todayDate = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
+      const todayDoc = await GoldHistory.findOne({ date: today })
+      if (todayDoc && Array.isArray(todayDoc.intradayPoints) && todayDoc.intradayPoints.length >= 2) {
+        return todayDoc.intradayPoints.map((pt) => {
+          const ptTime = new Date(pt.time)
+          const timeStr = ptTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })
+          return {
+            label: pt.label || timeStr,
+            time: `${pt.label || timeStr} (${todayDateStr})`,
+            price: pt.price24k,
+            price22k: pt.price22k,
+          }
+        })
+      }
+
+      const openPrice = todayDoc?.openPrice || Math.round(base24k * 0.996)
+      const open22k = Math.round(openPrice * (22 / 24))
       return [
-        { label: '09:00 AM', time: `09:00 AM (${todayDate})`, price: Math.round(base24k * 0.996), price22k: Math.round(base22k * 0.996) },
-        { label: '11:00 AM', time: `11:00 AM (${todayDate})`, price: Math.round(base24k * 0.998), price22k: Math.round(base22k * 0.998) },
-        { label: '01:00 PM', time: `01:00 PM (${todayDate})`, price: Math.round(base24k * 1.002), price22k: Math.round(base22k * 1.002) },
-        { label: '03:00 PM', time: `03:00 PM (${todayDate})`, price: Math.round(base24k * 1.004), price22k: Math.round(base22k * 1.004) },
-        { label: '05:00 PM', time: `05:00 PM (${todayDate})`, price: Math.round(base24k * 0.999), price22k: Math.round(base22k * 0.999) },
-        { label: '07:00 PM', time: `07:00 PM (${todayDate})`, price: Math.round(base24k * 1.003), price22k: Math.round(base22k * 1.003) },
-        { label: 'Live Now', time: `Current (${todayDate})`, price: base24k, price22k: base22k },
+        { label: '09:00 AM', time: `09:00 AM (${todayDateStr})`, price: openPrice, price22k: open22k },
+        { label: '11:00 AM', time: `11:00 AM (${todayDateStr})`, price: Math.round(((openPrice + base24k) / 2) * 0.999), price22k: Math.round(((open22k + base22k) / 2) * 0.999) },
+        { label: '01:00 PM', time: `01:00 PM (${todayDateStr})`, price: Math.round(((openPrice + base24k) / 2) * 1.001), price22k: Math.round(((open22k + base22k) / 2) * 1.001) },
+        { label: '03:00 PM', time: `03:00 PM (${todayDateStr})`, price: Math.round(base24k * 1.002), price22k: Math.round(base22k * 1.002) },
+        { label: '05:00 PM', time: `05:00 PM (${todayDateStr})`, price: Math.round(base24k * 0.999), price22k: Math.round(base22k * 0.999) },
+        { label: 'Live Now', time: `Current (${todayDateStr})`, price: base24k, price22k: base22k },
       ]
     }
 
     const limit = range === '7days' ? 7 : 30
-    const records = await GoldHistory.find().sort({ date: -1 }).limit(limit)
+    let records = await GoldHistory.find().sort({ date: -1 }).limit(limit)
 
     if (records.length === 0) {
       await seedHistoricalDataIfEmpty(base24k)
-      const freshRecords = await GoldHistory.find().sort({ date: -1 }).limit(limit)
-      return formatHistoryRecords(freshRecords.reverse())
+      records = await GoldHistory.find().sort({ date: -1 }).limit(limit)
     }
 
     return formatHistoryRecords(records.reverse())
@@ -565,4 +665,5 @@ const formatHistoryRecords = (records) => {
 module.exports = {
   fetchAndUpdateGoldPrices,
   getGoldPriceHistory,
+  recordPriceHistoryUpdate,
 }

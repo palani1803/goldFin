@@ -10,9 +10,11 @@ import {
   ChevronRight,
   X,
   Coins,
-  Sparkles
+  Sparkles,
+  BarChart3
 } from 'lucide-react'
 import { Navbar, Footer, GoldBackground } from '../components'
+import { useSiteSettings } from '../hooks/useSiteSettings'
 
 interface PurityRate {
   purityId: string
@@ -63,6 +65,9 @@ export default function LiveRatePage({
   onNavigateContact,
   onNavigateTo,
 }: LiveRatePageProps) {
+  const { settings } = useSiteSettings()
+  const companyName = settings.siteName || 'Mahesh Bankers'
+
   // Live rates state
   const [liveRates, setLiveRates] = useState<PurityRate[]>([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -145,16 +150,37 @@ export default function LiveRatePage({
   useEffect(() => {
     fetchRates()
     fetchShopRates()
+    fetchHistory(timeframe)
+
     const interval = setInterval(() => {
       fetchRates()
       fetchShopRates()
-    }, 60 * 1000)
-    return () => clearInterval(interval)
-  }, [fetchRates, fetchShopRates])
+      fetchHistory(timeframe)
+    }, 30 * 1000)
 
-  useEffect(() => {
-    fetchHistory(timeframe)
-  }, [timeframe, fetchHistory])
+    const handleRatesUpdate = () => {
+      fetchRates()
+      fetchShopRates()
+      fetchHistory(timeframe)
+    }
+
+    const handleStorageUpdate = (e: StorageEvent) => {
+      if (e.key === 'goldFin_shop_rates_updated') {
+        fetchRates()
+        fetchShopRates()
+        fetchHistory(timeframe)
+      }
+    }
+
+    window.addEventListener('goldRatesUpdated', handleRatesUpdate)
+    window.addEventListener('storage', handleStorageUpdate)
+
+    return () => {
+      clearInterval(interval)
+      window.removeEventListener('goldRatesUpdated', handleRatesUpdate)
+      window.removeEventListener('storage', handleStorageUpdate)
+    }
+  }, [fetchRates, fetchShopRates, fetchHistory, timeframe])
 
   // Derived price values strictly per 1 gram
   const rate24k = liveRates.find((r) => r.purityId === '24k')
@@ -387,12 +413,12 @@ export default function LiveRatePage({
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
             <div className="flex flex-col gap-0.5">
               <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-                GOLDFIN BRANCH RATES
+                {companyName.toUpperCase()} BRANCH RATES
               </span>
               <h2 className="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight">
-                GoldFin Official Loan & Branch Rates
+                {companyName} Official Loan & Branch Rates
                 <span className="block text-xs sm:text-sm font-semibold text-slate-500 mt-0.5 font-sans">
-                  கோல்ட்பின் அதிகாரப்பூர்வ கிளை மற்றும் கொள்முதல் விலை
+                  அதிகாரப்பூர்வ கிளை மற்றும் கொள்முதல் விலை
                 </span>
               </h2>
               <p className="text-xs text-slate-500 font-normal mt-0.5">
@@ -418,6 +444,14 @@ export default function LiveRatePage({
               ['18k', '20k', '22k', '24k'].map((purityKey) => {
                 const shopRate = shopRates.find((s) => s.purityId === purityKey)
                 const marketRate = liveRates.find((m) => m.purityId === purityKey)
+
+                const rate24k = shopRates.find((s) => s.purityId === '24k')?.pricePerGram || 0
+                const rate22k = shopRates.find((s) => s.purityId === '22k')?.pricePerGram || 0
+                const baseShop = rate22k > 0 ? rate22k : rate24k
+                const baseKarat = rate22k > 0 ? 22 : 24
+                const derived20k = baseShop > 0 ? Math.round((baseShop / baseKarat) * 20) : 0
+                const derived18k = baseShop > 0 ? Math.round((baseShop / baseKarat) * 18) : 0
+
                 const displayName =
                   purityKey === '24k' ? '24K Pure Gold' :
                   purityKey === '22k' ? '22K Gold (916)' :
@@ -426,7 +460,17 @@ export default function LiveRatePage({
                   purityKey === '24k' ? '99.9% Purity • 1g' :
                   purityKey === '22k' ? '91.6% Purity • 1g' :
                   purityKey === '20k' ? '83.3% Purity • 1g' : '75.0% Pure • 1g'
-                const price = shopRate ? shopRate.pricePerGram : (marketRate ? marketRate.pricePerGram : 0)
+
+                let price = 0
+                if (shopRate && shopRate.pricePerGram > 0) {
+                  price = shopRate.pricePerGram
+                } else if (purityKey === '20k' && derived20k > 0) {
+                  price = derived20k
+                } else if (purityKey === '18k' && derived18k > 0) {
+                  price = derived18k
+                } else if (marketRate && marketRate.pricePerGram > 0) {
+                  price = marketRate.pricePerGram
+                }
 
                 return (
                   <div
@@ -436,7 +480,7 @@ export default function LiveRatePage({
                     <div className="flex items-center justify-between gap-2 min-h-[22px]">
                       <span className="text-xs sm:text-[13px] font-extrabold tracking-wide text-slate-800 whitespace-nowrap">{displayName}</span>
                       <span className="text-[9px] font-black tracking-wider px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-300 shrink-0">
-                        GOLDFIN
+                        {companyName.toUpperCase()}
                       </span>
                     </div>
 
@@ -635,23 +679,39 @@ export default function LiveRatePage({
           </div>
         </div>
 
-        {/* 4 Stat / High-Low Grid Boxes */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/15 border border-orange-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-2xs">
-            <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
-              High Price (1g)
-            </span>
-            <div className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
-              ₹{highPrice.toLocaleString('en-IN')}
+        {/* 4 Stat / High-Low Grid Boxes Section with Header */}
+        <div className="space-y-4">
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2">
+              <BarChart3 size={16} className="text-[#FF6B00]" />
+              <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
+                24-HOUR BENCHMARK SUMMARY
+              </span>
             </div>
-            <span className="text-xs text-slate-500 font-medium">24K Pure Gold (1g)</span>
+            <h3 className="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight">
+              Today's Gold Price Range & Performance
+              <span className="block text-xs sm:text-sm font-semibold text-slate-500 mt-0.5 font-sans">
+                இன்றைய தங்க விலை வரம்பு மற்றும் 24 மணி நேர மதிப்பீடு
+              </span>
+            </h3>
           </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/15 border border-orange-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-2xs">
+              <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
+                High Price (1g)
+              </span>
+              <div className="text-2xl md:text-3xl font-extrabold text-orange-600 tracking-tight">
+                ₹{highPrice.toLocaleString('en-IN')}
+              </div>
+              <span className="text-xs text-slate-500 font-medium">24K Pure Gold (1g)</span>
+            </div>
 
           <div className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/15 border border-orange-200/80 backdrop-blur-xl flex flex-col gap-1.5 shadow-2xs">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
               Low Price (1g)
             </span>
-            <div className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+            <div className="text-2xl md:text-3xl font-extrabold text-orange-600 tracking-tight">
               ₹{lowPrice.toLocaleString('en-IN')}
             </div>
             <span className="text-xs text-slate-500 font-medium">24K Pure Gold (1g)</span>
@@ -661,7 +721,7 @@ export default function LiveRatePage({
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
               Average Price (1g)
             </span>
-            <div className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+            <div className="text-2xl md:text-3xl font-extrabold text-orange-600 tracking-tight">
               ₹{avgPrice.toLocaleString('en-IN')}
             </div>
             <span className="text-xs text-slate-500 font-medium">Average Market Price</span>
@@ -671,12 +731,13 @@ export default function LiveRatePage({
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
               24h Change %
             </span>
-            <div className={`text-2xl md:text-3xl font-extrabold tracking-tight ${isUp24k ? 'text-emerald-600' : 'text-rose-600'}`}>
+            <div className="text-2xl md:text-3xl font-extrabold tracking-tight text-orange-600">
               {isUp24k ? `+${change24k}%` : `-${change24k}%`}
             </div>
             <span className="text-xs text-slate-500 font-medium">vs Yesterday's Rate</span>
           </div>
         </div>
+      </div>
 
         {/* 4 Feature Educational Cards (2x2 Grid) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

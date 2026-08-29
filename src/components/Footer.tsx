@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Coins, Mail, Phone, ShieldCheck, ArrowUpRight } from 'lucide-react'
+import { useSiteSettings } from '../hooks/useSiteSettings'
 
 export interface FooterProps {
   onNavigateHome?: () => void
@@ -34,6 +35,7 @@ export default function Footer({
   onScrollToSection,
 }: FooterProps) {
   const [branches, setBranches] = useState<FooterBranch[]>(DEFAULT_FOOTER_BRANCHES)
+  const { settings } = useSiteSettings()
 
   useEffect(() => {
     fetch('/api/branches')
@@ -106,15 +108,23 @@ export default function Footer({
               className="flex items-center gap-3 cursor-pointer group w-fit"
               onClick={() => handleLinkClick('home')}
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF6B00] via-[#F97316] to-[#EA580C] flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
-                <Coins size={22} />
-              </div>
+              {settings.logoUrl ? (
+                <img
+                  src={settings.logoUrl}
+                  alt={settings.siteName || 'Mahesh Bankers'}
+                  className="h-10 max-w-[150px] object-contain group-hover:scale-105 transition-transform"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF6B00] via-[#F97316] to-[#EA580C] flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+                  <Coins size={22} />
+                </div>
+              )}
               <div className="flex flex-col">
                 <span className="text-xl font-extrabold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
-                  GoldFin
+                  {settings.siteName || 'Mahesh Bankers'}
                 </span>
                 <span className="text-[10px] font-bold tracking-wider text-[#FF6B00]">
-                  Live Rates & Gold Loans
+                  {settings.tagline || 'Live Rates & Gold Loans'}
                 </span>
               </div>
             </div>
@@ -210,28 +220,28 @@ export default function Footer({
               Customer Support
             </h4>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Monday–Saturday: 9:00 AM – 6:30 PM
+              {settings.operatingHours || 'Monday–Saturday: 9:00 AM – 6:30 PM'}
             </p>
             <a
-              href="mailto:support@goldfin.in"
+              href={`mailto:${settings.contactEmail || 'contact@maheshbankers.com'}`}
               className="flex items-center gap-2 text-[#FF6B00] hover:text-[#EA580C] font-bold text-xs transition-colors no-underline"
             >
               <Mail size={16} />
-              <span>support@goldfin.in</span>
+              <span>{settings.contactEmail || 'contact@maheshbankers.com'}</span>
             </a>
             <a
-              href="tel:+919092548347"
+              href={`tel:${(settings.contactPhone || '+91 90925 48347').replace(/[^0-9+]/g, '')}`}
               className="flex items-center gap-2 text-slate-700 hover:text-[#FF6B00] font-bold text-xs transition-colors no-underline"
             >
               <Phone size={16} className="text-[#FF6B00]" />
-              <span>+91 90925 48347</span>
+              <span>{settings.contactPhone || '+91 90925 48347'}</span>
             </a>
           </div>
         </div>
 
         {/* Bottom Strip */}
         <div className="pt-8 mt-12 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 text-center sm:text-left">
-          <span>© 2026 GoldFin. All Rights Reserved. Compliant with RBI guidelines.</span>
+          <span>© {new Date().getFullYear()} {settings.siteName || 'Mahesh Bankers'}. All Rights Reserved. Compliant with RBI guidelines.</span>
           <span>{cityListString}</span>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useSiteSettings } from '../hooks/useSiteSettings'
 
 interface GoldCoin3DProps {
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'responsive'
@@ -20,6 +21,8 @@ export default function GoldCoin3D({
   onClick,
 }: GoldCoin3DProps) {
   const [isHovered, setIsHovered] = useState(false)
+  const { settings } = useSiteSettings()
+  const coinStampText = settings.siteName ? `★ ${settings.siteName.toUpperCase()} ★` : '★ MAHESH BANKERS ★'
 
   // Optimal crystal-clear dimension for crisp rendering
   const fixedSizePx = customSize || (size === 'sm' ? 56 : size === 'md' ? 76 : size === 'lg' ? 96 : size === 'xl' ? 128 : undefined)
@@ -141,17 +144,17 @@ export default function GoldCoin3D({
               99.9% PURE
             </text>
 
-            {/* Curved Bottom Brand Stamp: GOLDFIN */}
+            {/* Curved Bottom Brand Stamp */}
             <path id="curveFront" d="M22 68 A 32 32 0 0 0 78 68" fill="none" />
             <text
               fill="#3A1400"
               fontWeight="900"
-              fontSize="7"
-              letterSpacing="1.8"
+              fontSize="6"
+              letterSpacing="1.2"
               style={{ filter: 'drop-shadow(0px 0.5px 0px rgba(255,245,157,0.9))' }}
             >
               <textPath href="#curveFront" startOffset="50%" textAnchor="middle">
-                ★ GOLDFIN ★
+                {coinStampText}
               </textPath>
             </text>
           </svg>

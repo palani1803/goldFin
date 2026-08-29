@@ -3,7 +3,7 @@ export type Language = 'ta' | 'en'
 export const translations = {
   ta: {
     // Brand & Header
-    brandName: 'GoldFin',
+    brandName: 'Mahesh Bankers',
     brandTagline: 'நேரடி தங்கம் விலை & கடன்',
     navHome: 'முகப்பு',
     navLiveRate: 'நேரடி விலை',
@@ -36,7 +36,7 @@ export const translations = {
     per1g: '1 கிராம்',
     sovereign: '1 பவுன் (8 கிராம்)',
     pureGoldBadge: '24K சுத்த தங்கம்',
-    goldfinRateBadge: 'கோல்ட்பின் விலை',
+    goldfinRateBadge: 'மகேஷ் பேங்கர்ஸ் விலை',
 
     // Metric Cards
     lastUpdated: 'கடைசி புதுப்பிப்பு',
@@ -49,7 +49,7 @@ export const translations = {
     companyRatesCategory: 'எங்கள் நிதி நிறுவனத்தின் தங்க விலை',
     companyRatesTitle: 'எங்கள் நிறுவன தங்க விலை (1 கிராமுக்கு)',
     companyRatesDesc: 'தங்க நகை கடன் மதிப்பீடு மற்றும் கொள்முதலுக்கான எங்கள் கிளைகளின் அதிகாரப்பூர்வ நேரடி விலை.',
-    companyOfficialBadge: 'கோல்ட்பின் அதிகாரப்பூர்வ விலை',
+    companyOfficialBadge: 'மகேஷ் பேங்கர்ஸ் அதிகாரப்பூர்வ விலை',
     officialCompanyPrice: 'அதிகாரப்பூர்வ நிறுவன விலை',
     rateOnRequest: 'விசாரணைக்குரிய விலை • நிர்வாகி அமைப்பார்',
     statusActive: 'செயலில் உள்ளது',
@@ -191,7 +191,7 @@ export const translations = {
 
   en: {
     // Brand & Header
-    brandName: 'GoldFin',
+    brandName: 'Mahesh Bankers',
     brandTagline: 'LIVE GOLD RATES & LOANS',
     navHome: 'Home',
     navLiveRate: 'Live Rates',
@@ -224,7 +224,7 @@ export const translations = {
     per1g: '1 gram',
     sovereign: '1 Sovereign (8g)',
     pureGoldBadge: '24K PURE GOLD',
-    goldfinRateBadge: 'GOLDFIN RATE',
+    goldfinRateBadge: 'MAHESH BANKERS RATE',
 
     // Metric Cards
     lastUpdated: 'LAST UPDATED',
@@ -237,7 +237,7 @@ export const translations = {
     companyRatesCategory: 'OUR FINANCE COMPANY RATES',
     companyRatesTitle: 'Our Company Gold Price (Per 1 Gram)',
     companyRatesDesc: 'Our official branch offered prices for gold loan appraisals and purchase. Updated via Admin.',
-    companyOfficialBadge: 'OFFICIAL GOLDFIN RATES',
+    companyOfficialBadge: 'OFFICIAL MAHESH BANKERS RATES',
     officialCompanyPrice: 'Official Company Price',
     rateOnRequest: 'Rate on Request • Set via Admin',
     statusActive: 'Active',

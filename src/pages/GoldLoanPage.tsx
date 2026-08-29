@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import goldLoanBankHero from '../assets/gold_loan_bank_hero.jpg'
 import { Navbar, Footer, GoldBackground, TrustBanner } from '../components'
+import { useSiteSettings } from '../hooks/useSiteSettings'
 
 interface PurityRate {
   purityId: string
@@ -47,6 +48,10 @@ export default function GoldLoanPage({
   onNavigateBranches,
   onNavigateContact,
 }: GoldLoanPageProps) {
+  const { settings } = useSiteSettings()
+  const companyName = settings.siteName || 'Mahesh Bankers'
+  const bankName = settings.bankPartnerName || 'RBI-Approved Scheduled Commercial Banks'
+
   // Live rates state
   const [liveRates, setLiveRates] = useState<PurityRate[]>([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -95,12 +100,12 @@ export default function GoldLoanPage({
     {
       question: 'How is my pledged gold stored and secured?',
       answer:
-        'All pledged ornaments are sealed in tamper-proof security pouches in your presence and stored in multi-tier, 100% fully insured bank lockers equipped with 24/7 CCTV surveillance.',
+        `All pledged ornaments are sealed in tamper-proof security pouches in your presence and stored in 100% fully insured multi-tier bank lockers with ${bankName} and 24/7 CCTV surveillance.`,
     },
     {
       question: 'Are there any foreclosure or prepayment penalty charges?',
       answer:
-        'No, GoldFin does not charge any foreclosure or pre-closure penalty fees. You can settle your loan at any time with zero extra charges.',
+        `No, ${companyName} does not charge any foreclosure or pre-closure penalty fees. You can settle your loan at any time with zero extra charges.`,
     },
     {
       question: 'What are the available loan repayment schemes?',
@@ -292,12 +297,12 @@ export default function GoldLoanPage({
         <div className="flex flex-col gap-8">
           <div className="flex flex-col items-center text-center gap-2">
             <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-              WHY CHOOSE GOLDFIN
+              WHY CHOOSE {companyName.toUpperCase()}
             </span>
             <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
-              Key Benefits of GoldFin Loan
+              Key Benefits of {companyName} Loan
               <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
-                கோல்ட்பின் நகைக்கடனின் முக்கிய சிறப்பம்சங்கள்
+                நகைக்கடனின் முக்கிய சிறப்பம்சங்கள்
               </span>
             </h2>
             <p className="text-sm text-slate-600 max-w-xl">
@@ -403,7 +408,7 @@ export default function GoldLoanPage({
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 relative">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 relative items-stretch">
             {[
               {
                 num: '01',
@@ -433,9 +438,9 @@ export default function GoldLoanPage({
             ].map((step, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-3 group shadow-2xs hover:shadow-xs"
+                className="p-6 rounded-3xl bg-gradient-to-br from-white via-orange-50/25 to-amber-50/20 border border-orange-200/80 hover:border-orange-500/50 backdrop-blur-xl transition-all duration-300 flex flex-col gap-3 group shadow-2xs hover:shadow-xs h-full"
               >
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 text-xs font-black flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border border-orange-200 text-orange-600 text-xs font-black flex items-center justify-center group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-2xs shrink-0">
                   {step.num}
                 </div>
                 <h4 className="text-sm font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
@@ -520,7 +525,7 @@ export default function GoldLoanPage({
               </span>
             </h2>
             <p className="text-sm text-slate-600 max-w-xl">
-              Clear answers to all your questions regarding GoldFin gold loans.
+              Clear answers to all your questions regarding {companyName} gold loans.
             </p>
           </div>
 
@@ -599,7 +604,7 @@ export default function GoldLoanPage({
             </div>
 
             <div className="p-4 rounded-2xl bg-orange-50 border border-orange-200/80 flex flex-col gap-1 text-xs">
-              <span className="text-slate-600">GoldFin Instant Gold Loan</span>
+              <span className="text-slate-600">{companyName} Instant Gold Loan</span>
               <span className="text-lg font-black text-slate-900">
                 Up to 75% LTV sanctioned instantly
               </span>

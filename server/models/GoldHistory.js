@@ -1,5 +1,31 @@
 const mongoose = require('mongoose')
 
+const intradayPointSchema = new mongoose.Schema(
+  {
+    time: {
+      type: Date,
+      default: Date.now,
+    },
+    label: {
+      type: String,
+      required: true,
+    },
+    price24k: {
+      type: Number,
+      required: true,
+    },
+    price22k: {
+      type: Number,
+      required: true,
+    },
+    source: {
+      type: String,
+      default: 'admin',
+    },
+  },
+  { _id: false }
+)
+
 const goldHistorySchema = new mongoose.Schema(
   {
     date: {
@@ -36,6 +62,7 @@ const goldHistorySchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    intradayPoints: [intradayPointSchema],
   },
   {
     timestamps: true,

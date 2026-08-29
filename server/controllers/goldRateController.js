@@ -1,5 +1,9 @@
 const GoldRate = require('../models/GoldRate')
-const { fetchAndUpdateGoldPrices, getGoldPriceHistory } = require('../services/goldPriceService')
+const {
+  fetchAndUpdateGoldPrices,
+  getGoldPriceHistory,
+  recordPriceHistoryUpdate,
+} = require('../services/goldPriceService')
 
 // @desc    Get all gold/silver rates
 // @route   GET /api/gold-rates
@@ -97,7 +101,7 @@ const updateRate = async (req, res, next) => {
   try {
     const rate = await GoldRate.findOneAndUpdate(
       { purityId: req.params.purityId },
-      req.body,
+      { ...req.body, lastUpdated: new Date() },
       { new: true, runValidators: true }
     )
 
@@ -106,7 +110,31 @@ const updateRate = async (req, res, next) => {
       throw new Error(`Rate not found for purity: ${req.params.purityId}`)
     }
 
-    res.status(200).json({ success: true, data: rate })
+    // Persist movement to GoldHistory in MongoDB
+    if (rate.pricePerGram && req.params.purityId !== 'silver') {
+      const p = rate.pricePerGram
+      let p24 = p
+      let p22 = Math.round(p * (22 / 24))
+
+      if (req.params.purityId === '22k') {
+        p22 = p
+        p24 = Math.round(p * (24 / 22))
+      } else if (req.params.purityId === '20k') {
+        p24 = Math.round(p * (24 / 20))
+        p22 = Math.round(p * (22 / 20))
+      } else if (req.params.purityId === '18k') {
+        p24 = Math.round(p * (24 / 18))
+        p22 = Math.round(p * (22 / 18))
+      }
+
+      await recordPriceHistoryUpdate(p24, p22, 'admin_market_rate')
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Rate and price history updated in database',
+      data: rate,
+    })
   } catch (error) {
     next(error)
   }

@@ -11,12 +11,14 @@ const generateToken = (id) => {
 // Auto-seed default admin into database on server start
 const seedDefaultAdmin = async () => {
   try {
-    const existingAdmin = await Admin.findOne({ email: 'admin@goldfin.com' }).select('+password')
+    const existingAdmin = await Admin.findOne({
+      $or: [{ email: 'admin@maheshbankers.com' }, { email: 'admin@goldfin.com' }]
+    }).select('+password')
 
     if (!existingAdmin) {
       const createdAdmin = await Admin.create({
-        name: 'GoldFin Admin',
-        email: 'admin@goldfin.com',
+        name: 'Mahesh Bankers Admin',
+        email: 'admin@maheshbankers.com',
         password: 'admin123',
         role: 'admin',
       })
@@ -47,10 +49,10 @@ const adminLogin = async (req, res, next) => {
     let admin = await Admin.findOne({ email: cleanEmail }).select('+password')
 
     // If default demo admin does not exist in DB yet, create and save it now
-    if (!admin && cleanEmail === 'admin@goldfin.com') {
+    if (!admin && (cleanEmail === 'admin@maheshbankers.com' || cleanEmail === 'admin@goldfin.com')) {
       admin = await Admin.create({
-        name: 'GoldFin Admin',
-        email: 'admin@goldfin.com',
+        name: 'Mahesh Bankers Admin',
+        email: cleanEmail,
         password: password || 'admin123',
         role: 'admin',
       })
@@ -63,13 +65,6 @@ const adminLogin = async (req, res, next) => {
     }
 
     let isMatch = await admin.matchPassword(password)
-
-    // Fallback: If using standard demo credentials for demo account, synchronize password in DB
-    if (!isMatch && cleanEmail === 'admin@goldfin.com' && (password === 'admin123' || password === 'GoldFin@2026')) {
-      admin.password = password
-      await admin.save()
-      isMatch = true
-    }
 
     if (!isMatch) {
       res.status(401)
@@ -123,11 +118,20 @@ const getAdminProfile = async (req, res, next) => {
 // @access  Public (should be disabled in production)
 const seedAdmin = async (req, res, next) => {
   try {
-    let existingAdmin = await Admin.findOne({ email: 'admin@goldfin.com' })
+    const SiteSettings = require('../models/SiteSettings')
+    let existingAdmin = await Admin.findOne({
+      $or: [{ email: 'admin@maheshbankers.com' }, { email: 'admin@goldfin.com' }]
+    })
 
     if (existingAdmin) {
       existingAdmin.password = 'admin123'
+      existingAdmin.name = 'Mahesh Bankers Admin'
+      existingAdmin.email = 'admin@maheshbankers.com'
       await existingAdmin.save()
+      await SiteSettings.findOneAndUpdate(
+        {},
+        { $set: { demoAdminPassword: 'admin123', demoAdminEmail: 'admin@maheshbankers.com' } }
+      )
       return res.status(200).json({
         success: true,
         message: 'Default admin account refreshed in database',
@@ -140,8 +144,8 @@ const seedAdmin = async (req, res, next) => {
     }
 
     const admin = await Admin.create({
-      name: 'GoldFin Admin',
-      email: 'admin@goldfin.com',
+      name: 'Mahesh Bankers Admin',
+      email: 'admin@maheshbankers.com',
       password: 'admin123',
       role: 'admin',
     })

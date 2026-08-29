@@ -20,28 +20,28 @@ const protect = async (req, res, next) => {
 
       if (!req.admin) {
         res.status(401)
-        throw new Error('Admin account not found')
+        return next(new Error('Admin account not found'))
       }
 
-      next()
+      return next()
     } catch (error) {
       console.error('⚠️ [Auth Middleware Error]:', error.message)
       res.status(401)
-      next(new Error('Not authorized, token failed'))
+      return next(new Error('Not authorized, token invalid or expired'))
     }
   } else {
     res.status(401)
-    next(new Error('Not authorized, no token provided'))
+    return next(new Error('Not authorized, no token provided'))
   }
 }
 
 // Admin role check
 const adminOnly = (req, res, next) => {
   if (req.admin && (req.admin.role === 'admin' || req.admin.role === 'superadmin')) {
-    next()
+    return next()
   } else {
     res.status(403)
-    next(new Error('Not authorized as admin'))
+    return next(new Error('Not authorized as admin'))
   }
 }
 

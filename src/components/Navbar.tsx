@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Coins, Menu, X } from 'lucide-react'
+import { useSiteSettings } from '../hooks/useSiteSettings'
 
 export interface NavbarProps {
   currentPage?: 'home' | 'live-rate' | 'gold-loan' | 'branches' | 'about' | 'contact'
@@ -24,6 +25,7 @@ export default function Navbar({
   onScrollToSection,
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { settings } = useSiteSettings()
 
   const handleNavClick = (action: 'home' | 'about' | 'live-rate' | 'gold-loan' | 'branches' | 'contact' | string) => {
     setMobileMenuOpen(false)
@@ -65,16 +67,25 @@ export default function Navbar({
           onClick={() => handleNavClick('home')}
           className="flex items-center gap-2.5 sm:gap-3 no-underline cursor-pointer group bg-transparent border-0 p-0 text-left shrink-0"
         >
-          <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#FF6B00] via-[#F97316] to-[#EA580C] flex items-center justify-center text-white shadow-[0_4px_20px_rgba(249,115,22,0.35)] group-hover:scale-105 transition-transform shrink-0">
-            <Coins size={20} className="sm:hidden" />
-            <Coins size={24} className="hidden sm:block" />
-          </div>
+          {settings.logoUrl ? (
+            <img
+              src={settings.logoUrl}
+              alt={settings.siteName || 'Mahesh Bankers'}
+              className="h-10 sm:h-12 max-w-[140px] sm:max-w-[180px] object-contain group-hover:scale-105 transition-transform"
+            />
+          ) : (
+            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#FF6B00] via-[#F97316] to-[#EA580C] flex items-center justify-center text-white shadow-[0_4px_20px_rgba(249,115,22,0.35)] group-hover:scale-105 transition-transform shrink-0">
+              <Coins size={20} className="sm:hidden" />
+              <Coins size={24} className="hidden sm:block" />
+            </div>
+          )}
+
           <div className="flex flex-col">
             <span className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-none sm:leading-tight">
-              GoldFin
+              {settings.siteName || 'Mahesh Bankers'}
             </span>
             <span className="text-[9px] sm:text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 whitespace-nowrap mt-0.5">
-              Live Rates & Gold Loans
+              {settings.tagline || 'Live Rates & Gold Loans'}
             </span>
           </div>
         </button>
@@ -169,14 +180,6 @@ export default function Navbar({
               <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#FF6B00] to-[#EA580C] rounded-full shadow-[0_0_8px_rgba(249,115,22,0.6)]" />
             )}
           </button>
-
-          {/* Direct Helpline / Visit Button */}
-          <button
-            onClick={() => handleNavClick('contact')}
-            className="ml-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#EA580C] text-white text-xs font-bold shadow-md hover:shadow-orange-500/25 transition-all cursor-pointer border-0 flex items-center gap-1.5 shrink-0"
-          >
-            <span>Helpline</span>
-          </button>
         </nav>
 
         {/* Mobile Actions: Hamburger */}
@@ -247,16 +250,6 @@ export default function Navbar({
           >
             <span>Contact & Support</span>
           </button>
-          
-          {/* Direct Mobile Call / Helpline Action */}
-          <div className="pt-2 border-t border-slate-100 flex items-center gap-2">
-            <button
-              onClick={() => handleNavClick('contact')}
-              className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-xs shadow-md text-center border-0 cursor-pointer flex items-center justify-center gap-2"
-            >
-              <span>Instant Helpline Support</span>
-            </button>
-          </div>
         </div>
       )}
     </header>

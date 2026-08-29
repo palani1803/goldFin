@@ -11,13 +11,15 @@ const {
 const { protect, adminOnly } = require('../middleware/authMiddleware')
 
 // Public routes
-router.route('/').get(getAllBranches)
-router.post('/seed', seedBranches)
-router.route('/:id').get(getBranchById)
+router.route('/')
+  .get(getAllBranches)
+  .post(protect, adminOnly, createBranch)
 
-// Protected routes (admin only)
-router.post('/', protect, adminOnly, createBranch)
-router.put('/:id', protect, adminOnly, updateBranch)
-router.delete('/:id', protect, adminOnly, deleteBranch)
+router.post('/seed', seedBranches)
+
+router.route('/:id')
+  .get(getBranchById)
+  .put(protect, adminOnly, updateBranch)
+  .delete(protect, adminOnly, deleteBranch)
 
 module.exports = router

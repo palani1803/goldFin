@@ -7,10 +7,20 @@ import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
 import { AdminLoginPage, AdminLayout } from './pages/admin'
 import { LanguageProvider } from './i18n'
+import { WhatsAppFloat } from './components'
+import { useSiteSettings } from './hooks/useSiteSettings'
 
 type PageType = 'home' | 'live-rate' | 'gold-loan' | 'branches' | 'about' | 'contact' | 'admin-login' | 'admin'
 
 function App() {
+  const { settings } = useSiteSettings()
+
+  useEffect(() => {
+    if (settings.siteName) {
+      document.title = `${settings.siteName} - ${settings.tagline || 'Live Rates & Gold Loans'}`
+    }
+  }, [settings.siteName, settings.tagline])
+
   const [selectedBranchCity, setSelectedBranchCity] = useState<string | null>(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash
@@ -168,6 +178,9 @@ function App() {
             onNavigateContact={(city?: string) => navigateTo('contact', city)}
           />
         )}
+
+        {/* Global WhatsApp Floating Desk on Customer Pages */}
+        <WhatsAppFloat />
       </div>
     </LanguageProvider>
   )

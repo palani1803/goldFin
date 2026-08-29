@@ -26,7 +26,8 @@ import {
   Clock
 } from 'lucide-react'
 import goldHeroJewel from '../assets/gold_hero_jewel.jpg'
-import { Navbar, Footer, TrustBanner, GoldBackground, GoldCoin3D } from '../components'
+import { Navbar, Footer, TrustBanner, GoldBackground, GoldCoin3D, GoldShower } from '../components'
+import { useSiteSettings } from '../hooks/useSiteSettings'
 
 interface MarketNewsItem {
   id: string
@@ -142,7 +143,7 @@ const FAQ_ITEMS = [
   {
     id: 4,
     question: 'How often are the live gold rates updated?',
-    answer: 'GoldFin live gold rates are synchronized with official Indian market indices (IBJA / MCX) continuously throughout the trading day, with primary benchmark updates at 10:00 AM and real-time feeds.'
+    answer: 'Live gold rates are synchronized with official Indian market indices (IBJA / MCX) continuously throughout the trading day, with primary benchmark updates at 10:00 AM and real-time feeds.'
   }
 ]
 
@@ -163,6 +164,10 @@ export default function HomePage({
   onNavigateBranches,
   onNavigateContact,
 }: HomePageProps = {}) {
+  const { settings } = useSiteSettings()
+  const companyName = settings.siteName || 'Mahesh Bankers'
+  const bankName = settings.bankPartnerName || '100% Insured Bank Vault'
+
   // Modals
   const [showWalletModal, setShowWalletModal] = useState(false)
   const [showArticleModal, setShowArticleModal] = useState(false)
@@ -259,7 +264,7 @@ export default function HomePage({
     try {
       const res = await fetch('/api/branches')
       const json = await res.json()
-      if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+      if (json.success && Array.isArray(json.data)) {
         const active = json.data
           .filter((b: any) => b.isActive !== false)
           .map((b: any) => {
@@ -305,8 +310,8 @@ export default function HomePage({
               district,
               address: b.address,
               landmark,
-              phone: b.phone || '+91 90925 48347',
-              rawPhone: (b.phone || '9092548347').replace(/[^0-9]/g, ''),
+              phone: b.phone || settings.contactPhone || '+91 90925 48347',
+              rawPhone: (b.phone || settings.whatsappNumber || '9092548347').replace(/[^0-9]/g, ''),
               hours: b.operatingHours || 'Mon–Sat: 9:00 AM – 6:30 PM',
               features,
             }
@@ -339,22 +344,29 @@ export default function HomePage({
       }
     }
 
-    // 3. Instant sync when Admin updates shop rates in another tab / component
+    // 3. Instant sync when Admin updates shop rates or branches in another tab / component
     const handleRatesUpdate = () => {
       fetchShopRates()
       fetchLiveRates()
+    }
+
+    const handleBranchesUpdate = () => {
+      fetchBranches()
     }
 
     const handleStorageUpdate = (e: StorageEvent) => {
       if (e.key === 'goldFin_shop_rates_updated') {
         fetchShopRates()
         fetchLiveRates()
+      } else if (e.key === 'goldFin_branches_updated') {
+        fetchBranches()
       }
     }
 
     window.addEventListener('focus', handleFocusOrVisible)
     document.addEventListener('visibilitychange', handleFocusOrVisible)
     window.addEventListener('goldRatesUpdated', handleRatesUpdate)
+    window.addEventListener('branchesUpdated', handleBranchesUpdate)
     window.addEventListener('storage', handleStorageUpdate)
 
     return () => {
@@ -362,6 +374,7 @@ export default function HomePage({
       window.removeEventListener('focus', handleFocusOrVisible)
       document.removeEventListener('visibilitychange', handleFocusOrVisible)
       window.removeEventListener('goldRatesUpdated', handleRatesUpdate)
+      window.removeEventListener('branchesUpdated', handleBranchesUpdate)
       window.removeEventListener('storage', handleStorageUpdate)
     }
   }, [fetchLiveRates, fetchShopRates, fetchMarketNews, fetchBranches])
@@ -436,6 +449,9 @@ export default function HomePage({
 
   return (
     <div className="flex flex-col min-h-screen w-full relative bg-[#F8FAFC] text-slate-900 font-sans antialiased selection:bg-orange-500/20 selection:text-orange-900">
+      {/* 10-Second Recurring Luxury Gold Shower Effect */}
+      <GoldShower intervalMs={10000} particleCount={65} />
+
       {/* Reusable White & Orange Ambient Background */}
       <GoldBackground textureOpacity={0.03} showGlows={true} />
 
@@ -686,7 +702,7 @@ export default function HomePage({
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xs md:text-sm font-black text-slate-900">100% Insured Security</span>
-                  <span className="text-[10px] text-slate-500 font-medium">100% Insured Bank Vault</span>
+                  <span className="text-[10px] text-slate-500 font-medium">{bankName}</span>
                 </div>
               </div>
             </div>
@@ -945,12 +961,12 @@ export default function HomePage({
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-4">
               <div className="flex flex-col gap-0.5">
                 <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
-                  GOLDFIN BRANCH RATES
+                  {companyName.toUpperCase()} BRANCH RATES
                 </span>
                 <h2 className="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight">
-                  GoldFin Official Loan & Branch Rates
+                  {companyName} Official Loan & Branch Rates
                   <span className="block text-xs sm:text-sm font-semibold text-slate-500 mt-0.5 font-sans">
-                    கோல்ட்பின் அதிகாரப்பூர்வ கிளை மற்றும் கொள்முதல் விலை
+                    அதிகாரப்பூர்வ கிளை மற்றும் கொள்முதல் விலை
                   </span>
                 </h2>
               </div>
@@ -973,6 +989,14 @@ export default function HomePage({
                 ['18k', '20k', '22k', '24k'].map((purityKey) => {
                   const shopRate = shopRates.find((s) => s.purityId === purityKey)
                   const marketRate = liveRates.find((m) => m.purityId === purityKey)
+
+                  const rate24k = shopRates.find((s) => s.purityId === '24k')?.pricePerGram || 0
+                  const rate22k = shopRates.find((s) => s.purityId === '22k')?.pricePerGram || 0
+                  const baseShop = rate22k > 0 ? rate22k : rate24k
+                  const baseKarat = rate22k > 0 ? 22 : 24
+                  const derived20k = baseShop > 0 ? Math.round((baseShop / baseKarat) * 20) : 0
+                  const derived18k = baseShop > 0 ? Math.round((baseShop / baseKarat) * 18) : 0
+
                   const displayName =
                     purityKey === '24k' ? '24K Pure Gold' :
                     purityKey === '22k' ? '22K Gold (916)' :
@@ -981,7 +1005,17 @@ export default function HomePage({
                     purityKey === '24k' ? '99.9% Pure • 1g' :
                     purityKey === '22k' ? '91.6% Pure • 1g' :
                     purityKey === '20k' ? '83.3% Pure • 1g' : '75.0% Pure • 1g'
-                  const price = shopRate ? shopRate.pricePerGram : (marketRate ? marketRate.pricePerGram : 0)
+
+                  let price = 0
+                  if (shopRate && shopRate.pricePerGram > 0) {
+                    price = shopRate.pricePerGram
+                  } else if (purityKey === '20k' && derived20k > 0) {
+                    price = derived20k
+                  } else if (purityKey === '18k' && derived18k > 0) {
+                    price = derived18k
+                  } else if (marketRate && marketRate.pricePerGram > 0) {
+                    price = marketRate.pricePerGram
+                  }
 
                   return (
                     <div
@@ -991,7 +1025,7 @@ export default function HomePage({
                       <div className="flex items-center justify-between gap-2 min-h-[22px]">
                         <span className="text-xs sm:text-[13px] font-extrabold tracking-wide text-slate-900 whitespace-nowrap">{displayName}</span>
                         <span className="text-[9px] font-black tracking-wider px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-300 shrink-0">
-                          GOLDFIN
+                          {companyName.toUpperCase()}
                         </span>
                       </div>
                       <div className="text-2xl sm:text-3xl font-black text-orange-600 group-hover:text-orange-700 transition-colors leading-tight">
@@ -1146,7 +1180,7 @@ export default function HomePage({
               </div>
               <div className="flex flex-col min-w-0">
                 <span className="text-xs font-bold text-slate-800 leading-tight truncate">100% Insured Vaults</span>
-                <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">100% Insured Bank Vaults</span>
+                <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">{bankName}</span>
               </div>
             </div>
 
@@ -1263,9 +1297,9 @@ export default function HomePage({
             <div className="flex flex-col gap-1">
               <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">Who We Are</span>
               <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
-                About GoldFin
+                About {companyName}
                 <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
-                  கோல்ட்பின் பற்றி – உங்கள் தங்கத்தின் நம்பிக்கையான துணை
+                  உங்கள் தங்கத்தின் நம்பிக்கையான துணை
                 </span>
               </h2>
             </div>
@@ -1283,7 +1317,7 @@ export default function HomePage({
               </div>
               <h3 className="text-2xl font-bold text-slate-800">100% Honest Market Information</h3>
               <p className="text-sm text-slate-600 leading-relaxed">
-                GoldFin was created with a single purpose: to give Indian households complete clarity on gold rates, purity calculation, and gold loans without hidden jeweller commissions or misleading terms.
+                {companyName} was created with a single purpose: to give Indian households complete clarity on gold rates, purity calculation, and gold loans without hidden jeweller commissions or misleading terms.
               </p>
               <p className="text-sm text-slate-600 leading-relaxed">
                 Whether you are buying gold jewellery for a family wedding, investing in coins, or looking for urgent cash through a gold loan, we make sure you know the exact value of your gold.
@@ -1301,7 +1335,7 @@ export default function HomePage({
 
             {/* Why Choose Us Stats */}
             <div className="lg:col-span-5 p-8 rounded-3xl bg-gradient-to-br from-white via-orange-50/30 to-amber-50/20 border border-orange-200/80 backdrop-blur-xl flex flex-col gap-6 shadow-[0_10px_35px_rgba(249,115,22,0.05)]">
-              <h4 className="text-lg font-bold text-slate-900">Why Families Trust GoldFin</h4>
+              <h4 className="text-lg font-bold text-slate-900">Why Families Trust {companyName}</h4>
               <div className="flex flex-col gap-4">
                 <div className="p-4 rounded-2xl bg-white/90 border border-orange-200/70 flex flex-col gap-1 shadow-2xs">
                   <span className="text-xs text-slate-500 font-semibold">Gold Purity Standard</span>

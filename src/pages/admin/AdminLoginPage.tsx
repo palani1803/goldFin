@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Coins, Eye, EyeOff, Lock, Mail, AlertCircle, Loader2, Copy, Check } from 'lucide-react'
+import { useSiteSettings } from '../../hooks/useSiteSettings'
 
 interface AdminLoginPageProps {
   onLoginSuccess: () => void
@@ -7,6 +8,11 @@ interface AdminLoginPageProps {
 }
 
 export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: AdminLoginPageProps) {
+  const { settings } = useSiteSettings()
+  const companyName = settings.siteName || 'Mahesh Bankers'
+  const demoEmail = settings.demoAdminEmail || 'admin@maheshbankers.com'
+  const demoPassword = settings.demoAdminPassword || 'admin123'
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -14,6 +20,7 @@ export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: Admin
   const [loading, setLoading] = useState(false)
   const [copiedEmail, setCopiedEmail] = useState(false)
   const [copiedPassword, setCopiedPassword] = useState(false)
+  const [autoFilled, setAutoFilled] = useState(false)
 
   const handleCopy = (text: string, type: 'email' | 'password') => {
     navigator.clipboard.writeText(text)
@@ -24,6 +31,14 @@ export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: Admin
       setCopiedPassword(true)
       setTimeout(() => setCopiedPassword(false), 2000)
     }
+  }
+
+  const handleAutoFill = () => {
+    setEmail(demoEmail)
+    setPassword(demoPassword)
+    setError('')
+    setAutoFilled(true)
+    setTimeout(() => setAutoFilled(false), 2000)
   }
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -45,8 +60,11 @@ export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: Admin
       }
 
       // Store token and admin info
+      const cleanName = data.data.name && !data.data.name.toLowerCase().includes('goldfin')
+        ? data.data.name
+        : `${companyName} Admin`
       localStorage.setItem('adminToken', data.data.token)
-      localStorage.setItem('adminName', data.data.name)
+      localStorage.setItem('adminName', cleanName)
       localStorage.setItem('adminEmail', data.data.email)
 
       onLoginSuccess()
@@ -58,53 +76,39 @@ export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: Admin
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center relative overflow-hidden py-10"
-      style={{
-        background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 40%, #0F172A 100%)',
-      }}
-    >
-      {/* Animated background orbs */}
+    <div className="min-h-screen w-full flex items-center justify-center relative overflow-hidden py-10 bg-gradient-to-br from-orange-50 via-slate-50 to-amber-50/70">
+      {/* Animated warm background orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
-          className="absolute w-[500px] h-[500px] rounded-full opacity-20"
+          className="absolute w-[500px] h-[500px] rounded-full opacity-30"
           style={{
-            background: 'radial-gradient(circle, rgba(249,115,22,0.4) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(249,115,22,0.3) 0%, transparent 70%)',
             top: '-10%',
             right: '-5%',
             animation: 'adminFloat 12s ease-in-out infinite alternate',
           }}
         />
         <div
-          className="absolute w-[400px] h-[400px] rounded-full opacity-15"
+          className="absolute w-[400px] h-[400px] rounded-full opacity-25"
           style={{
-            background: 'radial-gradient(circle, rgba(251,146,60,0.35) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(251,146,60,0.25) 0%, transparent 70%)',
             bottom: '-10%',
             left: '-5%',
             animation: 'adminFloat 16s ease-in-out infinite alternate-reverse',
           }}
         />
-        <div
-          className="absolute w-[200px] h-[200px] rounded-full opacity-10"
-          style={{
-            background: 'radial-gradient(circle, rgba(255,107,0,0.5) 0%, transparent 70%)',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            animation: 'adminPulse 6s ease-in-out infinite',
-          }}
-        />
       </div>
 
-      {/* Grid pattern overlay */}
+      {/* Subtle grid pattern overlay */}
       <div
         className="absolute inset-0 opacity-[0.03]"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.2) 1px, transparent 1px)`,
           backgroundSize: '40px 40px',
         }}
       />
 
-      {/* Login Card */}
+      {/* Login Card Container */}
       <div className="relative z-10 w-full max-w-[460px] mx-4">
         {/* Logo Section */}
         <div className="text-center mb-6">
@@ -112,65 +116,59 @@ export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: Admin
             onClick={onNavigateHome}
             className="inline-flex items-center gap-3 mb-3 bg-transparent border-0 cursor-pointer group"
           >
-            <div
-              className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-[0_8px_32px_rgba(249,115,22,0.45)]"
-              style={{ background: 'linear-gradient(135deg, #FF6B00 0%, #F97316 50%, #EA580C 100%)' }}
-            >
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-orange-500/25 bg-gradient-to-tr from-[#FF6B00] via-[#F97316] to-[#EA580C]">
               <Coins size={30} />
             </div>
-            <span className="text-2xl font-extrabold text-white group-hover:text-orange-400 transition-colors">
-              GoldFin
+            <span className="text-2xl font-black text-slate-900 group-hover:text-orange-600 transition-colors">
+              {companyName}
             </span>
           </button>
-          <h1 className="text-xl font-bold text-white/90 mb-1">Admin Portal</h1>
-          <p className="text-sm text-slate-400">Sign in to manage gold rates & branches</p>
+          <h1 className="text-xl font-black text-slate-900 mb-1 tracking-tight">Admin Portal</h1>
+          <p className="text-sm text-slate-500 font-medium">Sign in to manage gold rates & branches</p>
         </div>
 
         {/* Card */}
-        <div
-          className="rounded-3xl border p-7 sm:p-8 backdrop-blur-xl"
-          style={{
-            background: 'rgba(30, 41, 59, 0.75)',
-            borderColor: 'rgba(255, 255, 255, 0.08)',
-            boxShadow: '0 25px 80px rgba(0,0,0,0.4), 0 0 60px rgba(249,115,22,0.08)',
-          }}
-        >
+        <div className="rounded-3xl border border-orange-100/90 p-7 sm:p-8 backdrop-blur-xl bg-white/95 shadow-2xl shadow-orange-500/10">
           {/* Demo Credentials Box */}
-          <div
-            className="mb-5 rounded-2xl p-3 transition-all"
-            style={{
-              background: 'linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, rgba(234, 88, 12, 0.03) 100%)',
-              border: '1px solid rgba(249, 115, 22, 0.18)',
-            }}
-          >
-            <div className="space-y-2 text-xs font-mono bg-black/35 p-3 rounded-xl border border-white/5">
+          <div className="mb-5 rounded-2xl p-3 bg-gradient-to-br from-orange-50/80 via-amber-50/40 to-orange-100/30 border border-orange-200/80 shadow-2xs">
+            <div className="space-y-2 text-xs font-mono bg-white/90 p-3 rounded-xl border border-orange-200/60 shadow-2xs">
               <div className="flex items-center justify-between">
-                <span className="text-slate-400">Email:</span>
+                <span className="text-slate-500 font-semibold">Email:</span>
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-orange-300 select-all">admin@goldfin.com</span>
+                  <span className="font-bold text-orange-700 select-all">{demoEmail}</span>
                   <button
                     type="button"
-                    onClick={() => handleCopy('admin@goldfin.com', 'email')}
-                    className="p-1 rounded text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 border-0 cursor-pointer transition-colors"
+                    onClick={() => handleCopy(demoEmail, 'email')}
+                    className="p-1 rounded text-slate-400 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 border-0 cursor-pointer transition-colors"
                     title="Copy email"
                   >
-                    {copiedEmail ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+                    {copiedEmail ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
                   </button>
                 </div>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-slate-400">Password:</span>
+                <span className="text-slate-500 font-semibold">Password:</span>
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-orange-300 select-all">admin123</span>
+                  <span className="font-bold text-orange-700 select-all">{demoPassword}</span>
                   <button
                     type="button"
-                    onClick={() => handleCopy('admin123', 'password')}
-                    className="p-1 rounded text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 border-0 cursor-pointer transition-colors"
+                    onClick={() => handleCopy(demoPassword, 'password')}
+                    className="p-1 rounded text-slate-400 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 border-0 cursor-pointer transition-colors"
                     title="Copy password"
                   >
-                    {copiedPassword ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+                    {copiedPassword ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
                   </button>
                 </div>
+              </div>
+              <div className="pt-1.5 border-t border-slate-100 flex justify-end">
+                <button
+                  type="button"
+                  onClick={handleAutoFill}
+                  className="px-2.5 py-1 rounded-lg text-[11px] font-sans font-bold text-orange-700 hover:text-orange-900 bg-orange-100 hover:bg-orange-200 border border-orange-300/80 cursor-pointer transition-all flex items-center gap-1.5 shadow-2xs active:scale-95"
+                >
+                  {autoFilled ? <Check size={12} className="text-emerald-600" /> : <span>⚡</span>}
+                  <span>{autoFilled ? 'Filled!' : 'Quick Fill Demo Credentials'}</span>
+                </button>
               </div>
             </div>
           </div>
@@ -178,80 +176,49 @@ export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: Admin
           <form onSubmit={handleLogin} className="space-y-4">
             {/* Error Alert */}
             {error && (
-              <div
-                className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm"
-                style={{
-                  background: 'rgba(239, 68, 68, 0.12)',
-                  border: '1px solid rgba(239, 68, 68, 0.25)',
-                  color: '#FCA5A5',
-                }}
-              >
-                <AlertCircle size={18} className="shrink-0" />
+              <div className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold bg-rose-50 border border-rose-200 text-rose-800 shadow-xs">
+                <AlertCircle size={18} className="shrink-0 text-rose-600" />
                 <span>{error}</span>
               </div>
             )}
 
             {/* Email Field */}
             <div>
-              <label className="block text-sm font-semibold text-slate-300 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                 Email Address
               </label>
               <div className="relative">
-                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
+                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@goldfin.com"
+                  placeholder={demoEmail}
                   required
-                  className="w-full h-[50px] pl-12 pr-4 rounded-xl text-sm font-medium text-white placeholder-slate-500 outline-none transition-all duration-200"
-                  style={{
-                    background: 'rgba(15, 23, 42, 0.6)',
-                    border: '1.5px solid rgba(255, 255, 255, 0.08)',
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.borderColor = 'rgba(249, 115, 22, 0.5)'
-                    e.target.style.boxShadow = '0 0 20px rgba(249, 115, 22, 0.1)'
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.08)'
-                    e.target.style.boxShadow = 'none'
-                  }}
+                  className="w-full h-[50px] pl-12 pr-4 rounded-xl text-sm font-bold text-slate-900 placeholder-slate-400 bg-slate-50 border border-slate-200 outline-none transition-all duration-200 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20"
                 />
               </div>
             </div>
 
             {/* Password Field */}
             <div>
-              <label className="block text-sm font-semibold text-slate-300 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                 Password
               </label>
               <div className="relative">
-                <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
+                <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
                   required
-                  className="w-full h-[50px] pl-12 pr-12 rounded-xl text-sm font-medium text-white placeholder-slate-500 outline-none transition-all duration-200"
-                  style={{
-                    background: 'rgba(15, 23, 42, 0.6)',
-                    border: '1.5px solid rgba(255, 255, 255, 0.08)',
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.borderColor = 'rgba(249, 115, 22, 0.5)'
-                    e.target.style.boxShadow = '0 0 20px rgba(249, 115, 22, 0.1)'
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.08)'
-                    e.target.style.boxShadow = 'none'
-                  }}
+                  className="w-full h-[50px] pl-12 pr-12 rounded-xl text-sm font-bold text-slate-900 placeholder-slate-400 bg-slate-50 border border-slate-200 outline-none transition-all duration-200 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors bg-transparent border-0 cursor-pointer p-0"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors bg-transparent border-0 cursor-pointer p-0"
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
@@ -262,25 +229,8 @@ export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: Admin
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-[52px] rounded-xl text-white font-bold text-sm border-0 cursor-pointer transition-all duration-300 flex items-center justify-center gap-2 mt-3"
-              style={{
-                background: loading
-                  ? 'rgba(249, 115, 22, 0.5)'
-                  : 'linear-gradient(135deg, #FF6B00 0%, #F97316 50%, #EA580C 100%)',
-                boxShadow: loading
-                  ? 'none'
-                  : '0 8px 30px rgba(249, 115, 22, 0.35)',
-              }}
-              onMouseOver={(e) => {
-                if (!loading) {
-                  (e.target as HTMLElement).style.transform = 'translateY(-1px)'
-                  ;(e.target as HTMLElement).style.boxShadow = '0 12px 40px rgba(249, 115, 22, 0.45)'
-                }
-              }}
-              onMouseOut={(e) => {
-                (e.target as HTMLElement).style.transform = 'translateY(0)'
-                ;(e.target as HTMLElement).style.boxShadow = '0 8px 30px rgba(249, 115, 22, 0.35)'
-              }}
+              className="w-full h-[52px] rounded-xl text-white font-bold text-sm border-0 cursor-pointer transition-all duration-300 flex items-center justify-center gap-2 mt-3 bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] shadow-lg shadow-orange-500/25 hover:brightness-105 active:scale-95"
+              style={{ opacity: loading ? 0.7 : 1 }}
             >
               {loading ? (
                 <>
@@ -294,9 +244,9 @@ export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: Admin
           </form>
 
           {/* Footer */}
-          <div className="mt-6 pt-5 border-t text-center" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-            <p className="text-xs text-slate-500">
-              GoldFin Secure Admin • Authorized Personnel Only
+          <div className="mt-6 pt-5 border-t border-slate-100 text-center">
+            <p className="text-xs text-slate-500 font-medium">
+              {companyName} Secure Admin • Authorized Personnel Only
             </p>
           </div>
         </div>
@@ -305,9 +255,9 @@ export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: Admin
         <div className="text-center mt-5">
           <button
             onClick={onNavigateHome}
-            className="text-sm text-slate-400 hover:text-orange-400 transition-colors bg-transparent border-0 cursor-pointer"
+            className="text-sm font-semibold text-slate-500 hover:text-orange-600 transition-colors bg-transparent border-0 cursor-pointer"
           >
-            ← Back to GoldFin website
+            ← Back to {companyName} website
           </button>
         </div>
       </div>
@@ -317,10 +267,6 @@ export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: Admin
         @keyframes adminFloat {
           0% { transform: translateY(0) scale(1); }
           100% { transform: translateY(-30px) scale(1.05); }
-        }
-        @keyframes adminPulse {
-          0%, 100% { opacity: 0.1; transform: translate(-50%, -50%) scale(1); }
-          50% { opacity: 0.2; transform: translate(-50%, -50%) scale(1.15); }
         }
       `}</style>
     </div>

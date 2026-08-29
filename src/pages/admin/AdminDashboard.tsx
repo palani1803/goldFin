@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import { Coins, Building2, TrendingUp, ArrowRight, RefreshCw } from 'lucide-react'
+import { Coins, Building2, TrendingUp, ArrowRight, RefreshCw, Settings as SettingsIcon } from 'lucide-react'
+import { useSiteSettings } from '../../hooks/useSiteSettings'
 
 interface AdminDashboardProps {
-  onNavigateTo: (page: 'dashboard' | 'gold-rates' | 'branches') => void
+  onNavigateTo: (page: 'dashboard' | 'gold-rates' | 'branches' | 'settings') => void
 }
 
 interface DashboardStats {
@@ -13,6 +14,13 @@ interface DashboardStats {
 }
 
 export default function AdminDashboard({ onNavigateTo }: AdminDashboardProps) {
+  const { settings } = useSiteSettings()
+  const companyName = settings.siteName || 'Mahesh Bankers'
+  const rawAdminName = typeof window !== 'undefined' ? localStorage.getItem('adminName') || '' : ''
+  const displayAdminName = rawAdminName && !rawAdminName.toLowerCase().includes('goldfin')
+    ? rawAdminName
+    : `${companyName} Admin`
+
   const [stats, setStats] = useState<DashboardStats>({
     totalBranches: 0,
     activeBranches: 0,
@@ -32,13 +40,13 @@ export default function AdminDashboard({ onNavigateTo }: AdminDashboardProps) {
       const shopRateData = await shopRateRes.json()
 
       const branches = branchData.data || []
-      const shopRates = shopRateData.data || []
+      const goldShopRates = (shopRateData.data || []).filter((r: any) => r.purityId !== 'silver')
 
       setStats({
         totalBranches: branches.length,
         activeBranches: branches.filter((b: any) => b.isActive).length,
-        totalShopRates: shopRates.length,
-        ratesWithPrice: shopRates.filter((r: any) => r.pricePerGram > 0).length,
+        totalShopRates: goldShopRates.length || 4,
+        ratesWithPrice: goldShopRates.filter((r: any) => r.pricePerGram > 0).length,
       })
     } catch {
       // Stats will remain 0
@@ -55,75 +63,83 @@ export default function AdminDashboard({ onNavigateTo }: AdminDashboardProps) {
     {
       label: 'Total Branches',
       value: stats.totalBranches,
-      subtitle: `${stats.activeBranches} active`,
-      icon: <Building2 size={24} />,
-      gradient: 'linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(37,99,235,0.08) 100%)',
-      iconBg: 'rgba(59,130,246,0.15)',
-      iconColor: '#60A5FA',
-      borderColor: 'rgba(59,130,246,0.15)',
+      subtitle: `${stats.activeBranches} active regional hubs`,
+      icon: <Building2 size={22} />,
+      bg: 'bg-white',
+      borderColor: 'border-blue-100',
+      iconBg: 'bg-blue-50 text-blue-600 border-blue-200',
+      textColor: 'text-blue-600',
     },
     {
       label: 'Shop Rates Set',
       value: `${stats.ratesWithPrice}/${stats.totalShopRates}`,
-      subtitle: 'purities configured',
-      icon: <Coins size={24} />,
-      gradient: 'linear-gradient(135deg, rgba(249,115,22,0.15) 0%, rgba(234,88,12,0.08) 100%)',
-      iconBg: 'rgba(249,115,22,0.15)',
-      iconColor: '#FB923C',
-      borderColor: 'rgba(249,115,22,0.15)',
+      subtitle: 'gold purities configured',
+      icon: <Coins size={22} />,
+      bg: 'bg-white',
+      borderColor: 'border-orange-100',
+      iconBg: 'bg-orange-50 text-orange-600 border-orange-200',
+      textColor: 'text-orange-600',
     },
     {
       label: 'Market Status',
       value: 'Live',
-      subtitle: 'Auto-updated daily',
-      icon: <TrendingUp size={24} />,
-      gradient: 'linear-gradient(135deg, rgba(16,185,129,0.15) 0%, rgba(5,150,105,0.08) 100%)',
-      iconBg: 'rgba(16,185,129,0.15)',
-      iconColor: '#34D399',
-      borderColor: 'rgba(16,185,129,0.15)',
+      subtitle: 'IBJA/MCX daily benchmarks',
+      icon: <TrendingUp size={22} />,
+      bg: 'bg-white',
+      borderColor: 'border-emerald-100',
+      iconBg: 'bg-emerald-50 text-emerald-600 border-emerald-200',
+      textColor: 'text-emerald-600',
     },
   ]
 
   const quickActions = [
     {
       label: 'Update Gold Rates',
-      description: 'Set your shop\'s offered gold & silver prices',
+      description: 'Set your shop\'s live offered 24K, 22K, 20K & 18K prices',
       icon: <Coins size={22} />,
       page: 'gold-rates' as const,
-      gradient: 'linear-gradient(135deg, #FF6B00 0%, #EA580C 100%)',
+      gradient: 'from-[#FF6B00] to-[#EA580C]',
+      borderHover: 'hover:border-orange-300',
     },
     {
       label: 'Manage Branches',
-      description: 'Add, edit, or remove branch locations',
+      description: 'Add, edit, or configure your 4 official regional locations',
       icon: <Building2 size={22} />,
       page: 'branches' as const,
-      gradient: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
+      gradient: 'from-blue-500 to-indigo-600',
+      borderHover: 'hover:border-blue-300',
+    },
+    {
+      label: 'Brand & Logo Settings',
+      description: 'Change site name, official phone, and login credentials',
+      icon: <SettingsIcon size={22} />,
+      page: 'settings' as const,
+      gradient: 'from-emerald-500 to-teal-600',
+      borderHover: 'hover:border-emerald-300',
     },
   ]
 
   return (
     <div className="max-w-[1200px] mx-auto space-y-8">
       {/* Welcome Banner */}
-      <div
-        className="rounded-2xl p-6 md:p-8 relative overflow-hidden"
-        style={{
-          background: 'linear-gradient(135deg, rgba(249,115,22,0.12) 0%, rgba(234,88,12,0.05) 100%)',
-          border: '1px solid rgba(249,115,22,0.12)',
-        }}
-      >
-        <div className="relative z-10">
-          <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2">
-            Welcome back, {localStorage.getItem('adminName') || 'Admin'} 👋
+      <div className="rounded-2xl p-6 md:p-8 relative overflow-hidden bg-gradient-to-r from-orange-50 via-amber-50 to-orange-100/60 border border-orange-200/80 shadow-xs">
+        <div className="relative z-10 max-w-2xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 border border-orange-200 text-orange-700 text-xs font-bold uppercase tracking-wider mb-3 shadow-xs">
+            <Coins size={13} className="text-orange-600" />
+            <span>EXECUTIVE DASHBOARD</span>
+          </div>
+          <h1 className="text-2xl md:text-3xl font-black text-slate-900 mb-2 tracking-tight">
+            Welcome back, {displayAdminName} 👋
           </h1>
-          <p className="text-slate-400 text-sm md:text-base max-w-xl">
-            Manage your shop's gold rates and branch locations from this dashboard.
-            Keep your offered prices up to date for your customers.
+          <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+            Manage your store's live gold rates, branch locations, and site settings from this dashboard.
+            All price changes synchronize live to the customer application.
           </p>
         </div>
-        {/* Decorative */}
+        {/* Decorative ambient ring */}
         <div
-          className="absolute -right-10 -top-10 w-48 h-48 rounded-full opacity-20"
-          style={{ background: 'radial-gradient(circle, rgba(249,115,22,0.6) 0%, transparent 70%)' }}
+          className="absolute -right-10 -top-10 w-48 h-48 rounded-full opacity-40 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(249,115,22,0.4) 0%, transparent 70%)' }}
         />
       </div>
 
@@ -132,67 +148,62 @@ export default function AdminDashboard({ onNavigateTo }: AdminDashboardProps) {
         {statCards.map((card, i) => (
           <div
             key={i}
-            className="rounded-2xl p-5 transition-all duration-300 hover:scale-[1.02]"
-            style={{
-              background: card.gradient,
-              border: `1px solid ${card.borderColor}`,
-            }}
+            className={`rounded-2xl p-5 bg-white border ${card.borderColor} shadow-xs hover:shadow-md transition-all duration-300 hover:scale-[1.01] flex flex-col justify-between`}
           >
             <div className="flex items-start justify-between mb-4">
-              <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center"
-                style={{ background: card.iconBg, color: card.iconColor }}
-              >
+              <div className={`w-11 h-11 rounded-xl flex items-center justify-center border shadow-xs ${card.iconBg}`}>
                 {card.icon}
               </div>
-              {loading && (
-                <RefreshCw size={16} className="text-slate-500 animate-spin" />
+              {loading ? (
+                <RefreshCw size={16} className="text-slate-400 animate-spin" />
+              ) : (
+                <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                  Live
+                </span>
               )}
             </div>
-            <p className="text-2xl font-extrabold text-white mb-1">
-              {loading ? '—' : card.value}
-            </p>
-            <p className="text-sm font-semibold text-slate-400">{card.label}</p>
-            <p className="text-xs text-slate-500 mt-1">{card.subtitle}</p>
+            <div>
+              <p className="text-3xl font-black text-slate-900 mb-0.5">
+                {loading ? '—' : card.value}
+              </p>
+              <p className="text-sm font-bold text-slate-700">{card.label}</p>
+              <p className="text-xs text-slate-500 mt-0.5">{card.subtitle}</p>
+            </div>
           </div>
         ))}
       </div>
 
       {/* Quick Actions */}
       <div>
-        <h2 className="text-lg font-bold text-white mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-lg font-black text-slate-900">Quick Actions</h2>
+            <p className="text-xs text-slate-500">Fast shortcuts to your most frequent admin tasks</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {quickActions.map((action, i) => (
             <button
               key={i}
               onClick={() => onNavigateTo(action.page)}
-              className="group rounded-2xl p-6 text-left transition-all duration-300 hover:scale-[1.02] border-0 cursor-pointer flex items-center gap-5"
-              style={{
-                background: 'rgba(30, 41, 59, 0.5)',
-                border: '1px solid rgba(255,255,255,0.06)',
-              }}
-              onMouseOver={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(249,115,22,0.2)'
-                ;(e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(0,0,0,0.2)'
-              }}
-              onMouseOut={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.06)'
-                ;(e.currentTarget as HTMLElement).style.boxShadow = 'none'
-              }}
+              className={`group rounded-2xl p-5 text-left transition-all duration-300 hover:scale-[1.01] bg-white border border-slate-200/80 shadow-xs hover:shadow-md ${action.borderHover} cursor-pointer flex items-center gap-4`}
             >
               <div
-                className="w-14 h-14 rounded-xl flex items-center justify-center text-white shrink-0"
-                style={{ background: action.gradient }}
+                className={`w-12 h-12 rounded-xl flex items-center justify-center text-white shrink-0 shadow-md bg-gradient-to-tr ${action.gradient}`}
               >
                 {action.icon}
               </div>
-              <div className="flex-1">
-                <p className="text-base font-bold text-white mb-1">{action.label}</p>
-                <p className="text-sm text-slate-400">{action.description}</p>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-extrabold text-slate-900 group-hover:text-orange-600 transition-colors mb-0.5 truncate">
+                  {action.label}
+                </p>
+                <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                  {action.description}
+                </p>
               </div>
               <ArrowRight
-                size={20}
-                className="text-slate-600 group-hover:text-orange-400 group-hover:translate-x-1 transition-all shrink-0"
+                size={18}
+                className="text-slate-400 group-hover:text-orange-500 group-hover:translate-x-1 transition-all shrink-0"
               />
             </button>
           ))}

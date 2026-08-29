@@ -14,6 +14,7 @@ import {
   Check
 } from 'lucide-react'
 import { Navbar, Footer, TrustBanner, GoldBackground } from '../components'
+import { useSiteSettings } from '../hooks/useSiteSettings'
 
 export interface ContactPageProps {
   initialCity?: string | null
@@ -49,9 +50,9 @@ interface BranchInfo {
   features: string[]
 }
 
-const mapDbBranchToInfo = (b: any): BranchInfo => {
+const mapDbBranchToInfo = (b: any, fallbackPhone?: string): BranchInfo => {
   const cityKey = (b.city || '').toLowerCase()
-  const cleanPhone = (b.phone || '+91 90925 48347')
+  const cleanPhone = b.phone || fallbackPhone || '+91 90925 48347'
   const rawPhone = cleanPhone.replace(/[^0-9]/g, '')
   
   let tag = 'AUTHORIZED BRANCH'
@@ -108,7 +109,7 @@ const mapDbBranchToInfo = (b: any): BranchInfo => {
     phone: cleanPhone,
     rawPhone,
     altPhone: '04562 - 224834',
-    email: b.email || `${cityKey}@goldfin.in`,
+    email: b.email || `${cityKey}@maheshbankers.com`,
     hours: b.operatingHours || 'Mon–Sat: 9:00 AM – 6:30 PM',
     sundayHours: 'Sunday: Closed (Digital Desk 24/7)',
     manager: b.managerName || 'Branch Head',
@@ -133,7 +134,7 @@ const FALLBACK_BRANCHES: BranchInfo[] = [
     phone: '+91 90925 48347',
     rawPhone: '9092548347',
     altPhone: '04562 - 224834',
-    email: 'sivakasi@goldfin.in',
+    email: 'sivakasi@maheshbankers.com',
     hours: 'Mon–Sat: 9:00 AM – 6:30 PM',
     sundayHours: 'Sunday: Closed (Digital Desk 24/7)',
     manager: 'R. Senthil Kumar (Branch Head)',
@@ -159,7 +160,7 @@ const FALLBACK_BRANCHES: BranchInfo[] = [
     phone: '+91 90925 48348',
     rawPhone: '9092548348',
     altPhone: '04563 - 261848',
-    email: 'srivilliputhur@goldfin.in',
+    email: 'srivilliputhur@maheshbankers.com',
     hours: 'Mon–Sat: 9:30 AM – 6:30 PM',
     sundayHours: 'Sunday: Closed (Digital Desk 24/7)',
     manager: 'M. Anandha Krishnan (Branch Manager)',
@@ -185,7 +186,7 @@ const FALLBACK_BRANCHES: BranchInfo[] = [
     phone: '+91 90925 48346',
     rawPhone: '9092548346',
     altPhone: '04562 - 289346',
-    email: 'puthupatti@goldfin.in',
+    email: 'puthupatti@maheshbankers.com',
     hours: 'Mon–Sat: 9:30 AM – 6:00 PM',
     sundayHours: 'Sunday: Closed (Digital Desk 24/7)',
     manager: 'P. Murugan (Branch Officer)',
@@ -211,7 +212,7 @@ const FALLBACK_BRANCHES: BranchInfo[] = [
     phone: '+91 90925 48349',
     rawPhone: '9092548349',
     altPhone: '04563 - 225349',
-    email: 'rajapalayam@goldfin.in',
+    email: 'rajapalayam@maheshbankers.com',
     hours: 'Mon–Sat: 9:30 AM – 6:30 PM',
     sundayHours: 'Sunday: Closed (Digital Desk 24/7)',
     manager: 'K. Vigneshwaran (Branch Manager)',
@@ -222,32 +223,6 @@ const FALLBACK_BRANCHES: BranchInfo[] = [
       'High-Value SME Gold Loan Desks',
       'Spot Gold Buying with Instant Settlement',
       'Certified BIS Hallmarking Verification'
-    ]
-  },
-  {
-    id: 'chennai',
-    name: 'Chennai Metro Central Desk',
-    shortName: 'Chennai Branch',
-    tag: 'METROPOLITAN GOLD DESK',
-    city: 'Chennai',
-    district: 'Chennai District',
-    pincode: '600017',
-    address: 'No. 12, Usman Road, Near Panagal Park, T. Nagar',
-    landmark: 'Opposite T. Nagar Bus Terminus & Jewellery Hub',
-    phone: '+91 90925 48347',
-    rawPhone: '9092548347',
-    altPhone: '044 - 2434 5678',
-    email: 'chennai@goldfin.in',
-    hours: 'Mon–Sat: 9:30 AM – 6:30 PM',
-    sundayHours: 'Sunday: Closed (Digital Desk 24/7)',
-    manager: 'S. Rajendran (Regional Head)',
-    mapEmbedUrl: 'https://maps.google.com/maps?q=T.+Nagar,+Chennai,+Tamil+Nadu,+India&t=&z=15&ie=UTF8&iwloc=&output=embed',
-    directionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=T.+Nagar,+Chennai,+Tamil+Nadu',
-    fullMapUrl: 'https://www.google.com/maps/search/?api=1&query=T.+Nagar,+Chennai,+Tamil+Nadu',
-    features: [
-      'High-Value Spot Gold Sanctions',
-      'German XRF Optical Karatmeter',
-      'VIP Dedicated Loan Appraisal Desk'
     ]
   }
 ]
@@ -261,6 +236,8 @@ export default function ContactPage({
   onNavigateBranches,
   onNavigateContact,
 }: ContactPageProps) {
+  const { settings } = useSiteSettings()
+  const companyName = settings.siteName || 'Mahesh Bankers'
   const [branches, setBranches] = useState<BranchInfo[]>(FALLBACK_BRANCHES)
   const [selectedBranchId, setSelectedBranchId] = useState<string>('')
   const [copiedPhoneId, setCopiedPhoneId] = useState<string | null>(null)
@@ -290,35 +267,46 @@ export default function ContactPage({
     const params = new URLSearchParams(queryStr)
     const targetCity = initialCity || params.get('city') || params.get('branch') || localStorage.getItem('selectedContactBranch')
 
-    fetch('/api/branches')
-      .then((res) => res.json())
-      .then((json) => {
-        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
-          const mapped = json.data
-            .filter((b: any) => b.isActive !== false)
-            .map(mapDbBranchToInfo)
-          setBranches(mapped)
-          if (targetCity) {
-            selectBranchByCityOrId(targetCity, mapped)
-          } else if (mapped.length > 0) {
-            setSelectedBranchId(mapped[0].id)
+    const loadBranches = () => {
+      fetch('/api/branches')
+        .then((res) => res.json())
+        .then((json) => {
+          if (json.success && Array.isArray(json.data)) {
+            const mapped = json.data
+              .filter((b: any) => b.isActive !== false)
+              .map((b: any) => mapDbBranchToInfo(b, settings.contactPhone))
+            setBranches(mapped)
+            if (targetCity) {
+              selectBranchByCityOrId(targetCity, mapped)
+            } else if (mapped.length > 0) {
+              setSelectedBranchId(mapped[0].id)
+            }
           }
-        } else {
+        })
+        .catch((err) => {
+          console.error('Failed to load branches for contact page:', err)
           if (targetCity) {
             selectBranchByCityOrId(targetCity, FALLBACK_BRANCHES)
           } else {
             setSelectedBranchId(FALLBACK_BRANCHES[0].id)
           }
-        }
-      })
-      .catch((err) => {
-        console.error('Failed to load branches for contact page:', err)
-        if (targetCity) {
-          selectBranchByCityOrId(targetCity, FALLBACK_BRANCHES)
-        } else {
-          setSelectedBranchId(FALLBACK_BRANCHES[0].id)
-        }
-      })
+        })
+    }
+
+    loadBranches()
+
+    const handleUpdate = () => loadBranches()
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'goldFin_branches_updated') loadBranches()
+    }
+
+    window.addEventListener('branchesUpdated', handleUpdate)
+    window.addEventListener('storage', handleStorage)
+
+    return () => {
+      window.removeEventListener('branchesUpdated', handleUpdate)
+      window.removeEventListener('storage', handleStorage)
+    }
   }, [initialCity])
 
   useEffect(() => {
@@ -646,7 +634,7 @@ export default function ContactPage({
                   </div>
                   <div className="flex flex-col">
                     <span className="text-[10px] font-black text-[#FF6B00] uppercase tracking-wider">
-                      GOLDFIN {activeBranch.city.toUpperCase()}
+                      {companyName.toUpperCase()} {activeBranch.city.toUpperCase()}
                     </span>
                     <span className="text-[10px] text-slate-800 font-bold truncate max-w-[200px]">
                       {getLocalizedAddress(activeBranch)}

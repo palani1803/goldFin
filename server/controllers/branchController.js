@@ -7,7 +7,7 @@ const DEFAULT_BRANCHES = [
     city: 'Sivakasi',
     state: 'Tamil Nadu',
     phone: '+91 90925 48347',
-    email: 'sivakasi@goldfin.in',
+    email: 'sivakasi@maheshbankers.com',
     managerName: 'R. Senthil Kumar (Branch Head)',
     operatingHours: 'Mon–Sat: 9:00 AM – 6:30 PM',
     mapUrl: 'https://maps.google.com/maps?q=Sivakasi,+Tamil+Nadu,+India',
@@ -19,7 +19,7 @@ const DEFAULT_BRANCHES = [
     city: 'Srivilliputhur',
     state: 'Tamil Nadu',
     phone: '+91 98421 77390',
-    email: 'srivilliputhur@goldfin.in',
+    email: 'srivilliputhur@maheshbankers.com',
     managerName: 'M. Soundarapandian (Senior Manager)',
     operatingHours: 'Mon–Sat: 9:00 AM – 6:30 PM',
     mapUrl: 'https://maps.google.com/maps?q=Srivilliputhur,+Tamil+Nadu,+India',
@@ -31,7 +31,7 @@ const DEFAULT_BRANCHES = [
     city: 'M.Puthupatti',
     state: 'Tamil Nadu',
     phone: '+91 94432 18902',
-    email: 'puthupatti@goldfin.in',
+    email: 'puthupatti@maheshbankers.com',
     managerName: 'K. Marimuthu (Branch Head)',
     operatingHours: 'Mon–Sat: 9:00 AM – 6:30 PM',
     mapUrl: 'https://maps.google.com/maps?q=M.Puthupatti,+Tamil+Nadu,+India',
@@ -43,7 +43,7 @@ const DEFAULT_BRANCHES = [
     city: 'Rajapalayam',
     state: 'Tamil Nadu',
     phone: '+91 97890 44123',
-    email: 'rajapalayam@goldfin.in',
+    email: 'rajapalayam@maheshbankers.com',
     managerName: 'A. Ramasamy (Branch Officer)',
     operatingHours: 'Mon–Sat: 9:00 AM – 6:30 PM',
     mapUrl: 'https://maps.google.com/maps?q=Rajapalayam,+Tamil+Nadu,+India',
@@ -51,14 +51,14 @@ const DEFAULT_BRANCHES = [
   },
 ]
 
-// Auto-seed default branches into database if empty
+// Auto-seed default branches into database ONLY if initial setup is needed
 const seedDefaultBranches = async () => {
   try {
     const count = await Branch.countDocuments()
     if (count === 0) {
-      console.log('🏢 [DB] No branches found. Seeding official GoldFin regional branches...')
+      console.log('🏢 [DB] No branches found. Initializing official GoldFin regional branches...')
       await Branch.insertMany(DEFAULT_BRANCHES)
-      console.log('✅ [DB] Successfully seeded GoldFin branches into database.')
+      console.log('✅ [DB] Initial GoldFin branches created.')
     }
   } catch (error) {
     console.error('⚠️ [DB] Error seeding default branches:', error.message)
@@ -70,11 +70,7 @@ const seedDefaultBranches = async () => {
 // @access  Public
 const getAllBranches = async (req, res, next) => {
   try {
-    let branches = await Branch.find({}).sort({ createdAt: 1 })
-    if (branches.length === 0) {
-      await seedDefaultBranches()
-      branches = await Branch.find({}).sort({ createdAt: 1 })
-    }
+    const branches = await Branch.find({}).sort({ createdAt: 1 })
     res.status(200).json({ success: true, count: branches.length, data: branches })
   } catch (error) {
     next(error)
@@ -191,7 +187,7 @@ const seedBranches = async (req, res, next) => {
     const seeded = await Branch.insertMany(DEFAULT_BRANCHES)
     res.status(201).json({
       success: true,
-      message: 'Successfully seeded 5 GoldFin branches',
+      message: 'Successfully seeded 4 Mahesh Bankers branches',
       count: seeded.length,
       data: seeded,
     })
