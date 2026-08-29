@@ -187,7 +187,7 @@ export default function AboutPage({
             </div>
             <div>
               <div className="text-3xl md:text-4xl font-black text-slate-800 group-hover:text-[#FF6B00] transition-colors tracking-tight">
-                ₹500+ Cr
+                ₹500+
               </div>
               <div className="text-xs text-slate-500 font-bold mt-1">Monthly Gold Valued</div>
             </div>
