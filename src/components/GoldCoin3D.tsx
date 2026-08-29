@@ -22,7 +22,7 @@ export default function GoldCoin3D({
 }: GoldCoin3DProps) {
   const [isHovered, setIsHovered] = useState(false)
   const { settings } = useSiteSettings()
-  const coinStampText = settings.siteName ? `★ ${settings.siteName.toUpperCase()} ★` : '★ MAHESH BANKERS ★'
+  const coinStampText = settings.siteName ? `★ ${settings.siteName.toUpperCase()} ★` : '★ MAHES BANKERS ★'
 
   // Optimal crystal-clear dimension for crisp rendering
   const fixedSizePx = customSize || (size === 'sm' ? 56 : size === 'md' ? 76 : size === 'lg' ? 96 : size === 'xl' ? 128 : undefined)

@@ -3,7 +3,7 @@ export type Language = 'ta' | 'en'
 export const translations = {
   ta: {
     // Brand & Header
-    brandName: 'Mahesh Bankers',
+    brandName: 'Mahes Bankers',
     brandTagline: 'நேரடி தங்கம் விலை & கடன்',
     navHome: 'முகப்பு',
     navLiveRate: 'நேரடி விலை',
@@ -191,7 +191,7 @@ export const translations = {
 
   en: {
     // Brand & Header
-    brandName: 'Mahesh Bankers',
+    brandName: 'Mahes Bankers',
     brandTagline: 'LIVE GOLD RATES & LOANS',
     navHome: 'Home',
     navLiveRate: 'Live Rates',
@@ -224,7 +224,7 @@ export const translations = {
     per1g: '1 gram',
     sovereign: '1 Sovereign (8g)',
     pureGoldBadge: '24K PURE GOLD',
-    goldfinRateBadge: 'MAHESH BANKERS RATE',
+    goldfinRateBadge: 'MAHES BANKERS RATE',
 
     // Metric Cards
     lastUpdated: 'LAST UPDATED',
@@ -237,7 +237,7 @@ export const translations = {
     companyRatesCategory: 'OUR FINANCE COMPANY RATES',
     companyRatesTitle: 'Our Company Gold Price (Per 1 Gram)',
     companyRatesDesc: 'Our official branch offered prices for gold loan appraisals and purchase. Updated via Admin.',
-    companyOfficialBadge: 'OFFICIAL MAHESH BANKERS RATES',
+    companyOfficialBadge: 'OFFICIAL MAHES BANKERS RATES',
     officialCompanyPrice: 'Official Company Price',
     rateOnRequest: 'Rate on Request • Set via Admin',
     statusActive: 'Active',

@@ -37,7 +37,7 @@ const emptyBranch = {
 
 export default function AdminBranches() {
   const { settings } = useSiteSettings()
-  const companyName = settings.siteName || 'Mahesh Bankers'
+  const companyName = settings.siteName || 'Mahes Bankers'
   const [branches, setBranches] = useState<Branch[]>([])
   const [loading, setLoading] = useState(true)
   const [modalOpen, setModalOpen] = useState(false)
@@ -665,7 +665,7 @@ export default function AdminBranches() {
                       type="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="sivakasi@maheshbankers.com"
+                      placeholder="sivakasi@mahesbankers.com"
                       className="w-full h-11 px-3.5 rounded-xl text-sm font-medium text-slate-900 placeholder-slate-400 bg-slate-50 border border-slate-200 focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none transition-all"
                     />
                   </div>

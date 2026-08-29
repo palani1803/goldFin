@@ -66,7 +66,7 @@ export default function LiveRatePage({
   onNavigateTo,
 }: LiveRatePageProps) {
   const { settings } = useSiteSettings()
-  const companyName = settings.siteName || 'Mahesh Bankers'
+  const companyName = settings.siteName || 'Mahes Bankers'
 
   // Live rates state
   const [liveRates, setLiveRates] = useState<PurityRate[]>([])

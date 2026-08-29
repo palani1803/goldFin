@@ -9,8 +9,8 @@ interface AdminLoginPageProps {
 
 export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: AdminLoginPageProps) {
   const { settings } = useSiteSettings()
-  const companyName = settings.siteName || 'Mahesh Bankers'
-  const demoEmail = settings.demoAdminEmail || 'admin@maheshbankers.com'
+  const companyName = settings.siteName || 'Mahes Bankers'
+  const demoEmail = settings.demoAdminEmail || 'admin@mahesbankers.com'
   const demoPassword = settings.demoAdminPassword || 'admin123'
 
   const [email, setEmail] = useState('')

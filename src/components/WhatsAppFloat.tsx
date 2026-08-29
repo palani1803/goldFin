@@ -12,7 +12,7 @@ export default function WhatsAppFloat({
   defaultMessage,
 }: WhatsAppFloatProps) {
   const { settings } = useSiteSettings()
-  const companyName = settings.siteName || 'Mahesh Bankers'
+  const companyName = settings.siteName || 'Mahes Bankers'
   const [isOpen, setIsOpen] = useState(false)
   const [customMsg, setCustomMsg] = useState('')
 

@@ -19,20 +19,20 @@ export interface SiteSettings {
 }
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
-  siteName: 'Mahesh Bankers',
+  siteName: 'Mahes Bankers',
   bankPartnerName: 'RBI-Approved Scheduled Commercial Banks',
   tagline: 'Live Rates & Gold Loans',
   logoUrl: '',
   logoType: 'icon',
   whatsappNumber: '9092548347',
   contactPhone: '+91 90925 48347',
-  contactEmail: 'contact@maheshbankers.com',
+  contactEmail: 'contact@mahesbankers.com',
   headquartersAddress: 'No. 42/B, Kamarajar Road, Near Old Bus Stand, Sivakasi, Tamil Nadu',
   operatingHours: 'Mon–Sat: 9:00 AM – 6:30 PM',
   goldDutyFactor: 1.135,
   goldGstPercent: 3,
   maxLoanLtvPercent: 75,
-  demoAdminEmail: 'admin@maheshbankers.com',
+  demoAdminEmail: 'admin@mahesbankers.com',
   demoAdminPassword: 'admin123',
 }
 
@@ -43,8 +43,8 @@ export function useSiteSettings() {
         const cached = localStorage.getItem('goldFin_site_settings')
         if (cached) {
           const parsed = JSON.parse(cached)
-          if (parsed.siteName === 'GoldFin') {
-            parsed.siteName = 'Mahesh Bankers'
+          if (parsed.siteName === 'GoldFin' || parsed.siteName === 'Mahesh Bankers') {
+            parsed.siteName = 'Mahes Bankers'
           }
           return parsed
         }

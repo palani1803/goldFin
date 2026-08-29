@@ -65,7 +65,7 @@ export default function BranchesPage({
   onNavigateContact,
 }: BranchesPageProps) {
   const { settings } = useSiteSettings()
-  const companyName = settings.siteName || 'Mahesh Bankers'
+  const companyName = settings.siteName || 'Mahes Bankers'
   const [branches, setBranches] = useState<BranchItem[]>([])
   const [loading, setLoading] = useState(true)
 

@@ -25,7 +25,7 @@ interface MarketRate {
 
 export default function AdminGoldRates() {
   const { settings } = useSiteSettings()
-  const companyName = settings.siteName || 'Mahesh Bankers'
+  const companyName = settings.siteName || 'Mahes Bankers'
   const [shopRates, setShopRates] = useState<ShopRate[]>([])
   const [marketRates, setMarketRates] = useState<MarketRate[]>([])
   const [loading, setLoading] = useState(true)

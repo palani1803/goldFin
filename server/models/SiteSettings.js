@@ -4,7 +4,7 @@ const siteSettingsSchema = new mongoose.Schema(
   {
     siteName: {
       type: String,
-      default: 'Mahesh Bankers',
+      default: 'Mahes Bankers',
       trim: true,
     },
     bankPartnerName: {
@@ -38,7 +38,7 @@ const siteSettingsSchema = new mongoose.Schema(
     },
     contactEmail: {
       type: String,
-      default: 'contact@maheshbankers.com',
+      default: 'contact@mahesbankers.com',
       trim: true,
       lowercase: true,
     },
@@ -66,7 +66,7 @@ const siteSettingsSchema = new mongoose.Schema(
     },
     demoAdminEmail: {
       type: String,
-      default: 'admin@maheshbankers.com',
+      default: 'admin@mahesbankers.com',
       trim: true,
       lowercase: true,
     },

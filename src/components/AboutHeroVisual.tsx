@@ -28,7 +28,7 @@ export default function AboutHeroVisual({
   onNavigateBranches
 }: AboutHeroVisualProps) {
   const { settings } = useSiteSettings()
-  const companyName = settings.siteName || 'Mahesh Bankers'
+  const companyName = settings.siteName || 'Mahes Bankers'
   const brandInitials = companyName
     .split(' ')
     .map((w) => w[0])

@@ -36,20 +36,20 @@ interface SiteSettingsData {
 }
 
 const DEFAULT_SETTINGS: SiteSettingsData = {
-  siteName: 'Mahesh Bankers',
+  siteName: 'Mahes Bankers',
   bankPartnerName: 'RBI-Approved Scheduled Commercial Banks',
   tagline: 'Live Rates & Gold Loans',
   logoUrl: '',
   logoType: 'icon',
   whatsappNumber: '9092548347',
   contactPhone: '+91 90925 48347',
-  contactEmail: 'contact@maheshbankers.com',
+  contactEmail: 'contact@mahesbankers.com',
   headquartersAddress: 'No. 42/B, Kamarajar Road, Near Old Bus Stand, Sivakasi, Tamil Nadu',
   operatingHours: 'Mon–Sat: 9:00 AM – 6:30 PM',
   goldDutyFactor: 1.135,
   goldGstPercent: 3,
   maxLoanLtvPercent: 75,
-  demoAdminEmail: 'admin@maheshbankers.com',
+  demoAdminEmail: 'admin@mahesbankers.com',
   demoAdminPassword: 'admin123',
 }
 
@@ -95,20 +95,20 @@ export default function AdminSettings() {
       const json = await res.json()
       if (json.success && json.data) {
         setFormData({
-          siteName: json.data.siteName || 'Mahesh Bankers',
+          siteName: json.data.siteName || 'Mahes Bankers',
           bankPartnerName: json.data.bankPartnerName || 'RBI-Approved Scheduled Commercial Banks',
           tagline: json.data.tagline || 'Live Rates & Gold Loans',
           logoUrl: json.data.logoUrl || '',
           logoType: json.data.logoType || (json.data.logoUrl ? 'image' : 'icon'),
           whatsappNumber: json.data.whatsappNumber || '9092548347',
           contactPhone: json.data.contactPhone || '+91 90925 48347',
-          contactEmail: json.data.contactEmail || 'contact@maheshbankers.com',
+          contactEmail: json.data.contactEmail || 'contact@mahesbankers.com',
           headquartersAddress: json.data.headquartersAddress || '',
           operatingHours: json.data.operatingHours || 'Mon–Sat: 9:00 AM – 6:30 PM',
           goldDutyFactor: json.data.goldDutyFactor ?? 1.135,
           goldGstPercent: json.data.goldGstPercent ?? 3,
           maxLoanLtvPercent: json.data.maxLoanLtvPercent ?? 75,
-          demoAdminEmail: json.data.demoAdminEmail || 'admin@maheshbankers.com',
+          demoAdminEmail: json.data.demoAdminEmail || 'admin@mahesbankers.com',
           demoAdminPassword: json.data.demoAdminPassword || 'admin123',
         })
       }
@@ -183,7 +183,7 @@ export default function AdminSettings() {
     if (formData.contactEmail && formData.contactEmail.trim()) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!emailRegex.test(formData.contactEmail.trim())) {
-        return '⚠️ Please enter a valid email address format (e.g. contact@maheshbankers.com).'
+        return '⚠️ Please enter a valid email address format (e.g. contact@mahesbankers.com).'
       }
     }
 
@@ -278,7 +278,7 @@ export default function AdminSettings() {
       const json = await res.json()
       if (res.ok && json.success) {
         const updatedPassword = json.data?.demoAdminPassword || newPassword
-        const updatedEmail = json.data?.demoAdminEmail || formData.demoAdminEmail || 'admin@maheshbankers.com'
+        const updatedEmail = json.data?.demoAdminEmail || formData.demoAdminEmail || 'admin@mahesbankers.com'
 
         setPasswordSuccess(`Password updated successfully! Login page demo credentials have also been updated to "${updatedPassword}".`)
         setCurrentPassword('')
@@ -509,7 +509,7 @@ export default function AdminSettings() {
               value={formData.siteName}
               onChange={(e) => handleInputChange('siteName', e.target.value)}
               className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-colors"
-              placeholder="e.g. Mahesh Bankers"
+              placeholder="e.g. Mahes Bankers"
             />
             <p className="text-[11px] text-slate-500 mt-1.5">
               This name will be displayed in the header, footer, and browser page title across the customer application.
@@ -594,7 +594,7 @@ export default function AdminSettings() {
                 value={formData.contactEmail}
                 onChange={(e) => handleInputChange('contactEmail', e.target.value)}
                 className="w-full h-11 px-4 rounded-xl bg-white border border-slate-200 text-sm text-slate-900 focus:border-orange-500 outline-none transition-colors"
-                placeholder="contact@maheshbankers.com"
+                placeholder="contact@mahesbankers.com"
               />
             </div>
 
@@ -668,7 +668,7 @@ export default function AdminSettings() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono pt-1">
               <div className="p-2.5 rounded-xl bg-white border border-orange-200 flex items-center justify-between shadow-2xs">
                 <span className="text-slate-500">Email:</span>
-                <span className="text-orange-700 font-bold">{formData.demoAdminEmail || 'admin@maheshbankers.com'}</span>
+                <span className="text-orange-700 font-bold">{formData.demoAdminEmail || 'admin@mahesbankers.com'}</span>
               </div>
               <div className="p-2.5 rounded-xl bg-white border border-orange-200 flex items-center justify-between shadow-2xs">
                 <span className="text-slate-500">Password:</span>

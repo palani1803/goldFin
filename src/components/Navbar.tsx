@@ -70,7 +70,7 @@ export default function Navbar({
           {settings.logoUrl ? (
             <img
               src={settings.logoUrl}
-              alt={settings.siteName || 'Mahesh Bankers'}
+              alt={settings.siteName || 'Mahes Bankers'}
               className="h-10 sm:h-12 max-w-[140px] sm:max-w-[180px] object-contain group-hover:scale-105 transition-transform"
             />
           ) : (
@@ -82,7 +82,7 @@ export default function Navbar({
 
           <div className="flex flex-col">
             <span className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-none sm:leading-tight">
-              {settings.siteName || 'Mahesh Bankers'}
+              {settings.siteName || 'Mahes Bankers'}
             </span>
             <span className="text-[9px] sm:text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 whitespace-nowrap mt-0.5">
               {settings.tagline || 'Live Rates & Gold Loans'}

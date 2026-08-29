@@ -2,20 +2,20 @@ const SiteSettings = require('../models/SiteSettings')
 const Admin = require('../models/Admin')
 
 const DEFAULT_SETTINGS = {
-  siteName: 'Mahesh Bankers',
+  siteName: 'Mahes Bankers',
   bankPartnerName: 'RBI-Approved Scheduled Commercial Banks',
   tagline: 'Live Rates & Gold Loans',
   logoUrl: '',
   logoType: 'icon',
   whatsappNumber: '9092548347',
   contactPhone: '+91 90925 48347',
-  contactEmail: 'contact@maheshbankers.com',
+  contactEmail: 'contact@mahesbankers.com',
   headquartersAddress: 'No. 42/B, Kamarajar Road, Near Old Bus Stand, Sivakasi, Tamil Nadu',
   operatingHours: 'Mon–Sat: 9:00 AM – 6:30 PM',
   goldDutyFactor: 1.135,
   goldGstPercent: 3,
   maxLoanLtvPercent: 75,
-  demoAdminEmail: 'admin@maheshbankers.com',
+  demoAdminEmail: 'admin@mahesbankers.com',
   demoAdminPassword: 'admin123',
 }
 
@@ -30,16 +30,16 @@ const getSettings = async (req, res, next) => {
       settings = await SiteSettings.create(DEFAULT_SETTINGS)
     } else {
       let needsSave = false
-      if (settings.siteName === 'GoldFin') {
-        settings.siteName = 'Mahesh Bankers'
+      if (settings.siteName === 'GoldFin' || settings.siteName === 'Mahesh Bankers') {
+        settings.siteName = 'Mahes Bankers'
         needsSave = true
       }
-      if (settings.contactEmail && settings.contactEmail.includes('goldfin')) {
-        settings.contactEmail = 'contact@maheshbankers.com'
+      if (settings.contactEmail && (settings.contactEmail.includes('goldfin') || settings.contactEmail.includes('mahesh'))) {
+        settings.contactEmail = 'contact@mahesbankers.com'
         needsSave = true
       }
-      if (settings.demoAdminEmail && settings.demoAdminEmail.includes('goldfin')) {
-        settings.demoAdminEmail = 'admin@maheshbankers.com'
+      if (settings.demoAdminEmail && (settings.demoAdminEmail.includes('goldfin') || settings.demoAdminEmail.includes('mahesh'))) {
+        settings.demoAdminEmail = 'admin@mahesbankers.com'
         needsSave = true
       }
       if (needsSave) {
@@ -126,7 +126,7 @@ const changeAdminPassword = async (req, res, next) => {
       {
         $set: {
           demoAdminPassword: newPassword,
-          demoAdminEmail: admin.email || 'admin@maheshbankers.com',
+          demoAdminEmail: admin.email || 'admin@mahesbankers.com',
         },
       },
       { new: true, upsert: true }
@@ -136,7 +136,7 @@ const changeAdminPassword = async (req, res, next) => {
       success: true,
       message: 'Admin password changed successfully and login demo credentials updated',
       data: {
-        demoAdminEmail: admin.email || 'admin@maheshbankers.com',
+        demoAdminEmail: admin.email || 'admin@mahesbankers.com',
         demoAdminPassword: newPassword,
         settings: updatedSettings,
       },

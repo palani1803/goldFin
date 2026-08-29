@@ -49,7 +49,7 @@ export default function GoldLoanPage({
   onNavigateContact,
 }: GoldLoanPageProps) {
   const { settings } = useSiteSettings()
-  const companyName = settings.siteName || 'Mahesh Bankers'
+  const companyName = settings.siteName || 'Mahes Bankers'
   const bankName = settings.bankPartnerName || 'RBI-Approved Scheduled Commercial Banks'
 
   // Live rates state

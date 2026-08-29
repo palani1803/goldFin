@@ -18,7 +18,7 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({ onLogout, onNavigateHome }: AdminLayoutProps) {
   const { settings } = useSiteSettings()
-  const companyName = settings.siteName || 'Mahesh Bankers'
+  const companyName = settings.siteName || 'Mahes Bankers'
   const [activePage, setActivePage] = useState<AdminPage>('dashboard')
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [adminName, setAdminName] = useState('')
@@ -90,7 +90,7 @@ export default function AdminLayout({ onLogout, onNavigateHome }: AdminLayoutPro
             </div>
             <div className="flex flex-col text-left">
               <span className="text-base font-extrabold text-slate-900 group-hover:text-orange-600 transition-colors truncate max-w-[150px]">
-                {settings.siteName || 'Mahesh Bankers'}
+                {settings.siteName || 'Mahes Bankers'}
               </span>
               <span className="text-[10px] font-black tracking-wider text-orange-600 uppercase">
                 ADMIN PORTAL

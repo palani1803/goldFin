@@ -165,7 +165,7 @@ export default function HomePage({
   onNavigateContact,
 }: HomePageProps = {}) {
   const { settings } = useSiteSettings()
-  const companyName = settings.siteName || 'Mahesh Bankers'
+  const companyName = settings.siteName || 'Mahes Bankers'
   const bankName = settings.bankPartnerName || '100% Insured Bank Vault'
 
   // Modals

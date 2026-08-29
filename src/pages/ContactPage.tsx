@@ -109,7 +109,7 @@ const mapDbBranchToInfo = (b: any, fallbackPhone?: string): BranchInfo => {
     phone: cleanPhone,
     rawPhone,
     altPhone: '04562 - 224834',
-    email: b.email || `${cityKey}@maheshbankers.com`,
+    email: b.email || `${cityKey}@mahesbankers.com`,
     hours: b.operatingHours || 'Mon–Sat: 9:00 AM – 6:30 PM',
     sundayHours: 'Sunday: Closed (Digital Desk 24/7)',
     manager: b.managerName || 'Branch Head',
@@ -134,7 +134,7 @@ const FALLBACK_BRANCHES: BranchInfo[] = [
     phone: '+91 90925 48347',
     rawPhone: '9092548347',
     altPhone: '04562 - 224834',
-    email: 'sivakasi@maheshbankers.com',
+    email: 'sivakasi@mahesbankers.com',
     hours: 'Mon–Sat: 9:00 AM – 6:30 PM',
     sundayHours: 'Sunday: Closed (Digital Desk 24/7)',
     manager: 'R. Senthil Kumar (Branch Head)',
@@ -160,7 +160,7 @@ const FALLBACK_BRANCHES: BranchInfo[] = [
     phone: '+91 90925 48348',
     rawPhone: '9092548348',
     altPhone: '04563 - 261848',
-    email: 'srivilliputhur@maheshbankers.com',
+    email: 'srivilliputhur@mahesbankers.com',
     hours: 'Mon–Sat: 9:30 AM – 6:30 PM',
     sundayHours: 'Sunday: Closed (Digital Desk 24/7)',
     manager: 'M. Anandha Krishnan (Branch Manager)',
@@ -186,7 +186,7 @@ const FALLBACK_BRANCHES: BranchInfo[] = [
     phone: '+91 90925 48346',
     rawPhone: '9092548346',
     altPhone: '04562 - 289346',
-    email: 'puthupatti@maheshbankers.com',
+    email: 'puthupatti@mahesbankers.com',
     hours: 'Mon–Sat: 9:30 AM – 6:00 PM',
     sundayHours: 'Sunday: Closed (Digital Desk 24/7)',
     manager: 'P. Murugan (Branch Officer)',
@@ -212,7 +212,7 @@ const FALLBACK_BRANCHES: BranchInfo[] = [
     phone: '+91 90925 48349',
     rawPhone: '9092548349',
     altPhone: '04563 - 225349',
-    email: 'rajapalayam@maheshbankers.com',
+    email: 'rajapalayam@mahesbankers.com',
     hours: 'Mon–Sat: 9:30 AM – 6:30 PM',
     sundayHours: 'Sunday: Closed (Digital Desk 24/7)',
     manager: 'K. Vigneshwaran (Branch Manager)',
@@ -237,7 +237,7 @@ export default function ContactPage({
   onNavigateContact,
 }: ContactPageProps) {
   const { settings } = useSiteSettings()
-  const companyName = settings.siteName || 'Mahesh Bankers'
+  const companyName = settings.siteName || 'Mahes Bankers'
   const [branches, setBranches] = useState<BranchInfo[]>(FALLBACK_BRANCHES)
   const [selectedBranchId, setSelectedBranchId] = useState<string>('')
   const [copiedPhoneId, setCopiedPhoneId] = useState<string | null>(null)

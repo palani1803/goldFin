@@ -111,7 +111,7 @@ export default function Footer({
               {settings.logoUrl ? (
                 <img
                   src={settings.logoUrl}
-                  alt={settings.siteName || 'Mahesh Bankers'}
+                  alt={settings.siteName || 'Mahes Bankers'}
                   className="h-10 max-w-[150px] object-contain group-hover:scale-105 transition-transform"
                 />
               ) : (
@@ -121,7 +121,7 @@ export default function Footer({
               )}
               <div className="flex flex-col">
                 <span className="text-xl font-extrabold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
-                  {settings.siteName || 'Mahesh Bankers'}
+                  {settings.siteName || 'Mahes Bankers'}
                 </span>
                 <span className="text-[10px] font-bold tracking-wider text-[#FF6B00]">
                   {settings.tagline || 'Live Rates & Gold Loans'}
@@ -223,11 +223,11 @@ export default function Footer({
               {settings.operatingHours || 'Monday–Saturday: 9:00 AM – 6:30 PM'}
             </p>
             <a
-              href={`mailto:${settings.contactEmail || 'contact@maheshbankers.com'}`}
+              href={`mailto:${settings.contactEmail || 'contact@mahesbankers.com'}`}
               className="flex items-center gap-2 text-[#FF6B00] hover:text-[#EA580C] font-bold text-xs transition-colors no-underline"
             >
               <Mail size={16} />
-              <span>{settings.contactEmail || 'contact@maheshbankers.com'}</span>
+              <span>{settings.contactEmail || 'contact@mahesbankers.com'}</span>
             </a>
             <a
               href={`tel:${(settings.contactPhone || '+91 90925 48347').replace(/[^0-9+]/g, '')}`}
@@ -241,7 +241,7 @@ export default function Footer({
 
         {/* Bottom Strip */}
         <div className="pt-8 mt-12 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 text-center sm:text-left">
-          <span>© {new Date().getFullYear()} {settings.siteName || 'Mahesh Bankers'}. All Rights Reserved. Compliant with RBI guidelines.</span>
+          <span>© {new Date().getFullYear()} {settings.siteName || 'Mahes Bankers'}. All Rights Reserved. Compliant with RBI guidelines.</span>
           <span>{cityListString}</span>
         </div>
       </div>
