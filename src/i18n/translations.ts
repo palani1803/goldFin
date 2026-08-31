@@ -36,7 +36,7 @@ export const translations = {
     per1g: '1 கிராம்',
     sovereign: '1 பவுன் (8 கிராம்)',
     pureGoldBadge: '24K சுத்த தங்கம்',
-    goldfinRateBadge: 'மகேஷ் பேங்கர்ஸ் விலை',
+    goldfinRateBadge: 'மகேஸ் பேங்கர்ஸ் விலை',
 
     // Metric Cards
     lastUpdated: 'கடைசி புதுப்பிப்பு',
@@ -49,7 +49,7 @@ export const translations = {
     companyRatesCategory: 'எங்கள் நிதி நிறுவனத்தின் தங்க விலை',
     companyRatesTitle: 'எங்கள் நிறுவன தங்க விலை (1 கிராமுக்கு)',
     companyRatesDesc: 'தங்க நகை கடன் மதிப்பீடு மற்றும் கொள்முதலுக்கான எங்கள் கிளைகளின் அதிகாரப்பூர்வ நேரடி விலை.',
-    companyOfficialBadge: 'மகேஷ் பேங்கர்ஸ் அதிகாரப்பூர்வ விலை',
+    companyOfficialBadge: 'மகேஸ் பேங்கர்ஸ் அதிகாரப்பூர்வ விலை',
     officialCompanyPrice: 'அதிகாரப்பூர்வ நிறுவன விலை',
     rateOnRequest: 'விசாரணைக்குரிய விலை • நிர்வாகி அமைப்பார்',
     statusActive: 'செயலில் உள்ளது',

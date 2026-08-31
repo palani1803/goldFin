@@ -11,6 +11,10 @@ const generateToken = (id) => {
 // Auto-seed default admin into database on server start
 const seedDefaultAdmin = async () => {
   try {
+    const SiteSettings = require('../models/SiteSettings')
+    const currentSettings = await SiteSettings.findOne({})
+    const siteName = currentSettings?.siteName || 'Mahes Bankers'
+
     const existingAdmin = await Admin.findOne({
       $or: [
         { email: 'admin@mahesbankers.com' },
@@ -21,18 +25,18 @@ const seedDefaultAdmin = async () => {
 
     if (!existingAdmin) {
       const createdAdmin = await Admin.create({
-        name: 'Mahes Bankers Admin',
+        name: `${siteName} Admin`,
         email: 'admin@mahesbankers.com',
         password: 'admin123',
         role: 'admin',
       })
       console.log(`👤 [DB] Default Admin account saved to database: ${createdAdmin.email} / admin123`)
     } else {
-      if (existingAdmin.name === 'Mahesh Bankers Admin') {
-        existingAdmin.name = 'Mahes Bankers Admin'
+      existingAdmin.name = `${siteName} Admin`
+      if (existingAdmin.email === 'admin@maheshbankers.com' || existingAdmin.email === 'admin@goldfin.com') {
         existingAdmin.email = 'admin@mahesbankers.com'
-        await existingAdmin.save()
       }
+      await existingAdmin.save()
       console.log(`👤 [DB] Admin account verified in database: ${existingAdmin.email}`)
     }
   } catch (error) {
@@ -53,6 +57,9 @@ const adminLogin = async (req, res, next) => {
     }
 
     const cleanEmail = email.trim().toLowerCase()
+    const SiteSettings = require('../models/SiteSettings')
+    const currentSettings = await SiteSettings.findOne({})
+    const siteName = currentSettings?.siteName || 'Mahes Bankers'
 
     // Find admin and include password for comparison
     let admin = await Admin.findOne({ email: cleanEmail }).select('+password')
@@ -60,7 +67,7 @@ const adminLogin = async (req, res, next) => {
     // If default demo admin does not exist in DB yet, create and save it now
     if (!admin && (cleanEmail === 'admin@mahesbankers.com' || cleanEmail === 'admin@maheshbankers.com' || cleanEmail === 'admin@goldfin.com')) {
       admin = await Admin.create({
-        name: 'Mahes Bankers Admin',
+        name: `${siteName} Admin`,
         email: cleanEmail,
         password: password || 'admin123',
         role: 'admin',
@@ -79,6 +86,10 @@ const adminLogin = async (req, res, next) => {
       res.status(401)
       throw new Error('Invalid email or password')
     }
+
+    // Update admin name to match current site name
+    admin.name = `${siteName} Admin`
+    await admin.save()
 
     res.status(200).json({
       success: true,
@@ -101,6 +112,10 @@ const adminLogin = async (req, res, next) => {
 // @access  Private (admin)
 const getAdminProfile = async (req, res, next) => {
   try {
+    const SiteSettings = require('../models/SiteSettings')
+    const currentSettings = await SiteSettings.findOne({})
+    const siteName = currentSettings?.siteName || 'Mahes Bankers'
+
     const admin = await Admin.findById(req.admin._id)
 
     if (!admin) {
@@ -112,7 +127,7 @@ const getAdminProfile = async (req, res, next) => {
       success: true,
       data: {
         _id: admin._id,
-        name: admin.name,
+        name: `${siteName} Admin`,
         email: admin.email,
         role: admin.role,
       },
@@ -128,6 +143,9 @@ const getAdminProfile = async (req, res, next) => {
 const seedAdmin = async (req, res, next) => {
   try {
     const SiteSettings = require('../models/SiteSettings')
+    const currentSettings = await SiteSettings.findOne({})
+    const siteName = currentSettings?.siteName || 'Mahes Bankers'
+
     let existingAdmin = await Admin.findOne({
       $or: [
         { email: 'admin@mahesbankers.com' },
@@ -138,7 +156,7 @@ const seedAdmin = async (req, res, next) => {
 
     if (existingAdmin) {
       existingAdmin.password = 'admin123'
-      existingAdmin.name = 'Mahes Bankers Admin'
+      existingAdmin.name = `${siteName} Admin`
       existingAdmin.email = 'admin@mahesbankers.com'
       await existingAdmin.save()
       await SiteSettings.findOneAndUpdate(
@@ -157,7 +175,7 @@ const seedAdmin = async (req, res, next) => {
     }
 
     const admin = await Admin.create({
-      name: 'Mahes Bankers Admin',
+      name: `${siteName} Admin`,
       email: 'admin@mahesbankers.com',
       password: 'admin123',
       role: 'admin',

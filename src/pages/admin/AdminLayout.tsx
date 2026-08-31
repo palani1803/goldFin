@@ -21,15 +21,10 @@ export default function AdminLayout({ onLogout, onNavigateHome }: AdminLayoutPro
   const companyName = settings.siteName || 'Mahes Bankers'
   const [activePage, setActivePage] = useState<AdminPage>('dashboard')
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [adminName, setAdminName] = useState('')
+  const [adminName, setAdminName] = useState(`${companyName} Admin`)
 
   useEffect(() => {
-    const name = localStorage.getItem('adminName')
-    if (name && !name.toLowerCase().includes('goldfin')) {
-      setAdminName(name)
-    } else {
-      setAdminName(`${companyName} Admin`)
-    }
+    setAdminName(`${companyName} Admin`)
   }, [companyName])
 
   const handleLogout = () => {

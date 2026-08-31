@@ -16,10 +16,7 @@ interface DashboardStats {
 export default function AdminDashboard({ onNavigateTo }: AdminDashboardProps) {
   const { settings } = useSiteSettings()
   const companyName = settings.siteName || 'Mahes Bankers'
-  const rawAdminName = typeof window !== 'undefined' ? localStorage.getItem('adminName') || '' : ''
-  const displayAdminName = rawAdminName && !rawAdminName.toLowerCase().includes('goldfin')
-    ? rawAdminName
-    : `${companyName} Admin`
+  const displayAdminName = `${companyName} Admin`
 
   const [stats, setStats] = useState<DashboardStats>({
     totalBranches: 0,

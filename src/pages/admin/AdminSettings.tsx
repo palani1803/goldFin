@@ -226,7 +226,9 @@ export default function AdminSettings() {
       const json = await res.json()
       if (res.ok && json.success) {
         setSuccessMsg('✅ Settings saved successfully! Changes are now live across the website.')
+        const updatedName = json.data.siteName || formData.siteName || 'Mahes Bankers'
         localStorage.setItem('goldFin_site_settings', JSON.stringify(json.data))
+        localStorage.setItem('adminName', `${updatedName} Admin`)
         window.dispatchEvent(new CustomEvent('settingsUpdated', { detail: json.data }))
         window.dispatchEvent(new StorageEvent('storage', { key: 'goldFin_site_settings' }))
         scrollToTop()

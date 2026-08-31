@@ -60,9 +60,7 @@ export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: Admin
       }
 
       // Store token and admin info
-      const cleanName = data.data.name && !data.data.name.toLowerCase().includes('goldfin')
-        ? data.data.name
-        : `${companyName} Admin`
+      const cleanName = `${companyName} Admin`
       localStorage.setItem('adminToken', data.data.token)
       localStorage.setItem('adminName', cleanName)
       localStorage.setItem('adminEmail', data.data.email)

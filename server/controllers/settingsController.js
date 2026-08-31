@@ -78,6 +78,14 @@ const updateSettings = async (req, res, next) => {
       )
     }
 
+    // Keep Admin model name synchronized if siteName is updated
+    if (updateData.siteName) {
+      await Admin.updateMany(
+        { role: 'admin' },
+        { $set: { name: `${updateData.siteName} Admin` } }
+      )
+    }
+
     res.status(200).json({
       success: true,
       message: 'Site settings updated successfully',
