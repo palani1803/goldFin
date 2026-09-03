@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Coins, Eye, EyeOff, Lock, Mail, AlertCircle, Loader2, Copy, Check } from 'lucide-react'
+import { Coins, Eye, EyeOff, Lock, Mail, AlertCircle, Loader2 } from 'lucide-react'
 import { useSiteSettings } from '../../hooks/useSiteSettings'
 
 interface AdminLoginPageProps {
@@ -10,36 +10,13 @@ interface AdminLoginPageProps {
 export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: AdminLoginPageProps) {
   const { settings } = useSiteSettings()
   const companyName = settings.siteName || 'Mahes Bankers'
-  const demoEmail = settings.demoAdminEmail || 'admin@mahesbankers.com'
-  const demoPassword = settings.demoAdminPassword || 'admin123'
+  const adminEmail = settings.demoAdminEmail || 'admin@mahesbankers.com'
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [copiedEmail, setCopiedEmail] = useState(false)
-  const [copiedPassword, setCopiedPassword] = useState(false)
-  const [autoFilled, setAutoFilled] = useState(false)
-
-  const handleCopy = (text: string, type: 'email' | 'password') => {
-    navigator.clipboard.writeText(text)
-    if (type === 'email') {
-      setCopiedEmail(true)
-      setTimeout(() => setCopiedEmail(false), 2000)
-    } else {
-      setCopiedPassword(true)
-      setTimeout(() => setCopiedPassword(false), 2000)
-    }
-  }
-
-  const handleAutoFill = () => {
-    setEmail(demoEmail)
-    setPassword(demoPassword)
-    setError('')
-    setAutoFilled(true)
-    setTimeout(() => setAutoFilled(false), 2000)
-  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -127,49 +104,6 @@ export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: Admin
 
         {/* Card */}
         <div className="rounded-3xl border border-orange-100/90 p-7 sm:p-8 backdrop-blur-xl bg-white/95 shadow-2xl shadow-orange-500/10">
-          {/* Demo Credentials Box */}
-          <div className="mb-5 rounded-2xl p-3 bg-gradient-to-br from-orange-50/80 via-amber-50/40 to-orange-100/30 border border-orange-200/80 shadow-2xs">
-            <div className="space-y-2 text-xs font-mono bg-white/90 p-3 rounded-xl border border-orange-200/60 shadow-2xs">
-              <div className="flex items-center justify-between">
-                <span className="text-slate-500 font-semibold">Email:</span>
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-orange-700 select-all">{demoEmail}</span>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy(demoEmail, 'email')}
-                    className="p-1 rounded text-slate-400 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 border-0 cursor-pointer transition-colors"
-                    title="Copy email"
-                  >
-                    {copiedEmail ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
-                  </button>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-slate-500 font-semibold">Password:</span>
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-orange-700 select-all">{demoPassword}</span>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy(demoPassword, 'password')}
-                    className="p-1 rounded text-slate-400 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 border-0 cursor-pointer transition-colors"
-                    title="Copy password"
-                  >
-                    {copiedPassword ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
-                  </button>
-                </div>
-              </div>
-              <div className="pt-1.5 border-t border-slate-100 flex justify-end">
-                <button
-                  type="button"
-                  onClick={handleAutoFill}
-                  className="px-2.5 py-1 rounded-lg text-[11px] font-sans font-bold text-orange-700 hover:text-orange-900 bg-orange-100 hover:bg-orange-200 border border-orange-300/80 cursor-pointer transition-all flex items-center gap-1.5 shadow-2xs active:scale-95"
-                >
-                  {autoFilled ? <Check size={12} className="text-emerald-600" /> : <span>⚡</span>}
-                  <span>{autoFilled ? 'Filled!' : 'Quick Fill Demo Credentials'}</span>
-                </button>
-              </div>
-            </div>
-          </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
             {/* Error Alert */}
@@ -191,7 +125,7 @@ export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: Admin
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder={demoEmail}
+                  placeholder={adminEmail}
                   required
                   className="w-full h-[50px] pl-12 pr-4 rounded-xl text-sm font-bold text-slate-900 placeholder-slate-400 bg-slate-50 border border-slate-200 outline-none transition-all duration-200 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20"
                 />
