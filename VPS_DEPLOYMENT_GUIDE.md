@@ -32,7 +32,7 @@ Ensure your `server/.env` file has the production configuration:
 
 ```env
 PORT=5007
-MONGO_URI=mongodb+srv://ppalani1803_db_user:goldFin@cluster0.c6o7dza.mongodb.net/goldfin?retryWrites=true&w=majority&appName=Cluster0
+MONGO_URI=mongodb+srv://<your_db_user>:<your_password>@cluster0.c6o7dza.mongodb.net/goldfin
 NODE_ENV=production
 JWT_SECRET=81d3f3d2a72bae31e25d6c21316f35f392bbff9800f7b1b372dc5c98207adaceebadfe8aa54f9e0e5721b0ae8ab2b61af75babaef1ee370c679d6f715f0f5277
 ```
