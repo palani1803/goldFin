@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { Coins, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { useSiteSettings } from '../hooks/useSiteSettings'
+import mahesBankersLogo from '../assets/mahesbankers.png'
 
 export interface NavbarProps {
   currentPage?: 'home' | 'live-rate' | 'gold-loan' | 'branches' | 'about' | 'contact'
@@ -67,18 +68,11 @@ export default function Navbar({
           onClick={() => handleNavClick('home')}
           className="flex items-center gap-2.5 sm:gap-3 no-underline cursor-pointer group bg-transparent border-0 p-0 text-left shrink-0"
         >
-          {settings.logoUrl ? (
-            <img
-              src={settings.logoUrl}
-              alt={settings.siteName || 'Mahes Bankers'}
-              className="h-10 sm:h-12 max-w-[140px] sm:max-w-[180px] object-contain group-hover:scale-105 transition-transform"
-            />
-          ) : (
-            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#FF6B00] via-[#F97316] to-[#EA580C] flex items-center justify-center text-white shadow-[0_4px_20px_rgba(249,115,22,0.35)] group-hover:scale-105 transition-transform shrink-0">
-              <Coins size={20} className="sm:hidden" />
-              <Coins size={24} className="hidden sm:block" />
-            </div>
-          )}
+          <img
+            src={settings.logoUrl || mahesBankersLogo}
+            alt={settings.siteName || 'Mahes Bankers'}
+            className="h-10 sm:h-12 w-auto max-w-[140px] sm:max-w-[180px] object-contain group-hover:scale-105 transition-transform"
+          />
 
           <div className="flex flex-col">
             <span className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-none sm:leading-tight">

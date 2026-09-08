@@ -16,6 +16,7 @@ import {
   EyeOff,
   Trash2,
 } from 'lucide-react'
+import mahesBankersLogo from '../../assets/mahesbankers.png'
 
 interface SiteSettingsData {
   siteName: string
@@ -39,8 +40,8 @@ const DEFAULT_SETTINGS: SiteSettingsData = {
   siteName: 'Mahes Bankers',
   bankPartnerName: 'RBI-Approved Scheduled Commercial Banks',
   tagline: 'Live Rates & Gold Loans',
-  logoUrl: '',
-  logoType: 'icon',
+  logoUrl: mahesBankersLogo,
+  logoType: 'image',
   whatsappNumber: '9092548347',
   contactPhone: '+91 90925 48347',
   contactEmail: 'contact@mahesbankers.com',
@@ -447,17 +448,11 @@ export default function AdminSettings() {
             <div className="flex flex-col sm:flex-row sm:items-center gap-5">
               {/* Current Active Logo Thumbnail */}
               <div className="w-24 h-24 rounded-2xl bg-white border border-slate-200 flex items-center justify-center p-2.5 shrink-0 overflow-hidden shadow-xs">
-                {formData.logoUrl ? (
-                  <img
-                    src={formData.logoUrl}
-                    alt="Logo"
-                    className="max-w-full max-h-full object-contain"
-                  />
-                ) : (
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FF6B00] to-[#EA580C] flex items-center justify-center text-white shadow-md">
-                    <Coins size={26} />
-                  </div>
-                )}
+                <img
+                  src={formData.logoUrl || mahesBankersLogo}
+                  alt="Logo"
+                  className="max-w-full max-h-full object-contain"
+                />
               </div>
 
               {/* Action Buttons */}
@@ -479,13 +474,13 @@ export default function AdminSettings() {
                     <span>Upload Logo File (JPEG, PNG, JPG, SVG)</span>
                   </button>
 
-                  {formData.logoUrl && (
+                  {formData.logoUrl && formData.logoUrl !== mahesBankersLogo && (
                     <button
                       type="button"
                       onClick={() => {
-                        handleInputChange('logoUrl', '')
-                        handleInputChange('logoType', 'icon')
-                        setSuccessMsg('Reverted to default logo icon. Click "Save Logo & Brand Changes" to apply.')
+                        handleInputChange('logoUrl', mahesBankersLogo)
+                        handleInputChange('logoType', 'image')
+                        setSuccessMsg('Reverted to default Mahes Bankers logo. Click "Save Logo & Brand Changes" to apply.')
                       }}
                       className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 text-xs font-bold transition-all cursor-pointer"
                     >
