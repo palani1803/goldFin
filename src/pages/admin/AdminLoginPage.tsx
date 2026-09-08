@@ -95,6 +95,10 @@ export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: Admin
             <img
               src={settings.logoUrl || mahesBankersLogo}
               alt={companyName}
+              onError={(e) => {
+                e.currentTarget.onerror = null
+                e.currentTarget.src = mahesBankersLogo
+              }}
               className="h-14 w-auto max-w-[160px] object-contain group-hover:scale-105 transition-transform drop-shadow-md"
             />
             <span className="text-2xl font-black text-slate-900 group-hover:text-orange-600 transition-colors">

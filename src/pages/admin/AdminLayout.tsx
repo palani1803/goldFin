@@ -84,6 +84,10 @@ export default function AdminLayout({ onLogout, onNavigateHome }: AdminLayoutPro
             <img
               src={settings.logoUrl || mahesBankersLogo}
               alt={settings.siteName || 'Mahes Bankers'}
+              onError={(e) => {
+                e.currentTarget.onerror = null
+                e.currentTarget.src = mahesBankersLogo
+              }}
               className="h-10 w-auto max-w-[45px] object-contain group-hover:scale-105 transition-transform"
             />
             <div className="flex flex-col text-left">

@@ -71,6 +71,10 @@ export default function Navbar({
           <img
             src={settings.logoUrl || mahesBankersLogo}
             alt={settings.siteName || 'Mahes Bankers'}
+            onError={(e) => {
+              e.currentTarget.onerror = null
+              e.currentTarget.src = mahesBankersLogo
+            }}
             className="h-10 sm:h-12 w-auto max-w-[140px] sm:max-w-[180px] object-contain group-hover:scale-105 transition-transform"
           />
 
