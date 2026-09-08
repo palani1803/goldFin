@@ -28,7 +28,8 @@ sudo chmod -R 755 /var/www/mahesgoldfinance
 echo "🔄 [5/5] Restarting backend process with PM2 on port 5007..."
 pm2 startOrReload ecosystem.config.cjs || pm2 restart goldfin-backend || pm2 start server/server.js --name "goldfin-backend"
 
-echo "🌐 Reloading Nginx..."
+echo "🌐 Updating Nginx configuration..."
+sudo cp nginx/mahesgoldfinance.com.conf /etc/nginx/sites-available/mahesgoldfinance.com.conf
 sudo nginx -t && sudo systemctl reload nginx
 
 echo "✅ Deployment completed successfully for https://mahesgoldfinance.com !"
