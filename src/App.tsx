@@ -23,10 +23,9 @@ function App() {
 
   const [selectedBranchCity, setSelectedBranchCity] = useState<string | null>(() => {
     if (typeof window !== 'undefined') {
-      const hash = window.location.hash
-      if (hash.startsWith('#contact')) {
-        const queryStr = hash.includes('?') ? hash.split('?')[1] : ''
-        const params = new URLSearchParams(queryStr)
+      const path = window.location.pathname
+      if (path === '/contact') {
+        const params = new URLSearchParams(window.location.search)
         return params.get('city') || params.get('branch') || localStorage.getItem('selectedContactBranch') || null
       }
     }
@@ -35,64 +34,64 @@ function App() {
 
   const [currentPage, setCurrentPage] = useState<PageType>(() => {
     if (typeof window !== 'undefined') {
-      const hash = window.location.hash.split('?')[0]
-      if (hash === '#admin') {
+      const path = window.location.pathname
+      if (path === '/admin') {
         // Check if admin is authenticated
         const token = localStorage.getItem('adminToken')
         return token ? 'admin' : 'admin-login'
       }
-      if (hash === '#admin-login') return 'admin-login'
-      if (hash === '#contact') return 'contact'
-      if (hash === '#about') return 'about'
-      if (hash === '#branches') return 'branches'
-      if (hash === '#gold-loan') return 'gold-loan'
-      if (hash === '#live-rate') return 'live-rate'
+      if (path === '/admin-login') return 'admin-login'
+      if (path === '/contact') return 'contact'
+      if (path === '/about') return 'about'
+      if (path === '/branches') return 'branches'
+      if (path === '/gold-loan') return 'gold-loan'
+      if (path === '/live-rate') return 'live-rate'
     }
     return 'home'
   })
 
   useEffect(() => {
-    const handleHashChange = () => {
-      const rawHash = window.location.hash
-      const [hashPath, hashQuery] = rawHash.split('?')
-      const params = new URLSearchParams(hashQuery || '')
+    const handlePopState = () => {
+      const path = window.location.pathname
+      const params = new URLSearchParams(window.location.search)
       const branchCity = params.get('city') || params.get('branch')
       if (branchCity) {
         setSelectedBranchCity(branchCity)
         localStorage.setItem('selectedContactBranch', branchCity)
       }
 
-      if (hashPath === '#admin') {
+      if (path === '/admin') {
         const token = localStorage.getItem('adminToken')
         setCurrentPage(token ? 'admin' : 'admin-login')
-      } else if (hashPath === '#admin-login') {
+      } else if (path === '/admin-login') {
         setCurrentPage('admin-login')
-      } else if (hashPath === '#contact') {
+      } else if (path === '/contact') {
         setCurrentPage('contact')
-      } else if (hashPath === '#about') {
+      } else if (path === '/about') {
         setCurrentPage('about')
-      } else if (hashPath === '#branches') {
+      } else if (path === '/branches') {
         setCurrentPage('branches')
-      } else if (hashPath === '#gold-loan') {
+      } else if (path === '/gold-loan') {
         setCurrentPage('gold-loan')
-      } else if (hashPath === '#live-rate') {
+      } else if (path === '/live-rate') {
         setCurrentPage('live-rate')
       } else {
         setCurrentPage('home')
       }
     }
 
-    window.addEventListener('hashchange', handleHashChange)
-    return () => window.removeEventListener('hashchange', handleHashChange)
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
   }, [])
 
   const navigateTo = (page: PageType, branchCity?: string) => {
     if (branchCity) {
       setSelectedBranchCity(branchCity)
       localStorage.setItem('selectedContactBranch', branchCity)
-      window.location.hash = page === 'contact' ? `#contact?city=${encodeURIComponent(branchCity)}` : `#${page}`
+      const url = page === 'contact' ? `/contact?city=${encodeURIComponent(branchCity)}` : `/${page}`
+      window.history.pushState(null, '', url)
     } else {
-      window.location.hash = page === 'home' ? '#home' : `#${page}`
+      window.history.pushState(null, '', page === 'home' ? '/' : `/${page}`)
     }
     setCurrentPage(page)
     window.scrollTo({ top: 0, behavior: 'smooth' })

@@ -58,22 +58,22 @@ export default function Footer({
   const handleLinkClick = (action: 'home' | 'live-rate' | 'gold-loan' | 'branches' | 'about' | 'contact' | string) => {
     if (action === 'home') {
       if (onNavigateHome) onNavigateHome()
-      else window.location.hash = '#home'
+      else { window.history.pushState(null, '', '/'); window.dispatchEvent(new PopStateEvent('popstate')) }
     } else if (action === 'live-rate') {
       if (onNavigateLiveRate) onNavigateLiveRate()
-      else window.location.hash = '#live-rate'
+      else { window.history.pushState(null, '', '/live-rate'); window.dispatchEvent(new PopStateEvent('popstate')) }
     } else if (action === 'gold-loan') {
       if (onNavigateGoldLoan) onNavigateGoldLoan()
-      else window.location.hash = '#gold-loan'
+      else { window.history.pushState(null, '', '/gold-loan'); window.dispatchEvent(new PopStateEvent('popstate')) }
     } else if (action === 'branches') {
       if (onNavigateBranches) onNavigateBranches()
-      else window.location.hash = '#branches'
+      else { window.history.pushState(null, '', '/branches'); window.dispatchEvent(new PopStateEvent('popstate')) }
     } else if (action === 'about') {
       if (onNavigateAbout) onNavigateAbout()
-      else window.location.hash = '#about'
+      else { window.history.pushState(null, '', '/about'); window.dispatchEvent(new PopStateEvent('popstate')) }
     } else if (action === 'contact') {
       if (onNavigateContact) onNavigateContact()
-      else window.location.hash = '#contact'
+      else { window.history.pushState(null, '', '/contact'); window.dispatchEvent(new PopStateEvent('popstate')) }
     } else if (onScrollToSection) {
       if (onNavigateHome) {
         onNavigateHome()

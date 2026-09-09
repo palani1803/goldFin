@@ -262,9 +262,7 @@ export default function ContactPage({
   }
 
   useEffect(() => {
-    const hash = window.location.hash
-    const queryStr = hash.includes('?') ? hash.split('?')[1] : ''
-    const params = new URLSearchParams(queryStr)
+    const params = new URLSearchParams(window.location.search)
     const targetCity = initialCity || params.get('city') || params.get('branch') || localStorage.getItem('selectedContactBranch')
 
     const loadBranches = () => {
@@ -322,7 +320,7 @@ export default function ContactPage({
     const b = branches.find((item) => item.id === branchId)
     if (b) {
       localStorage.setItem('selectedContactBranch', b.city)
-      window.history.replaceState(null, '', `#contact?city=${encodeURIComponent(b.city)}`)
+      window.history.replaceState(null, '', `/contact?city=${encodeURIComponent(b.city)}`)
     }
     if (shouldScrollToMap && showcaseMapRef.current) {
       showcaseMapRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })

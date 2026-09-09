@@ -398,7 +398,8 @@ export default function AboutPage({
                 if (onNavigateContact) {
                   onNavigateContact()
                 } else {
-                  window.location.hash = '#contact'
+                  window.history.pushState(null, '', '/contact')
+                  window.dispatchEvent(new PopStateEvent('popstate'))
                 }
               }}
               className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-sm hover:brightness-110 transition-all shadow-[0_6px_25px_rgba(249,115,22,0.35)] cursor-pointer border-0 flex items-center justify-center gap-2 active:scale-95"

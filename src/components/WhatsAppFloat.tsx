@@ -1,11 +1,43 @@
-import { useState } from 'react'
-import { X, Send, Sparkles, ShieldCheck, ArrowRight, ExternalLink } from 'lucide-react'
+import { useState, useRef, useEffect } from 'react'
+import { X, Send, Sparkles, ShieldCheck, ExternalLink, ChevronRight, RotateCcw, CheckCircle2, Check } from 'lucide-react'
 import { useSiteSettings } from '../hooks/useSiteSettings'
 
 export interface WhatsAppFloatProps {
   phoneNumber?: string
   defaultMessage?: string
 }
+
+// Step-by-step question flow configuration
+interface QuestionStep {
+  id: string
+  label: string
+  question: string
+  options: string[]
+}
+
+const CHAT_QUESTIONS: QuestionStep[] = [
+  {
+    id: 'gold_weight',
+    label: 'தங்கத்தின் எடை',
+    question: 'நீங்கள் எத்தனை கிராம் தங்கம் விற்க விரும்புகிறீர்கள்?',
+    options: [
+      '1-25 கிராம்',
+      '25-50 கிராம்',
+      '50-75 கிராம்',
+      '75-100 கிராம்',
+      '101 கிராமுக்கு மேல்',
+    ],
+  },
+  {
+    id: 'gold_location',
+    label: 'தங்கம் உள்ள இடம்',
+    question: 'நீங்கள் விற்க விரும்பும் தங்கம் வீட்டில் அல்லது அடகில் உள்ளதா?',
+    options: [
+      'வீட்டில் உள்ளது',
+      'வங்கியில் அடகு வைத்துள்ளேன்',
+    ],
+  },
+]
 
 export default function WhatsAppFloat({
   phoneNumber,
@@ -14,33 +46,76 @@ export default function WhatsAppFloat({
   const { settings } = useSiteSettings()
   const companyName = settings.siteName || 'Mahes Bankers'
   const [isOpen, setIsOpen] = useState(false)
+  const [currentStep, setCurrentStep] = useState(0)
+  const [answers, setAnswers] = useState<Record<string, string>>({})
+  const [isComplete, setIsComplete] = useState(false)
   const [customMsg, setCustomMsg] = useState('')
-
-  const activeDefaultMessage = defaultMessage || `Hello ${companyName}, I would like to know today’s live gold rate and instant gold loan details.`
+  const chatBodyRef = useRef<HTMLDivElement>(null)
 
   const activePhone = phoneNumber || settings.whatsappNumber || '9092548347'
   const cleanPhone = activePhone.replace(/[^0-9]/g, '')
   const fullPhone = cleanPhone.startsWith('91') && cleanPhone.length > 10 ? cleanPhone : `91${cleanPhone}`
 
-  const quickPrompts = [
-    {
-      label: '💰 Today’s Live Gold Rates',
-      text: `Hello ${companyName}, please share today’s live 24K and 22K gold rate per gram.`,
-    },
-    {
-      label: '🏦 15-Min Gold Loan Sanction',
-      text: `Hello ${companyName}, I want to inquire about instant 15-minute gold loan against jewellery.`,
-    },
-    {
-      label: '🏢 Nearest Branch & Vault Info',
-      text: `Hello ${companyName}, please share the nearest branch location and operating hours.`,
-    },
-  ]
+  // Auto scroll to bottom when steps progress
+  useEffect(() => {
+    if (chatBodyRef.current) {
+      setTimeout(() => {
+        chatBodyRef.current?.scrollTo({
+          top: chatBodyRef.current.scrollHeight,
+          behavior: 'smooth',
+        })
+      }, 150)
+    }
+  }, [currentStep, isComplete])
 
-  const handleOpenWhatsApp = (text?: string) => {
-    const msgToSend = text || customMsg.trim() || activeDefaultMessage
-    const url = `https://wa.me/${fullPhone}?text=${encodeURIComponent(msgToSend)}`
+  const buildWhatsAppMessage = (currentAnswers: Record<string, string>) => {
+    const details = CHAT_QUESTIONS
+      .filter((q) => currentAnswers[q.id])
+      .map((q) => `• ${q.label}: *${currentAnswers[q.id]}*`)
+
+    return `வணக்கம் ${companyName},\n\nநான் தங்கம் விற்க விரும்புகிறேன். எனது விவரங்கள்:\n${details.join('\n')}\n\nதயவுசெய்து என்னை தொடர்பு கொள்ளவும்.`
+  }
+
+  const handleSelectOption = (option: string) => {
+    const currentQuestion = CHAT_QUESTIONS[currentStep]
+    const allAnswers = { ...answers, [currentQuestion.id]: option }
+    setAnswers(allAnswers)
+
+    if (currentStep + 1 < CHAT_QUESTIONS.length) {
+      // Advance to next question inside the chatbot
+      setCurrentStep((prev) => prev + 1)
+    } else {
+      // Both questions answered — complete and open WhatsApp
+      setIsComplete(true)
+      const messageText = buildWhatsAppMessage(allAnswers)
+      const url = `https://wa.me/${fullPhone}?text=${encodeURIComponent(messageText)}`
+      window.open(url, '_blank', 'noopener,noreferrer')
+    }
+  }
+
+  const handleSendToWhatsApp = (customText?: string) => {
+    let messageText = ''
+
+    if (customText) {
+      messageText = customText
+    } else if (isComplete || Object.keys(answers).length > 0) {
+      messageText = buildWhatsAppMessage(answers)
+    } else {
+      messageText = customMsg.trim() || defaultMessage || `Hello ${companyName}, I would like to know about selling gold.`
+    }
+
+    const url = `https://wa.me/${fullPhone}?text=${encodeURIComponent(messageText)}`
     window.open(url, '_blank', 'noopener,noreferrer')
+  }
+
+  const handleReset = () => {
+    setCurrentStep(0)
+    setAnswers({})
+    setIsComplete(false)
+    setCustomMsg('')
+  }
+
+  const handleClose = () => {
     setIsOpen(false)
   }
 
@@ -49,7 +124,7 @@ export default function WhatsAppFloat({
       {/* Floating Interactive Chat Card */}
       {isOpen && (
         <div
-          className="mb-3.5 w-[calc(100vw-32px)] max-w-[360px] sm:w-[360px] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-emerald-500/30 bg-slate-900/95 backdrop-blur-2xl text-white transition-all duration-300 transform origin-bottom-right animate-in fade-in slide-in-from-bottom-5"
+          className="mb-3.5 w-[calc(100vw-32px)] max-w-[380px] sm:w-[380px] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-emerald-500/30 bg-slate-900/95 backdrop-blur-2xl text-white transition-all duration-300 transform origin-bottom-right animate-in fade-in slide-in-from-bottom-5"
           style={{
             boxShadow: '0 20px 50px rgba(18, 140, 126, 0.25), 0 0 0 1px rgba(37, 211, 102, 0.2)',
           }}
@@ -79,7 +154,7 @@ export default function WhatsAppFloat({
             </div>
 
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={handleClose}
               className="w-8 h-8 rounded-full bg-black/20 hover:bg-black/40 text-white/80 hover:text-white flex items-center justify-center transition-colors cursor-pointer border-0 p-0 relative z-10"
               aria-label="Close WhatsApp chat popup"
             >
@@ -87,60 +162,148 @@ export default function WhatsAppFloat({
             </button>
           </div>
 
-          {/* Chat Body */}
-          <div className="p-4 space-y-3.5 bg-[#0B141A]/95 max-h-[380px] overflow-y-auto">
-            {/* Official Greeting Bubble */}
+          {/* Chat Body — Conversational Flow */}
+          <div
+            ref={chatBodyRef}
+            className="p-4 space-y-3 bg-[#0B141A]/95 max-h-[420px] overflow-y-auto"
+            style={{ scrollBehavior: 'smooth' }}
+          >
+            {/* Welcome Greeting Bubble */}
             <div className="flex gap-2.5 items-start">
               <div className="w-7 h-7 rounded-lg bg-[#25D366]/20 border border-[#25D366]/30 flex items-center justify-center shrink-0 mt-0.5 text-emerald-400">
                 <Sparkles size={14} />
               </div>
-              <div className="bg-[#202C33] text-slate-200 text-xs sm:text-[13px] leading-relaxed p-3.5 rounded-2xl rounded-tl-xs border border-white/5 shadow-sm max-w-[280px]">
+              <div className="bg-[#202C33] text-slate-200 text-xs sm:text-[13px] leading-relaxed p-3.5 rounded-2xl rounded-tl-xs border border-white/5 shadow-sm max-w-[290px]">
                 <p className="font-semibold text-emerald-400 mb-1">வணக்கம்! Welcome to {companyName} 👋</p>
                 <p className="text-slate-300">
-                  How can we help you today? Check live 24K/22K rates or get instant gold loan assistance at <span className="font-bold text-white">{settings.contactPhone || '+91 90925 48347'}</span>.
+                  உங்கள் தங்கம் விற்பனை தொடர்பான விவரங்களை சேகரிக்க சில கேள்விகள் கேட்கிறோம்.
                 </p>
               </div>
             </div>
 
-            {/* Quick action buttons */}
-            <div className="space-y-2 pt-1">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-1">
-                Frequently Asked Topics
-              </span>
-              <div className="flex flex-col gap-1.5">
-                {quickPrompts.map((prompt, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => handleOpenWhatsApp(prompt.text)}
-                    className="w-full p-2.5 rounded-xl bg-[#111B21] hover:bg-[#202C33] border border-white/5 hover:border-emerald-500/40 text-left text-xs font-semibold text-slate-200 hover:text-white transition-all flex items-center justify-between group cursor-pointer"
-                  >
-                    <span className="truncate pr-2">{prompt.label}</span>
-                    <ArrowRight size={13} className="text-emerald-400 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
-                  </button>
-                ))}
-              </div>
-            </div>
+            {/* Render answered questions as chat bubbles */}
+            {CHAT_QUESTIONS.map((step, idx) => {
+              const answer = answers[step.id]
+              if (idx > currentStep && !isComplete) return null
 
-            {/* Custom message input field */}
-            <div className="pt-2 border-t border-white/10 flex items-center gap-2">
-              <input
-                type="text"
-                placeholder="Type your message here..."
-                value={customMsg}
-                onChange={(e) => setCustomMsg(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') handleOpenWhatsApp()
-                }}
-                className="flex-1 h-9 px-3 rounded-xl bg-[#111B21] border border-white/10 text-xs text-white placeholder:text-slate-500 outline-none focus:border-emerald-500 transition-colors"
-              />
-              <button
-                onClick={() => handleOpenWhatsApp()}
-                className="h-9 px-3.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-bold text-xs flex items-center justify-center gap-1 shadow-md transition-transform active:scale-95 cursor-pointer border-0 shrink-0"
-              >
-                <Send size={13} />
-                <span>Send</span>
-              </button>
-            </div>
+              return (
+                <div key={step.id} className="space-y-2">
+                  {/* Bot Question Bubble */}
+                  <div className="flex gap-2.5 items-start">
+                    <div className="w-7 h-7 rounded-lg bg-[#25D366]/20 border border-[#25D366]/30 flex items-center justify-center shrink-0 mt-0.5 text-emerald-400">
+                      <span className="text-[11px] font-extrabold">{idx + 1}</span>
+                    </div>
+                    <div className="bg-[#202C33] text-slate-200 text-[13px] leading-relaxed p-3.5 rounded-2xl rounded-tl-xs border border-white/5 shadow-sm max-w-[290px]">
+                      <p className="font-semibold text-white">{step.question}</p>
+                    </div>
+                  </div>
+
+                  {/* If answered — show user's answer bubble */}
+                  {answer ? (
+                    <div className="flex justify-end">
+                      <div className="bg-[#005C4B] text-white text-[13px] leading-relaxed px-4 py-2.5 rounded-2xl rounded-br-xs border border-emerald-500/20 shadow-sm max-w-[240px] flex items-center gap-2">
+                        <CheckCircle2 size={14} className="text-emerald-300 shrink-0" />
+                        <span className="font-semibold">{answer}</span>
+                      </div>
+                    </div>
+                  ) : (
+                    /* If current step — show selectable options */
+                    idx === currentStep && !isComplete && (
+                      <div className="ml-9.5 space-y-1.5">
+                        {step.options.map((option) => (
+                          <button
+                              key={option}
+                              onClick={() => handleSelectOption(option)}
+                              className="w-full p-2.5 rounded-xl text-left text-[12.5px] font-semibold transition-all flex items-center justify-between group cursor-pointer border bg-[#111B21] hover:bg-[#005C4B] border-white/5 hover:border-emerald-400/50 text-slate-300 hover:text-white active:scale-[0.98]"
+                            >
+                              <span className="flex items-center gap-2.5">
+                                <span className="w-5 h-5 rounded-md border-2 border-slate-500 group-hover:border-emerald-400 group-hover:bg-emerald-500/20 flex items-center justify-center shrink-0 transition-all">
+                                  <Check size={12} className="text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                </span>
+                                <span>{option}</span>
+                              </span>
+                              {idx === CHAT_QUESTIONS.length - 1 ? (
+                                <span className="flex items-center gap-1 text-[11px] font-medium text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                                  <WhatsAppIcon className="w-3.5 h-3.5 fill-emerald-400" />
+                                  <ChevronRight size={13} className="shrink-0" />
+                                </span>
+                              ) : (
+                                <span className="text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                                  <ChevronRight size={14} className="shrink-0" />
+                                </span>
+                              )}
+                            </button>
+                        ))}
+                      </div>
+                    )
+                  )}
+                </div>
+              )
+            })}
+
+            {/* Completion — Summary + Send to WhatsApp */}
+            {isComplete && (
+              <div className="space-y-3 pt-1">
+                {/* Summary bubble */}
+                <div className="flex gap-2.5 items-start">
+                  <div className="w-7 h-7 rounded-lg bg-[#25D366]/20 border border-[#25D366]/30 flex items-center justify-center shrink-0 mt-0.5 text-emerald-400">
+                    <Sparkles size={14} />
+                  </div>
+                  <div className="bg-[#202C33] text-slate-200 text-[13px] leading-relaxed p-3.5 rounded-2xl rounded-tl-xs border border-white/5 shadow-sm max-w-[290px]">
+                    <p className="font-semibold text-emerald-400 mb-1.5">நன்றி! பதில் பதிவு செய்யப்பட்டது ✅</p>
+                    <p className="text-slate-300">
+                      WhatsApp திறக்கப்பட்டுள்ளது! மீதமுள்ள விவரங்களை எங்கள் WhatsApp உரையாடலில் தொடரலாம்.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Send to WhatsApp CTA */}
+                <button
+                  onClick={() => handleSendToWhatsApp()}
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-[#25D366] to-[#128C7E] hover:brightness-110 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-[0_6px_20px_rgba(37,211,102,0.3)] transition-all active:scale-[0.98] cursor-pointer border-0"
+                >
+                  <WhatsAppIcon className="w-5 h-5 fill-white" />
+                  <span>WhatsApp-ல் மீண்டும் திறக்கவும்</span>
+                  <ExternalLink size={14} />
+                </button>
+
+                {/* Restart option */}
+                <button
+                  onClick={handleReset}
+                  className="w-full py-2 rounded-xl bg-transparent hover:bg-[#202C33] text-slate-400 hover:text-slate-200 font-semibold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer border border-white/5"
+                >
+                  <RotateCcw size={12} />
+                  <span>மீண்டும் தொடங்கவும்</span>
+                </button>
+              </div>
+            )}
+
+            {/* Custom message input — always available */}
+            {!isComplete && (
+              <div className="pt-2 border-t border-white/10 flex items-center gap-2">
+                <input
+                  type="text"
+                  placeholder="உங்கள் செய்தியை தட்டச்சு செய்யவும்..."
+                  value={customMsg}
+                  onChange={(e) => setCustomMsg(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && customMsg.trim()) {
+                      handleSendToWhatsApp(customMsg.trim())
+                    }
+                  }}
+                  className="flex-1 h-9 px-3 rounded-xl bg-[#111B21] border border-white/10 text-xs text-white placeholder:text-slate-500 outline-none focus:border-emerald-500 transition-colors"
+                />
+                <button
+                  onClick={() => {
+                    if (customMsg.trim()) handleSendToWhatsApp(customMsg.trim())
+                  }}
+                  className="h-9 px-3.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-bold text-xs flex items-center justify-center gap-1 shadow-md transition-transform active:scale-95 cursor-pointer border-0 shrink-0"
+                >
+                  <Send size={13} />
+                  <span>Send</span>
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Card Footer */}
@@ -161,7 +324,15 @@ export default function WhatsAppFloat({
 
         {/* Main WhatsApp Trigger Button */}
         <button
-          onClick={() => setIsOpen((prev) => !prev)}
+          onClick={() => {
+            setIsOpen((prev) => {
+              if (!prev) {
+                // Reset flow when opening fresh
+                handleReset()
+              }
+              return !prev
+            })
+          }}
           className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-[#128C7E] via-[#25D366] to-[#2ecc71] hover:brightness-110 text-white flex items-center justify-center shadow-[0_10px_30px_rgba(37,211,102,0.45)] transition-all duration-300 transform group-hover:scale-108 active:scale-95 cursor-pointer border-0 p-0"
           aria-label={`Open WhatsApp live chat with ${companyName}`}
           title={`Chat with ${companyName} on WhatsApp: ${settings.contactPhone || '+91 90925 48347'}`}

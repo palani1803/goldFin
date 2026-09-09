@@ -117,7 +117,8 @@ export default function BranchesPage({
     if (onNavigateContact) {
       onNavigateContact(city)
     } else {
-      window.location.hash = city ? `#contact?city=${encodeURIComponent(city)}` : '#contact'
+      window.history.pushState(null, '', city ? `/contact?city=${encodeURIComponent(city)}` : '/contact')
+      window.dispatchEvent(new PopStateEvent('popstate'))
     }
   }
 
