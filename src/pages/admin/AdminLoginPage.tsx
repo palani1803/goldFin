@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { Coins, Eye, EyeOff, Lock, Mail, AlertCircle, Loader2 } from 'lucide-react'
+import { Eye, EyeOff, Lock, Mail, AlertCircle, Loader2 } from 'lucide-react'
 import { useSiteSettings } from '../../hooks/useSiteSettings'
+import mahesBankersLogo from '../../assets/mahesbankers.png'
 
 interface AdminLoginPageProps {
   onLoginSuccess: () => void
@@ -91,9 +92,15 @@ export default function AdminLoginPage({ onLoginSuccess, onNavigateHome }: Admin
             onClick={onNavigateHome}
             className="inline-flex items-center gap-3 mb-3 bg-transparent border-0 cursor-pointer group"
           >
-            <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-orange-500/25 bg-gradient-to-tr from-[#FF6B00] via-[#F97316] to-[#EA580C]">
-              <Coins size={30} />
-            </div>
+            <img
+              src={settings.logoUrl || mahesBankersLogo}
+              alt={companyName}
+              onError={(e) => {
+                e.currentTarget.onerror = null
+                e.currentTarget.src = mahesBankersLogo
+              }}
+              className="h-14 w-auto max-w-[160px] object-contain group-hover:scale-105 transition-transform drop-shadow-md"
+            />
             <span className="text-2xl font-black text-slate-900 group-hover:text-orange-600 transition-colors">
               {companyName}
             </span>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Coins, Mail, Phone, ShieldCheck, ArrowUpRight } from 'lucide-react'
+import { Mail, Phone, ShieldCheck, ArrowUpRight } from 'lucide-react'
 import { useSiteSettings } from '../hooks/useSiteSettings'
+import mahesBankersLogo from '../assets/mahesbankers.png'
 
 export interface FooterProps {
   onNavigateHome?: () => void
@@ -108,17 +109,15 @@ export default function Footer({
               className="flex items-center gap-3 cursor-pointer group w-fit"
               onClick={() => handleLinkClick('home')}
             >
-              {settings.logoUrl ? (
-                <img
-                  src={settings.logoUrl}
-                  alt={settings.siteName || 'Mahes Bankers'}
-                  className="h-10 max-w-[150px] object-contain group-hover:scale-105 transition-transform"
-                />
-              ) : (
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF6B00] via-[#F97316] to-[#EA580C] flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
-                  <Coins size={22} />
-                </div>
-              )}
+              <img
+                src={settings.logoUrl || mahesBankersLogo}
+                alt={settings.siteName || 'Mahes Bankers'}
+                onError={(e) => {
+                  e.currentTarget.onerror = null
+                  e.currentTarget.src = mahesBankersLogo
+                }}
+                className="h-10 w-auto max-w-[150px] object-contain group-hover:scale-105 transition-transform"
+              />
               <div className="flex flex-col">
                 <span className="text-xl font-extrabold text-slate-900 group-hover:text-[#FF6B00] transition-colors">
                   {settings.siteName || 'Mahes Bankers'}

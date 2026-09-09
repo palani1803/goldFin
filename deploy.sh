@@ -19,9 +19,9 @@ echo "⚡ [3/5] Installing Frontend dependencies & Building production bundle...
 npm install
 npm run build
 
-echo "📁 [4/5] Copying build to Nginx web root (/var/www/mahesgoldfinance)..."
-sudo mkdir -p /var/www/mahesgoldfinance
-sudo cp -r dist /var/www/mahesgoldfinance/
+echo "📁 [4/5] Copying build to Nginx web root (/var/www/mahesgoldfinance/dist)..."
+sudo mkdir -p /var/www/mahesgoldfinance/dist
+sudo cp -r dist/* /var/www/mahesgoldfinance/dist/
 sudo chown -R www-data:www-data /var/www/mahesgoldfinance
 sudo chmod -R 755 /var/www/mahesgoldfinance
 

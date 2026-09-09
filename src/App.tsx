@@ -19,7 +19,12 @@ function App() {
     if (settings.siteName) {
       document.title = `${settings.siteName} - ${settings.tagline || 'Live Rates & Gold Loans'}`
     }
-  }, [settings.siteName, settings.tagline])
+    const iconUrl = settings.logoUrl || '/mahesbankers.png'
+    const linkEl = document.querySelector("link[rel*='icon']") as HTMLLinkElement | null
+    if (linkEl) {
+      linkEl.href = iconUrl
+    }
+  }, [settings.siteName, settings.tagline, settings.logoUrl])
 
   const [selectedBranchCity, setSelectedBranchCity] = useState<string | null>(() => {
     if (typeof window !== 'undefined') {

@@ -67,8 +67,8 @@ npm install
 npm run build
 
 # Copy build to Nginx serving directory
-sudo mkdir -p /var/www/mahesgoldfinance
-sudo cp -r dist /var/www/mahesgoldfinance/
+sudo mkdir -p /var/www/mahesgoldfinance/dist
+sudo cp -r dist/* /var/www/mahesgoldfinance/dist/
 sudo chown -R www-data:www-data /var/www/mahesgoldfinance
 sudo chmod -R 755 /var/www/mahesgoldfinance
 ```

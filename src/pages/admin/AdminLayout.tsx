@@ -8,6 +8,7 @@ import AdminGoldRates from './AdminGoldRates'
 import AdminBranches from './AdminBranches'
 import AdminSettings from './AdminSettings'
 import { useSiteSettings } from '../../hooks/useSiteSettings'
+import mahesBankersLogo from '../../assets/mahesbankers.png'
 
 type AdminPage = 'dashboard' | 'gold-rates' | 'branches' | 'settings'
 
@@ -80,9 +81,15 @@ export default function AdminLayout({ onLogout, onNavigateHome }: AdminLayoutPro
             onClick={onNavigateHome}
             className="flex items-center gap-3 bg-transparent border-0 cursor-pointer group p-0"
           >
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-md shadow-orange-500/25 bg-gradient-to-tr from-[#FF6B00] to-[#EA580C]">
-              <Coins size={22} />
-            </div>
+            <img
+              src={settings.logoUrl || mahesBankersLogo}
+              alt={settings.siteName || 'Mahes Bankers'}
+              onError={(e) => {
+                e.currentTarget.onerror = null
+                e.currentTarget.src = mahesBankersLogo
+              }}
+              className="h-10 w-auto max-w-[45px] object-contain group-hover:scale-105 transition-transform"
+            />
             <div className="flex flex-col text-left">
               <span className="text-base font-extrabold text-slate-900 group-hover:text-orange-600 transition-colors truncate max-w-[150px]">
                 {settings.siteName || 'Mahes Bankers'}

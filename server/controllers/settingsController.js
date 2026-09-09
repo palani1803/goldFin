@@ -5,8 +5,8 @@ const DEFAULT_SETTINGS = {
   siteName: 'Mahes Bankers',
   bankPartnerName: 'RBI-Approved Scheduled Commercial Banks',
   tagline: 'Live Rates & Gold Loans',
-  logoUrl: '',
-  logoType: 'icon',
+  logoUrl: '/mahesbankers.png',
+  logoType: 'image',
   whatsappNumber: '9092548347',
   contactPhone: '+91 90925 48347',
   contactEmail: 'contact@mahesbankers.com',
@@ -32,6 +32,11 @@ const getSettings = async (req, res, next) => {
       let needsSave = false
       if (settings.siteName === 'GoldFin' || settings.siteName === 'Mahesh Bankers') {
         settings.siteName = 'Mahes Bankers'
+        needsSave = true
+      }
+      if (!settings.logoUrl) {
+        settings.logoUrl = '/mahesbankers.png'
+        settings.logoType = 'image'
         needsSave = true
       }
       if (settings.contactEmail && (settings.contactEmail.includes('goldfin') || settings.contactEmail.includes('mahesh'))) {

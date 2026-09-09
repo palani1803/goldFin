@@ -19,12 +19,12 @@ const siteSettingsSchema = new mongoose.Schema(
     },
     logoUrl: {
       type: String,
-      default: '', // Empty means use default modern GoldFin SVG coins icon
+      default: '/mahesbankers.png',
     },
     logoType: {
       type: String,
       enum: ['icon', 'image', 'both'],
-      default: 'icon',
+      default: 'image',
     },
     whatsappNumber: {
       type: String,

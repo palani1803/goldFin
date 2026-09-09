@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import mahesBankersLogo from '../assets/mahesbankers.png'
 
 export interface SiteSettings {
   siteName: string
@@ -22,8 +23,8 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   siteName: 'Mahes Bankers',
   bankPartnerName: 'RBI-Approved Scheduled Commercial Banks',
   tagline: 'Live Rates & Gold Loans',
-  logoUrl: '',
-  logoType: 'icon',
+  logoUrl: mahesBankersLogo,
+  logoType: 'image',
   whatsappNumber: '9092548347',
   contactPhone: '+91 90925 48347',
   contactEmail: 'contact@mahesbankers.com',
@@ -45,6 +46,9 @@ export function useSiteSettings() {
           const parsed = JSON.parse(cached)
           if (parsed.siteName === 'GoldFin' || parsed.siteName === 'Mahesh Bankers') {
             parsed.siteName = 'Mahes Bankers'
+          }
+          if (!parsed.logoUrl) {
+            parsed.logoUrl = mahesBankersLogo
           }
           return parsed
         }
