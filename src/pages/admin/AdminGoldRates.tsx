@@ -175,6 +175,33 @@ export default function AdminGoldRates() {
   const calc20k = baseRate > 0 ? Math.round((baseRate / baseKarat) * 20) : 0
   const calc18k = baseRate > 0 ? Math.round((baseRate / baseKarat) * 18) : 0
 
+  const handleSync75Percent = async () => {
+    setSaving(true)
+    setErrorMsg('')
+    try {
+      const res = await fetch('/api/shop-rates/sync-75', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.message || 'Failed to sync 75% shop rates')
+
+      await fetchRates()
+      try {
+        localStorage.setItem('goldFin_shop_rates_updated', Date.now().toString())
+        window.dispatchEvent(new CustomEvent('goldRatesUpdated'))
+      } catch (e) {
+        console.log(e)
+      }
+      setSuccessMsg('Shop rates successfully synchronized to 75% of live market price!')
+      setTimeout(() => setSuccessMsg(''), 4000)
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Failed to sync 75% rates')
+    } finally {
+      setSaving(false)
+    }
+  }
+
   const handleAutoFill20k18k = async () => {
     if (!calc20k && !calc18k) return
     setSaving(true)
@@ -232,17 +259,27 @@ export default function AdminGoldRates() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-bold text-orange-600 uppercase tracking-wider">Home Page Live Sync</span>
+            <span className="text-xs font-bold text-orange-600 uppercase tracking-wider">75% RBI Loan Valuation • Live Sync</span>
           </div>
           <h1 className="text-2xl font-black text-slate-900 flex items-center gap-3">
             <Coins size={26} className="text-orange-600" />
             {companyName} Official Gold Rates
           </h1>
           <p className="text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed">
-            Set your shop's offered gold prices (24K, 22K, 20K, 18K). If 20K or 18K is not manually fixed, it is automatically derived from your 22K rate.
+            Shop prices automatically calculate as <strong>75% of the live market benchmark</strong> (RBI gold loan maximum LTV standard). You can also edit and fix custom rates anytime.
           </p>
         </div>
         <div className="flex items-center gap-2.5 flex-wrap">
+          <button
+            onClick={handleSync75Percent}
+            disabled={saving}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] hover:brightness-110 border-0 cursor-pointer transition-all shadow-md active:scale-95"
+            title="Auto-calculate and set all shop prices as 75% of live market rate"
+          >
+            <Coins size={14} className={saving ? 'animate-spin' : ''} />
+            <span>{saving ? 'Syncing...' : '⚡ Auto-Sync 75% Market Price'}</span>
+          </button>
+
           {baseRate > 0 && (
             <button
               onClick={handleAutoFill20k18k}
@@ -251,7 +288,7 @@ export default function AdminGoldRates() {
               title="Auto-calculate and save 20K and 18K proportionally from 22K"
             >
               <Coins size={14} className={saving ? 'animate-spin' : ''} />
-              <span>{saving ? 'Calculating...' : '⚡ Auto-Set 20K & 18K from 22K'}</span>
+              <span>Auto 20K/18K from 22K</span>
             </button>
           )}
 
@@ -354,7 +391,7 @@ export default function AdminGoldRates() {
                     <div className="flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                       <span className="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider">
-                        Benchmark
+                        Sivakasi Benchmark
                       </span>
                     </div>
                     {market && (
@@ -372,7 +409,7 @@ export default function AdminGoldRates() {
                       {marketPrice > 0 ? formatPrice(marketPrice) : 'Fetching...'}
                       <span className="text-[11px] font-semibold text-slate-400 ml-0.5">/g</span>
                     </p>
-                    <span className="text-[9px] text-slate-400 font-bold">IBJA/MCX</span>
+                    <span className="text-[9px] text-orange-600 font-bold bg-orange-50 px-1.5 py-0.5 rounded border border-orange-200">Sivakasi Live</span>
                   </div>
                 </div>
 
@@ -414,6 +451,15 @@ export default function AdminGoldRates() {
                       </div>
 
                       <div className="flex flex-col gap-1 text-[10px]">
+                        {marketPrice > 0 && (
+                          <button
+                            type="button"
+                            onClick={() => setEditValue((Math.round(marketPrice * 0.75)).toString())}
+                            className="text-orange-700 hover:text-orange-900 font-bold bg-orange-50 hover:bg-orange-100 border border-orange-200 rounded px-1.5 py-1 cursor-pointer flex items-center gap-1 text-left transition-colors"
+                          >
+                            <span>⚡ Apply 75% Market Price: ₹{Math.round(marketPrice * 0.75).toLocaleString('en-IN')}</span>
+                          </button>
+                        )}
                         {derivedPrice > 0 && !hasManualPrice && (
                           <button
                             type="button"
@@ -427,9 +473,9 @@ export default function AdminGoldRates() {
                           <button
                             type="button"
                             onClick={() => setEditValue(marketPrice.toString())}
-                            className="text-slate-600 hover:text-orange-600 font-bold bg-transparent border-0 cursor-pointer p-0 flex items-center gap-1 text-left"
+                            className="text-slate-500 hover:text-slate-800 font-medium bg-transparent border-0 cursor-pointer p-0 flex items-center gap-1 text-left"
                           >
-                            <span>⚡ Market: ₹{marketPrice.toLocaleString('en-IN')}</span>
+                            <span>100% Market: ₹{marketPrice.toLocaleString('en-IN')}</span>
                           </button>
                         )}
                       </div>
@@ -467,13 +513,13 @@ export default function AdminGoldRates() {
                         )}
                       </div>
                       <div className="min-h-[20px] mt-1 flex items-center">
-                        {!hasManualPrice && derivedPrice > 0 ? (
-                          <span className="inline-flex items-center gap-1 text-[9px] font-black text-amber-700 bg-amber-100/70 px-1.5 py-0.5 rounded border border-amber-300">
-                            ⚡ Auto-Derived (22K)
+                        {displayPrice === Math.round(marketPrice * 0.75) ? (
+                          <span className="inline-flex items-center gap-1 text-[9px] font-black text-emerald-700 bg-emerald-100/80 px-1.5 py-0.5 rounded border border-emerald-300">
+                            ✓ 75% Market LTV Applied
                           </span>
                         ) : hasManualPrice ? (
-                          <span className="inline-flex items-center gap-1 text-[9px] font-black text-emerald-700 bg-emerald-100/70 px-1.5 py-0.5 rounded border border-emerald-300">
-                            ✓ Fixed Shop Rate
+                          <span className="inline-flex items-center gap-1 text-[9px] font-black text-orange-700 bg-orange-100/70 px-1.5 py-0.5 rounded border border-orange-300">
+                            Custom Shop Price
                           </span>
                         ) : null}
                       </div>
@@ -485,8 +531,8 @@ export default function AdminGoldRates() {
               {/* Card Footer */}
               {!isEditing && (
                 <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500">
-                  <span>Status: <strong className={hasManualPrice ? 'text-emerald-600 font-bold' : derivedPrice > 0 ? 'text-amber-600 font-bold' : 'text-slate-400 font-medium'}>{hasManualPrice ? 'Custom' : derivedPrice > 0 ? 'Derived' : 'Unset'}</strong></span>
-                  <span className="text-slate-400 font-medium truncate max-w-[110px]">{hasManualPrice ? formatDate(rate.updatedAt) : 'Auto'}</span>
+                  <span>Valuation: <strong className="text-emerald-600 font-bold">75% of Market</strong></span>
+                  <span className="text-slate-400 font-medium truncate max-w-[110px]">{formatDate(rate.updatedAt)}</span>
                 </div>
               )}
             </div>
@@ -495,14 +541,14 @@ export default function AdminGoldRates() {
       </div>
 
       {/* Info Note */}
-      <div className="rounded-2xl px-5 py-4 flex items-start gap-3 bg-blue-50/80 border border-blue-200/80 shadow-xs">
-        <AlertCircle size={18} className="text-blue-600 shrink-0 mt-0.5" />
+      <div className="rounded-2xl px-5 py-4 flex items-start gap-3 bg-orange-50/80 border border-orange-200/80 shadow-xs">
+        <AlertCircle size={18} className="text-[#FF6B00] shrink-0 mt-0.5" />
         <div>
-          <p className="text-sm font-bold text-blue-900 mb-0.5">How Shop Gold Valuation Works</p>
-          <p className="text-xs text-blue-800/80 leading-relaxed font-medium">
-            <strong>Market Rate</strong> is the live benchmark fetched automatically from IBJA and gold exchanges.
+          <p className="text-sm font-bold text-slate-900 mb-0.5">How 75% Shop Gold Loan Valuation Works</p>
+          <p className="text-xs text-slate-700 leading-relaxed font-medium">
+            <strong>Sivakasi Market Benchmark</strong> is the 100% official live gold rate in Sivakasi (matching Google search quotes).
             <br />
-            <strong>Your Shop Rate</strong> is what you offer your customers — set your price and click Save. All 4 regional branches and customer calculators sync immediately.
+            <strong>Your Shop Price</strong> is automatically computed at <strong>75% of the live market rate</strong> in compliance with RBI Gold Loan guidelines (Loan-to-Value). All regional branch counters and customer calculators update immediately.
           </p>
         </div>
       </div>

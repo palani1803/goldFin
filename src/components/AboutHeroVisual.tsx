@@ -357,10 +357,10 @@ export default function AboutHeroVisual({
           <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
             <button
               onClick={onNavigateLiveRate}
-              className="px-3 py-1.5 rounded-xl bg-white border border-orange-200 hover:border-orange-500 text-orange-600 text-xs font-bold transition-all shadow-2xs hover:shadow-xs flex items-center gap-1 cursor-pointer"
+              className="px-3 py-1.5 rounded-xl bg-white border-2 border-[#FF6B00] hover:border-[#EA580C] text-[#FF6B00] hover:text-[#EA580C] text-xs font-extrabold hover:bg-orange-50/60 transition-all shadow-2xs hover:shadow-xs flex items-center gap-1 cursor-pointer"
             >
               <span>Live Rates</span>
-              <ArrowUpRight size={13} />
+              <ArrowUpRight size={13} className="stroke-[2.5] text-[#FF6B00]" />
             </button>
 
             <button

@@ -26,8 +26,19 @@ import {
   Clock
 } from 'lucide-react'
 import goldHeroJewel from '../assets/gold_hero_jewel.jpg'
+import heroJewelSlide1 from '../assets/hero_jewel_slide1.jpg'
+import heroJewelSlide2 from '../assets/hero_jewel_slide2.jpg'
+import heroJewelSlide3 from '../assets/hero_jewel_slide3.jpg'
 import { Navbar, Footer, TrustBanner, GoldBackground, GoldCoin3D, GoldShower } from '../components'
 import { useSiteSettings } from '../hooks/useSiteSettings'
+
+// Hero jewellery images: existing photo + 3 uploaded jewellery photos
+const HERO_JEWEL_IMAGES = [
+  goldHeroJewel,
+  heroJewelSlide1,
+  heroJewelSlide2,
+  heroJewelSlide3
+]
 
 interface MarketNewsItem {
   id: string
@@ -76,10 +87,10 @@ const HOME_BRANCHES: HomeBranchItem[] = [
     tag: 'HQ & Vault',
     city: 'Sivakasi',
     district: 'Virudhunagar',
-    address: 'No. 42/B, Kamarajar Road, Near Old Bus Stand',
+    address: 'No. 2005/1, P.K.N. Road, Sivakasi - 626 189',
     landmark: 'Opposite Town Hall',
-    phone: '+91 90925 48347',
-    rawPhone: '9092548347',
+    phone: '+91 88385 43387',
+    rawPhone: '8838543387',
     hours: 'Mon–Sat: 9:00 AM – 6:30 PM',
     features: 'Central Vault & German XRF Lab'
   },
@@ -181,6 +192,18 @@ export default function HomePage({
   // Accordion state
   const [openFaqId, setOpenFaqId] = useState<number | null>(1)
 
+  // Hero section image rotation state (auto-rotates every 4s, pauses on hover)
+  const [currentHeroSlide, setCurrentHeroSlide] = useState(0)
+  const [isHeroHovered, setIsHeroHovered] = useState(false)
+
+  useEffect(() => {
+    if (isHeroHovered) return
+    const timer = setInterval(() => {
+      setCurrentHeroSlide((prev) => (prev + 1) % HERO_JEWEL_IMAGES.length)
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [isHeroHovered])
+
   // --- Live Gold Rates State ---
   const [liveRates, setLiveRates] = useState<PurityRate[]>([])
   const [ratesLoading, setRatesLoading] = useState<boolean>(true)
@@ -271,34 +294,39 @@ export default function HomePage({
             const cityKey = (b.city || '').toLowerCase()
             const nameKey = (b.name || '').toLowerCase()
             let tag = 'Service Hub'
-            let district = b.district || (cityKey.includes('chennai') || nameKey.includes('chennai') ? 'Chennai' : 'Virudhunagar')
+            let district = b.district ? b.district : (cityKey.includes('chennai') || nameKey.includes('chennai') ? 'Chennai' : (cityKey.includes('tenkasi') || cityKey.includes('sivagiri') ? 'Tenkasi' : 'Virudhunagar'))
             let landmark = b.landmark || 'Near Main Bazaar'
             let features = b.features || 'Instant 15-Min Loan Sanctions'
 
             if (cityKey.includes('sivakasi') || nameKey.includes('sivakasi')) {
               tag = 'HQ & Vault'
-              district = 'Virudhunagar'
+              if (!b.district) district = 'Virudhunagar'
               landmark = 'Opposite Town Hall'
               features = 'Central Vault & German XRF Lab'
             } else if (cityKey.includes('srivilliputhur') || nameKey.includes('srivilliputhur')) {
               tag = 'Regional Hub'
-              district = 'Virudhunagar'
+              if (!b.district) district = 'Virudhunagar'
               landmark = 'Near Andal Temple Arch'
               features = 'Instant 15-Min Loan Sanctions'
             } else if (cityKey.includes('puthupatti') || nameKey.includes('puthupatti')) {
               tag = 'Service Hub'
-              district = 'Virudhunagar'
+              if (!b.district) district = 'Virudhunagar'
               landmark = 'Opp. Primary Agricultural Bank'
               features = 'Doorstep Valuation & Spot Cash'
             } else if (cityKey.includes('rajapalayam') || nameKey.includes('rajapalayam')) {
               tag = 'Commercial Desk'
-              district = 'Virudhunagar'
+              if (!b.district) district = 'Virudhunagar'
               landmark = 'Near PACR Hospital Junction'
               features = 'High-Value SME Gold Loans'
             } else if (cityKey.includes('chennai') || nameKey.includes('chennai')) {
               tag = 'Service Hub'
-              district = 'Chennai'
+              if (!b.district) district = 'Chennai'
               landmark = 'Metro City Center'
+              features = 'Instant 15-Min Loan Sanctions'
+            } else if (cityKey.includes('sivagiri') || nameKey.includes('sivagiri')) {
+              tag = 'Service Hub'
+              if (!b.district) district = 'Tenkasi'
+              landmark = 'Near Main Bazaar'
               features = 'Instant 15-Min Loan Sanctions'
             }
 
@@ -386,24 +414,24 @@ export default function HomePage({
   const shop18k = shopRates.find((r) => r.purityId === '18k')?.pricePerGram || 0
   const shopSilver = shopRates.find((r) => r.purityId === 'silver')?.pricePerGram || 0
 
-  const live24k = liveRates.find((r) => r.purityId === '24k')?.pricePerGram || 0
-  const live22k = liveRates.find((r) => r.purityId === '22k')?.pricePerGram || 0
-  const live20k = liveRates.find((r) => r.purityId === '20k')?.pricePerGram || 0
-  const live18k = liveRates.find((r) => r.purityId === '18k')?.pricePerGram || 0
-  const liveSilver = liveRates.find((r) => r.purityId === 'silver')?.pricePerGram || 0
+  const live24k = liveRates.find((r) => r.purityId === '24k')?.pricePerGram || 14852
+  const live22k = liveRates.find((r) => r.purityId === '22k')?.pricePerGram || 13614
+  const live20k = liveRates.find((r) => r.purityId === '20k')?.pricePerGram || 12377
+  const live18k = liveRates.find((r) => r.purityId === '18k')?.pricePerGram || 11139
+  const liveSilver = liveRates.find((r) => r.purityId === 'silver')?.pricePerGram || 233.11
 
-  // Priority: 1. Admin configured Company Gold Price -> 2. Live market benchmark -> 3. Standard calibrated fallback
-  const display24K = shop24k > 0 ? shop24k : (live24k || 8245)
-  const display22K = shop22k > 0 ? shop22k : (live22k || Math.round((display24K * 22) / 24) || 7558)
-  const display20K = shop20k > 0 ? shop20k : (live20k || Math.round((display24K * 20) / 24) || 6871)
-  const display18K = shop18k > 0 ? shop18k : (live18k || Math.round((display24K * 18) / 24) || 6184)
-  const displaySilver = shopSilver > 0 ? shopSilver : (liveSilver || 98)
+  // Shop prices: 75% of market rate (LTV loan valuation standard) or admin configured shop rate
+  const display24K = shop24k > 0 ? shop24k : Math.round(live24k * 0.75)
+  const display22K = shop22k > 0 ? shop22k : Math.round(live22k * 0.75)
+  const display20K = shop20k > 0 ? shop20k : Math.round(live20k * 0.75)
+  const display18K = shop18k > 0 ? shop18k : Math.round(live18k * 0.75)
+  const displaySilver = shopSilver > 0 ? shopSilver : parseFloat((liveSilver * 0.75).toFixed(2))
 
   const pavun24K = display24K * 8
   const pavun22K = display22K * 8
   const pavun20K = display20K * 8
   const pavun18K = display18K * 8
-  const silver100g = displaySilver * 100
+  const silver100g = Math.round(displaySilver * 100)
 
   // --- Reference Gold Calculator State ---
   const [calcMode, setCalcMode] = useState<'amount' | 'gold'>('amount')
@@ -478,8 +506,8 @@ export default function HomePage({
               <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-white"></span>
             </span>
             <span className="font-mono tracking-tight font-black whitespace-nowrap flex items-center gap-1.5">
-              <span>TODAY'S COMPANY GOLD RATE</span>
-              <span className="hidden lg:inline text-orange-100 font-sans font-bold">• நிறுவன நேரடி விலை</span>
+              <span>TODAY'S COMPANY GOLD RATE (75% LOAN VALUE)</span>
+              <span className="hidden lg:inline text-orange-100 font-sans font-bold">• 75% நேரடி கடன் மதிப்பு</span>
             </span>
             {/* Angled decorative edge */}
             <div className="hidden sm:block absolute top-0 -right-2 h-full w-2 bg-[#EA580C] [clip-path:polygon(0_0,100%_0,0_100%)]" />
@@ -638,10 +666,10 @@ export default function HomePage({
                   <ArrowRight size={16} />
                 </button>
                 <button
-                  className="w-full sm:w-auto px-5 sm:px-6 py-3.5 rounded-xl bg-white border border-slate-300 text-slate-800 font-bold text-xs sm:text-sm hover:bg-slate-50 hover:border-orange-500/40 hover:text-[#FF6B00] transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm text-center"
+                  className="group w-full sm:w-auto px-5 sm:px-6 py-3.5 rounded-xl bg-white border-2 border-[#FF6B00] hover:border-[#EA580C] text-[#FF6B00] hover:text-[#EA580C] font-extrabold text-xs sm:text-sm hover:bg-orange-50/60 transition-all cursor-pointer flex items-center justify-center gap-2 shadow-[0_2px_12px_rgba(249,115,22,0.12)] hover:shadow-[0_4px_18px_rgba(249,115,22,0.22)] text-center active:scale-[0.98]"
                   onClick={() => (onNavigateLiveRate ? onNavigateLiveRate() : scrollToSection('rates'))}
                 >
-                  <LineChart size={16} />
+                  <LineChart size={16} className="stroke-[2.5] text-[#FF6B00] group-hover:text-[#EA580C] transition-colors" />
                   <span>View Live Rates</span>
                 </button>
               </div>
@@ -649,15 +677,42 @@ export default function HomePage({
 
             {/* Right Image Visual with 3D Floating Gold Coin */}
             <div className="lg:col-span-6 flex items-center justify-center lg:justify-end">
-              <div className="relative w-full max-w-[480px] lg:max-w-[520px]">
-                <img
-                  src={goldHeroJewel}
-                  alt="Gold Jewellery on Marble Pedestal"
-                  className="w-full h-auto object-cover rounded-3xl shadow-[0_20px_45px_rgba(249,115,22,0.12)] border border-slate-100 transition-transform duration-700 hover:scale-[1.01]"
-                />
+              <div
+                className="relative w-full max-w-[480px] lg:max-w-[520px]"
+                onMouseEnter={() => setIsHeroHovered(true)}
+                onMouseLeave={() => setIsHeroHovered(false)}
+              >
+                <div className="relative w-full aspect-square overflow-hidden rounded-3xl shadow-[0_20px_45px_rgba(249,115,22,0.12)] border border-slate-100 transition-transform duration-700 hover:scale-[1.01]">
+                  {HERO_JEWEL_IMAGES.map((src, idx) => (
+                    <img
+                      key={idx}
+                      src={src}
+                      alt="Gold Jewellery on Marble Pedestal"
+                      className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 ease-in-out ${
+                        idx === currentHeroSlide ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                      }`}
+                      loading={idx === 0 ? 'eager' : 'lazy'}
+                    />
+                  ))}
+
+                  {/* Subtle Slide Indicators */}
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/25 backdrop-blur-xs">
+                    {HERO_JEWEL_IMAGES.map((_, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setCurrentHeroSlide(idx)}
+                        aria-label={`Slide ${idx + 1}`}
+                        className={`h-1.5 rounded-full transition-all duration-300 border-0 p-0 cursor-pointer ${
+                          idx === currentHeroSlide ? 'w-5 bg-white shadow-xs' : 'w-1.5 bg-white/50 hover:bg-white/80'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
 
                 {/* 3D Floating Spinning Gold Coin inside Image Right Corner */}
-                <div className="absolute top-2.5 right-2.5 sm:top-4 sm:right-4 z-20 animate-coin-float-3d">
+                <div className="absolute top-2.5 right-2.5 sm:top-4 sm:right-4 z-20 animate-coin-float-3d pointer-events-none">
                   <GoldCoin3D caratLabel="24K 999" autoSpin={true} />
                 </div>
               </div>
@@ -665,44 +720,44 @@ export default function HomePage({
           </div>
 
           {/* Floating Trust Stats Card */}
-          <div className="mt-8 md:mt-10 rounded-2xl md:rounded-3xl bg-white/95 border border-slate-200/80 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.03)] p-2 md:p-3">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
-              <div className="flex items-center gap-3.5 py-3 px-4 md:px-6">
-                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200/60 flex items-center justify-center text-orange-600 shrink-0">
-                  <ShieldCheck size={20} />
+          <div className="mt-8 md:mt-10 rounded-2xl md:rounded-3xl bg-white border-2 border-[#FF6B00] backdrop-blur-md shadow-[0_4px_25px_rgba(249,115,22,0.12)] p-3 md:p-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-orange-100">
+              <div className="flex items-center gap-3.5 py-3 px-4 md:px-5">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-orange-50 border-2 border-orange-200/80 flex items-center justify-center text-[#FF6B00] shrink-0 shadow-2xs">
+                  <ShieldCheck size={22} className="stroke-[2.2]" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs md:text-sm font-black text-slate-900">Highest Loan Value</span>
-                  <span className="text-[10px] text-slate-500 font-medium">Up to 75% Gold Value</span>
+                  <span className="text-sm sm:text-base font-black text-slate-900 leading-tight">Highest Loan Value</span>
+                  <span className="text-xs sm:text-[13px] text-slate-600 font-semibold mt-0.5">Up to 75% Gold Value</span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3.5 py-3 px-4 md:px-6">
-                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200/60 flex items-center justify-center text-orange-600 shrink-0">
-                  <TrendingDown size={20} />
+              <div className="flex items-center gap-3.5 py-3 px-4 md:px-5">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-orange-50 border-2 border-orange-200/80 flex items-center justify-center text-[#FF6B00] shrink-0 shadow-2xs">
+                  <TrendingDown size={22} className="stroke-[2.2]" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs md:text-sm font-black text-slate-900">Lowest Interest Rate</span>
-                  <span className="text-[10px] text-slate-500 font-medium">From 0.75% per month</span>
+                  <span className="text-sm sm:text-base font-black text-slate-900 leading-tight">Lowest Interest Rate</span>
+                  <span className="text-xs sm:text-[13px] text-slate-600 font-semibold mt-0.5">From 0.75% per month</span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3.5 py-3 px-4 md:px-6">
-                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200/60 flex items-center justify-center text-orange-600 shrink-0">
-                  <Sparkles size={20} />
+              <div className="flex items-center gap-3.5 py-3 px-4 md:px-5">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-orange-50 border-2 border-orange-200/80 flex items-center justify-center text-[#FF6B00] shrink-0 shadow-2xs">
+                  <Sparkles size={22} className="stroke-[2.2]" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs md:text-sm font-black text-slate-900">15-Min Fast Sanction</span>
-                  <span className="text-[10px] text-slate-500 font-medium">15-Min Quick Disbursal</span>
+                  <span className="text-sm sm:text-base font-black text-slate-900 leading-tight">15-Min Fast Sanction</span>
+                  <span className="text-xs sm:text-[13px] text-slate-600 font-semibold mt-0.5">15-Min Quick Disbursal</span>
                 </div>
               </div>
-              <div className="flex items-center gap-3.5 py-3 px-4 md:px-6">
-                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200/60 flex items-center justify-center text-orange-600 shrink-0">
-                  <Coins size={20} />
+              <div className="flex items-center gap-3.5 py-3 px-4 md:px-5">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-orange-50 border-2 border-orange-200/80 flex items-center justify-center text-[#FF6B00] shrink-0 shadow-2xs">
+                  <Coins size={22} className="stroke-[2.2]" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs md:text-sm font-black text-slate-900">100% Insured Security</span>
-                  <span className="text-[10px] text-slate-500 font-medium">{bankName}</span>
+                  <span className="text-sm sm:text-base font-black text-slate-900 leading-tight">100% Insured Security</span>
+                  <span className="text-xs sm:text-[13px] text-slate-600 font-semibold mt-0.5">{bankName}</span>
                 </div>
               </div>
             </div>
@@ -728,7 +783,7 @@ export default function HomePage({
             </div>
             <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
               <CoinsIcon size={14} />
-              <span>TODAY'S 24K RATE: ₹{spotRate24K > 0 ? spotRate24K.toLocaleString('en-IN') : '...'}/g</span>
+              <span>TODAY'S 24K LOAN RATE (75% LTV): ₹{spotRate24K > 0 ? spotRate24K.toLocaleString('en-IN') : '...'}/g</span>
             </div>
           </div>
 
@@ -1066,11 +1121,11 @@ export default function HomePage({
             <div className="flex items-center gap-3">
               <button
                 onClick={() => onNavigateBranches ? onNavigateBranches() : (onNavigateContact && onNavigateContact())}
-                className="px-4 py-2 rounded-xl bg-white border border-orange-200 hover:border-orange-400 text-xs font-bold text-slate-700 hover:text-[#FF6B00] transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs hover:shadow-xs"
+                className="group px-4 py-2 rounded-xl bg-white border-2 border-[#FF6B00] hover:border-[#EA580C] text-xs font-extrabold text-[#FF6B00] hover:text-[#EA580C] hover:bg-orange-50/60 transition-all cursor-pointer flex items-center gap-1.5 shadow-[0_2px_10px_rgba(249,115,22,0.12)] active:scale-[0.98]"
               >
-                <Building2 size={14} className="text-[#FF6B00]" />
+                <Building2 size={14} className="stroke-[2.5] text-[#FF6B00] group-hover:text-[#EA580C]" />
                 <span>View All Branches</span>
-                <ArrowRight size={13} />
+                <ArrowRight size={13} className="stroke-[2.5]" />
               </button>
             </div>
           </div>
@@ -1153,44 +1208,44 @@ export default function HomePage({
           </div>
 
           {/* Network Trust Highlights Strip */}
-          <div className="mt-8 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-orange-100/70 via-white to-amber-100/70 border border-orange-200/80 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 shadow-xs">
-            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/90 border border-orange-100 shadow-2xs hover:border-orange-300 transition-colors">
-              <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-emerald-600 shrink-0">
-                <CheckCircle2 size={16} />
+          <div className="mt-8 p-4 sm:p-5 rounded-3xl bg-white border-2 border-[#FF6B00] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 shadow-[0_4px_25px_rgba(249,115,22,0.12)]">
+            <div className="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl bg-white border-2 border-orange-200/90 hover:border-[#FF6B00] shadow-xs hover:shadow-md transition-all">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs">
+                <CheckCircle2 size={20} className="stroke-[2.3]" />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-xs font-bold text-slate-800 leading-tight truncate">15-Min Fast Valuation</span>
-                <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">15-Min Loan Valuation</span>
+                <span className="text-sm sm:text-[15px] font-black text-slate-900 leading-tight truncate">15-Min Fast Valuation</span>
+                <span className="text-xs sm:text-[12.5px] font-bold text-slate-600 mt-0.5 truncate">15-Min Loan Valuation</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/90 border border-orange-100 shadow-2xs hover:border-orange-300 transition-colors">
-              <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-emerald-600 shrink-0">
-                <CheckCircle2 size={16} />
+            <div className="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl bg-white border-2 border-orange-200/90 hover:border-[#FF6B00] shadow-xs hover:shadow-md transition-all">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs">
+                <CheckCircle2 size={20} className="stroke-[2.3]" />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-xs font-bold text-slate-800 leading-tight truncate">Advanced XRF Testing</span>
-                <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">Advanced XRF Laser Lab</span>
+                <span className="text-sm sm:text-[15px] font-black text-slate-900 leading-tight truncate">Advanced XRF Testing</span>
+                <span className="text-xs sm:text-[12.5px] font-bold text-slate-600 mt-0.5 truncate">Advanced XRF Laser Lab</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/90 border border-orange-100 shadow-2xs hover:border-orange-300 transition-colors">
-              <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-emerald-600 shrink-0">
-                <CheckCircle2 size={16} />
+            <div className="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl bg-white border-2 border-orange-200/90 hover:border-[#FF6B00] shadow-xs hover:shadow-md transition-all">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs">
+                <CheckCircle2 size={20} className="stroke-[2.3]" />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-xs font-bold text-slate-800 leading-tight truncate">100% Insured Vaults</span>
-                <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">{bankName}</span>
+                <span className="text-sm sm:text-[15px] font-black text-slate-900 leading-tight truncate">100% Insured Vaults</span>
+                <span className="text-xs sm:text-[12.5px] font-bold text-slate-600 mt-0.5 truncate">{bankName}</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/90 border border-orange-100 shadow-2xs hover:border-orange-300 transition-colors">
-              <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-emerald-600 shrink-0">
-                <CheckCircle2 size={16} />
+            <div className="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl bg-white border-2 border-orange-200/90 hover:border-[#FF6B00] shadow-xs hover:shadow-md transition-all">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs">
+                <CheckCircle2 size={20} className="stroke-[2.3]" />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-xs font-bold text-slate-800 leading-tight truncate">No Hidden Charges</span>
-                <span className="text-[11px] font-semibold text-slate-500 mt-0.5 truncate">100% Transparent Terms</span>
+                <span className="text-sm sm:text-[15px] font-black text-slate-900 leading-tight truncate">No Hidden Charges</span>
+                <span className="text-xs sm:text-[12.5px] font-bold text-slate-600 mt-0.5 truncate">100% Transparent Terms</span>
               </div>
             </div>
           </div>

@@ -41,7 +41,7 @@ const PURITY_METADATA = {
   'silver': { name: 'SILVER 999', karat: '99.9% Fine Silver' },
 }
 
-// @desc    Update a shop gold rate
+// @desc    Update a shop gold rate manually
 // @route   PUT /api/shop-rates/:purityId
 // @access  Public / Admin
 const updateShopRate = async (req, res, next) => {
@@ -80,54 +80,59 @@ const updateShopRate = async (req, res, next) => {
       throw new Error(`Shop rate not found for purity: ${purityId}`)
     }
 
-    // 2. Derive 24K & 22K values to record in GoldHistory movements
-    let p24 = 0
-    let p22 = 0
+    res.status(200).json({
+      success: true,
+      message: 'Shop rate updated successfully in database',
+      data: rate,
+    })
+  } catch (error) {
+    next(error)
+  }
+}
 
-    if (purityId === '24k') {
-      p24 = numPrice
-      p22 = Math.round(numPrice * (22 / 24))
-    } else if (purityId === '22k') {
-      p22 = numPrice
-      p24 = Math.round(numPrice * (24 / 22))
-    } else if (purityId === '20k') {
-      p24 = Math.round(numPrice * (24 / 20))
-      p22 = Math.round(numPrice * (22 / 20))
-    } else if (purityId === '18k') {
-      p24 = Math.round(numPrice * (24 / 18))
-      p22 = Math.round(numPrice * (22 / 18))
+// @desc    Sync shop rates automatically to 75% of current market benchmark price
+// @route   POST /api/shop-rates/sync-75
+// @access  Public / Admin
+const syncShopRatesWithMarket = async (req, res, next) => {
+  try {
+    const marketRates = await GoldRate.find({})
+
+    if (!marketRates || marketRates.length === 0) {
+      res.status(400)
+      throw new Error('No market gold rates available to calculate 75% shop price')
     }
 
-    // 3. Persist movement in GoldHistory collection in MongoDB
-    if (p24 > 0) {
-      await recordPriceHistoryUpdate(p24, p22, 'admin_update')
+    const updatedShopRates = []
+    const now = new Date()
+
+    for (const mRate of marketRates) {
+      const meta = PURITY_METADATA[mRate.purityId] || { name: mRate.name, karat: mRate.karat }
+      const shopPrice = mRate.purityId === 'silver'
+        ? parseFloat((mRate.pricePerGram * 0.75).toFixed(2))
+        : Math.round(mRate.pricePerGram * 0.75)
+
+      const updated = await ShopGoldRate.findOneAndUpdate(
+        { purityId: mRate.purityId },
+        {
+          purityId: mRate.purityId,
+          name: meta.name,
+          karat: meta.karat,
+          pricePerGram: shopPrice,
+          unit: 'per gram',
+          updatedAt: now,
+          updatedBy: req.admin?._id || null,
+        },
+        { upsert: true, new: true, runValidators: true }
+      )
+      updatedShopRates.push(updated)
+      console.log(`🏷️  [Shop Rate 75%] ${mRate.purityId.toUpperCase()}: ₹${shopPrice}/g (75% of ₹${mRate.pricePerGram}/g)`)
     }
-
-    // 4. Update GoldRate live benchmark in MongoDB as well
-    const existingGoldRate = await GoldRate.findOne({ purityId })
-    const prevPrice = existingGoldRate ? existingGoldRate.pricePerGram : numPrice
-    const changePct = prevPrice > 0 ? parseFloat((((numPrice - prevPrice) / prevPrice) * 100).toFixed(2)) : 0
-
-    await GoldRate.findOneAndUpdate(
-      { purityId },
-      {
-        purityId,
-        name: meta.name,
-        karat: meta.karat,
-        pricePerGram: numPrice,
-        previousPrice: prevPrice,
-        unit: 'per gram',
-        changePercent: Math.abs(changePct),
-        isUp: changePct >= 0,
-        lastUpdated: new Date(),
-      },
-      { upsert: true, new: true, runValidators: true }
-    )
 
     res.status(200).json({
       success: true,
-      message: 'Rate & price history movement updated successfully in database',
-      data: rate,
+      message: 'Shop rates successfully synchronized to 75% of live market price',
+      count: updatedShopRates.length,
+      data: updatedShopRates,
     })
   } catch (error) {
     next(error)
@@ -204,5 +209,6 @@ module.exports = {
   getAllShopRates,
   getShopRateByPurity,
   updateShopRate,
+  syncShopRatesWithMarket,
   seedShopRates,
 }

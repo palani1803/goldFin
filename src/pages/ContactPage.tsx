@@ -11,7 +11,12 @@ import {
   Building2,
   CheckCircle2,
   Copy,
-  Check
+  Check,
+  Video,
+  Image as ImageIcon,
+  ZoomIn,
+  ChevronLeft,
+  X
 } from 'lucide-react'
 import { Navbar, Footer, TrustBanner, GoldBackground } from '../components'
 import { useSiteSettings } from '../hooks/useSiteSettings'
@@ -39,11 +44,11 @@ interface BranchInfo {
   landmark: string
   phone: string
   rawPhone: string
-  altPhone: string
+  altPhone?: string
   email: string
   hours: string
   sundayHours: string
-  manager: string
+  manager?: string
   mapEmbedUrl: string
   directionsUrl: string
   fullMapUrl: string
@@ -56,41 +61,48 @@ const mapDbBranchToInfo = (b: any, fallbackPhone?: string): BranchInfo => {
   const rawPhone = cleanPhone.replace(/[^0-9]/g, '')
   
   let tag = 'AUTHORIZED BRANCH'
-  let district = 'Virudhunagar District'
+  const customDistrict = b.district ? (b.district.toLowerCase().includes('district') ? b.district : `${b.district} District`) : ''
+  let district = customDistrict || (cityKey.includes('chennai') ? 'Chennai District' : (cityKey.includes('sivagiri') || cityKey.includes('tenkasi') ? 'Tenkasi District' : 'Virudhunagar District'))
   let pincode = '626123'
   let landmark = 'Near Bus Stand & Main Bazaar'
   let features = ['Instant 15-Minute Gold Loan Sanctions', 'German XRF Purity Karatmeter', 'Safe Insured Bank Vault Storage']
 
   if (cityKey.includes('sivakasi')) {
     tag = 'HEADQUARTERS & CENTRAL VAULT'
-    district = 'Virudhunagar District'
+    if (!customDistrict) district = 'Virudhunagar District'
     pincode = '626123'
     landmark = 'Opposite Town Hall, Commercial Street'
     features = ['Central High-Security Insured Vault', 'German XRF Non-Destructive Karatmeter', 'Instant 15-Minute Cash & Bank Payouts']
   } else if (cityKey.includes('srivilliputhur')) {
     tag = 'REGIONAL SERVICE HUB'
-    district = 'Virudhunagar District'
+    if (!customDistrict) district = 'Virudhunagar District'
     pincode = '626125'
     landmark = 'Near Andal Temple Arch'
     features = ['Instant 15-Minute Gold Loan Sanction', 'Pledged Gold Release Support Desk', 'Safe Insured Custody Lockers']
   } else if (cityKey.includes('puthupatti')) {
     tag = 'AUTHORIZED SERVICE HUB'
-    district = 'Virudhunagar District'
+    if (!customDistrict) district = 'Virudhunagar District'
     pincode = '626130'
     landmark = 'Near Bus Stand, Main Road'
     features = ['Community Gold Loan Desk', 'Doorstep Valuation Support', 'Direct Spot Settlement']
   } else if (cityKey.includes('rajapalayam')) {
     tag = 'COMMERCIAL BULLION DESK'
-    district = 'Virudhunagar District'
+    if (!customDistrict) district = 'Virudhunagar District'
     pincode = '626117'
     landmark = 'Near PACR Hospital Junction'
     features = ['High-Value SME Gold Loan Desks', 'Spot Gold Buying with Instant Settlement', 'Certified BIS Hallmarking Verification']
   } else if (cityKey.includes('chennai')) {
     tag = 'METROPOLITAN GOLD DESK'
-    district = 'Chennai District'
+    if (!customDistrict) district = 'Chennai District'
     pincode = '600017'
     landmark = 'Near Panagal Park & Usman Road Commercial Hub'
     features = ['High-Value Spot Gold Sanctions', 'German XRF Optical Karatmeter', 'VIP Dedicated Loan Appraisal Desk']
+  } else if (cityKey.includes('sivagiri')) {
+    tag = 'REGIONAL SERVICE HUB'
+    if (!customDistrict) district = 'Tenkasi District'
+    pincode = '627757'
+    landmark = 'Near Main Bazaar Street'
+    features = ['Instant 15-Minute Gold Loan Sanctions', 'German XRF Purity Karatmeter', 'Safe Insured Bank Vault Storage']
   }
 
   const mapQuery = encodeURIComponent(`${b.name || b.city}, ${b.address || ''}, ${b.city}, Tamil Nadu`)
@@ -128,12 +140,11 @@ const FALLBACK_BRANCHES: BranchInfo[] = [
     tag: 'HEADQUARTERS & CENTRAL VAULT',
     city: 'Sivakasi',
     district: 'Virudhunagar District',
-    pincode: '626123',
-    address: 'No. 42/B, Kamarajar Road, Near Old Bus Stand',
+    pincode: '626189',
+    address: 'No. 2005/1, P.K.N. Road, Sivakasi - 626 189',
     landmark: 'Opposite Town Hall, Commercial Street',
-    phone: '+91 90925 48347',
-    rawPhone: '9092548347',
-    altPhone: '04562 - 224834',
+    phone: '+91 88385 43387',
+    rawPhone: '8838543387',
     email: 'sivakasi@mahesbankers.com',
     hours: 'Mon–Sat: 9:00 AM – 6:30 PM',
     sundayHours: 'Sunday: Closed (Digital Desk 24/7)',
@@ -227,6 +238,21 @@ const FALLBACK_BRANCHES: BranchInfo[] = [
   }
 ]
 
+const SIVAKASI_PHOTOS = [
+  {
+    id: 'img-1',
+    title: 'Mahes Bankers Sivakasi Entrance & Board',
+    subtitle: 'No. 2005/1, P.K.N. Road, Sivakasi - 626 189',
+    url: '/branches/sivakasi/sivakasi_img_1.jpg',
+  },
+  {
+    id: 'img-2',
+    title: 'Sivakasi Front Customer Desk',
+    subtitle: 'Ground-Floor Service Counter & Customer Lounge',
+    url: '/branches/sivakasi/sivakasi_img_2.jpg',
+  }
+]
+
 export default function ContactPage({
   initialCity,
   onNavigateHome,
@@ -241,6 +267,7 @@ export default function ContactPage({
   const [branches, setBranches] = useState<BranchInfo[]>(FALLBACK_BRANCHES)
   const [selectedBranchId, setSelectedBranchId] = useState<string>('')
   const [copiedPhoneId, setCopiedPhoneId] = useState<string | null>(null)
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
   const showcaseMapRef = useRef<HTMLDivElement | null>(null)
 
@@ -312,6 +339,21 @@ export default function ContactPage({
       selectBranchByCityOrId(initialCity, branches)
     }
   }, [initialCity, branches])
+
+  useEffect(() => {
+    if (lightboxIndex === null) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightboxIndex(null)
+      if (e.key === 'ArrowLeft') {
+        setLightboxIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : SIVAKASI_PHOTOS.length - 1))
+      }
+      if (e.key === 'ArrowRight') {
+        setLightboxIndex((prev) => (prev !== null && prev < SIVAKASI_PHOTOS.length - 1 ? prev + 1 : 0))
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [lightboxIndex])
 
   const activeBranch = branches.find((b) => b.id === selectedBranchId) || branches[0] || FALLBACK_BRANCHES[0]
 
@@ -523,9 +565,6 @@ export default function ContactPage({
                       )}
                     </button>
                   </div>
-                  <span className="text-[11px] text-slate-400 mt-0.5">
-                    Manager: {activeBranch.manager}
-                  </span>
                 </div>
               </div>
 
@@ -654,11 +693,239 @@ export default function ContactPage({
           </div>
         </section>
 
-        {/* SECTION 3: ALL BRANCHES SUMMARY GRID */}
+        {/* SECTION 3: SIVAKASI BRANCH LIVE MEDIA SHOWCASE (2 PHOTOS + 3 VIDEOS) */}
+        {activeBranch.city.toLowerCase().includes('sivakasi') && (
+          <section className="rounded-3xl bg-gradient-to-br from-white via-orange-50/20 to-white border-2 border-orange-200 p-5 sm:p-7 shadow-[0_4px_25px_rgba(249,115,22,0.1)] flex flex-col gap-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-orange-100">
+              <div className="flex flex-col gap-1">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100/70 border border-orange-200 text-orange-700 text-xs font-black tracking-wider uppercase w-fit">
+                  <Video size={13} />
+                  <span>BRANCH WALKTHROUGH • 2 PHOTOS & 3 VIDEOS</span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                  Sivakasi Main Branch — Store Photos & Video Walkthrough
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Take a visual walk-in tour of our Sivakasi headquarters located at No. 2005/1, P.K.N. Road.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="px-3 py-1 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold">
+                  Verified Facility
+                </span>
+              </div>
+            </div>
+
+            {/* Media Grid: 3 Videos + 2 Photos */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {/* Video 1 */}
+              <div className="flex flex-col gap-2 rounded-2xl bg-slate-950 border border-slate-800 p-3 shadow-md">
+                <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-black flex items-center justify-center">
+                  <video
+                    src="/branches/sivakasi/sivakasi_vid_3.mp4"
+                    controls
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <div className="px-1 py-1">
+                  <span className="text-[10.5px] font-extrabold uppercase text-orange-400">Video Walkthrough 1</span>
+                  <h4 className="text-xs sm:text-sm font-black text-white mt-0.5">Sivakasi Branch Facility Tour</h4>
+                  <p className="text-[11px] text-slate-400 mt-0.5">Full customer walk-in experience</p>
+                </div>
+              </div>
+
+              {/* Video 2 */}
+              <div className="flex flex-col gap-2 rounded-2xl bg-slate-950 border border-slate-800 p-3 shadow-md">
+                <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-black flex items-center justify-center">
+                  <video
+                    src="/branches/sivakasi/sivakasi_vid_2.mp4"
+                    controls
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <div className="px-1 py-1">
+                  <span className="text-[10.5px] font-extrabold uppercase text-orange-400">Video Walkthrough 2</span>
+                  <h4 className="text-xs sm:text-sm font-black text-white mt-0.5">Counter & Customer Appraisal Desk</h4>
+                  <p className="text-[11px] text-slate-400 mt-0.5">Inside valuation & service desk</p>
+                </div>
+              </div>
+
+              {/* Video 3 */}
+              <div className="flex flex-col gap-2 rounded-2xl bg-slate-950 border border-slate-800 p-3 shadow-md">
+                <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-black flex items-center justify-center">
+                  <video
+                    src="/branches/sivakasi/sivakasi_vid_1.mp4"
+                    controls
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <div className="px-1 py-1">
+                  <span className="text-[10.5px] font-extrabold uppercase text-orange-400">Video Walkthrough 3</span>
+                  <h4 className="text-xs sm:text-sm font-black text-white mt-0.5">Branch Front Walkthrough</h4>
+                  <p className="text-[11px] text-slate-400 mt-0.5">Street entrance & building frontage</p>
+                </div>
+              </div>
+
+              {/* Photo 1 */}
+              <div
+                onClick={() => setLightboxIndex(0)}
+                className="flex flex-col gap-2 rounded-2xl bg-white border border-orange-200 hover:border-orange-500/80 p-3 shadow-xs hover:shadow-lg transition-all cursor-pointer group"
+              >
+                <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-slate-100 group/img">
+                  <img
+                    src="/branches/sivakasi/sivakasi_img_1.jpg"
+                    alt="Mahes Bankers Sivakasi Entrance & Board"
+                    className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                    <span className="px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-sm text-white text-xs font-bold flex items-center gap-1.5 shadow-lg border border-white/20">
+                      <ZoomIn size={14} className="text-[#FF6B00]" />
+                      <span>Click to enlarge</span>
+                    </span>
+                  </div>
+                </div>
+                <div className="px-1 py-1">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 text-orange-600 text-[10.5px] font-extrabold uppercase">
+                      <ImageIcon size={12} />
+                      <span>Store Photo 1</span>
+                    </div>
+                    <span className="text-[10px] font-bold text-slate-400 group-hover:text-orange-600 transition-colors flex items-center gap-0.5">
+                      <ZoomIn size={11} />
+                      <span>Enlarge</span>
+                    </span>
+                  </div>
+                  <h4 className="text-xs sm:text-sm font-black text-slate-900 group-hover:text-orange-600 transition-colors mt-0.5">
+                    Official Signboard & Entrance
+                  </h4>
+                  <p className="text-[11px] text-slate-500">No. 2005/1, P.K.N. Road, Sivakasi</p>
+                </div>
+              </div>
+
+              {/* Photo 2 */}
+              <div
+                onClick={() => setLightboxIndex(1)}
+                className="flex flex-col gap-2 rounded-2xl bg-white border border-orange-200 hover:border-orange-500/80 p-3 shadow-xs hover:shadow-lg transition-all cursor-pointer group"
+              >
+                <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-slate-100 group/img">
+                  <img
+                    src="/branches/sivakasi/sivakasi_img_2.jpg"
+                    alt="Sivakasi Front Customer Desk"
+                    className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                    <span className="px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-sm text-white text-xs font-bold flex items-center gap-1.5 shadow-lg border border-white/20">
+                      <ZoomIn size={14} className="text-[#FF6B00]" />
+                      <span>Click to enlarge</span>
+                    </span>
+                  </div>
+                </div>
+                <div className="px-1 py-1">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 text-orange-600 text-[10.5px] font-extrabold uppercase">
+                      <ImageIcon size={12} />
+                      <span>Store Photo 2</span>
+                    </div>
+                    <span className="text-[10px] font-bold text-slate-400 group-hover:text-orange-600 transition-colors flex items-center gap-0.5">
+                      <ZoomIn size={11} />
+                      <span>Enlarge</span>
+                    </span>
+                  </div>
+                  <h4 className="text-xs sm:text-sm font-black text-slate-900 group-hover:text-orange-600 transition-colors mt-0.5">
+                    Frontage & Customer Service Desk
+                  </h4>
+                  <p className="text-[11px] text-slate-500">Ground-floor customer lounge</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
         
 
         {/* Reusable Trust Banner */}
         <TrustBanner />
+
+        {/* FULLSCREEN IMAGE LIGHTBOX MODAL */}
+        {lightboxIndex !== null && SIVAKASI_PHOTOS[lightboxIndex] && (
+          <div
+            className="fixed inset-0 z-[80] flex items-center justify-center p-3 sm:p-6 bg-black/92 backdrop-blur-md animate-fadeIn select-none"
+            onClick={() => setLightboxIndex(null)}
+          >
+            {/* Top Bar Floating Controls */}
+            <div className="absolute top-4 right-4 z-20 flex items-center gap-3">
+              <span className="px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-white text-xs font-bold border border-white/20 shadow-md">
+                {lightboxIndex + 1} / {SIVAKASI_PHOTOS.length}
+              </span>
+              <button
+                type="button"
+                onClick={() => setLightboxIndex(null)}
+                className="w-11 h-11 rounded-full bg-white/20 hover:bg-[#FF6B00] text-white flex items-center justify-center transition-all cursor-pointer border border-white/20 shadow-lg active:scale-95"
+                aria-label="Close full screen view"
+              >
+                <X size={22} />
+              </button>
+            </div>
+
+            {/* Previous Image Arrow */}
+            {SIVAKASI_PHOTOS.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setLightboxIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : SIVAKASI_PHOTOS.length - 1))
+                  }}
+                  className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/60 hover:bg-[#FF6B00] text-white flex items-center justify-center transition-all border border-white/20 cursor-pointer shadow-xl active:scale-95"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setLightboxIndex((prev) => (prev !== null && prev < SIVAKASI_PHOTOS.length - 1 ? prev + 1 : 0))
+                  }}
+                  className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/60 hover:bg-[#FF6B00] text-white flex items-center justify-center transition-all border border-white/20 cursor-pointer shadow-xl active:scale-95"
+                  aria-label="Next image"
+                >
+                  <ChevronRight size={24} />
+                </button>
+              </>
+            )}
+
+            {/* Center Image Container */}
+            <div
+              className="relative max-w-5xl w-full max-h-[92vh] flex flex-col items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)] border border-white/15 bg-black/40 flex items-center justify-center max-h-[78vh]">
+                <img
+                  src={SIVAKASI_PHOTOS[lightboxIndex].url}
+                  alt={SIVAKASI_PHOTOS[lightboxIndex].title}
+                  className="max-w-full max-h-[78vh] w-auto h-auto object-contain rounded-2xl"
+                />
+              </div>
+
+              {/* Bottom Caption Bar */}
+              <div className="mt-3 text-center px-4 max-w-2xl">
+                <h3 className="text-base sm:text-lg font-black text-white tracking-tight">
+                  {SIVAKASI_PHOTOS[lightboxIndex].title}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 mt-0.5 font-medium">
+                  {SIVAKASI_PHOTOS[lightboxIndex].subtitle}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
 
       {/* Footer via Reusable Component */}

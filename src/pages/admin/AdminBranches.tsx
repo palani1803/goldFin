@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import {
   Building2, Plus, Edit3, Trash2, X, Check, AlertCircle,
-  RefreshCw, MapPin, Phone, Clock, User, Mail, Loader2,
+  RefreshCw, MapPin, Phone, Clock, Mail, Loader2,
   ToggleLeft, ToggleRight, ExternalLink, Search, Sparkles,
   CheckCircle2, Shield
 } from 'lucide-react'
@@ -12,10 +12,11 @@ interface Branch {
   name: string
   address: string
   city: string
+  district?: string
   state: string
   phone: string
   email: string
-  managerName: string
+  managerName?: string
   operatingHours: string
   mapUrl: string
   isActive: boolean
@@ -26,6 +27,7 @@ const emptyBranch = {
   name: '',
   address: '',
   city: '',
+  district: '',
   state: 'Tamil Nadu',
   phone: '',
   email: '',
@@ -70,6 +72,13 @@ export default function AdminBranches() {
     fetchBranches()
   }, [])
 
+  const notifyBranchesUpdated = () => {
+    try {
+      localStorage.setItem('goldFin_branches_updated', Date.now().toString())
+      window.dispatchEvent(new CustomEvent('branchesUpdated'))
+    } catch {}
+  }
+
   const handleSeedBranches = async () => {
     setSeeding(true)
     setErrorMsg('')
@@ -88,6 +97,7 @@ export default function AdminBranches() {
       setSuccessMsg(`Successfully loaded all 4 official ${companyName} branches!`)
       setTimeout(() => setSuccessMsg(''), 4000)
       fetchBranches()
+      notifyBranchesUpdated()
     } catch (err: any) {
       setErrorMsg(err.message)
     } finally {
@@ -108,10 +118,11 @@ export default function AdminBranches() {
       name: branch.name,
       address: branch.address,
       city: branch.city,
+      district: branch.district || '',
       state: branch.state,
       phone: branch.phone,
       email: branch.email,
-      managerName: branch.managerName,
+      managerName: branch.managerName || '',
       operatingHours: branch.operatingHours,
       mapUrl: branch.mapUrl,
       isActive: branch.isActive,
@@ -155,6 +166,7 @@ export default function AdminBranches() {
       setTimeout(() => setSuccessMsg(''), 3000)
       closeModal()
       fetchBranches()
+      notifyBranchesUpdated()
     } catch (err: any) {
       setErrorMsg(err.message)
     } finally {
@@ -180,6 +192,7 @@ export default function AdminBranches() {
       setTimeout(() => setSuccessMsg(''), 3000)
       setDeleteConfirm(null)
       fetchBranches()
+      notifyBranchesUpdated()
     } catch (err: any) {
       setErrorMsg(err.message)
       setDeleteConfirm(null)
@@ -205,6 +218,7 @@ export default function AdminBranches() {
           b._id === branch._id ? { ...b, isActive: !b.isActive } : b
         )
       )
+      notifyBranchesUpdated()
     } catch (err: any) {
       setErrorMsg(err.message)
     }
@@ -217,8 +231,7 @@ export default function AdminBranches() {
         branch.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         branch.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
         branch.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        branch.phone.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (branch.managerName && branch.managerName.toLowerCase().includes(searchQuery.toLowerCase()))
+        branch.phone.toLowerCase().includes(searchQuery.toLowerCase())
 
       const matchesStatus =
         filterStatus === 'all' ||
@@ -255,7 +268,7 @@ export default function AdminBranches() {
             Branch Management
           </h1>
           <p className="text-sm text-slate-600 mt-1">
-            Manage your store branch locations, managers, desk phone numbers, and working hours.
+            Manage your store branch locations, desk phone numbers, and working hours.
           </p>
         </div>
 
@@ -429,6 +442,11 @@ export default function AdminBranches() {
                   <span className="px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-orange-50 border border-orange-200 text-orange-700">
                     {branch.city}
                   </span>
+                  {branch.district && (
+                    <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-50 border border-amber-200 text-amber-800">
+                      {branch.district}
+                    </span>
+                  )}
                   <h3 className="text-base font-black text-slate-900 truncate">{branch.name}</h3>
                   <span
                     className={`shrink-0 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider border ${
@@ -456,13 +474,6 @@ export default function AdminBranches() {
                       {branch.phone}
                     </a>
                   </div>
-
-                  {branch.managerName && (
-                    <div className="flex items-center gap-2 text-slate-600 font-medium">
-                      <User size={14} className="shrink-0 text-orange-600" />
-                      <span>{branch.managerName}</span>
-                    </div>
-                  )}
 
                   <div className="flex items-center gap-2 text-slate-600 font-medium">
                     <Clock size={14} className="shrink-0 text-orange-600" />
@@ -613,8 +624,8 @@ export default function AdminBranches() {
                   />
                 </div>
 
-                {/* 3. City & State (Row 1) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                {/* 3. City, District & State (Row 1) */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                   <div>
                     <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                       City / Town <span className="text-red-500">*</span>
@@ -625,6 +636,18 @@ export default function AdminBranches() {
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                       placeholder="e.g. Sivakasi"
                       required
+                      className="w-full h-11 px-3.5 rounded-xl text-sm font-medium text-slate-900 placeholder-slate-400 bg-slate-50 border border-slate-200 focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                      District <span className="text-orange-600 font-bold">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.district}
+                      onChange={(e) => setFormData({ ...formData, district: e.target.value })}
+                      placeholder="e.g. Virudhunagar / Tenkasi"
                       className="w-full h-11 px-3.5 rounded-xl text-sm font-medium text-slate-900 placeholder-slate-400 bg-slate-50 border border-slate-200 focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none transition-all"
                     />
                   </div>

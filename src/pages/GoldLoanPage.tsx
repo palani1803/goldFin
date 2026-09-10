@@ -87,8 +87,8 @@ export default function GoldLoanPage({
   const rate24k = liveRates.find((r) => r.purityId === '24k')
   const rate22k = liveRates.find((r) => r.purityId === '22k')
 
-  const price24kPerGram = rate24k?.pricePerGram || 13535
-  const price22kPerGram = rate22k?.pricePerGram || 12407
+  const price24kPerGram = rate24k?.pricePerGram || 14852
+  const price22kPerGram = rate22k?.pricePerGram || 13614
 
   // Curated FAQ Items
   const curatedFaqs = [

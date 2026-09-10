@@ -19,12 +19,16 @@ interface FooterBranch {
   city: string
 }
 
-const DEFAULT_FOOTER_BRANCHES: FooterBranch[] = [
-  { id: 'sivakasi', name: 'Sivakasi Branch', city: 'Sivakasi' },
-  { id: 'srivilliputhur', name: 'Srivilliputhur Branch', city: 'Srivilliputhur' },
-  { id: 'puthupatti', name: 'M.Puthupatti Branch', city: 'M.Puthupatti' },
-  { id: 'rajapalayam', name: 'Rajapalayam Branch', city: 'Rajapalayam' },
-]
+const getInitialBranches = (): FooterBranch[] => {
+  try {
+    const cached = localStorage.getItem('goldFin_cached_branches')
+    if (cached) {
+      const parsed = JSON.parse(cached)
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed
+    }
+  } catch {}
+  return []
+}
 
 export default function Footer({
   onNavigateHome,
@@ -35,25 +39,47 @@ export default function Footer({
   onNavigateContact,
   onScrollToSection,
 }: FooterProps) {
-  const [branches, setBranches] = useState<FooterBranch[]>(DEFAULT_FOOTER_BRANCHES)
+  const [branches, setBranches] = useState<FooterBranch[]>(getInitialBranches)
   const { settings } = useSiteSettings()
 
-  useEffect(() => {
+  const loadBranches = () => {
     fetch('/api/branches')
       .then((res) => res.json())
       .then((json) => {
-        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+        if (json.success && Array.isArray(json.data)) {
           const active = json.data
             .filter((b: any) => b.isActive !== false)
             .map((b: any) => ({
-              id: b._id || b.city.toLowerCase(),
+              id: b._id || (b.city ? b.city.toLowerCase() : b.name),
               name: b.name,
               city: b.city,
             }))
           setBranches(active)
+          try {
+            localStorage.setItem('goldFin_cached_branches', JSON.stringify(active))
+          } catch {}
         }
       })
       .catch(() => {})
+  }
+
+  useEffect(() => {
+    loadBranches()
+
+    const handleUpdate = () => loadBranches()
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'goldFin_branches_updated' || e.key === 'goldFin_cached_branches') {
+        loadBranches()
+      }
+    }
+
+    window.addEventListener('branchesUpdated', handleUpdate)
+    window.addEventListener('storage', handleStorage)
+
+    return () => {
+      window.removeEventListener('branchesUpdated', handleUpdate)
+      window.removeEventListener('storage', handleStorage)
+    }
   }, [])
 
   const handleLinkClick = (action: 'home' | 'live-rate' | 'gold-loan' | 'branches' | 'about' | 'contact' | string) => {
@@ -88,16 +114,20 @@ export default function Footer({
   }
 
   const getLocalizedBranchName = (b: FooterBranch) => {
-    const c = b.city.toLowerCase()
-    if (c.includes('sivakasi')) return 'Sivakasi Main Branch'
-    if (c.includes('srivilliputhur')) return 'Srivilliputhur Branch'
-    if (c.includes('puthupatti')) return 'M.Puthupatti Branch'
-    if (c.includes('rajapalayam')) return 'Rajapalayam Branch'
-    if (c.includes('chennai')) return 'Chennai Metro Desk'
-    return `${b.name} (${b.city})`
+    if (!b.name) return `${b.city} Branch`
+    const lowerName = b.name.toLowerCase()
+    if (
+      lowerName.includes('branch') ||
+      lowerName.includes('vault') ||
+      lowerName.includes('desk') ||
+      lowerName.includes('center')
+    ) {
+      return b.name
+    }
+    return `${b.name} Branch`
   }
 
-  const cityListString = branches.map((b) => b.city).join(' • ')
+  const cityListString = branches.map((b) => b.city).filter(Boolean).join(' • ')
 
   return (
     <footer className="mt-20 border-t border-slate-200 bg-white/95 backdrop-blur-xl py-16 relative z-10 w-full">

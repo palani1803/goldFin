@@ -17,6 +17,11 @@ const branchSchema = new mongoose.Schema(
       required: [true, 'Please provide a city'],
       trim: true,
     },
+    district: {
+      type: String,
+      trim: true,
+      default: '',
+    },
     state: {
       type: String,
       required: [true, 'Please provide a state'],

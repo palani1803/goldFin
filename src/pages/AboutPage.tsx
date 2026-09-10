@@ -171,9 +171,9 @@ export default function AboutPage({
 
             <button
               onClick={onNavigateBranches}
-              className="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-white border border-slate-200 hover:border-orange-500 text-slate-700 hover:text-orange-600 font-bold text-sm transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+              className="group w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-white border-2 border-[#FF6B00] hover:border-[#EA580C] text-[#FF6B00] hover:text-[#EA580C] font-extrabold text-sm hover:bg-orange-50/60 transition-all shadow-[0_2px_12px_rgba(249,115,22,0.12)] hover:shadow-[0_4px_18px_rgba(249,115,22,0.22)] flex items-center justify-center gap-2 cursor-pointer active:scale-95"
             >
-              <MapPin size={15} className="text-orange-600" />
+              <MapPin size={15} className="stroke-[2.5] text-[#FF6B00] group-hover:text-[#EA580C]" />
               <span>Find Nearest Branch</span>
             </button>
           </div>

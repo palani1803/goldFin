@@ -1,4 +1,5 @@
 const GoldRate = require('../models/GoldRate')
+const ShopGoldRate = require('../models/ShopGoldRate')
 const {
   fetchAndUpdateGoldPrices,
   getGoldPriceHistory,
@@ -128,11 +129,22 @@ const updateRate = async (req, res, next) => {
       }
 
       await recordPriceHistoryUpdate(p24, p22, 'admin_market_rate')
+
+      // Automatically recalculate and save 75% shop loan valuation rate
+      const shopPrice = req.params.purityId === 'silver'
+        ? parseFloat((p * 0.75).toFixed(2))
+        : Math.round(p * 0.75)
+
+      await ShopGoldRate.findOneAndUpdate(
+        { purityId: req.params.purityId },
+        { pricePerGram: shopPrice, updatedAt: new Date() },
+        { upsert: true, new: true }
+      )
     }
 
     res.status(200).json({
       success: true,
-      message: 'Rate and price history updated in database',
+      message: 'Rate, price history, and 75% shop price updated in database',
       data: rate,
     })
   } catch (error) {
@@ -168,45 +180,45 @@ const seedRates = async (req, res, next) => {
         purityId: '24k',
         name: 'GOLD 24K',
         karat: '24K (99.9% Pure)',
-        pricePerGram: 13535,
+        pricePerGram: 14852,
         unit: 'per gram',
-        changePercent: 0.81,
+        changePercent: 0.11,
         isUp: true,
       },
       {
         purityId: '22k',
         name: 'GOLD 22K',
         karat: '22K (91.6% Pure)',
-        pricePerGram: 12407,
+        pricePerGram: 13614,
         unit: 'per gram',
-        changePercent: 0.81,
+        changePercent: 0.11,
         isUp: true,
       },
       {
         purityId: '20k',
         name: 'GOLD 20K',
         karat: '20K (83.3% Pure)',
-        pricePerGram: 11279,
+        pricePerGram: 12377,
         unit: 'per gram',
-        changePercent: 0.81,
+        changePercent: 0.11,
         isUp: true,
       },
       {
         purityId: '18k',
         name: 'GOLD 18K',
         karat: '18K (75.0% Pure)',
-        pricePerGram: 10151,
+        pricePerGram: 11139,
         unit: 'per gram',
-        changePercent: 0.81,
+        changePercent: 0.11,
         isUp: true,
       },
       {
         purityId: 'silver',
         name: 'SILVER 999',
         karat: '99.9% Fine Silver',
-        pricePerGram: 202.06,
+        pricePerGram: 233.11,
         unit: 'per gram',
-        changePercent: 0.50,
+        changePercent: 0.35,
         isUp: true,
       },
     ]

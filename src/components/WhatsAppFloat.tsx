@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { X, Send, Sparkles, ShieldCheck, ExternalLink, ChevronRight, RotateCcw, CheckCircle2, Check } from 'lucide-react'
+import { X, Send, Sparkles, ShieldCheck, ExternalLink, ChevronRight, RotateCcw, CheckCircle2 } from 'lucide-react'
 import { useSiteSettings } from '../hooks/useSiteSettings'
 
 export interface WhatsAppFloatProps {
@@ -11,14 +11,28 @@ export interface WhatsAppFloatProps {
 interface QuestionStep {
   id: string
   label: string
+  greeting?: string
   question: string
+  hint?: string
   options: string[]
 }
 
 const CHAT_QUESTIONS: QuestionStep[] = [
   {
+    id: 'gold_current_location',
+    label: 'தங்கம் தற்போது உள்ள இடம்',
+    greeting: 'வணக்கம் 👋',
+    question: 'உங்கள் தங்கம் தற்போது எங்குள்ளது?',
+    options: [
+      'Self (என்னிடம்)',
+      'Pledged (அடமானம்)',
+      'Bank (வங்கி)',
+    ],
+  },
+  {
     id: 'gold_weight',
     label: 'தங்கத்தின் எடை',
+    greeting: 'தங்கத்தின் அளவு ⚖️',
     question: 'நீங்கள் எத்தனை கிராம் தங்கம் விற்க விரும்புகிறீர்கள்?',
     options: [
       '1-25 கிராம்',
@@ -29,12 +43,49 @@ const CHAT_QUESTIONS: QuestionStep[] = [
     ],
   },
   {
-    id: 'gold_location',
-    label: 'தங்கம் உள்ள இடம்',
+    id: 'gold_pledge_status',
+    label: 'தங்கம் இருக்கும் நிலை',
+    greeting: 'இருப்பிடம் 📍',
     question: 'நீங்கள் விற்க விரும்பும் தங்கம் வீட்டில் அல்லது அடகில் உள்ளதா?',
     options: [
       'வீட்டில் உள்ளது',
       'வங்கியில் அடகு வைத்துள்ளேன்',
+    ],
+  },
+  {
+    id: 'pledge_duration',
+    label: 'அடகு காலம்',
+    greeting: 'கால அளவு ⏳',
+    question: 'எத்தனை மாதங்களாக அடகு வைத்திருக்கிறீர்கள்?',
+    options: [
+      '1-3 மாதங்கள்',
+      '3-6 மாதங்கள்',
+      '6-12 மாதங்கள்',
+      '1 வருடத்திற்கு மேல்',
+      'அடகு வைக்கவில்லை',
+    ],
+  },
+  {
+    id: 'residential_area',
+    label: 'வசிக்கும் பகுதி',
+    greeting: 'வசிக்கும் பகுதி 📍',
+    question: 'நீங்கள் எந்த பகுதியில் வசிக்கிறீர்கள்?',
+    options: [
+      'Thiruthangal - திருத்தங்கல்',
+      'Anaiyur - ஆணையூர்',
+      'Satchiyapuram - சாட்சியாபுரம்',
+      'Viswanatham - விஸ்வநாதம்',
+      'Mamsapuram - மாம்சாபுரம்',
+      'Naranapuram - நாரணாபுரம்',
+      'Kakkivadanpatti - காக்கிவாடன்பட்டி',
+      'Ayyampatti - அய்யம்பட்டி',
+      'Pallapatti - பள்ளப்பட்டி',
+      'Sengamalanachiapuram - செங்கமலநாச்சியார்புரம்',
+      'Vadamalapuram - வடமலாபுரம்',
+      'Alamarathupatti - ஆலமரத்துப்பட்டி',
+      'Kumaralingapuram - குமாரலிங்கபுரம்',
+      'Erichanatham - எரிச்சநத்தம்',
+      'Other - பிற பகுதிகள்',
     ],
   },
 ]
@@ -174,9 +225,9 @@ export default function WhatsAppFloat({
                 <Sparkles size={14} />
               </div>
               <div className="bg-[#202C33] text-slate-200 text-xs sm:text-[13px] leading-relaxed p-3.5 rounded-2xl rounded-tl-xs border border-white/5 shadow-sm max-w-[290px]">
-                <p className="font-semibold text-emerald-400 mb-1">வணக்கம்! Welcome to {companyName} 👋</p>
+                <p className="font-semibold text-emerald-400 mb-1">வணக்கம்! {companyName} தங்களை அன்புடன் வரவேற்கிறது 👋</p>
                 <p className="text-slate-300">
-                  உங்கள் தங்கம் விற்பனை தொடர்பான விவரங்களை சேகரிக்க சில கேள்விகள் கேட்கிறோம்.
+                  உங்கள் தங்கம் விற்பனை தொடர்பான விவரங்களை சேகரிக்க சில எளிய கேள்விகள் கேட்கிறோம்.
                 </p>
               </div>
             </div>
@@ -194,7 +245,13 @@ export default function WhatsAppFloat({
                       <span className="text-[11px] font-extrabold">{idx + 1}</span>
                     </div>
                     <div className="bg-[#202C33] text-slate-200 text-[13px] leading-relaxed p-3.5 rounded-2xl rounded-tl-xs border border-white/5 shadow-sm max-w-[290px]">
-                      <p className="font-semibold text-white">{step.question}</p>
+                      {step.greeting && (
+                        <p className="text-[11px] font-bold text-emerald-400 mb-0.5 tracking-wide">{step.greeting}</p>
+                      )}
+                      <p className="font-semibold text-white text-[13px] leading-snug">{step.question}</p>
+                      {step.hint && (
+                        <p className="text-slate-400 text-[11px] mt-1">{step.hint}</p>
+                      )}
                     </div>
                   </div>
 
@@ -209,26 +266,26 @@ export default function WhatsAppFloat({
                   ) : (
                     /* If current step — show selectable options */
                     idx === currentStep && !isComplete && (
-                      <div className="ml-9.5 space-y-1.5">
+                      <div className={`ml-9.5 space-y-1.5 ${step.options.length > 5 ? 'max-h-[220px] overflow-y-auto pr-1' : ''}`}>
                         {step.options.map((option) => (
                           <button
                               key={option}
                               onClick={() => handleSelectOption(option)}
-                              className="w-full p-2.5 rounded-xl text-left text-[12.5px] font-semibold transition-all flex items-center justify-between group cursor-pointer border bg-[#111B21] hover:bg-[#005C4B] border-white/5 hover:border-emerald-400/50 text-slate-300 hover:text-white active:scale-[0.98]"
+                              className="w-full p-2.5 rounded-xl text-left text-[12px] font-semibold transition-all flex items-center justify-between group cursor-pointer border bg-[#111B21] hover:bg-[#005C4B] border-white/5 hover:border-emerald-400/50 text-slate-300 hover:text-white active:scale-[0.98]"
                             >
-                              <span className="flex items-center gap-2.5">
-                                <span className="w-5 h-5 rounded-md border-2 border-slate-500 group-hover:border-emerald-400 group-hover:bg-emerald-500/20 flex items-center justify-center shrink-0 transition-all">
-                                  <Check size={12} className="text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                              <span className="flex items-center gap-2.5 min-w-0 pr-2">
+                                <span className="w-4.5 h-4.5 rounded-full border-2 border-slate-500 group-hover:border-emerald-400 group-hover:bg-emerald-500/20 flex items-center justify-center shrink-0 transition-all">
+                                  <span className="w-2 h-2 rounded-full bg-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                                 </span>
-                                <span>{option}</span>
+                                <span className="break-words leading-tight">{option}</span>
                               </span>
                               {idx === CHAT_QUESTIONS.length - 1 ? (
-                                <span className="flex items-center gap-1 text-[11px] font-medium text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span className="flex items-center gap-1 text-[11px] font-medium text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
                                   <WhatsAppIcon className="w-3.5 h-3.5 fill-emerald-400" />
                                   <ChevronRight size={13} className="shrink-0" />
                                 </span>
                               ) : (
-                                <span className="text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span className="text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
                                   <ChevronRight size={14} className="shrink-0" />
                                 </span>
                               )}

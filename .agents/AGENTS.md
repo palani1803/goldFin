@@ -7,4 +7,4 @@
   - Maintain equal card heights (`items-stretch`, `h-full`, `flex flex-col justify-between`), consistent padding, and aligned headers/footers.
   - Avoid awkward text wrapping or cramped labels by properly calibrating typography sizes, tag widths, and responsive grid column spans (`sm:`, `md:`, `lg:`, `xl:`).
   - Verify aesthetic polish, color harmony, and layout proportion on every change.
-
+- **Restricted Contact Numbers Directive**: Do NOT use or display any phone numbers starting with '97916' (specifically 97916 24169). For Sivakasi, always use 88385 43387.
