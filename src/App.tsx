@@ -68,13 +68,13 @@ function App() {
         window.history.replaceState(null, '', `/contact${search}`)
         return 'contact'
       }
-      if (cleanHash === 'admin') {
+      if (cleanHash === 'admin-dashboard-panel' || cleanHash === 'admin') {
         const token = localStorage.getItem('adminToken')
-        window.history.replaceState(null, '', '/admin')
+        window.history.replaceState(null, '', '/admin-dashboard-panel')
         return token ? 'admin' : 'admin-login'
       }
       if (cleanHash === 'admin-login') {
-        window.history.replaceState(null, '', '/admin-login')
+        window.history.replaceState(null, '', '/admin-dashboard-panel')
         return 'admin-login'
       }
       // Clean generic or empty hash to root
@@ -83,11 +83,17 @@ function App() {
 
     // Clean pathname routing
     const path = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/'
-    if (path === '/admin') {
+    if (path === '/admin-dashboard-panel' || path === '/admin') {
       const token = localStorage.getItem('adminToken')
+      if (path === '/admin') {
+        window.history.replaceState(null, '', '/admin-dashboard-panel')
+      }
       return token ? 'admin' : 'admin-login'
     }
-    if (path === '/admin-login') return 'admin-login'
+    if (path === '/admin-login') {
+      window.history.replaceState(null, '', '/admin-dashboard-panel')
+      return 'admin-login'
+    }
     if (path === '/contact' || path === '/contact-us') return 'contact'
     if (path === '/about' || path === '/about-us') return 'about'
     if (path === '/branches' || path === '/branch') return 'branches'
@@ -130,7 +136,10 @@ function App() {
       const url = page === 'contact' ? `/contact?city=${encodeURIComponent(branchCity)}` : `/${page}`
       window.history.pushState(null, '', url)
     } else {
-      window.history.pushState(null, '', page === 'home' ? '/' : `/${page}`)
+      let targetPath = `/${page}`
+      if (page === 'home') targetPath = '/'
+      else if (page === 'admin' || page === 'admin-login') targetPath = '/admin-dashboard-panel'
+      window.history.pushState(null, '', targetPath)
     }
     setCurrentPage(page)
     window.scrollTo({ top: 0, behavior: 'smooth' })
