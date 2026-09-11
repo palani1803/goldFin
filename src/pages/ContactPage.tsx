@@ -235,21 +235,46 @@ const FALLBACK_BRANCHES: BranchInfo[] = [
       'Spot Gold Buying with Instant Settlement',
       'Certified BIS Hallmarking Verification'
     ]
+  },
+  {
+    id: 'sivagiri',
+    name: 'Sivagiri Branch',
+    shortName: 'Sivagiri Branch',
+    tag: 'REGIONAL SERVICE HUB',
+    city: 'Sivagiri',
+    district: 'Tenkasi District',
+    pincode: '627757',
+    address: 'No. 92/1-11, Main Road Street, Sivagiri - 627 757',
+    landmark: 'Near Main Bazaar Street',
+    phone: '+91 88385 43387',
+    rawPhone: '8838543387',
+    email: 'sivagiri@mahesbankers.com',
+    hours: 'Mon–Sat: 9:00 AM – 6:30 PM',
+    sundayHours: 'Sunday: Closed (Digital Desk 24/7)',
+    manager: 'Branch Manager',
+    mapEmbedUrl: 'https://maps.google.com/maps?q=Sivagiri,+Tamil+Nadu,+India&t=&z=15&ie=UTF8&iwloc=&output=embed',
+    directionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=Sivagiri,+Tamil+Nadu',
+    fullMapUrl: 'https://www.google.com/maps/search/?api=1&query=Sivagiri,+Tamil+Nadu',
+    features: [
+      'Instant 15-Minute Gold Loan Sanctions',
+      'German XRF Purity Karatmeter',
+      'Safe Insured Bank Vault Storage'
+    ]
   }
 ]
 
-const SIVAKASI_PHOTOS = [
+const SIVAGIRI_PHOTOS = [
   {
     id: 'img-1',
-    title: 'Mahes Bankers Sivakasi Entrance & Board',
-    subtitle: 'No. 2005/1, P.K.N. Road, Sivakasi - 626 189',
-    url: '/branches/sivakasi/sivakasi_img_1.jpg',
+    title: 'Mahes Bankers Sivagiri Entrance & Board',
+    subtitle: 'No. 92/1-11, Main Road Street, Sivagiri - 627 757',
+    url: '/branches/sivagiri/sivagiri_img_1.jpg',
   },
   {
     id: 'img-2',
-    title: 'Sivakasi Front Customer Desk',
+    title: 'Sivagiri Front Customer Desk',
     subtitle: 'Ground-Floor Service Counter & Customer Lounge',
-    url: '/branches/sivakasi/sivakasi_img_2.jpg',
+    url: '/branches/sivagiri/sivagiri_img_2.jpg',
   }
 ]
 
@@ -345,10 +370,10 @@ export default function ContactPage({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setLightboxIndex(null)
       if (e.key === 'ArrowLeft') {
-        setLightboxIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : SIVAKASI_PHOTOS.length - 1))
+        setLightboxIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : SIVAGIRI_PHOTOS.length - 1))
       }
       if (e.key === 'ArrowRight') {
-        setLightboxIndex((prev) => (prev !== null && prev < SIVAKASI_PHOTOS.length - 1 ? prev + 1 : 0))
+        setLightboxIndex((prev) => (prev !== null && prev < SIVAGIRI_PHOTOS.length - 1 ? prev + 1 : 0))
       }
     }
     window.addEventListener('keydown', handleKeyDown)
@@ -693,8 +718,8 @@ export default function ContactPage({
           </div>
         </section>
 
-        {/* SECTION 3: SIVAKASI BRANCH LIVE MEDIA SHOWCASE (2 PHOTOS + 3 VIDEOS) */}
-        {activeBranch.city.toLowerCase().includes('sivakasi') && (
+        {/* SECTION 3: SIVAGIRI BRANCH LIVE MEDIA SHOWCASE (2 PHOTOS + 3 VIDEOS) */}
+        {activeBranch.city.toLowerCase().includes('sivagiri') && (
           <section className="rounded-3xl bg-gradient-to-br from-white via-orange-50/20 to-white border-2 border-orange-200 p-5 sm:p-7 shadow-[0_4px_25px_rgba(249,115,22,0.1)] flex flex-col gap-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-orange-100">
               <div className="flex flex-col gap-1">
@@ -703,10 +728,10 @@ export default function ContactPage({
                   <span>BRANCH WALKTHROUGH • 2 PHOTOS & 3 VIDEOS</span>
                 </div>
                 <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                  Sivakasi Main Branch — Store Photos & Video Walkthrough
+                  Sivagiri Branch — Store Photos & Video Walkthrough
                 </h3>
                 <p className="text-xs text-slate-500">
-                  Take a visual walk-in tour of our Sivakasi headquarters located at No. 2005/1, P.K.N. Road.
+                  Take a visual walk-in tour of our Sivagiri branch located at No. 92/1-11, Main Road Street, Sivagiri.
                 </p>
               </div>
 
@@ -723,7 +748,7 @@ export default function ContactPage({
               <div className="flex flex-col gap-2 rounded-2xl bg-slate-950 border border-slate-800 p-3 shadow-md">
                 <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-black flex items-center justify-center">
                   <video
-                    src="/branches/sivakasi/sivakasi_vid_3.mp4"
+                    src="/branches/sivagiri/sivagiri_vid_3.mp4"
                     controls
                     playsInline
                     preload="metadata"
@@ -732,7 +757,7 @@ export default function ContactPage({
                 </div>
                 <div className="px-1 py-1">
                   <span className="text-[10.5px] font-extrabold uppercase text-orange-400">Video Walkthrough 1</span>
-                  <h4 className="text-xs sm:text-sm font-black text-white mt-0.5">Sivakasi Branch Facility Tour</h4>
+                  <h4 className="text-xs sm:text-sm font-black text-white mt-0.5">Sivagiri Branch Facility Tour</h4>
                   <p className="text-[11px] text-slate-400 mt-0.5">Full customer walk-in experience</p>
                 </div>
               </div>
@@ -741,7 +766,7 @@ export default function ContactPage({
               <div className="flex flex-col gap-2 rounded-2xl bg-slate-950 border border-slate-800 p-3 shadow-md">
                 <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-black flex items-center justify-center">
                   <video
-                    src="/branches/sivakasi/sivakasi_vid_2.mp4"
+                    src="/branches/sivagiri/sivagiri_vid_2.mp4"
                     controls
                     playsInline
                     preload="metadata"
@@ -759,7 +784,7 @@ export default function ContactPage({
               <div className="flex flex-col gap-2 rounded-2xl bg-slate-950 border border-slate-800 p-3 shadow-md">
                 <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-black flex items-center justify-center">
                   <video
-                    src="/branches/sivakasi/sivakasi_vid_1.mp4"
+                    src="/branches/sivagiri/sivagiri_vid_1.mp4"
                     controls
                     playsInline
                     preload="metadata"
@@ -780,8 +805,8 @@ export default function ContactPage({
               >
                 <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-slate-100 group/img">
                   <img
-                    src="/branches/sivakasi/sivakasi_img_1.jpg"
-                    alt="Mahes Bankers Sivakasi Entrance & Board"
+                    src="/branches/sivagiri/sivagiri_img_1.jpg"
+                    alt="Mahes Bankers Sivagiri Entrance & Board"
                     className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
@@ -805,7 +830,7 @@ export default function ContactPage({
                   <h4 className="text-xs sm:text-sm font-black text-slate-900 group-hover:text-orange-600 transition-colors mt-0.5">
                     Official Signboard & Entrance
                   </h4>
-                  <p className="text-[11px] text-slate-500">No. 2005/1, P.K.N. Road, Sivakasi</p>
+                  <p className="text-[11px] text-slate-500">No. 92/1-11, Main Road Street, Sivagiri</p>
                 </div>
               </div>
 
@@ -816,8 +841,8 @@ export default function ContactPage({
               >
                 <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-slate-100 group/img">
                   <img
-                    src="/branches/sivakasi/sivakasi_img_2.jpg"
-                    alt="Sivakasi Front Customer Desk"
+                    src="/branches/sivagiri/sivagiri_img_2.jpg"
+                    alt="Sivagiri Front Customer Desk"
                     className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
@@ -853,7 +878,7 @@ export default function ContactPage({
         <TrustBanner />
 
         {/* FULLSCREEN IMAGE LIGHTBOX MODAL */}
-        {lightboxIndex !== null && SIVAKASI_PHOTOS[lightboxIndex] && (
+        {lightboxIndex !== null && SIVAGIRI_PHOTOS[lightboxIndex] && (
           <div
             className="fixed inset-0 z-[80] flex items-center justify-center p-3 sm:p-6 bg-black/92 backdrop-blur-md animate-fadeIn select-none"
             onClick={() => setLightboxIndex(null)}
@@ -861,7 +886,7 @@ export default function ContactPage({
             {/* Top Bar Floating Controls */}
             <div className="absolute top-4 right-4 z-20 flex items-center gap-3">
               <span className="px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-white text-xs font-bold border border-white/20 shadow-md">
-                {lightboxIndex + 1} / {SIVAKASI_PHOTOS.length}
+                {lightboxIndex + 1} / {SIVAGIRI_PHOTOS.length}
               </span>
               <button
                 type="button"
@@ -874,13 +899,13 @@ export default function ContactPage({
             </div>
 
             {/* Previous Image Arrow */}
-            {SIVAKASI_PHOTOS.length > 1 && (
+            {SIVAGIRI_PHOTOS.length > 1 && (
               <>
                 <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation()
-                    setLightboxIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : SIVAKASI_PHOTOS.length - 1))
+                    setLightboxIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : SIVAGIRI_PHOTOS.length - 1))
                   }}
                   className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/60 hover:bg-[#FF6B00] text-white flex items-center justify-center transition-all border border-white/20 cursor-pointer shadow-xl active:scale-95"
                   aria-label="Previous image"
@@ -891,7 +916,7 @@ export default function ContactPage({
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation()
-                    setLightboxIndex((prev) => (prev !== null && prev < SIVAKASI_PHOTOS.length - 1 ? prev + 1 : 0))
+                    setLightboxIndex((prev) => (prev !== null && prev < SIVAGIRI_PHOTOS.length - 1 ? prev + 1 : 0))
                   }}
                   className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/60 hover:bg-[#FF6B00] text-white flex items-center justify-center transition-all border border-white/20 cursor-pointer shadow-xl active:scale-95"
                   aria-label="Next image"
@@ -908,8 +933,8 @@ export default function ContactPage({
             >
               <div className="relative rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)] border border-white/15 bg-black/40 flex items-center justify-center max-h-[78vh]">
                 <img
-                  src={SIVAKASI_PHOTOS[lightboxIndex].url}
-                  alt={SIVAKASI_PHOTOS[lightboxIndex].title}
+                  src={SIVAGIRI_PHOTOS[lightboxIndex].url}
+                  alt={SIVAGIRI_PHOTOS[lightboxIndex].title}
                   className="max-w-full max-h-[78vh] w-auto h-auto object-contain rounded-2xl"
                 />
               </div>
@@ -917,10 +942,10 @@ export default function ContactPage({
               {/* Bottom Caption Bar */}
               <div className="mt-3 text-center px-4 max-w-2xl">
                 <h3 className="text-base sm:text-lg font-black text-white tracking-tight">
-                  {SIVAKASI_PHOTOS[lightboxIndex].title}
+                  {SIVAGIRI_PHOTOS[lightboxIndex].title}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 mt-0.5 font-medium">
-                  {SIVAKASI_PHOTOS[lightboxIndex].subtitle}
+                  {SIVAGIRI_PHOTOS[lightboxIndex].subtitle}
                 </p>
               </div>
             </div>

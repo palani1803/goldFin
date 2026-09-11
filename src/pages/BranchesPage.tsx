@@ -23,6 +23,7 @@ import branchJewelNecklace from '../assets/branch_jewel_necklace.jpg'
 import branchJewelJhumkas from '../assets/branch_jewel_jhumkas.jpg'
 import branchJewelBangles from '../assets/branch_jewel_bangles.jpg'
 import branchJewelRings from '../assets/branch_jewel_rings.jpg'
+import bankVaultGold from '../assets/bank_vault_gold.jpg'
 
 export interface BranchesPageProps {
   onNavigateHome?: () => void
@@ -44,7 +45,7 @@ interface BranchItem {
   image?: string
 }
 
-// Real branch media for Sivakasi
+// Real branch media for Sivagiri
 export interface BranchMediaItem {
   id: string
   type: 'image' | 'video'
@@ -53,48 +54,49 @@ export interface BranchMediaItem {
   url: string
 }
 
-const SIVAKASI_MEDIA: BranchMediaItem[] = [
+const SIVAGIRI_MEDIA: BranchMediaItem[] = [
   {
     id: 'vid-1',
     type: 'video',
-    title: 'Sivakasi Branch Facility Tour',
+    title: 'Sivagiri Branch Facility Tour',
     subtitle: 'Official Branch Video Walkthrough',
-    url: '/branches/sivakasi/sivakasi_vid_3.mp4',
+    url: '/branches/sivagiri/sivagiri_vid_3.mp4',
   },
   {
     id: 'vid-2',
     type: 'video',
     title: 'Counter & Customer Appraisal Desk',
     subtitle: 'Inside Valuation & Gold Desk',
-    url: '/branches/sivakasi/sivakasi_vid_2.mp4',
+    url: '/branches/sivagiri/sivagiri_vid_2.mp4',
   },
   {
     id: 'vid-3',
     type: 'video',
     title: 'Branch Front Walkthrough',
     subtitle: 'Street Entrance Walk-in View',
-    url: '/branches/sivakasi/sivakasi_vid_1.mp4',
+    url: '/branches/sivagiri/sivagiri_vid_1.mp4',
   },
   {
     id: 'img-1',
     type: 'image',
-    title: 'Mahes Bankers Sivakasi Entrance & Board',
-    subtitle: 'No. 2005/1, P.K.N. Road, Sivakasi - 626 189',
-    url: '/branches/sivakasi/sivakasi_img_1.jpg',
+    title: 'Mahes Bankers Sivagiri Entrance & Board',
+    subtitle: 'No. 92/1-11, Main Road Street, Sivagiri - 627 757',
+    url: '/branches/sivagiri/sivagiri_img_1.jpg',
   },
   {
     id: 'img-2',
     type: 'image',
-    title: 'Sivakasi Front Customer Desk',
+    title: 'Sivagiri Front Customer Desk',
     subtitle: 'Ground-Floor Service Counter & Customer Lounge',
-    url: '/branches/sivakasi/sivakasi_img_2.jpg',
+    url: '/branches/sivagiri/sivagiri_img_2.jpg',
   }
 ]
 
-export const SIVAKASI_PHOTOS = SIVAKASI_MEDIA.filter((m) => m.type === 'image')
+export const SIVAGIRI_PHOTOS = SIVAGIRI_MEDIA.filter((m) => m.type === 'image')
 
 const BRANCH_IMAGES: Record<string, string> = {
-  sivakasi: '/branches/sivakasi/sivakasi_img_2.jpg',
+  sivagiri: '/branches/sivagiri/sivagiri_img_2.jpg',
+  sivakasi: bankVaultGold,
   srivilliputhur: branchJewelJhumkas,
   puthupatti: branchJewelBangles,
   'm.puthupatti': branchJewelBangles,
@@ -123,7 +125,7 @@ export default function BranchesPage({
   const companyName = settings.siteName || 'Mahes Bankers'
   const [branches, setBranches] = useState<BranchItem[]>([])
   const [loading, setLoading] = useState(true)
-  const [showSivakasiModal, setShowSivakasiModal] = useState(false)
+  const [showSivagiriModal, setShowSivagiriModal] = useState(false)
   const [activeMediaFilter, setActiveMediaFilter] = useState<'all' | 'videos' | 'photos'>('all')
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
@@ -173,10 +175,10 @@ export default function BranchesPage({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setLightboxIndex(null)
       if (e.key === 'ArrowLeft') {
-        setLightboxIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : SIVAKASI_PHOTOS.length - 1))
+        setLightboxIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : SIVAGIRI_PHOTOS.length - 1))
       }
       if (e.key === 'ArrowRight') {
-        setLightboxIndex((prev) => (prev !== null && prev < SIVAKASI_PHOTOS.length - 1 ? prev + 1 : 0))
+        setLightboxIndex((prev) => (prev !== null && prev < SIVAGIRI_PHOTOS.length - 1 ? prev + 1 : 0))
       }
     }
     window.addEventListener('keydown', handleKeyDown)
@@ -184,8 +186,8 @@ export default function BranchesPage({
   }, [lightboxIndex])
 
   const handleBranchClick = (city?: string) => {
-    if (city && city.toLowerCase().includes('sivakasi')) {
-      setShowSivakasiModal(true)
+    if (city && city.toLowerCase().includes('sivagiri')) {
+      setShowSivagiriModal(true)
       return
     }
     navigateToContact(city)
@@ -206,6 +208,7 @@ export default function BranchesPage({
   const getLocalizedName = (branch: BranchItem) => {
     const c = branch.city.toLowerCase()
     if (c.includes('sivakasi')) return 'Sivakasi Main Branch & Vault'
+    if (c.includes('sivagiri')) return 'Sivagiri Branch'
     if (c.includes('srivilliputhur')) return 'Srivilliputhur Branch'
     if (c.includes('puthupatti')) return 'M.Puthupatti Rural Center'
     if (c.includes('rajapalayam')) return 'Rajapalayam Branch'
@@ -327,11 +330,11 @@ export default function BranchesPage({
 
                     {/* Action Buttons (Aligned to Bottom Baseline) */}
                     <div className="mt-6 w-full flex justify-center">
-                      {branch.city.toLowerCase().includes('sivakasi') ? (
+                      {branch.city.toLowerCase().includes('sivagiri') ? (
                         <div className="flex flex-col sm:flex-row items-center gap-2.5 w-full justify-center">
                           <button
                             type="button"
-                            onClick={() => setShowSivakasiModal(true)}
+                            onClick={() => setShowSivagiriModal(true)}
                             className="w-full sm:w-auto py-3 px-5 rounded-xl font-extrabold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer border-0 shadow-md bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white hover:brightness-110 active:scale-[0.98]"
                           >
                             <Video size={14} />
@@ -474,11 +477,11 @@ export default function BranchesPage({
         <TrustBanner />
       </main>
 
-      {/* Sivakasi Branch Media Modal (2 Images & 3 Videos) */}
-      {showSivakasiModal && (
+      {/* Sivagiri Branch Media Modal (2 Images & 3 Videos) */}
+      {showSivagiriModal && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/80 backdrop-blur-md animate-fadeIn"
-          onClick={() => setShowSivakasiModal(false)}
+          onClick={() => setShowSivagiriModal(false)}
         >
           <div
             className="relative w-full max-w-4xl max-h-[92vh] bg-white rounded-3xl shadow-2xl border border-orange-200 overflow-hidden flex flex-col"
@@ -493,23 +496,23 @@ export default function BranchesPage({
                 <div className="flex flex-col">
                   <div className="flex items-center gap-2">
                     <span className="text-[10px] font-black uppercase tracking-wider bg-black/25 px-2 py-0.5 rounded-full">
-                      HQ & Vault
+                      Regional Hub
                     </span>
                     <span className="text-xs font-semibold text-orange-100">
-                      Virudhunagar District
+                      Tenkasi District
                     </span>
                   </div>
                   <h3 className="text-lg sm:text-xl font-black text-white leading-tight">
-                    Sivakasi Main Branch — Store Photos & Video Walkthrough
+                    Sivagiri Branch — Store Photos & Video Walkthrough
                   </h3>
                   <p className="text-xs text-orange-100 mt-0.5">
-                    No. 2005/1, P.K.N. Road, Sivakasi - 626 189 • Ph: 88385 43387
+                    No. 92/1-11, Main Road Street, Sivagiri - 627 757 • Ph: 88385 43387
                   </p>
                 </div>
               </div>
 
               <button
-                onClick={() => setShowSivakasiModal(false)}
+                onClick={() => setShowSivagiriModal(false)}
                 className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-colors border-0 cursor-pointer shrink-0"
                 aria-label="Close modal"
               >
@@ -565,7 +568,7 @@ export default function BranchesPage({
             {/* Modal Media Scrollable Grid */}
             <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(92vh-180px)]">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {SIVAKASI_MEDIA
+                {SIVAGIRI_MEDIA
                   .filter((item) =>
                     activeMediaFilter === 'all'
                       ? true
@@ -604,7 +607,7 @@ export default function BranchesPage({
                       <div
                         key={item.id}
                         onClick={() => {
-                          const idx = SIVAKASI_PHOTOS.findIndex((p) => p.id === item.id)
+                          const idx = SIVAGIRI_PHOTOS.findIndex((p) => p.id === item.id)
                           setLightboxIndex(idx >= 0 ? idx : 0)
                         }}
                         className="flex flex-col gap-2 rounded-2xl bg-white border border-orange-200/80 hover:border-orange-500/80 p-2.5 shadow-sm hover:shadow-lg transition-all cursor-pointer group"
@@ -655,8 +658,8 @@ export default function BranchesPage({
                 <button
                   type="button"
                   onClick={() => {
-                    setShowSivakasiModal(false)
-                    navigateToContact('Sivakasi')
+                    setShowSivagiriModal(false)
+                    navigateToContact('Sivagiri')
                   }}
                   className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-[#FF6B00] text-white text-xs font-black transition-colors flex items-center justify-center gap-1.5 cursor-pointer border-0 shadow-sm"
                 >
@@ -671,7 +674,7 @@ export default function BranchesPage({
       )}
 
       {/* FULLSCREEN IMAGE LIGHTBOX MODAL */}
-      {lightboxIndex !== null && SIVAKASI_PHOTOS[lightboxIndex] && (
+      {lightboxIndex !== null && SIVAGIRI_PHOTOS[lightboxIndex] && (
         <div
           className="fixed inset-0 z-[80] flex items-center justify-center p-3 sm:p-6 bg-black/92 backdrop-blur-md animate-fadeIn select-none"
           onClick={() => setLightboxIndex(null)}
@@ -679,7 +682,7 @@ export default function BranchesPage({
           {/* Top Bar Floating Controls */}
           <div className="absolute top-4 right-4 z-20 flex items-center gap-3">
             <span className="px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-white text-xs font-bold border border-white/20 shadow-md">
-              {lightboxIndex + 1} / {SIVAKASI_PHOTOS.length}
+              {lightboxIndex + 1} / {SIVAGIRI_PHOTOS.length}
             </span>
             <button
               type="button"
@@ -692,13 +695,13 @@ export default function BranchesPage({
           </div>
 
           {/* Previous Image Arrow */}
-          {SIVAKASI_PHOTOS.length > 1 && (
+          {SIVAGIRI_PHOTOS.length > 1 && (
             <>
               <button
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation()
-                  setLightboxIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : SIVAKASI_PHOTOS.length - 1))
+                  setLightboxIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : SIVAGIRI_PHOTOS.length - 1))
                 }}
                 className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/60 hover:bg-[#FF6B00] text-white flex items-center justify-center transition-all border border-white/20 cursor-pointer shadow-xl active:scale-95"
                 aria-label="Previous image"
@@ -709,7 +712,7 @@ export default function BranchesPage({
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation()
-                  setLightboxIndex((prev) => (prev !== null && prev < SIVAKASI_PHOTOS.length - 1 ? prev + 1 : 0))
+                  setLightboxIndex((prev) => (prev !== null && prev < SIVAGIRI_PHOTOS.length - 1 ? prev + 1 : 0))
                 }}
                 className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/60 hover:bg-[#FF6B00] text-white flex items-center justify-center transition-all border border-white/20 cursor-pointer shadow-xl active:scale-95"
                 aria-label="Next image"
@@ -726,8 +729,8 @@ export default function BranchesPage({
           >
             <div className="relative rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)] border border-white/15 bg-black/40 flex items-center justify-center max-h-[78vh]">
               <img
-                src={SIVAKASI_PHOTOS[lightboxIndex].url}
-                alt={SIVAKASI_PHOTOS[lightboxIndex].title}
+                src={SIVAGIRI_PHOTOS[lightboxIndex].url}
+                alt={SIVAGIRI_PHOTOS[lightboxIndex].title}
                 className="max-w-full max-h-[78vh] w-auto h-auto object-contain rounded-2xl"
               />
             </div>
@@ -735,10 +738,10 @@ export default function BranchesPage({
             {/* Bottom Caption Bar */}
             <div className="mt-3 text-center px-4 max-w-2xl">
               <h3 className="text-base sm:text-lg font-black text-white tracking-tight">
-                {SIVAKASI_PHOTOS[lightboxIndex].title}
+                {SIVAGIRI_PHOTOS[lightboxIndex].title}
               </h3>
               <p className="text-xs sm:text-sm text-slate-300 mt-0.5 font-medium">
-                {SIVAKASI_PHOTOS[lightboxIndex].subtitle}
+                {SIVAGIRI_PHOTOS[lightboxIndex].subtitle}
               </p>
             </div>
           </div>

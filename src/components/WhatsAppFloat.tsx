@@ -72,6 +72,13 @@ const CHAT_QUESTIONS: QuestionStep[] = [
     question: 'நீங்கள் எந்த பகுதியில் வசிக்கிறீர்கள்?',
     options: [
       'Thiruthangal - திருத்தங்கல்',
+      'Sivakasi - சிவகாசி',
+      'Srivilliputhur - ஸ்ரீவில்லிபுத்தூர்',
+      'Rajapalayam - ராஜபாளையம்',
+      'Settur - செட்டூர்',
+      'Sivagiri - சிவகிரி',
+      'Sattur - சாத்தூர்',
+      'Dhalavaipuram - தலவாய்புரம்',
       'Anaiyur - ஆணையூர்',
       'Satchiyapuram - சாட்சியாபுரம்',
       'Viswanatham - விஸ்வநாதம்',

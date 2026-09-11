@@ -10,7 +10,7 @@ import {
   ChevronDown,
   ChevronUp,
   Sparkles,
-  X,
+  MapPin,
   Scale,
   Award,
   BadgePercent
@@ -59,8 +59,6 @@ export default function GoldLoanPage({
   // FAQ Accordion State
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
 
-  // Modals & Application State
-  const [applyModalOpen, setApplyModalOpen] = useState<boolean>(false)
 
   // Fetch live rates from backend API
   const fetchRates = useCallback(async () => {
@@ -87,11 +85,16 @@ export default function GoldLoanPage({
   const rate24k = liveRates.find((r) => r.purityId === '24k')
   const rate22k = liveRates.find((r) => r.purityId === '22k')
 
-  const price24kPerGram = rate24k?.pricePerGram || 14852
-  const price22kPerGram = rate22k?.pricePerGram || 13614
+  const price24kPerGram = rate24k?.pricePerGram || 15289
+  const price22kPerGram = rate22k?.pricePerGram || 14015
 
   // Curated FAQ Items
   const curatedFaqs = [
+    {
+      question: 'நகைக்கடனுக்கான மாத வட்டி விகிதம் எவ்வளவு? (What is the interest rate?)',
+      answer:
+        'எங்களிடம் தங்க நகைக்கடனுக்கு மிகக் குறைந்த மாத வட்டி விகிதம் 1% முதல் 1.5% வரை மட்டுமே (அதாவது ரூ. 100-க்கு மாதம் ₹1 முதல் ₹1.50 மட்டுமே). எவ்வித மறைமுக கட்டணங்களும் (Zero Hidden Fees) அல்லது முன்கூட்டியே முடிப்பதற்கான அபராத கட்டணங்களும் கிடையாது. (We provide gold loans at an attractive 1% to 1.5% monthly interest with zero hidden fees and zero foreclosure charges).',
+    },
     {
       question: 'How much maximum loan can I get against my gold jewellery?',
       answer:
@@ -162,6 +165,162 @@ export default function GoldLoanPage({
           <p className="text-sm md:text-base text-slate-600 max-w-2xl leading-relaxed">
             Unlock maximum value against your gold jewellery at low interest rates with 15-minute cash or bank transfer, 100% insured bank vault storage, and zero hidden fees.
           </p>
+
+          {/* Hero Highlight Pill (Bilingual with prominent Tamil) */}
+          <div className="inline-flex items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2 rounded-full bg-gradient-to-r from-amber-500/10 via-orange-500/15 to-amber-500/10 border-2 border-orange-400 shadow-sm text-slate-900 transition-transform hover:scale-[1.02]">
+            <span className="flex h-2.5 w-2.5 relative shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#FF6B00]"></span>
+            </span>
+            <span className="text-xs sm:text-sm font-black text-slate-800 tracking-tight">
+              சிறப்புச் சலுகை: <span className="text-[#FF6B00] font-black text-sm sm:text-base">1% முதல் 1.5% வரை</span> குறைந்த மாத வட்டி!
+            </span>
+            <span className="hidden md:inline-block text-xs font-bold text-orange-600/80 border-l border-orange-300 pl-2.5">
+              1% – 1.5% Low Monthly Interest
+            </span>
+          </div>
+        </div>
+
+        {/* SPECIAL HIGHLIGHT: 1% TO 1.5% LOW MONTHLY INTEREST & BENEFIT PILLARS */}
+        <div className="relative overflow-hidden rounded-3xl bg-white border border-slate-200/90 p-7 sm:p-9 md:p-10 shadow-[0_12px_40px_rgba(0,0,0,0.04)] backdrop-blur-xl flex flex-col gap-8">
+          {/* Top subtle gradient accent line */}
+          <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-400 via-[#FF6B00] to-orange-500" />
+
+          {/* Section Header: Title + Context + View Branches Action */}
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2 border-b border-slate-100">
+            <div className="flex flex-col gap-2 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-bold tracking-wider uppercase w-fit">
+                <Sparkles size={14} className="text-[#FF6B00]" />
+                <span>சிறப்பு வட்டி விகிதம் • TRANSPARENT INTEREST RATE</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl md:text-[2rem] font-extrabold text-slate-900 tracking-tight leading-tight">
+                மாத வட்டி வெறும் <span className="text-[#FF6B00]">1% முதல் 1.5% வரை</span> மட்டுமே!
+                <span className="block text-sm sm:text-base font-semibold text-slate-500 mt-1 font-sans">
+                  Transparent Monthly Gold Loan Rates & Immediate Sanctions
+                </span>
+              </h2>
+              <p className="text-sm text-slate-600 leading-relaxed font-normal">
+                ரூபாய் 100-க்கு மாதத்திற்கு வெறும் <strong className="text-slate-900 font-bold">₹1 முதல் ₹1.50 மட்டுமே</strong> வட்டி. எவ்வித மறைமுகக் கட்டணங்களும் இன்றி உங்கள் தங்க நகைகளுக்கு அதிகபட்ச மதிப்பும் 15 நிமிடங்களில் ரொக்கமும் பெற்று பயனடையுங்கள்.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  if (onNavigateBranches) onNavigateBranches()
+                  else if (onNavigateContact) onNavigateContact()
+                  else window.location.href = '/branches'
+                }}
+                className="px-5 py-3 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center gap-2 cursor-pointer border-0 shadow-sm bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white hover:brightness-110 active:scale-[0.98]"
+              >
+                <MapPin size={16} />
+                <span>கிளைகளைப் பார்க்க / View Branches</span>
+              </button>
+              <span className="text-[11px] font-medium text-slate-400">
+                நேரில் வருகை தரவும் • Direct Walk-in
+              </span>
+            </div>
+          </div>
+
+          {/* 3 Balanced Feature Cards (Equal Height, Responsive Grid) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 items-stretch">
+            {/* Card 1: Interest Rate (Hero Highlight Card with subtle warm gradient) */}
+            <div className="p-6 sm:p-7 rounded-2xl bg-gradient-to-b from-orange-50/70 via-amber-50/40 to-white border-2 border-orange-300/80 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between gap-5 group">
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-orange-700 bg-orange-100/80 px-3 py-1 rounded-full border border-orange-200">
+                    மாத வட்டி • Monthly Rate
+                  </span>
+                  <div className="w-9 h-9 rounded-xl bg-orange-100 text-[#FF6B00] flex items-center justify-center shadow-2xs">
+                    <BadgePercent size={20} />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                    1% <span className="text-xl font-bold text-slate-500">முதல்</span> 1.5%
+                  </div>
+                  <span className="text-xs font-semibold text-slate-500 block mt-1">
+                    குறைந்த மாத வட்டி விகிதம் (Per Month)
+                  </span>
+                </div>
+
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  ரூபாய் 100-க்கு மாதத்திற்கு வெறும் <strong className="text-slate-900 font-bold">₹1 முதல் ₹1.50 மட்டுமே</strong> வட்டி கணக்கிடப்படுகிறது.
+                </p>
+              </div>
+
+              <div className="pt-3 border-t border-orange-200/60 flex items-center justify-between text-[11px] font-bold text-orange-700">
+                <span>வட்டி கணக்கீடு</span>
+                <span>₹1 – ₹1.50 / ₹100</span>
+              </div>
+            </div>
+
+            {/* Card 2: Highest Valuation & 15-Min Disbursal */}
+            <div className="p-6 sm:p-7 rounded-2xl bg-slate-50/70 hover:bg-white border border-slate-200/80 hover:border-orange-300/80 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between gap-5 group">
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-600 bg-white px-3 py-1 rounded-full border border-slate-200">
+                    அதிக கடன் மதிப்பு • Max LTV
+                  </span>
+                  <div className="w-9 h-9 rounded-xl bg-slate-200/70 text-slate-700 group-hover:bg-orange-100 group-hover:text-[#FF6B00] transition-colors flex items-center justify-center shadow-2xs">
+                    <Zap size={20} />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                    Up to 75%
+                  </div>
+                  <span className="text-xs font-semibold text-slate-500 block mt-1">
+                    நேரடி சந்தை மதிப்பு (RBI Benchmark LTV)
+                  </span>
+                </div>
+
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  உங்கள் தங்க நகையின் நேரடி சந்தை விலைக்கு ஏற்ப அதிகபட்ச கடன் மதிப்பீடு செய்யப்பட்டு 15 நிமிடங்களில் வழங்கப்படுகிறது.
+                </p>
+              </div>
+
+              <div className="pt-3 border-t border-slate-200/70 flex items-center justify-between text-[11px] font-bold text-slate-700 group-hover:text-orange-600 transition-colors">
+                <span>பட்டுவாடா நேரம்</span>
+                <span>15 நிமிடங்கள் • உடனடி ரொக்கம்</span>
+              </div>
+            </div>
+
+            {/* Card 3: Zero Hidden Fees & 100% Vault Safety */}
+            <div className="p-6 sm:p-7 rounded-2xl bg-slate-50/70 hover:bg-white border border-slate-200/80 hover:border-orange-300/80 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between gap-5 group">
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                    முழு வெளிப்படைத்தன்மை
+                  </span>
+                  <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 group-hover:bg-emerald-600 group-hover:text-white transition-colors flex items-center justify-center shadow-2xs">
+                    <ShieldCheck size={20} />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="text-3xl sm:text-4xl font-black text-emerald-600 tracking-tight">
+                    0% Extra Fees
+                  </div>
+                  <span className="text-xs font-semibold text-slate-500 block mt-1">
+                    எவ்வித மறைமுக கட்டணங்களும் இல்லை
+                  </span>
+                </div>
+
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  முன்கூட்டியே கடனை முடிக்க கூடுதல் அபராதக் கட்டணம் எதுவும் கிடையாது. நகைகள் 100% காப்பீடு செய்யப்பட்ட வங்கி லாக்கரில் பாதுகாக்கப்படுகிறது.
+                </p>
+              </div>
+
+              <div className="pt-3 border-t border-slate-200/70 flex items-center justify-between text-[11px] font-bold text-emerald-700">
+                <span>பாதுகாப்பு</span>
+                <span>100% காப்பீடு பெற்ற லாக்கர்</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Section 2: Maximum Value & Instant Cash Showcase Card (Image Left, Text Right) */}
@@ -209,7 +368,12 @@ export default function GoldLoanPage({
               </div>
               <div className="flex items-start gap-3 text-sm text-slate-700">
                 <CheckCircle2 size={18} className="text-[#FF6B00] shrink-0 mt-0.5" />
-                <span>Attractive Interest Starting from 0.75% Per Month</span>
+                <div>
+                  <span className="font-bold text-slate-900">1% முதல் 1.5% வரை மிகக் குறைந்த மாத வட்டி</span>
+                  <span className="text-xs text-slate-500 block font-normal mt-0.5">
+                    Affordable Interest starting strictly from 1% to 1.5% per month (₹1 – ₹1.50 per ₹100)
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -412,8 +576,8 @@ export default function GoldLoanPage({
             {[
               {
                 num: '01',
-                title: '1. Quick Apply',
-                desc: 'Apply online or visit any of our nearby regional branches.',
+                title: '1. Visit Branch',
+                desc: 'Walk into any of our nearby regional branches directly with your gold jewellery.',
               },
               {
                 num: '02',
@@ -580,76 +744,6 @@ export default function GoldLoanPage({
         }}
       />
 
-      {/* Instant Application Modal */}
-      {applyModalOpen && (
-        <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4"
-          onClick={() => setApplyModalOpen(false)}
-        >
-          <div
-            className="bg-white border border-slate-200 p-6 sm:p-8 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto flex flex-col gap-5 sm:gap-6 shadow-2xl relative text-slate-900"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <div className="flex items-center gap-2 text-slate-900 font-bold text-lg">
-                <Zap size={20} className="text-[#FF6B00]" />
-                <span>Quick Gold Loan Application</span>
-              </div>
-              <button
-                className="p-1.5 rounded-xl bg-slate-100 text-slate-500 hover:text-slate-900 border-0 cursor-pointer"
-                onClick={() => setApplyModalOpen(false)}
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-orange-50 border border-orange-200/80 flex flex-col gap-1 text-xs">
-              <span className="text-slate-600">{companyName} Instant Gold Loan</span>
-              <span className="text-lg font-black text-slate-900">
-                Up to 75% LTV sanctioned instantly
-              </span>
-              <span className="text-xs text-orange-600 font-semibold mt-1">
-                Attractive interest starting from 0.75% per month
-              </span>
-            </div>
-
-            <form
-              onSubmit={(e) => {
-                e.preventDefault()
-                alert('Application submitted successfully! Our loan specialist will contact you in 15 minutes.')
-                setApplyModalOpen(false)
-              }}
-              className="flex flex-col gap-3.5"
-            >
-              <input
-                type="text"
-                required
-                placeholder="Full Name (as per Aadhaar)"
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm focus:outline-none focus:border-[#FF6B00]"
-              />
-              <input
-                type="tel"
-                required
-                placeholder="Mobile Number"
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm focus:outline-none focus:border-[#FF6B00]"
-              />
-              <input
-                type="text"
-                required
-                placeholder="City / Pincode"
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm focus:outline-none focus:border-[#FF6B00]"
-              />
-
-              <button
-                type="submit"
-                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-sm hover:brightness-110 transition-all border-0 cursor-pointer mt-2 shadow-[0_6px_25px_rgba(249,115,22,0.35)]"
-              >
-                Submit Application
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

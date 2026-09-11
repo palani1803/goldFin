@@ -49,6 +49,18 @@ const DEFAULT_BRANCHES = [
     mapUrl: 'https://maps.google.com/maps?q=Rajapalayam,+Tamil+Nadu,+India',
     isActive: true,
   },
+  {
+    name: 'Sivagiri Branch',
+    address: 'No. 92/1-11, Main Road Street, Sivagiri - 627 757',
+    city: 'Sivagiri',
+    district: 'Tenkasi',
+    state: 'Tamil Nadu',
+    phone: '+91 88385 43387',
+    email: 'sivagiri@mahesbankers.com',
+    operatingHours: 'Mon–Sat: 9:00 AM – 6:30 PM',
+    mapUrl: 'https://maps.google.com/maps?q=Sivagiri,+Tamil+Nadu,+India',
+    isActive: true,
+  },
 ]
 
 // Auto-seed default branches into database ONLY if initial setup is needed

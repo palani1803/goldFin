@@ -88,7 +88,6 @@ export default function LiveRatePage({
 
   // Modals state
   const [activeInfoModal, setActiveInfoModal] = useState<{ title: string; content: string; icon: string } | null>(null)
-  const [applyModalOpen, setApplyModalOpen] = useState(false)
 
   // Fetch live rates from backend
   const fetchRates = useCallback(async () => {
@@ -189,11 +188,11 @@ export default function LiveRatePage({
   const rate18k = liveRates.find((r) => r.purityId === '18k')
   const rateSilver = liveRates.find((r) => r.purityId === 'silver')
 
-  const price24kPerGram = rate24k?.pricePerGram || 14852
-  const price22kPerGram = rate22k?.pricePerGram || 13614
+  const price24kPerGram = rate24k?.pricePerGram || 15289
+  const price22kPerGram = rate22k?.pricePerGram || 14015
   const price20kPerGram = rate20k?.pricePerGram || Math.round((price24kPerGram * 20) / 24)
   const price18kPerGram = rate18k?.pricePerGram || Math.round((price24kPerGram * 18) / 24)
-  const priceSilverPerGram = rateSilver?.pricePerGram || 233.11
+  const priceSilverPerGram = rateSilver?.pricePerGram || 245.00
 
   const change24k = rate24k?.changePercent ?? 0.11
   const isUp24k = rate24k?.isUp ?? true
@@ -1078,69 +1077,6 @@ export default function LiveRatePage({
         </div>
       )}
 
-      {/* 3. Apply Now Modal */}
-      {applyModalOpen && (
-        <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4"
-          onClick={() => setApplyModalOpen(false)}
-        >
-          <div
-            className="bg-white border border-slate-200 p-7 md:p-8 rounded-3xl max-w-md w-full flex flex-col gap-6 shadow-2xl relative text-slate-900"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <div className="flex items-center gap-2 text-slate-900 font-bold text-lg">
-                <Coins size={20} className="text-[#FF6B00]" />
-                <span>Apply for Gold Loan</span>
-              </div>
-              <button
-                className="p-1.5 rounded-xl bg-slate-100 text-slate-500 hover:text-slate-900 border-0 cursor-pointer"
-                onClick={() => setApplyModalOpen(false)}
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Get maximum loan amount against your gold jewellery at low interest rates starting from 0.75% per month (9% p.a.).
-            </p>
-
-            <form
-              onSubmit={(e) => {
-                e.preventDefault()
-                alert('Application submitted! Our gold loan advisor will call you shortly.')
-                setApplyModalOpen(false)
-              }}
-              className="flex flex-col gap-3.5"
-            >
-              <input
-                type="text"
-                required
-                placeholder="Full Name"
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm focus:outline-none focus:border-[#FF6B00]"
-              />
-              <input
-                type="tel"
-                required
-                placeholder="Phone Number"
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm focus:outline-none focus:border-[#FF6B00]"
-              />
-              <input
-                type="number"
-                required
-                placeholder="Estimated Gold Weight (Grams)"
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-2xl text-slate-900 text-sm focus:outline-none focus:border-[#FF6B00]"
-              />
-              <button
-                type="submit"
-                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-xs uppercase tracking-wider hover:brightness-110 transition-all border-0 cursor-pointer mt-2 shadow-[0_6px_25px_rgba(249,115,22,0.35)]"
-              >
-                Submit Gold Loan Request
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

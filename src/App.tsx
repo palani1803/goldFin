@@ -37,56 +37,90 @@ function App() {
     return null
   })
 
-  const [currentPage, setCurrentPage] = useState<PageType>(() => {
-    if (typeof window !== 'undefined') {
-      const path = window.location.pathname
-      if (path === '/admin') {
-        // Check if admin is authenticated
+  // Helper to extract page and clean up any legacy hash (e.g. #branches -> /branches)
+  const resolvePageFromLocation = (): PageType => {
+    if (typeof window === 'undefined') return 'home'
+
+    // If a hash exists (e.g. /#branches, #about), strip '#' and replace URL with clean pathname
+    if (window.location.hash) {
+      const rawHash = window.location.hash.replace(/^#\/?/, '')
+      const [hashRoute, hashQuery] = rawHash.split('?')
+      const cleanHash = hashRoute.toLowerCase()
+      const search = window.location.search || (hashQuery ? `?${hashQuery}` : '')
+
+      if (cleanHash === 'branches' || cleanHash === 'branch') {
+        window.history.replaceState(null, '', `/branches${search}`)
+        return 'branches'
+      }
+      if (cleanHash === 'live-rate' || cleanHash === 'live-rates' || cleanHash === 'liverate') {
+        window.history.replaceState(null, '', `/live-rate${search}`)
+        return 'live-rate'
+      }
+      if (cleanHash === 'gold-loan' || cleanHash === 'goldloan') {
+        window.history.replaceState(null, '', `/gold-loan${search}`)
+        return 'gold-loan'
+      }
+      if (cleanHash === 'about' || cleanHash === 'about-us') {
+        window.history.replaceState(null, '', `/about${search}`)
+        return 'about'
+      }
+      if (cleanHash === 'contact' || cleanHash === 'contact-us') {
+        window.history.replaceState(null, '', `/contact${search}`)
+        return 'contact'
+      }
+      if (cleanHash === 'admin') {
         const token = localStorage.getItem('adminToken')
+        window.history.replaceState(null, '', '/admin')
         return token ? 'admin' : 'admin-login'
       }
-      if (path === '/admin-login') return 'admin-login'
-      if (path === '/contact') return 'contact'
-      if (path === '/about') return 'about'
-      if (path === '/branches') return 'branches'
-      if (path === '/gold-loan') return 'gold-loan'
-      if (path === '/live-rate') return 'live-rate'
+      if (cleanHash === 'admin-login') {
+        window.history.replaceState(null, '', '/admin-login')
+        return 'admin-login'
+      }
+      // Clean generic or empty hash to root
+      window.history.replaceState(null, '', `/${search}`)
     }
+
+    // Clean pathname routing
+    const path = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/'
+    if (path === '/admin') {
+      const token = localStorage.getItem('adminToken')
+      return token ? 'admin' : 'admin-login'
+    }
+    if (path === '/admin-login') return 'admin-login'
+    if (path === '/contact' || path === '/contact-us') return 'contact'
+    if (path === '/about' || path === '/about-us') return 'about'
+    if (path === '/branches' || path === '/branch') return 'branches'
+    if (path === '/gold-loan' || path === '/goldloan') return 'gold-loan'
+    if (path === '/live-rate' || path === '/live-rates' || path === '/liverate') return 'live-rate'
+
     return 'home'
-  })
+  }
+
+  const [currentPage, setCurrentPage] = useState<PageType>(() => resolvePageFromLocation())
 
   useEffect(() => {
-    const handlePopState = () => {
-      const path = window.location.pathname
+    // Immediately ensure URL is clean on mount (converts any /#branches to /branches)
+    const page = resolvePageFromLocation()
+    setCurrentPage(page)
+
+    const handleLocationChange = () => {
+      const newPage = resolvePageFromLocation()
       const params = new URLSearchParams(window.location.search)
       const branchCity = params.get('city') || params.get('branch')
       if (branchCity) {
         setSelectedBranchCity(branchCity)
         localStorage.setItem('selectedContactBranch', branchCity)
       }
-
-      if (path === '/admin') {
-        const token = localStorage.getItem('adminToken')
-        setCurrentPage(token ? 'admin' : 'admin-login')
-      } else if (path === '/admin-login') {
-        setCurrentPage('admin-login')
-      } else if (path === '/contact') {
-        setCurrentPage('contact')
-      } else if (path === '/about') {
-        setCurrentPage('about')
-      } else if (path === '/branches') {
-        setCurrentPage('branches')
-      } else if (path === '/gold-loan') {
-        setCurrentPage('gold-loan')
-      } else if (path === '/live-rate') {
-        setCurrentPage('live-rate')
-      } else {
-        setCurrentPage('home')
-      }
+      setCurrentPage(newPage)
     }
 
-    window.addEventListener('popstate', handlePopState)
-    return () => window.removeEventListener('popstate', handlePopState)
+    window.addEventListener('popstate', handleLocationChange)
+    window.addEventListener('hashchange', handleLocationChange)
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange)
+      window.removeEventListener('hashchange', handleLocationChange)
+    }
   }, [])
 
   const navigateTo = (page: PageType, branchCity?: string) => {

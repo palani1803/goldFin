@@ -414,11 +414,11 @@ export default function HomePage({
   const shop18k = shopRates.find((r) => r.purityId === '18k')?.pricePerGram || 0
   const shopSilver = shopRates.find((r) => r.purityId === 'silver')?.pricePerGram || 0
 
-  const live24k = liveRates.find((r) => r.purityId === '24k')?.pricePerGram || 14852
-  const live22k = liveRates.find((r) => r.purityId === '22k')?.pricePerGram || 13614
-  const live20k = liveRates.find((r) => r.purityId === '20k')?.pricePerGram || 12377
-  const live18k = liveRates.find((r) => r.purityId === '18k')?.pricePerGram || 11139
-  const liveSilver = liveRates.find((r) => r.purityId === 'silver')?.pricePerGram || 233.11
+  const live24k = liveRates.find((r) => r.purityId === '24k')?.pricePerGram || 15289
+  const live22k = liveRates.find((r) => r.purityId === '22k')?.pricePerGram || 14015
+  const live20k = liveRates.find((r) => r.purityId === '20k')?.pricePerGram || 12741
+  const live18k = liveRates.find((r) => r.purityId === '18k')?.pricePerGram || 11467
+  const liveSilver = liveRates.find((r) => r.purityId === 'silver')?.pricePerGram || 245.00
 
   // Shop prices: 75% of market rate (LTV loan valuation standard) or admin configured shop rate
   const display24K = shop24k > 0 ? shop24k : Math.round(live24k * 0.75)
@@ -711,9 +711,9 @@ export default function HomePage({
                   </div>
                 </div>
 
-                {/* 3D Floating Spinning Gold Coin inside Image Right Corner */}
+                {/* 3D Floating Spinning Mahes Bankers Logo Medallion inside Image Right Corner */}
                 <div className="absolute top-2.5 right-2.5 sm:top-4 sm:right-4 z-20 animate-coin-float-3d pointer-events-none">
-                  <GoldCoin3D caratLabel="24K 999" autoSpin={true} />
+                  <GoldCoin3D autoSpin={true} />
                 </div>
               </div>
             </div>
@@ -738,7 +738,7 @@ export default function HomePage({
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm sm:text-base font-black text-slate-900 leading-tight">Lowest Interest Rate</span>
-                  <span className="text-xs sm:text-[13px] text-slate-600 font-semibold mt-0.5">From 0.75% per month</span>
+                  <span className="text-xs sm:text-[13px] text-slate-600 font-semibold mt-0.5">From 1% to 1.5% (மாத வட்டி 1% – 1.5%)</span>
                 </div>
               </div>
 
@@ -1137,6 +1137,7 @@ export default function HomePage({
               const n = (branch.name || '').toLowerCase()
               const localizedName =
                 c.includes('sivakasi') || n.includes('sivakasi') ? 'Sivakasi Main Branch' :
+                c.includes('sivagiri') || n.includes('sivagiri') ? 'Sivagiri Branch' :
                 c.includes('srivilliputhur') || n.includes('srivilliputhur') ? 'Srivilliputhur Branch' :
                 c.includes('puthupatti') || n.includes('puthupatti') ? 'M.Puthupatti Branch' :
                 c.includes('rajapalayam') || n.includes('rajapalayam') ? 'Rajapalayam Branch' :
