@@ -100,7 +100,7 @@ export default function AdminDashboard({ onNavigateTo }: AdminDashboardProps) {
     },
     {
       label: 'Manage Branches',
-      description: 'Add, edit, or configure your 4 official regional locations',
+      description: 'Add, edit, or configure your official regional locations',
       icon: <Building2 size={22} />,
       page: 'branches' as const,
       gradient: 'from-blue-500 to-indigo-600',

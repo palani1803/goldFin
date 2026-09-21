@@ -7,7 +7,7 @@ const DEFAULT_BRANCHES = [
     city: 'Sivakasi',
     district: 'Virudhunagar',
     state: 'Tamil Nadu',
-    phone: '+91 90925 48347',
+    phone: '+91 88385 43387',
     email: 'sivakasi@mahesbankers.com',
     operatingHours: 'Mon–Sat: 9:00 AM – 6:30 PM',
     mapUrl: 'https://maps.google.com/maps?q=Sivakasi,+Tamil+Nadu,+India',

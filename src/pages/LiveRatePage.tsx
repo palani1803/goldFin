@@ -473,7 +473,7 @@ export default function LiveRatePage({
                 if (shopRate && shopRate.pricePerGram > 0) {
                   price = shopRate.pricePerGram
                 } else if (marketRate && marketRate.pricePerGram > 0) {
-                  price = Math.round(marketRate.pricePerGram * 0.75)
+                  price = Math.round(marketRate.pricePerGram * ((settings.maxLoanLtvPercent || 75) / 100))
                 } else if (purityKey === '20k' && derived20k > 0) {
                   price = derived20k
                 } else if (purityKey === '18k' && derived18k > 0) {
@@ -488,7 +488,7 @@ export default function LiveRatePage({
                     <div className="flex items-center justify-between gap-2 min-h-[22px]">
                       <span className="text-xs sm:text-[13px] font-extrabold tracking-wide text-slate-800 whitespace-nowrap">{displayName}</span>
                       <span className="text-[9px] font-black tracking-wider px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-300 shrink-0">
-                        75% ADVANCE
+                        {settings.maxLoanLtvPercent || 75}% ADVANCE
                       </span>
                     </div>
 

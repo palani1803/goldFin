@@ -177,7 +177,7 @@ export default function AdminLayout({ onLogout, onNavigateHome }: AdminLayoutPro
               <p className="text-xs text-slate-500 font-medium">
                 {activePage === 'dashboard' && 'Overview of your shop & customer operations'}
                 {activePage === 'gold-rates' && 'Manage your shop gold rates & live valuations'}
-                {activePage === 'branches' && 'Manage your 4 official regional branch locations'}
+                {activePage === 'branches' && 'Manage your official regional branch locations'}
                 {activePage === 'settings' && 'Manage brand logo, name & contact hotlines'}
               </p>
             </div>

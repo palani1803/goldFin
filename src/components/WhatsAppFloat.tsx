@@ -110,7 +110,7 @@ export default function WhatsAppFloat({
   const [customMsg, setCustomMsg] = useState('')
   const chatBodyRef = useRef<HTMLDivElement>(null)
 
-  const activePhone = phoneNumber || settings.whatsappNumber || '9092548347'
+  const activePhone = phoneNumber || settings.whatsappNumber || '8838543387'
   const cleanPhone = activePhone.replace(/[^0-9]/g, '')
   const fullPhone = cleanPhone.startsWith('91') && cleanPhone.length > 10 ? cleanPhone : `91${cleanPhone}`
 
@@ -376,7 +376,7 @@ export default function WhatsAppFloat({
               <ExternalLink size={11} className="text-emerald-400" />
               Direct WhatsApp Link
             </span>
-            <span className="font-bold text-emerald-400 tracking-wide">{settings.contactPhone || '+91 90925 48347'}</span>
+            <span className="font-bold text-emerald-400 tracking-wide">{settings.contactPhone || '+91 88385 43387'}</span>
           </div>
         </div>
       )}
@@ -399,7 +399,7 @@ export default function WhatsAppFloat({
           }}
           className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-[#128C7E] via-[#25D366] to-[#2ecc71] hover:brightness-110 text-white flex items-center justify-center shadow-[0_10px_30px_rgba(37,211,102,0.45)] transition-all duration-300 transform group-hover:scale-108 active:scale-95 cursor-pointer border-0 p-0"
           aria-label={`Open WhatsApp live chat with ${companyName}`}
-          title={`Chat with ${companyName} on WhatsApp: ${settings.contactPhone || '+91 90925 48347'}`}
+          title={`Chat with ${companyName} on WhatsApp: ${settings.contactPhone || '+91 88385 43387'}`}
         >
           {isOpen ? (
             <X size={26} className="text-white animate-in zoom-in-75 duration-200" />

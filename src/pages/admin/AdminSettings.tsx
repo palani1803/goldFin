@@ -42,8 +42,8 @@ const DEFAULT_SETTINGS: SiteSettingsData = {
   tagline: 'Live Rates & Gold Loans',
   logoUrl: mahesBankersLogo,
   logoType: 'image',
-  whatsappNumber: '9092548347',
-  contactPhone: '+91 90925 48347',
+  whatsappNumber: '8838543387',
+  contactPhone: '+91 88385 43387',
   contactEmail: 'contact@mahesbankers.com',
   headquartersAddress: 'No. 42/B, Kamarajar Road, Near Old Bus Stand, Sivakasi, Tamil Nadu',
   operatingHours: 'Mon–Sat: 9:00 AM – 6:30 PM',
@@ -54,7 +54,7 @@ const DEFAULT_SETTINGS: SiteSettingsData = {
   demoAdminPassword: 'admin123',
 }
 
-type SettingsTab = 'branding' | 'contact' | 'security'
+type SettingsTab = 'branding' | 'contact' | 'financial' | 'security'
 
 export default function AdminSettings() {
   const [activeTab, setActiveTab] = useState<SettingsTab>('branding')
@@ -101,8 +101,8 @@ export default function AdminSettings() {
           tagline: json.data.tagline || 'Live Rates & Gold Loans',
           logoUrl: json.data.logoUrl || '',
           logoType: json.data.logoType || (json.data.logoUrl ? 'image' : 'icon'),
-          whatsappNumber: json.data.whatsappNumber || '9092548347',
-          contactPhone: json.data.contactPhone || '+91 90925 48347',
+          whatsappNumber: json.data.whatsappNumber || '8838543387',
+          contactPhone: json.data.contactPhone || '+91 88385 43387',
           contactEmail: json.data.contactEmail || 'contact@mahesbankers.com',
           headquartersAddress: json.data.headquartersAddress || '',
           operatingHours: json.data.operatingHours || 'Mon–Sat: 9:00 AM – 6:30 PM',
@@ -172,7 +172,7 @@ export default function AdminSettings() {
     // 2. WhatsApp Number validation
     const cleanWA = (formData.whatsappNumber || '').replace(/[^0-9]/g, '')
     if (!cleanWA || cleanWA.length < 10) {
-      return '⚠️ WhatsApp Support Number must contain at least 10 valid digits (e.g. 9092548347).'
+      return '⚠️ WhatsApp Support Number must contain at least 10 valid digits (e.g. 8838543387).'
     }
 
     // 3. Contact Phone validation
@@ -317,6 +317,7 @@ export default function AdminSettings() {
   const tabs = [
     { id: 'branding' as SettingsTab, label: 'Logo & Brand', icon: <ImageIcon size={18} /> },
     { id: 'contact' as SettingsTab, label: 'Contact & WhatsApp', icon: <Phone size={18} /> },
+    { id: 'financial' as SettingsTab, label: 'Loan & Valuation', icon: <Coins size={18} /> },
     { id: 'security' as SettingsTab, label: 'Security & Password', icon: <Lock size={18} /> },
   ]
 
@@ -513,6 +514,40 @@ export default function AdminSettings() {
             </p>
           </div>
 
+          {/* Website Tagline */}
+          <div className="pt-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+              Website Tagline & Slogan
+            </label>
+            <input
+              type="text"
+              value={formData.tagline}
+              onChange={(e) => handleInputChange('tagline', e.target.value)}
+              className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-colors"
+              placeholder="e.g. Live Rates & Gold Loans"
+            />
+            <p className="text-[11px] text-slate-500 mt-1.5">
+              Displayed in subtitle banners and social sharing previews.
+            </p>
+          </div>
+
+          {/* Banking / Custody Partner */}
+          <div className="pt-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+              Banking / Custody Storage Partner Name
+            </label>
+            <input
+              type="text"
+              value={formData.bankPartnerName}
+              onChange={(e) => handleInputChange('bankPartnerName', e.target.value)}
+              className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-colors"
+              placeholder="e.g. RBI-Approved Scheduled Commercial Banks"
+            />
+            <p className="text-[11px] text-slate-500 mt-1.5">
+              Displayed in trust badges, vault security descriptions, and gold loan insurance notices.
+            </p>
+          </div>
+
           {/* Tab 1 Save Action Button */}
           <div className="pt-4 border-t border-slate-100 flex justify-end">
             <button
@@ -557,7 +592,7 @@ export default function AdminSettings() {
                 value={formData.whatsappNumber}
                 onChange={(e) => handleInputChange('whatsappNumber', e.target.value)}
                 className="w-full h-11 px-4 rounded-xl bg-white border border-emerald-300 text-sm font-bold text-emerald-900 focus:border-emerald-500 outline-none transition-colors"
-                placeholder="9092548347"
+                placeholder="8838543387"
               />
               <p className="text-[11px] text-emerald-700 font-medium">
                 Powers the floating WhatsApp chat widget in the bottom-right corner.
@@ -574,7 +609,7 @@ export default function AdminSettings() {
                 value={formData.contactPhone}
                 onChange={(e) => handleInputChange('contactPhone', e.target.value)}
                 className="w-full h-11 px-4 rounded-xl bg-white border border-slate-200 text-sm font-bold text-slate-900 focus:border-orange-500 outline-none transition-colors"
-                placeholder="+91 90925 48347"
+                placeholder="+91 88385 43387"
               />
               <p className="text-[11px] text-slate-500">
                 Displayed in the Footer, Contact Page, and Branches.
@@ -634,6 +669,101 @@ export default function AdminSettings() {
             >
               {saving ? <RefreshCw size={14} className="animate-spin" /> : <Save size={14} />}
               <span>{saving ? 'Saving Contact Details...' : 'Save Contact Details'}</span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Tab 3: Loan & Valuation Parameters */}
+      {activeTab === 'financial' && (
+        <div className="p-7 rounded-2xl bg-white border border-slate-200 space-y-6 shadow-xs">
+          <div className="border-b border-slate-100 pb-4">
+            <h2 className="text-base font-black text-slate-900 flex items-center gap-2">
+              <Coins size={18} className="text-orange-600" />
+              Loan & Financial Calculation Rules
+            </h2>
+            <p className="text-xs text-slate-500 mt-1 font-medium">
+              Configure your store's maximum gold loan LTV percentage, GST rates, and duty benchmarks.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {/* Max Loan LTV % */}
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                Max Loan LTV (% of Market) <span className="text-red-500">*</span>
+              </label>
+              <div className="relative flex items-center">
+                <input
+                  type="number"
+                  min="50"
+                  max="90"
+                  value={formData.maxLoanLtvPercent}
+                  onChange={(e) => handleInputChange('maxLoanLtvPercent', Number(e.target.value))}
+                  className="w-full h-11 px-4 pr-9 rounded-xl bg-white border border-slate-200 text-sm font-bold text-slate-900 focus:border-orange-500 outline-none transition-colors"
+                  placeholder="75"
+                />
+                <span className="absolute right-3 text-slate-400 font-bold text-xs">%</span>
+              </div>
+              <p className="text-[11px] text-slate-500">
+                RBI compliant loan-to-value ceiling (standard default: 75%).
+              </p>
+            </div>
+
+            {/* Gold GST % */}
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                Gold GST Applicable (%)
+              </label>
+              <div className="relative flex items-center">
+                <input
+                  type="number"
+                  min="0"
+                  max="10"
+                  step="0.1"
+                  value={formData.goldGstPercent}
+                  onChange={(e) => handleInputChange('goldGstPercent', Number(e.target.value))}
+                  className="w-full h-11 px-4 pr-9 rounded-xl bg-white border border-slate-200 text-sm font-bold text-slate-900 focus:border-orange-500 outline-none transition-colors"
+                  placeholder="3"
+                />
+                <span className="absolute right-3 text-slate-400 font-bold text-xs">%</span>
+              </div>
+              <p className="text-[11px] text-slate-500">
+                Standard Indian GST rate for precious metals (default: 3%).
+              </p>
+            </div>
+
+            {/* Gold Duty Factor */}
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                Customs & Tariff Factor
+              </label>
+              <input
+                type="number"
+                min="1.0"
+                max="1.5"
+                step="0.001"
+                value={formData.goldDutyFactor}
+                onChange={(e) => handleInputChange('goldDutyFactor', Number(e.target.value))}
+                className="w-full h-11 px-4 rounded-xl bg-white border border-slate-200 text-sm font-bold text-slate-900 focus:border-orange-500 outline-none transition-colors"
+                placeholder="1.135"
+              />
+              <p className="text-[11px] text-slate-500">
+                Tariff multiplier for live spot price calculation (default: 1.135).
+              </p>
+            </div>
+          </div>
+
+          {/* Tab 3 Save Action Button */}
+          <div className="pt-4 border-t border-slate-100 flex justify-end">
+            <button
+              type="button"
+              onClick={() => handleSaveSettings()}
+              disabled={saving}
+              className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#EA580C] text-white text-xs font-bold shadow-md shadow-orange-500/20 transition-all cursor-pointer border-0 disabled:opacity-50 active:scale-95"
+            >
+              {saving ? <RefreshCw size={14} className="animate-spin" /> : <Save size={14} />}
+              <span>{saving ? 'Saving Parameters...' : 'Save Financial Parameters'}</span>
             </button>
           </div>
         </div>

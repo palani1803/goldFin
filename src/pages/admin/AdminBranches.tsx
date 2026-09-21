@@ -94,7 +94,7 @@ export default function AdminBranches() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.message || 'Failed to seed branches')
 
-      setSuccessMsg(`Successfully loaded all 4 official ${companyName} branches!`)
+      setSuccessMsg(`Successfully loaded official ${companyName} branches!`)
       setTimeout(() => setSuccessMsg(''), 4000)
       fetchBranches()
       notifyBranchesUpdated()
@@ -281,15 +281,15 @@ export default function AdminBranches() {
             Refresh
           </button>
 
-          {branches.length < 4 && (
+          {branches.length === 0 && (
             <button
               onClick={handleSeedBranches}
               disabled={seeding}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200/90 cursor-pointer transition-all shadow-xs active:scale-95"
-              title={`Load all 4 official ${companyName} branches`}
+              title={`Load official ${companyName} branches`}
             >
               <Sparkles size={14} className={seeding ? 'animate-spin' : ''} />
-              {seeding ? 'Loading...' : 'Load 4 Official Branches'}
+              {seeding ? 'Loading...' : 'Load Official Branches'}
             </button>
           )}
 
@@ -401,7 +401,7 @@ export default function AdminBranches() {
           <p className="text-lg font-bold text-slate-900 mb-2">No branches match your search</p>
           <p className="text-sm text-slate-500 mb-6">
             {branches.length === 0
-              ? `Click below to load the 4 official ${companyName} regional branches.`
+              ? `Click below to load the official ${companyName} regional branches.`
               : 'Try clearing your search query or status filter.'}
           </p>
           {branches.length === 0 ? (
@@ -410,7 +410,7 @@ export default function AdminBranches() {
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#FF6B00] to-[#EA580C] border-0 shadow-sm shadow-orange-500/20 cursor-pointer hover:brightness-105"
             >
               <Sparkles size={18} />
-              Load 4 Official Branches
+              Load Official Branches
             </button>
           ) : (
             <button
@@ -669,13 +669,13 @@ export default function AdminBranches() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div>
                     <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                      Phone Line <span className="text-red-500">*</span>
+                      Phone Number <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="+91 90925 48347"
+                      placeholder="+91 88385 43387"
                       required
                       className="w-full h-11 px-3.5 rounded-xl text-sm font-medium text-slate-900 placeholder-slate-400 bg-slate-50 border border-slate-200 focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none transition-all"
                     />

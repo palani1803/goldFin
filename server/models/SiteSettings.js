@@ -28,12 +28,12 @@ const siteSettingsSchema = new mongoose.Schema(
     },
     whatsappNumber: {
       type: String,
-      default: '9092548347',
+      default: '8838543387',
       trim: true,
     },
     contactPhone: {
       type: String,
-      default: '+91 90925 48347',
+      default: '+91 88385 43387',
       trim: true,
     },
     contactEmail: {

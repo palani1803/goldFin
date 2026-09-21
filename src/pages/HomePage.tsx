@@ -338,8 +338,8 @@ export default function HomePage({
               district,
               address: b.address,
               landmark,
-              phone: b.phone || settings.contactPhone || '+91 90925 48347',
-              rawPhone: (b.phone || settings.whatsappNumber || '9092548347').replace(/[^0-9]/g, ''),
+              phone: b.phone || settings.contactPhone || '+91 88385 43387',
+              rawPhone: (b.phone || settings.whatsappNumber || '8838543387').replace(/[^0-9]/g, ''),
               hours: b.operatingHours || 'Mon–Sat: 9:00 AM – 6:30 PM',
               features,
             }
@@ -420,12 +420,13 @@ export default function HomePage({
   const live18k = liveRates.find((r) => r.purityId === '18k')?.pricePerGram || 11467
   const liveSilver = liveRates.find((r) => r.purityId === 'silver')?.pricePerGram || 245.00
 
-  // Shop prices: 75% of market rate (LTV loan valuation standard) or admin configured shop rate
-  const display24K = shop24k > 0 ? shop24k : Math.round(live24k * 0.75)
-  const display22K = shop22k > 0 ? shop22k : Math.round(live22k * 0.75)
-  const display20K = shop20k > 0 ? shop20k : Math.round(live20k * 0.75)
-  const display18K = shop18k > 0 ? shop18k : Math.round(live18k * 0.75)
-  const displaySilver = shopSilver > 0 ? shopSilver : parseFloat((liveSilver * 0.75).toFixed(2))
+  // Shop prices: dynamic LTV percentage of market rate (LTV loan valuation standard) or admin configured shop rate
+  const ltvRatio = (settings.maxLoanLtvPercent || 75) / 100
+  const display24K = shop24k > 0 ? shop24k : Math.round(live24k * ltvRatio)
+  const display22K = shop22k > 0 ? shop22k : Math.round(live22k * ltvRatio)
+  const display20K = shop20k > 0 ? shop20k : Math.round(live20k * ltvRatio)
+  const display18K = shop18k > 0 ? shop18k : Math.round(live18k * ltvRatio)
+  const displaySilver = shopSilver > 0 ? shopSilver : parseFloat((liveSilver * ltvRatio).toFixed(2))
 
   const pavun24K = display24K * 8
   const pavun22K = display22K * 8
@@ -506,8 +507,8 @@ export default function HomePage({
               <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-white"></span>
             </span>
             <span className="font-mono tracking-tight font-black whitespace-nowrap flex items-center gap-1.5">
-              <span>TODAY'S COMPANY GOLD RATE (75% LOAN VALUE)</span>
-              <span className="hidden lg:inline text-orange-100 font-sans font-bold">• 75% நேரடி கடன் மதிப்பு</span>
+              <span>TODAY'S COMPANY GOLD RATE ({settings.maxLoanLtvPercent || 75}% LOAN VALUE)</span>
+              <span className="hidden lg:inline text-orange-100 font-sans font-bold">• {settings.maxLoanLtvPercent || 75}% நேரடி கடன் மதிப்பு</span>
             </span>
             {/* Angled decorative edge */}
             <div className="hidden sm:block absolute top-0 -right-2 h-full w-2 bg-[#EA580C] [clip-path:polygon(0_0,100%_0,0_100%)]" />
@@ -783,7 +784,7 @@ export default function HomePage({
             </div>
             <div className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200/80 px-4 py-1.5 rounded-full backdrop-blur-md w-fit">
               <CoinsIcon size={14} />
-              <span>TODAY'S 24K LOAN RATE (75% LTV): ₹{spotRate24K > 0 ? spotRate24K.toLocaleString('en-IN') : '...'}/g</span>
+              <span>TODAY'S 22K LOAN RATE ({settings.maxLoanLtvPercent || 75}% LTV): ₹{display22K > 0 ? display22K.toLocaleString('en-IN') : '...'}/g</span>
             </div>
           </div>
 

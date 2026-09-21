@@ -259,11 +259,11 @@ export default function Footer({
               <span>{settings.contactEmail || 'contact@mahesbankers.com'}</span>
             </a>
             <a
-              href={`tel:${(settings.contactPhone || '+91 90925 48347').replace(/[^0-9+]/g, '')}`}
+              href={`tel:${(settings.contactPhone || '+91 88385 43387').replace(/[^0-9+]/g, '')}`}
               className="flex items-center gap-2 text-slate-700 hover:text-[#FF6B00] font-bold text-xs transition-colors no-underline"
             >
               <Phone size={16} className="text-[#FF6B00]" />
-              <span>{settings.contactPhone || '+91 90925 48347'}</span>
+              <span>{settings.contactPhone || '+91 88385 43387'}</span>
             </a>
           </div>
         </div>

@@ -455,11 +455,11 @@ export default function BranchesPage({
 
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
               <a
-                href={`tel:${(settings.contactPhone || '+91 90925 48347').replace(/[^0-9+]/g, '')}`}
+                href={`tel:${(settings.contactPhone || '+91 88385 43387').replace(/[^0-9+]/g, '')}`}
                 className="w-full sm:w-auto py-3.5 px-7 rounded-2xl bg-gradient-to-r from-[#FF6B00] via-[#F97316] to-[#EA580C] text-white font-extrabold text-xs hover:brightness-110 transition-all shadow-[0_4px_20px_rgba(249,115,22,0.4)] flex items-center justify-center gap-2.5 no-underline cursor-pointer"
               >
                 <PhoneCall size={16} />
-                <span>Call Us ({settings.contactPhone || '+91 90925 48347'})</span>
+                <span>Call Us ({settings.contactPhone || '+91 88385 43387'})</span>
               </a>
 
               <button

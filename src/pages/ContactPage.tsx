@@ -57,7 +57,7 @@ interface BranchInfo {
 
 const mapDbBranchToInfo = (b: any, fallbackPhone?: string): BranchInfo => {
   const cityKey = (b.city || '').toLowerCase()
-  const cleanPhone = b.phone || fallbackPhone || '+91 90925 48347'
+  const cleanPhone = b.phone || fallbackPhone || '+91 88385 43387'
   const rawPhone = cleanPhone.replace(/[^0-9]/g, '')
   
   let tag = 'AUTHORIZED BRANCH'
